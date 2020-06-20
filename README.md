@@ -1,4 +1,4 @@
-# HCP Toolkit Tutorial
+# HPC Toolkit Tutorial
 
 Tutorial for installing XDMoD, OnDemand, and ColdFront.
 
