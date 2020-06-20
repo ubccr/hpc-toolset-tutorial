@@ -1,0 +1,108 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mariadb:$MARIADB_VERSION
+    hostname: mysql
+    container_name: mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: slurm_acct_db
+      MYSQL_USER: slurm
+      MYSQL_PASSWORD: password
+    networks:
+      - compute
+    volumes:
+      - var_lib_mysql:/var/lib/mysql
+
+  slurmdbd:
+    image: slurm:$SLURM_VERSION
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: slurm
+    command: ["slurmdbd"]
+    container_name: slurmdbd
+    hostname: slurmdbd
+    networks:
+      - compute
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+    expose:
+      - "6819"
+    depends_on:
+      - mysql
+
+  slurmctld:
+    image: slurm:$SLURM_VERSION
+    command: ["slurmctld"]
+    container_name: slurmctld
+    hostname: slurmctld
+    networks:
+      - compute
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - home:/home
+    expose:
+      - "6817"
+    depends_on:
+      - "slurmdbd"
+
+  c1:
+    image: slurm:$SLURM_VERSION
+    command: ["slurmd"]
+    hostname: c1
+    container_name: c1
+    networks:
+      - compute
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - home:/home
+    expose:
+      - "6818"
+    depends_on:
+      - "slurmctld"
+
+  c2:
+    image: slurm:$SLURM_VERSION
+    command: ["slurmd"]
+    hostname: c2
+    container_name: c2
+    networks:
+      - compute
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - home:/home
+    expose:
+      - "6818"
+    depends_on:
+      - "slurmctld"
+
+  frontend:
+    image: slurm:$SLURM_VERSION
+    command: ["frontend"]
+    hostname: frontend
+    container_name: frontend
+    networks:
+      - compute
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - home:/home
+    expose:
+      - "22"
+    depends_on:
+      - "slurmctld"
+
+volumes:
+  etc_munge:
+  etc_slurm:
+  home:
+  var_lib_mysql:
+
+networks:
+  compute:
