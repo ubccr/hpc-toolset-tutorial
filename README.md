@@ -22,7 +22,7 @@ $ docker-compose up -d
 Note: When first building the container images, the above command can take a
 bit as it will compile slurm from source and install required packages.
 
-On docker-compose finishes you can check the status of the containers:
+Once docker-compose finishes you can check the status of the containers:
 
 ```
 $ docker-compose logs -f
