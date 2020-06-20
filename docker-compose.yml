@@ -20,6 +20,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: slurm
+      args:
+        SLURM_VERSION: $SLURM_VERSION
     command: ["slurmdbd"]
     container_name: slurmdbd
     hostname: slurmdbd
@@ -97,11 +99,35 @@ services:
     depends_on:
       - "slurmctld"
 
+  coldfront:
+    image: coldfront:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: coldfront
+      args:
+        SLURM_VERSION: $SLURM_VERSION
+    hostname: coldfront
+    container_name: coldfront
+    networks:
+      - compute
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - home:/home
+      - srv_www:/srv/www
+    expose:
+      - "22"
+      - "443"
+    depends_on:
+      - "mysql"
+
 volumes:
   etc_munge:
   etc_slurm:
   home:
   var_lib_mysql:
+  srv_www:
 
 networks:
   compute:

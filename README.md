@@ -13,7 +13,7 @@ For this tutorial you will need to have docker installed on your local machine.
 
 ## Getting started
 
-Start the multi-container Slurm cluster using docker-compose:
+Start the multi-container HPC Toolkit cluster using docker-compose:
 
 ```
 $ docker-compose up -d
@@ -33,9 +33,31 @@ frontend     | ---> Starting sshd on the frontend...
 c1           | slurmd: Munge credential signature plugin loaded
 c1           | slurmd: CPUs=1 Boards=1 Sockets=1 Cores=1 Threads=1 Memory=15575 TmpDisk=229951 Uptime=43696 CPUSpecList=(null) FeaturesAvail=(null) FeaturesActive=(null)
 c2           | slurmd: debug:  AcctGatherEnergy NONE plugin loaded
+coldfront    | -- Waiting for database to become active ...
+coldfront    | -- Initializing coldfront database...
 slurmdbd     | slurmdbd: debug2: DBD_NODE_STATE_UP: NODE:c1 REASON:(null) TIME:1592625828
 slurmctld    | slurmctld: SchedulerParameters=default_queue_depth=100,max_rpc_cnt=0,max_sched_time=2,partition_job_depth=0,sched_max_job_start=0,sched_min_interval=2
 ```
+
+### Coldfront
+
+Login to Coldfront and setup allocations.
+
+First, find the IP address of the Coldfront container:
+
+```
+$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' coldfront
+172.27.0.8
+```
+
+Point your browser at the Coldfront container https://172.27.0.8
+
+You can login with user: admin password: admin
+
+You can also login with any of the local system accounts that were created.
+
+### Slurm
+
 
 Get the IP address of the frontend container:
 
