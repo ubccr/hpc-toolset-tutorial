@@ -6,13 +6,12 @@ services:
     hostname: mysql
     container_name: mysql
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-      MYSQL_DATABASE: slurm_acct_db
-      MYSQL_USER: slurm
-      MYSQL_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     networks:
       - compute
     volumes:
+      - ./database:/docker-entrypoint-initdb.d
+      - ./slurm/slurmdbd.conf:/etc/slurm/slurmdbd.conf
       - var_lib_mysql:/var/lib/mysql
 
   slurmdbd:
