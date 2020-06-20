@@ -18,7 +18,7 @@ yum install -y \
 
 log_info "Creating coldfront system user account.."
 groupadd -r coldfront
-useradd -r -g coldfront -c 'coldfront server' coldfront
+useradd -r -g coldfront -m -c 'coldfront server' coldfront
 
 log_info "Installing coldfront.."
 install -d -o coldfront -g coldfront -m 0755 /srv/www/ssl
