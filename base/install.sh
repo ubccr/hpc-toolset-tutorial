@@ -7,8 +7,7 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-source $DIR/../.env
+source /build/base.config
 
 GOSU_VERSION=${GOSU_VERSION:-1.12}
 

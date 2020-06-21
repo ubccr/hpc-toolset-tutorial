@@ -46,7 +46,7 @@ By default, all containers have local user accounts created. You can login with
 to the containers via ssh, login to Coldfront and OnDemand with the same user
 credentials. Default password for all accounts: ilovelinux
 
-- hcpadmin
+- hpcadmin
 - cgray (password: test123)
 - sfoster
 - csimmons

@@ -1,6 +1,11 @@
 version: "3.8"
 
 services:
+  base:
+    image: hpctk-base:$HPCTK_VERSION
+    build:
+      context: ./base
+
   mysql:
     image: mariadb:$MARIADB_VERSION
     hostname: mysql
@@ -15,13 +20,12 @@ services:
       - var_lib_mysql:/var/lib/mysql
 
   slurmdbd:
-    image: slurm:$SLURM_VERSION
+    image: hpctk-slurm:$HPCTK_VERSION
     build:
-      context: .
-      dockerfile: Dockerfile
-      target: slurm
+      context: ./slurm
       args:
         SLURM_VERSION: $SLURM_VERSION
+        HPCTK_VERSION: $HPCTK_VERSION
     command: ["slurmdbd"]
     container_name: slurmdbd
     hostname: slurmdbd
@@ -33,10 +37,11 @@ services:
     expose:
       - "6819"
     depends_on:
+      - base
       - mysql
 
   slurmctld:
-    image: slurm:$SLURM_VERSION
+    image: hpctk-slurm:$HPCTK_VERSION
     command: ["slurmctld"]
     container_name: slurmctld
     hostname: slurmctld
@@ -49,10 +54,10 @@ services:
     expose:
       - "6817"
     depends_on:
-      - "slurmdbd"
+      - slurmdbd
 
   c1:
-    image: slurm:$SLURM_VERSION
+    image: hpctk-slurm:$HPCTK_VERSION
     command: ["slurmd"]
     hostname: c1
     container_name: c1
@@ -65,10 +70,10 @@ services:
     expose:
       - "6818"
     depends_on:
-      - "slurmctld"
+      - slurmctld
 
   c2:
-    image: slurm:$SLURM_VERSION
+    image: hpctk-slurm:$HPCTK_VERSION
     command: ["slurmd"]
     hostname: c2
     container_name: c2
@@ -81,10 +86,10 @@ services:
     expose:
       - "6818"
     depends_on:
-      - "slurmctld"
+      - slurmctld
 
   frontend:
-    image: slurm:$SLURM_VERSION
+    image: hpctk-slurm:$HPCTK_VERSION
     command: ["frontend"]
     hostname: frontend
     container_name: frontend
@@ -97,16 +102,14 @@ services:
     expose:
       - "22"
     depends_on:
-      - "slurmctld"
+      - slurmctld
 
   coldfront:
-    image: coldfront:latest
+    image: hpctk-coldfront:$HPCTK_VERSION
     build:
-      context: .
-      dockerfile: Dockerfile
-      target: coldfront
+      context: ./coldfront
       args:
-        SLURM_VERSION: $SLURM_VERSION
+        HPCTK_VERSION: $HPCTK_VERSION
     hostname: coldfront
     container_name: coldfront
     networks:
@@ -118,17 +121,18 @@ services:
       - srv_www:/srv/www
     expose:
       - "22"
+      - "80"
       - "443"
     depends_on:
-      - "mysql"
+      - mysql
+      - frontend
 
   ondemand:
-    image: ondemand:latest
+    image: hpctk-ondemand:$HPCTK_VERSION
     build:
-      context: .
-      dockerfile: ondemand/Dockerfile
+      context: ./ondemand
       args:
-        SLURM_VERSION: $SLURM_VERSION
+        HPCTK_VERSION: $HPCTK_VERSION
     hostname: ondemand
     container_name: ondemand
     networks:
@@ -140,8 +144,9 @@ services:
     expose:
       - "22"
       - "80"
+      - "443"
     depends_on:
-      - "frontend"
+      - frontend
 
 volumes:
   etc_munge:

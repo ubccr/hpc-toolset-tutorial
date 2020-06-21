@@ -7,9 +7,6 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-source $DIR/../.env
-
 SLURM_VERSION=${SLURM_VERSION:-20.02.3}
 
 log_info "Installing required packages for building slurm.."

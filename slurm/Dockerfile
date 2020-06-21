@@ -1,8 +1,11 @@
 ARG HPCTK_VERSION=latest
 
-FROM hpctk-slurm:$HPCTK_VERSION
+FROM hpctk-base:$HPCTK_VERSION
+ARG SLURM_VERSION
 COPY . /build
 RUN /build/install.sh && rm -rf /build
-COPY cluster-config.yml /etc/ood/config/clusters.d/linux.yml
+COPY slurm.conf /etc/slurm/slurm.conf
+COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["frontend"]
