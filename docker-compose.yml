@@ -148,6 +148,28 @@ services:
     depends_on:
       - frontend
 
+  xdmod:
+    image: hpctk-xdmod:$HPCTK_VERSION
+    build:
+      context: ./xdmod
+      args:
+        HPCTK_VERSION: $HPCTK_VERSION
+    hostname: xdmod
+    container_name: xdmod
+    networks:
+      - compute
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - home:/home
+    expose:
+      - "22"
+      - "80"
+      - "443"
+    depends_on:
+      - mysql
+      - frontend
+
 volumes:
   etc_munge:
   etc_slurm:

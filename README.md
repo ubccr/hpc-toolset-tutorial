@@ -38,6 +38,8 @@ coldfront    | -- Initializing coldfront database...
 ondemand     | ---> Starting ondemand httpd24...
 slurmdbd     | slurmdbd: debug2: DBD_NODE_STATE_UP: NODE:c1 REASON:(null) TIME:1592625828
 slurmctld    | slurmctld: SchedulerParameters=default_queue_depth=100,max_rpc_cnt=0,max_sched_time=2,partition_job_depth=0,sched_max_job_start=0,sched_min_interval=2
+xdmod        | 2020-06-21 19:23:48 [notice] xdmod-ingestor end (process_end_time: 2020-06-21 19:23:48)
+xdmod        | ---> Starting XDMoD...
 ```
 
 ### User Accounts
@@ -85,6 +87,21 @@ Point your browser at the OnDemand container https://172.27.0.9
 You can login with any of the local system accounts that were created. Click on
 "Clusters" and then "HPC Cluster Shell Access" and you should have a login
 shell on the frontend container.
+
+### XDMoD
+
+Login to XDMoD
+
+First, find the IP address of the XDMoD container:
+
+```
+$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' xdmod
+172.27.0.10
+```
+
+Point your browser at the XDMoD container https://172.27.0.10
+
+You can login with user: admin password: admin
 
 ### Slurm
 
