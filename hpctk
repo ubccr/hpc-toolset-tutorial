@@ -1,0 +1,52 @@
+#!/bin/bash
+
+log_info() {
+  printf "\n\e[0;35m $1\e[0m\n\n"
+}
+
+start() {
+    log_info "Starting HPC Toolkit Cluster.."
+    docker-compose up -d
+
+    sleep 3
+
+    coldfront=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' coldfront)
+    log_info "Coldfront URL: https://$coldfront"
+
+    ondemand=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ondemand)
+    log_info "OnDemand URL: https://$ondemand"
+
+    xdmod=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' xdmod)
+    log_info "XDMoD URL: https://$xdmod"
+
+    frontend=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' frontend)
+    log_info "Login to frontend: ssh hpcadmin@$frontend"
+}
+
+stop() {
+    log_info "Stopping HPC Toolkit Cluster.."
+    docker-compose stop
+}
+
+clean() {
+    log_info "Stopping and removing HPC Toolkit Cluster containers and volumes.."
+    docker-compose stop && \
+    docker-compose rm -f -v && \
+    docker-compose down -v
+}
+
+case "$1" in
+    'start')
+        start
+        ;;
+    'stop')
+        stop
+        ;;
+    'clean')
+        clean
+        ;;
+    *)
+        log_info "Usage: $0 { start | stop | clean }"
+        exit 1
+        ;;
+esac

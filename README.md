@@ -42,6 +42,47 @@ xdmod        | 2020-06-21 19:23:48 [notice] xdmod-ingestor end (process_end_time
 xdmod        | ---> Starting XDMoD...
 ```
 
+You can also use the helper bash script: `hpctk`:
+
+```
+$ ./hpctk start
+
+ Starting HPC Toolkit Cluster..
+
+Creating network "hpc-toolkit-tutorial_default" with the default driver
+Creating network "hpc-toolkit-tutorial_compute" with the default driver
+Creating volume "hpc-toolkit-tutorial_etc_munge" with default driver
+Creating volume "hpc-toolkit-tutorial_etc_slurm" with default driver
+Creating volume "hpc-toolkit-tutorial_home" with default driver
+Creating volume "hpc-toolkit-tutorial_var_lib_mysql" with default driver
+Creating volume "hpc-toolkit-tutorial_srv_www" with default driver
+Creating hpc-toolkit-tutorial_base_1 ... done
+Creating mysql                       ... done
+Creating slurmdbd                    ... done
+Creating slurmctld                   ... done
+Creating frontend                    ... done
+Creating c1                          ... done
+Creating c2                          ... done
+Creating coldfront                   ... done
+Creating xdmod                       ... done
+Creating ondemand                    ... done
+
+ Coldfront URL: https://192.168.0.10
+
+
+ OnDemand URL: https://192.168.0.9
+
+
+ XDMoD URL: https://192.168.0.8
+
+
+ Login to frontend: ssh hpcadmin@192.168.0.6
+
+
+$ ./hpctk stop
+$ ./hpctk clean
+```
+
 ### User Accounts
 
 By default, all containers have local user accounts created. You can login with
