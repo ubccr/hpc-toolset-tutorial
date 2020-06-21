@@ -122,6 +122,27 @@ services:
     depends_on:
       - "mysql"
 
+  ondemand:
+    image: ondemand:latest
+    build:
+      context: .
+      dockerfile: ondemand/Dockerfile
+      args:
+        SLURM_VERSION: $SLURM_VERSION
+    hostname: ondemand
+    container_name: ondemand
+    networks:
+      - compute
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - home:/home
+    expose:
+      - "22"
+      - "80"
+    depends_on:
+      - "frontend"
+
 volumes:
   etc_munge:
   etc_slurm:

@@ -1,0 +1,11 @@
+---
+v2:
+  metadata:
+    title: "HPC Cluster"
+  login:
+    host: "frontend"
+  job:
+    adapter: "slurm"
+    cluster: "linux"
+    bin: "/usr/bin"
+    conf: "/etc/slurm/slurm.conf"

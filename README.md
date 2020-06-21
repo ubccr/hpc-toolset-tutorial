@@ -35,9 +35,22 @@ c1           | slurmd: CPUs=1 Boards=1 Sockets=1 Cores=1 Threads=1 Memory=15575 
 c2           | slurmd: debug:  AcctGatherEnergy NONE plugin loaded
 coldfront    | -- Waiting for database to become active ...
 coldfront    | -- Initializing coldfront database...
+ondemand     | ---> Starting ondemand httpd24...
 slurmdbd     | slurmdbd: debug2: DBD_NODE_STATE_UP: NODE:c1 REASON:(null) TIME:1592625828
 slurmctld    | slurmctld: SchedulerParameters=default_queue_depth=100,max_rpc_cnt=0,max_sched_time=2,partition_job_depth=0,sched_max_job_start=0,sched_min_interval=2
 ```
+
+### User Accounts
+
+By default, all containers have local user accounts created. You can login with
+to the containers via ssh, login to Coldfront and OnDemand with the same user
+credentials. Default password for all accounts: ilovelinux
+
+- hcpadmin
+- cgray (password: test123)
+- sfoster
+- csimmons
+- astewart
 
 ### Coldfront
 
@@ -55,6 +68,23 @@ Point your browser at the Coldfront container https://172.27.0.8
 You can login with user: admin password: admin
 
 You can also login with any of the local system accounts that were created.
+
+### OnDemand
+
+Login to OnDemand
+
+First, find the IP address of the OnDemand container:
+
+```
+$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ondemand
+172.27.0.9
+```
+
+Point your browser at the OnDemand container https://172.27.0.9
+
+You can login with any of the local system accounts that were created. Click on
+"Clusters" and then "HPC Cluster Shell Access" and you should have a login
+shell on the frontend container.
 
 ### Slurm
 
