@@ -55,3 +55,6 @@ openssl req -x509 -nodes -days 365 -subj "/C=US/ST=NY/O=HPC Tutorial/CN=ondemand
 
 log_info "Generating new httpd24 configs.."
 /opt/ood/ood-portal-generator/sbin/update_ood_portal
+
+yum clean all
+rm -rf /var/cache/yum

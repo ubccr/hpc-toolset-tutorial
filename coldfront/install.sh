@@ -45,3 +45,6 @@ log_info "Creating self-signed ssl cert for coldfront.."
 openssl req -x509 -nodes -days 365 -subj "/C=US/ST=NY/O=HPC Tutorial/CN=coldfront" -newkey rsa:2048 -keyout /srv/www/ssl/coldfront.key -out /srv/www/ssl/coldfront.crt;
 
 chown -R coldfront.coldfront /srv/www/coldfront
+
+yum clean all
+rm -rf /var/cache/yum

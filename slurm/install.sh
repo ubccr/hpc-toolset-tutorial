@@ -69,3 +69,6 @@ chown -R slurm:slurm /var/*/slurm*
 
 log_info "Creating munge key.."
 /sbin/create-munge-key
+
+yum clean all
+rm -rf /var/cache/yum

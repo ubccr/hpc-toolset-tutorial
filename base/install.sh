@@ -72,3 +72,6 @@ log_info "Installing gosu.."
 wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64"
 chmod +x /usr/local/bin/gosu
 gosu nobody true
+
+yum clean all
+rm -rf /var/cache/yum
