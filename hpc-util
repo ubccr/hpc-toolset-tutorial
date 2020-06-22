@@ -8,19 +8,10 @@ start() {
     log_info "Starting HPC Utilities Cluster.."
     docker-compose up -d
 
-    sleep 3
-
-    coldfront=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' coldfront)
-    log_info "Coldfront URL: https://$coldfront"
-
-    ondemand=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ondemand)
-    log_info "OnDemand URL: https://$ondemand"
-
-    xdmod=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' xdmod)
-    log_info "XDMoD URL: https://$xdmod"
-
-    frontend=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' frontend)
-    log_info "Login to frontend: ssh hpcadmin@$frontend"
+    log_info "Coldfront URL: https://localhost:2443"
+    log_info "OnDemand URL: https://localhost:3443"
+    log_info "XDMoD URL: https://localhost:4443"
+    log_info "Login to frontend: ssh -p 6222 hpcadmin@localhost"
 }
 
 stop() {

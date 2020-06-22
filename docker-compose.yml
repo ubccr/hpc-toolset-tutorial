@@ -18,6 +18,8 @@ services:
       - ./database:/docker-entrypoint-initdb.d
       - ./slurm/slurmdbd.conf:/etc/slurm/slurmdbd.conf
       - var_lib_mysql:/var/lib/mysql
+    expose:
+      - "3306"
 
   slurmdbd:
     image: hpcutil-slurm:$HPCUTIL_VERSION
@@ -35,6 +37,7 @@ services:
       - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
     expose:
+      - "22"
       - "6819"
     depends_on:
       - base
@@ -52,6 +55,7 @@ services:
       - etc_slurm:/etc/slurm
       - home:/home
     expose:
+      - "22"
       - "6817"
     depends_on:
       - slurmdbd
@@ -68,6 +72,7 @@ services:
       - etc_slurm:/etc/slurm
       - home:/home
     expose:
+      - "22"
       - "6818"
     depends_on:
       - slurmctld
@@ -84,6 +89,7 @@ services:
       - etc_slurm:/etc/slurm
       - home:/home
     expose:
+      - "22"
       - "6818"
     depends_on:
       - slurmctld
@@ -99,8 +105,8 @@ services:
       - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
       - home:/home
-    expose:
-      - "22"
+    ports:
+      - "127.0.0.1:6222:22"
     depends_on:
       - slurmctld
 
@@ -121,8 +127,8 @@ services:
       - srv_www:/srv/www
     expose:
       - "22"
-      - "80"
-      - "443"
+    ports:
+      - "127.0.0.1:2443:443"
     depends_on:
       - mysql
       - frontend
@@ -143,8 +149,8 @@ services:
       - home:/home
     expose:
       - "22"
-      - "80"
-      - "443"
+    ports:
+      - "127.0.0.1:3443:443"
     depends_on:
       - frontend
 
@@ -164,8 +170,8 @@ services:
       - home:/home
     expose:
       - "22"
-      - "80"
-      - "443"
+    ports:
+      - "127.0.0.1:4443:443"
     depends_on:
       - mysql
       - frontend

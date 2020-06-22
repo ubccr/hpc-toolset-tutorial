@@ -51,10 +51,10 @@ xdmod        | 2020-06-21 19:23:48 [notice] xdmod-ingestor end (process_end_time
 xdmod        | ---> Starting XDMoD...
 ```
 
-You can also use the helper bash script: `hpc-util`:
+You can also use the helper bash script: `hpc-util` to stop and start cluster:
 
 ```
-$ ./hpc-util start
+./hpc-util start
 
  Starting HPC Utilities Cluster..
 
@@ -66,26 +66,26 @@ Creating volume "hpc-utilities-tutorial_home" with default driver
 Creating volume "hpc-utilities-tutorial_var_lib_mysql" with default driver
 Creating volume "hpc-utilities-tutorial_srv_www" with default driver
 Creating hpc-utilities-tutorial_base_1 ... done
-Creating mysql                       ... done
-Creating slurmdbd                    ... done
-Creating slurmctld                   ... done
-Creating frontend                    ... done
-Creating c1                          ... done
-Creating c2                          ... done
-Creating coldfront                   ... done
-Creating xdmod                       ... done
-Creating ondemand                    ... done
+Creating mysql                         ... done
+Creating slurmdbd                      ... done
+Creating slurmctld                     ... done
+Creating c2                            ... done
+Creating frontend                      ... done
+Creating c1                            ... done
+Creating ondemand                      ... done
+Creating xdmod                         ... done
+Creating coldfront                     ... done
 
- Coldfront URL: https://192.168.0.10
-
-
- OnDemand URL: https://192.168.0.9
+ Coldfront URL: https://localhost:2443
 
 
- XDMoD URL: https://192.168.0.8
+ OnDemand URL: https://localhost:3443
 
 
- Login to frontend: ssh hpcadmin@192.168.0.6
+ XDMoD URL: https://localhost:4443
+
+
+ Login to frontend: ssh -p 6222 hpcadmin@localhost
 
 
 $ ./hpc-util stop
@@ -108,14 +108,7 @@ credentials. Default password for all accounts: ilovelinux
 
 Login to Coldfront and setup allocations.
 
-First, find the IP address of the Coldfront container:
-
-```
-$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' coldfront
-172.27.0.8
-```
-
-Point your browser at the Coldfront container https://172.27.0.8
+Point your browser at the Coldfront container https://localhost:2443
 
 You can login with user: admin password: admin
 
@@ -125,14 +118,7 @@ You can also login with any of the local system accounts that were created.
 
 Login to OnDemand
 
-First, find the IP address of the OnDemand container:
-
-```
-$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ondemand
-172.27.0.9
-```
-
-Point your browser at the OnDemand container https://172.27.0.9
+Point your browser at the OnDemand container https://localhost:3443
 
 You can login with any of the local system accounts that were created. Click on
 "Clusters" and then "HPC Cluster Shell Access" and you should have a login
@@ -142,31 +128,16 @@ shell on the frontend container.
 
 Login to XDMoD
 
-First, find the IP address of the XDMoD container:
-
-```
-$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' xdmod
-172.27.0.10
-```
-
-Point your browser at the XDMoD container https://172.27.0.10
+Point your browser at the XDMoD container https://localhost:4443
 
 You can login with user: admin password: admin
 
 ### Slurm
 
-
-Get the IP address of the frontend container:
-
-```
-$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' frontend
-172.27.0.6
-```
-
 ssh into the frontend and run a job:
 
 ```
-$ ssh cgray@172.27.0.6
+$ ssh -p 6222 cgray@127.0.0.1
 
 [cgray@frontend ~]$ sinfo
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
@@ -191,6 +162,13 @@ slurm-3.out
 slurm-3.out
 ```
 
+### Finding IP address of container
+
+```
+$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' coldfront
+172.27.0.10
+```
+
 ## Shutting down
 
 To tear down all contianers and remove volumes:
@@ -200,7 +178,6 @@ $ docker-compose stop
 $ docker-compose rm -f
 $ docker-compose down -v
 ```
-
 
 ## Acknowledgments
 
