@@ -1,6 +1,6 @@
-ARG HPCTK_VERSION=latest
+ARG HPCUTIL_VERSION=latest
 
-FROM hpctk-slurm:$HPCTK_VERSION
+FROM hpcutil-slurm:$HPCUTIL_VERSION
 COPY . /build
 RUN /build/install.sh && rm -rf /build
 COPY --chown=coldfront:coldfront local_settings.py /srv/www/coldfront/coldfront/config/local_settings.py

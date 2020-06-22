@@ -43,8 +43,8 @@ confirmFileWrite yes
 enterToContinue
 
 selectMenuOption 3
-provideInput {Organization Name:} HPC Toolkit Tutorial
-provideInput {Organization Abbreviation:} hpctk
+provideInput {Organization Name:} HPC Utilities Tutorial
+provideInput {Organization Abbreviation:} hpcutil
 confirmFileWrite yes
 enterToContinue
 

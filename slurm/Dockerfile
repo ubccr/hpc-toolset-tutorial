@@ -1,6 +1,6 @@
-ARG HPCTK_VERSION=latest
+ARG HPCUTIL_VERSION=latest
 
-FROM hpctk-base:$HPCTK_VERSION
+FROM hpcutil-base:$HPCUTIL_VERSION
 ARG SLURM_VERSION
 COPY . /build
 RUN /build/install.sh && rm -rf /build

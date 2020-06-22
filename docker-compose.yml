@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   base:
-    image: hpctk-base:$HPCTK_VERSION
+    image: hpcutil-base:$HPCUTIL_VERSION
     build:
       context: ./base
 
@@ -20,12 +20,12 @@ services:
       - var_lib_mysql:/var/lib/mysql
 
   slurmdbd:
-    image: hpctk-slurm:$HPCTK_VERSION
+    image: hpcutil-slurm:$HPCUTIL_VERSION
     build:
       context: ./slurm
       args:
         SLURM_VERSION: $SLURM_VERSION
-        HPCTK_VERSION: $HPCTK_VERSION
+        HPCUTIL_VERSION: $HPCUTIL_VERSION
     command: ["slurmdbd"]
     container_name: slurmdbd
     hostname: slurmdbd
@@ -41,7 +41,7 @@ services:
       - mysql
 
   slurmctld:
-    image: hpctk-slurm:$HPCTK_VERSION
+    image: hpcutil-slurm:$HPCUTIL_VERSION
     command: ["slurmctld"]
     container_name: slurmctld
     hostname: slurmctld
@@ -57,7 +57,7 @@ services:
       - slurmdbd
 
   c1:
-    image: hpctk-slurm:$HPCTK_VERSION
+    image: hpcutil-slurm:$HPCUTIL_VERSION
     command: ["slurmd"]
     hostname: c1
     container_name: c1
@@ -73,7 +73,7 @@ services:
       - slurmctld
 
   c2:
-    image: hpctk-slurm:$HPCTK_VERSION
+    image: hpcutil-slurm:$HPCUTIL_VERSION
     command: ["slurmd"]
     hostname: c2
     container_name: c2
@@ -89,7 +89,7 @@ services:
       - slurmctld
 
   frontend:
-    image: hpctk-slurm:$HPCTK_VERSION
+    image: hpcutil-slurm:$HPCUTIL_VERSION
     command: ["frontend"]
     hostname: frontend
     container_name: frontend
@@ -105,11 +105,11 @@ services:
       - slurmctld
 
   coldfront:
-    image: hpctk-coldfront:$HPCTK_VERSION
+    image: hpcutil-coldfront:$HPCUTIL_VERSION
     build:
       context: ./coldfront
       args:
-        HPCTK_VERSION: $HPCTK_VERSION
+        HPCUTIL_VERSION: $HPCUTIL_VERSION
     hostname: coldfront
     container_name: coldfront
     networks:
@@ -128,11 +128,11 @@ services:
       - frontend
 
   ondemand:
-    image: hpctk-ondemand:$HPCTK_VERSION
+    image: hpcutil-ondemand:$HPCUTIL_VERSION
     build:
       context: ./ondemand
       args:
-        HPCTK_VERSION: $HPCTK_VERSION
+        HPCUTIL_VERSION: $HPCUTIL_VERSION
     hostname: ondemand
     container_name: ondemand
     networks:
@@ -149,11 +149,11 @@ services:
       - frontend
 
   xdmod:
-    image: hpctk-xdmod:$HPCTK_VERSION
+    image: hpcutil-xdmod:$HPCUTIL_VERSION
     build:
       context: ./xdmod
       args:
-        HPCTK_VERSION: $HPCTK_VERSION
+        HPCUTIL_VERSION: $HPCUTIL_VERSION
     hostname: xdmod
     container_name: xdmod
     networks:

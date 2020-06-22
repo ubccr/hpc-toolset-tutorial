@@ -1,4 +1,4 @@
-# HPC Toolkit Tutorial
+# HPC Utilities Tutorial
 
 Tutorial for installing XDMoD, OnDemand, and ColdFront.
 
@@ -13,7 +13,7 @@ For this tutorial you will need to have docker installed on your local machine.
 
 ## Getting started
 
-Start the multi-container HPC Toolkit cluster using docker-compose:
+Start the multi-container HPC Utilities cluster using docker-compose:
 
 ```
 $ docker-compose up -d
@@ -42,21 +42,21 @@ xdmod        | 2020-06-21 19:23:48 [notice] xdmod-ingestor end (process_end_time
 xdmod        | ---> Starting XDMoD...
 ```
 
-You can also use the helper bash script: `hpctk`:
+You can also use the helper bash script: `hpc-util`:
 
 ```
-$ ./hpctk start
+$ ./hpc-util start
 
- Starting HPC Toolkit Cluster..
+ Starting HPC Utilities Cluster..
 
-Creating network "hpc-toolkit-tutorial_default" with the default driver
-Creating network "hpc-toolkit-tutorial_compute" with the default driver
-Creating volume "hpc-toolkit-tutorial_etc_munge" with default driver
-Creating volume "hpc-toolkit-tutorial_etc_slurm" with default driver
-Creating volume "hpc-toolkit-tutorial_home" with default driver
-Creating volume "hpc-toolkit-tutorial_var_lib_mysql" with default driver
-Creating volume "hpc-toolkit-tutorial_srv_www" with default driver
-Creating hpc-toolkit-tutorial_base_1 ... done
+Creating network "hpc-utilities-tutorial_default" with the default driver
+Creating network "hpc-utilities-tutorial_compute" with the default driver
+Creating volume "hpc-utilities-tutorial_etc_munge" with default driver
+Creating volume "hpc-utilities-tutorial_etc_slurm" with default driver
+Creating volume "hpc-utilities-tutorial_home" with default driver
+Creating volume "hpc-utilities-tutorial_var_lib_mysql" with default driver
+Creating volume "hpc-utilities-tutorial_srv_www" with default driver
+Creating hpc-utilities-tutorial_base_1 ... done
 Creating mysql                       ... done
 Creating slurmdbd                    ... done
 Creating slurmctld                   ... done
@@ -79,8 +79,8 @@ Creating ondemand                    ... done
  Login to frontend: ssh hpcadmin@192.168.0.6
 
 
-$ ./hpctk stop
-$ ./hpctk clean
+$ ./hpc-util stop
+$ ./hpc-util clean
 ```
 
 ### User Accounts

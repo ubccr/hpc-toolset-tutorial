@@ -5,7 +5,7 @@ log_info() {
 }
 
 start() {
-    log_info "Starting HPC Toolkit Cluster.."
+    log_info "Starting HPC Utilities Cluster.."
     docker-compose up -d
 
     sleep 3
@@ -24,12 +24,12 @@ start() {
 }
 
 stop() {
-    log_info "Stopping HPC Toolkit Cluster.."
+    log_info "Stopping HPC Utilities Cluster.."
     docker-compose stop
 }
 
 clean() {
-    log_info "Stopping and removing HPC Toolkit Cluster containers and volumes.."
+    log_info "Stopping and removing HPC Utilities Cluster containers and volumes.."
     docker-compose stop && \
     docker-compose rm -f -v && \
     docker-compose down -v
