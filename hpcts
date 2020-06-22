@@ -5,7 +5,7 @@ log_info() {
 }
 
 start() {
-    log_info "Starting HPC Utilities Cluster.."
+    log_info "Starting HPC Toolset Cluster.."
     docker-compose up -d
 
     log_info "Coldfront URL: https://localhost:2443"
@@ -15,12 +15,12 @@ start() {
 }
 
 stop() {
-    log_info "Stopping HPC Utilities Cluster.."
+    log_info "Stopping HPC Toolset Cluster.."
     docker-compose stop
 }
 
 clean() {
-    log_info "Stopping and removing HPC Utilities Cluster containers and volumes.."
+    log_info "Stopping and removing HPC Toolset Cluster containers and volumes.."
     docker-compose stop && \
     docker-compose rm -f -v && \
     docker-compose down -v

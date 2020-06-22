@@ -1,6 +1,7 @@
-# HPC Utilities Tutorial
+# HPC Toolset Tutorial
 
-Tutorial for installing XDMoD, OnDemand, and ColdFront.
+Tutorial for installing XDMoD, OnDemand, and ColdFront: an HPC center
+management toolset.
 
 TODO: write me
 
@@ -18,11 +19,11 @@ utilities commonly installed at High Performance Computing (HPC) centers.
 
 An overview of the containers in the cluster:
 
-![Container Overview](docs/HPC-Utilities-sm.png)
+![Container Overview](docs/HPC-Toolset-sm.png)
 
 ## Getting started
 
-Start the multi-container HPC Utilities cluster using docker-compose:
+Start the multi-container HPC Toolset cluster using docker-compose:
 
 ```
 $ docker-compose up -d
@@ -51,21 +52,21 @@ xdmod        | 2020-06-21 19:23:48 [notice] xdmod-ingestor end (process_end_time
 xdmod        | ---> Starting XDMoD...
 ```
 
-You can also use the helper bash script: `hpc-util` to stop and start cluster:
+You can also use the helper bash script: `hpcts` to stop and start cluster:
 
 ```
-./hpc-util start
+./hpcts start
 
- Starting HPC Utilities Cluster..
+ Starting HPC Toolset Cluster..
 
-Creating network "hpc-utilities-tutorial_default" with the default driver
-Creating network "hpc-utilities-tutorial_compute" with the default driver
-Creating volume "hpc-utilities-tutorial_etc_munge" with default driver
-Creating volume "hpc-utilities-tutorial_etc_slurm" with default driver
-Creating volume "hpc-utilities-tutorial_home" with default driver
-Creating volume "hpc-utilities-tutorial_var_lib_mysql" with default driver
-Creating volume "hpc-utilities-tutorial_srv_www" with default driver
-Creating hpc-utilities-tutorial_base_1 ... done
+Creating network "hpcts-tutorial_default" with the default driver
+Creating network "hpcts-tutorial_compute" with the default driver
+Creating volume "hpcts-tutorial_etc_munge" with default driver
+Creating volume "hpcts-tutorial_etc_slurm" with default driver
+Creating volume "hpcts-tutorial_home" with default driver
+Creating volume "hpcts-tutorial_var_lib_mysql" with default driver
+Creating volume "hpcts-tutorial_srv_www" with default driver
+Creating hpcts-tutorial_base_1 ... done
 Creating mysql                         ... done
 Creating slurmdbd                      ... done
 Creating slurmctld                     ... done
@@ -88,8 +89,8 @@ Creating coldfront                     ... done
  Login to frontend: ssh -p 6222 hpcadmin@localhost
 
 
-$ ./hpc-util stop
-$ ./hpc-util clean
+$ ./hpcts stop
+$ ./hpcts clean
 ```
 
 ### User Accounts
