@@ -5,37 +5,43 @@ host=mysql
 user=xdmodapp
 pass=ofbatgorWep0
 
-echo "---> Starting the MUNGE Authentication service (munged) on xdmod ..."
-gosu munge /usr/sbin/munged
+if [ "$1" = "serve" ]
+then
+    echo "---> Starting the MUNGE Authentication service (munged) on xdmod ..."
+    gosu munge /usr/sbin/munged
 
-until echo "SELECT 1" | mysql -h $host -u$user -p$pass 2>&1 > /dev/null
-do
-    echo "-- Waiting for database to become active ..."
-    sleep 2
-done
+    until echo "SELECT 1" | mysql -h $host -u$user -p$pass 2>&1 > /dev/null
+    do
+        echo "-- Waiting for database to become active ..."
+        sleep 2
+    done
 
-tables=$(mysql -u${user} -p${pass} --host ${host} -NB modw -e "SHOW TABLES")
-if [[ -n "$tables" ]]; then
-    echo "XDMoD already initialized"
-else
-    #------------------------
-    # Run xdmod-setup
-    #------------------------
-    expect /srv/xdmod/scripts/xdmod-setup-start.tcl | col -b
-    expect /srv/xdmod/scripts/xdmod-setup-jobs.tcl | col -b
-    expect /srv/xdmod/scripts/xdmod-setup-finish.tcl | col -b
+    tables=$(mysql -u${user} -p${pass} --host ${host} -NB modw -e "SHOW TABLES")
+    if [[ -n "$tables" ]]; then
+        echo "XDMoD already initialized"
+    else
+        #------------------------
+        # Run xdmod-setup
+        #------------------------
+        expect /srv/xdmod/scripts/xdmod-setup-start.tcl | col -b
+        expect /srv/xdmod/scripts/xdmod-setup-jobs.tcl | col -b
+        expect /srv/xdmod/scripts/xdmod-setup-finish.tcl | col -b
 
-    xdmod-import-csv -t hierarchy -i /srv/xdmod/hierarchy.csv
+        xdmod-import-csv -t hierarchy -i /srv/xdmod/hierarchy.csv
 
-    #------------------------
-    # Ingest slurm job data
-    #------------------------
-    xdmod-slurm-helper -v -r linux
-    xdmod-ingestor -v
+        #------------------------
+        # Ingest slurm job data
+        #------------------------
+        xdmod-slurm-helper -v -r linux
+        xdmod-ingestor -v
+    fi
+
+    echo "---> Starting sshd on xdmod..."
+    /usr/sbin/sshd
+
+    echo "---> Starting XDMoD..."
+    /usr/sbin/httpd -DFOREGROUND
+
 fi
 
-echo "---> Starting sshd on xdmod..."
-/usr/sbin/sshd
-
-echo "---> Starting XDMoD..."
-/usr/sbin/httpd -DFOREGROUND
+exec "$@"

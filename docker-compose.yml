@@ -116,6 +116,7 @@ services:
       context: ./coldfront
       args:
         HPCTS_VERSION: $HPCTS_VERSION
+    command: ["serve"]
     hostname: coldfront
     container_name: coldfront
     networks:
@@ -139,6 +140,7 @@ services:
       context: ./ondemand
       args:
         HPCTS_VERSION: $HPCTS_VERSION
+    command: ["serve"]
     hostname: ondemand
     container_name: ondemand
     networks:
@@ -160,6 +162,7 @@ services:
       context: ./xdmod
       args:
         HPCTS_VERSION: $HPCTS_VERSION
+    command: ["serve"]
     hostname: xdmod
     container_name: xdmod
     networks:
