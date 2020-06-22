@@ -43,7 +43,7 @@ confirmFileWrite yes
 enterToContinue
 
 selectMenuOption 3
-provideInput {Organization Name:} HPC Toolset Tutorial
+provideInput {Organization Name:} Tutorial
 provideInput {Organization Abbreviation:} hpcts
 confirmFileWrite yes
 enterToContinue
