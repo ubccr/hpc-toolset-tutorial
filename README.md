@@ -11,6 +11,15 @@ For this tutorial you will need to have docker installed on your local machine.
 - docker
 - docker-compose
 
+## Overview
+
+In this tutorial we present three open source projects that form a core set of
+utilities commonly installed at High Performance Computing (HPC) centers. 
+
+An overview of the containers in the cluster:
+
+![Container Overview](docs/HPC-Utilities-sm.png)
+
 ## Getting started
 
 Start the multi-container HPC Utilities cluster using docker-compose:
