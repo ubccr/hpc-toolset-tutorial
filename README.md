@@ -9,8 +9,8 @@ TODO: write me
 
 For this tutorial you will need to have docker installed on your local machine.
 
-- docker
-- docker-compose
+- docker version 19.03.8+
+- docker-compose 1.25.2+
 
 ## Overview
 
@@ -29,8 +29,7 @@ Start the multi-container HPC Toolset cluster using docker-compose:
 $ docker-compose up -d
 ```
 
-Note: When first building the container images, the above command can take a
-bit as it will compile slurm from source and install required packages.
+Note: When first building the container images, the above command can take a bit of time as it will compile slurm from source and install required packages and the three applications: ColdFront, XDMoD, and OnDemand.
 
 Once docker-compose finishes you can check the status of the containers:
 
@@ -174,6 +173,10 @@ $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c
 
 To tear down all contianers and remove volumes:
 
+```
+$ ./hpcts clean
+```
+This will run these commands:
 ```
 $ docker-compose stop
 $ docker-compose rm -f
