@@ -218,6 +218,10 @@ slurm-3.out
 slurm-3.out
 ```
 
+## Docker Tips
+
+Some things you might find useful while using this setup:
+
 ### Finding IP address of container
 
 ```
@@ -225,7 +229,7 @@ $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c
 172.27.0.10
 ```
 
-## Shutting down
+### Shutting down
 
 To tear down all contianers and remove volumes:
 
