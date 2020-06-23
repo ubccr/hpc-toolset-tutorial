@@ -5,7 +5,31 @@ management toolset.
 
 TODO: write me
 
-## Requirements
+[Requirements](https://github.com/ubccr/hpc-toolset-tutorial#requirements)
+
+[Overview](https://github.com/ubccr/hpc-toolset-tutorial#overview)
+
+[Getting Started](https://github.com/ubccr/hpc-toolset-tutorial#getting-started)
+
+[Accessing the Applications](https://github.com/ubccr/hpc-toolset-tutorial#accessing-the-applications)
+
+* [User Accounts](https://github.com/ubccr/hpc-toolset-tutorial#user-accounts)
+
+* [ColdFront](https://github.com/ubccr/hpc-toolset-tutorial#coldfront)
+
+* [OnDemand](https://github.com/ubccr/hpc-toolset-tutorial#ondemand)
+
+* [XDMoD](https://github.com/ubccr/hpc-toolset-tutorial#xdmod)
+
+* [Cluster Frontend](https://github.com/ubccr/hpc-toolset-tutorial#cluster-frontend)
+
+* [Slurm](https://github.com/ubccr/hpc-toolset-tutorial#slurm)
+
+[Docker Tips](https://github.com/ubccr/hpc-toolset-tutorial#finding-ip-address-of-container)
+
+[Acknowledgements](https://github.com/ubccr/hpc-toolset-tutorial#acknowledgments)
+
+## <a name="requirements"></a>Requirements
 
 For this tutorial you will need to have docker installed on your local machine.  This has been tested on Linux, MacOS, and Windows 10:
 
@@ -98,6 +122,10 @@ $ ./hpcts stop
 $ ./hpcts clean
 ```
 
+## Accessing the Applications
+
+Now that your containers have been created and applications launched, you can login to them using your browser and via SSH.
+
 ### User Accounts
 
 By default, all containers have local user accounts created. You can login with
@@ -137,6 +165,13 @@ Login to XDMoD
 Point your browser at the XDMoD container https://localhost:4443
 
 You can login with user: admin password: admin
+
+### Cluster Frontend
+
+Login to frontend with SSH:
+```
+ssh -p 6222 hpcadmin@localhost
+```
 
 ### Slurm
 
