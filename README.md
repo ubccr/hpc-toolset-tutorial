@@ -14,15 +14,10 @@ TODO: write me
 [Accessing the Applications](https://github.com/ubccr/hpc-toolset-tutorial#accessing-the-applications)
 
 * [User Accounts](https://github.com/ubccr/hpc-toolset-tutorial#user-accounts)
-
 * [ColdFront](https://github.com/ubccr/hpc-toolset-tutorial#coldfront)
-
 * [OnDemand](https://github.com/ubccr/hpc-toolset-tutorial#ondemand)
-
 * [XDMoD](https://github.com/ubccr/hpc-toolset-tutorial#xdmod)
-
 * [Cluster Frontend](https://github.com/ubccr/hpc-toolset-tutorial#cluster-frontend)
-
 * [Slurm](https://github.com/ubccr/hpc-toolset-tutorial#slurm)
 
 [Docker Tips](https://github.com/ubccr/hpc-toolset-tutorial#finding-ip-address-of-container)
