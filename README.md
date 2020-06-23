@@ -1,16 +1,22 @@
 # HPC Toolset Tutorial
 
-Tutorial for installing XDMoD, OnDemand, and ColdFront: an HPC center
+Tutorial for installing and configuring XDMoD, OnDemand, and ColdFront: an HPC center
 management toolset.
 
 TODO: write me
 
 ## Requirements
 
-For this tutorial you will need to have docker installed on your local machine.
+For this tutorial you will need to have docker installed on your local machine.  This has been tested on Linux, MacOS, and Windows 10:
 
 - docker version 19.03.8+
 - docker-compose 1.25.2+
+
+NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command before cloning the tutorial repo:
+```
+git config --global core.autocrlf input
+```
+
 
 ## Overview
 
