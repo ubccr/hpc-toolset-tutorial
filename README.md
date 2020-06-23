@@ -48,9 +48,29 @@ An overview of the containers in the cluster:
 
 ## Getting started
 
-Start the multi-container HPC Toolset cluster using docker-compose:
+There are two ways to start the multi-container HPC Toolset cluster using docker-compose.  The first shown here will pull pre-made containers from Docker Hub.  :
+
 
 ```
+$ git clone git@github.com:ubccr/hpc-toolset-tutorial.git
+$ cd hpc-toolset-tutorial
+$ docker-compose pull
+Pulling base      ... done
+Pulling mysql     ... done
+Pulling slurmdbd  ... done
+Pulling slurmctld ... done
+Pulling c1        ... done
+Pulling c2        ... done
+Pulling frontend  ... done
+Pulling coldfront ... done
+Pulling ondemand  ... done
+Pulling xdmod     ... done
+$ 
+```
+
+```
+$ git clone git@github.com:ubccr/hpc-toolset-tutorial.git
+$ cd hpc-toolset-tutorial
 $ docker-compose up -d
 ```
 
