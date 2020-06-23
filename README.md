@@ -67,7 +67,7 @@ Pulling xdmod     ... done
 $ 
 ```
 
-This second option creates the containers, installs all the applications, configures and sets up accounts.  We recommend this if you'd like to see all that goes on during the install/setup procedures and especially if you have a slow internet connection.  This process takes anywhere from 10-20 minutes to complete depending on your local system resources:
+This second option creates the containers, installs all the applications, configures and sets up accounts.  We recommend this if you'd like to see all that goes on during the install/setup procedures and especially if you have a slow internet connection.  When first building the container images, the above command can take anywhere from 10-20 minutes to complete, depending on your local system resources, as it will compile slurm from source and install required packages and the three applications: ColdFront, XDMoD, and OnDemand. 
 
 ```
 $ git clone git@github.com:ubccr/hpc-toolset-tutorial.git
@@ -75,7 +75,11 @@ $ cd hpc-toolset-tutorial
 $ docker-compose up -d
 ```
 
-Note: When first building the container images, the above command can take a bit of time as it will compile slurm from source and install required packages and the three applications: ColdFront, XDMoD, and OnDemand.
+NOTE: Windows users will get several pop-up messages from Docker Desktop during this process asking to allow local system access to the Docker containers.  Please click the "Share it" button:
+![](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/docs/windows_sharing.PNG)
+
+
+
 
 Once docker-compose finishes you can check the status of the containers:
 
@@ -96,6 +100,7 @@ slurmctld    | slurmctld: SchedulerParameters=default_queue_depth=100,max_rpc_cn
 xdmod        | 2020-06-21 19:23:48 [notice] xdmod-ingestor end (process_end_time: 2020-06-21 19:23:48)
 xdmod        | ---> Starting XDMoD...
 ```
+
 
 You can also use the helper bash script: `hpcts` to stop and start cluster:
 
@@ -129,14 +134,9 @@ Creating coldfront                     ... done
 
 
  XDMoD URL: https://localhost:4443
-
-
- Login to frontend: ssh -p 6222 hpcadmin@localhost
-
-
-$ ./hpcts stop
-$ ./hpcts clean
 ```
+NOTE:  Despite seeing this output with URLs, the processes on these containers may not be fully running yet.  Depending on the speed of your computer, starting up the processes may take a few minutes.  Use the above command to check the docker logs if the websites are not yet displaying.
+
 
 ## Accessing the Applications
 
@@ -232,17 +232,34 @@ $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c
 
 ### Shutting down
 
-To tear down all contianers and remove volumes:
+To stop the containers:
+```
+$ ./hpcts stop
+or
+$ docker-compose stop
+```
+
+To tear down all containers and remove volumes:
 
 ```
 $ ./hpcts clean
 ```
+
 This will run these commands:
 ```
 $ docker-compose stop
 $ docker-compose rm -f
 $ docker-compose down -v
 ```
+
+### Starting everything up again
+
+```
+$ ./hpcts start
+or 
+$ docker-compose up -d
+```
+
 
 ## Acknowledgments
 
