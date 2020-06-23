@@ -1,16 +1,41 @@
 # HPC Toolset Tutorial
 
-Tutorial for installing XDMoD, OnDemand, and ColdFront: an HPC center
+Tutorial for installing and configuring XDMoD, OnDemand, and ColdFront: an HPC center
 management toolset.
 
 TODO: write me
 
-## Requirements
+[Requirements](https://github.com/ubccr/hpc-toolset-tutorial#requirements)
 
-For this tutorial you will need to have docker installed on your local machine.
+[Overview](https://github.com/ubccr/hpc-toolset-tutorial#overview)
 
-- docker
-- docker-compose
+[Getting Started](https://github.com/ubccr/hpc-toolset-tutorial#getting-started)
+
+[Accessing the Applications](https://github.com/ubccr/hpc-toolset-tutorial#accessing-the-applications)
+
+* [User Accounts](https://github.com/ubccr/hpc-toolset-tutorial#user-accounts)
+* [ColdFront](https://github.com/ubccr/hpc-toolset-tutorial#coldfront)
+* [OnDemand](https://github.com/ubccr/hpc-toolset-tutorial#ondemand)
+* [XDMoD](https://github.com/ubccr/hpc-toolset-tutorial#xdmod)
+* [Cluster Frontend](https://github.com/ubccr/hpc-toolset-tutorial#cluster-frontend)
+* [Slurm](https://github.com/ubccr/hpc-toolset-tutorial#slurm)
+
+[Docker Tips](https://github.com/ubccr/hpc-toolset-tutorial#finding-ip-address-of-container)
+
+[Acknowledgements](https://github.com/ubccr/hpc-toolset-tutorial#acknowledgments)
+
+## <a name="requirements"></a>Requirements
+
+For this tutorial you will need to have docker installed on your local machine.  This has been tested on Linux, MacOS, and Windows 10:
+
+- docker version 19.03.8+
+- docker-compose 1.25.2+
+
+NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command before cloning the tutorial repo:
+```
+git config --global core.autocrlf input
+```
+
 
 ## Overview
 
@@ -23,14 +48,34 @@ An overview of the containers in the cluster:
 
 ## Getting started
 
-Start the multi-container HPC Toolset cluster using docker-compose:
+There are two ways to start the multi-container HPC Toolset cluster using docker-compose.  The first shown here will pull pre-made containers from Docker Hub. We recommend this if you want to save time on the building process and have a fast internet connection to pull down the images from Docker Hub:
 
 ```
+$ git clone git@github.com:ubccr/hpc-toolset-tutorial.git
+$ cd hpc-toolset-tutorial
+$ docker-compose pull
+Pulling base      ... done
+Pulling mysql     ... done
+Pulling slurmdbd  ... done
+Pulling slurmctld ... done
+Pulling c1        ... done
+Pulling c2        ... done
+Pulling frontend  ... done
+Pulling coldfront ... done
+Pulling ondemand  ... done
+Pulling xdmod     ... done
+$ 
+```
+
+This second option creates the containers, installs all the applications, configures and sets up accounts.  We recommend this if you'd like to see all that goes on during the install/setup procedures and especially if you have a slow internet connection.  This process takes anywhere from 10-20 minutes to complete depending on your local system resources:
+
+```
+$ git clone git@github.com:ubccr/hpc-toolset-tutorial.git
+$ cd hpc-toolset-tutorial
 $ docker-compose up -d
 ```
 
-Note: When first building the container images, the above command can take a
-bit as it will compile slurm from source and install required packages.
+Note: When first building the container images, the above command can take a bit of time as it will compile slurm from source and install required packages and the three applications: ColdFront, XDMoD, and OnDemand.
 
 Once docker-compose finishes you can check the status of the containers:
 
@@ -93,6 +138,10 @@ $ ./hpcts stop
 $ ./hpcts clean
 ```
 
+## Accessing the Applications
+
+Now that your containers have been created and applications launched, you can login to them using your browser and via SSH.
+
 ### User Accounts
 
 By default, all containers have local user accounts created. You can login with
@@ -133,6 +182,13 @@ Point your browser at the XDMoD container https://localhost:4443
 
 You can login with user: admin password: admin
 
+### Cluster Frontend
+
+Login to frontend with SSH:
+```
+ssh -p 6222 hpcadmin@localhost
+```
+
 ### Slurm
 
 ssh into the frontend and run a job:
@@ -163,6 +219,10 @@ slurm-3.out
 slurm-3.out
 ```
 
+## Docker Tips
+
+Some things you might find useful while using this setup:
+
 ### Finding IP address of container
 
 ```
@@ -170,10 +230,14 @@ $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c
 172.27.0.10
 ```
 
-## Shutting down
+### Shutting down
 
 To tear down all contianers and remove volumes:
 
+```
+$ ./hpcts clean
+```
+This will run these commands:
 ```
 $ docker-compose stop
 $ docker-compose rm -f
