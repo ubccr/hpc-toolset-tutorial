@@ -1,28 +1,24 @@
 # HPC Toolset Tutorial
 
-Tutorial for installing and configuring XDMoD, OnDemand, and ColdFront: an HPC center
-management toolset.
+Tutorial for installing and configuring XDMoD, OnDemand, and ColdFront: an HPC center management toolset.
 
-TODO: write me
+This tutorial aims to demonstrate how three open source applications work in concert to provide a toolset for high performance computing (HPC) centers. ColdFront is an allocations management portal that provides users an easy way to request access to a Center's resources.  HPC systems staff configure the data center’s resources with attributes that tie ColdFront’s plug-ins to things like job schedulers, authentication/account management systems, system monitoring, and XDMoD.  Once the user's allocation is activated in ColdFront, they are able to access the resource using OnDemand, a web-based portal for accessing HPC services that removes the complexities of HPC system environments from the end-user.  Through OnDemand, users can upload and download files, create, edit, submit and monitor jobs, create and share apps, run GUI applications and connect to a terminal, all via a web browser, with no client software to install and configure.  The XDMoD portal provides a rich set of features, which are tailored to the role of the user.  Sample metrics provided by Open XDMoD include: number of jobs, CPUs consumed, wait time, and wall time, with minimum, maximum and the average of these metrics. Performance and quality of service metrics of the HPC infrastructure are also provided, along with application specific performance metrics (flop/s, IO rates, network metrics, etc) for all user applications running on a given resource.  With the new release of Open OnDemand, some user job metrics from XDMoD will be available right on the OnDemand dashboard!
 
-[Requirements](https://github.com/ubccr/hpc-toolset-tutorial#requirements)
 
-[Overview](https://github.com/ubccr/hpc-toolset-tutorial#overview)
 
-[Getting Started](https://github.com/ubccr/hpc-toolset-tutorial#getting-started)
+[Requirements](https://github.com/ubccr/hpc-toolset-tutorial#requirements)  
+[Overview](https://github.com/ubccr/hpc-toolset-tutorial#overview)  
+[Getting Started](https://github.com/ubccr/hpc-toolset-tutorial#getting-started)  
+[Accessing the Applications](https://github.com/ubccr/hpc-toolset-tutorial#accessing-the-applications)  
+* [User Accounts](https://github.com/ubccr/hpc-toolset-tutorial#user-accounts)  
+* [ColdFront](https://github.com/ubccr/hpc-toolset-tutorial#coldfront)  
+* [OnDemand](https://github.com/ubccr/hpc-toolset-tutorial#ondemand)  
+* [XDMoD](https://github.com/ubccr/hpc-toolset-tutorial#xdmod)  
+* [Cluster Frontend](https://github.com/ubccr/hpc-toolset-tutorial#cluster-frontend)  
+* [Slurm](https://github.com/ubccr/hpc-toolset-tutorial#slurm)  
 
-[Accessing the Applications](https://github.com/ubccr/hpc-toolset-tutorial#accessing-the-applications)
-
-* [User Accounts](https://github.com/ubccr/hpc-toolset-tutorial#user-accounts)
-* [ColdFront](https://github.com/ubccr/hpc-toolset-tutorial#coldfront)
-* [OnDemand](https://github.com/ubccr/hpc-toolset-tutorial#ondemand)
-* [XDMoD](https://github.com/ubccr/hpc-toolset-tutorial#xdmod)
-* [Cluster Frontend](https://github.com/ubccr/hpc-toolset-tutorial#cluster-frontend)
-* [Slurm](https://github.com/ubccr/hpc-toolset-tutorial#slurm)
-
-[Docker Tips](https://github.com/ubccr/hpc-toolset-tutorial#finding-ip-address-of-container)
-
-[Acknowledgements](https://github.com/ubccr/hpc-toolset-tutorial#acknowledgments)
+[Docker Tips](https://github.com/ubccr/hpc-toolset-tutorial#finding-ip-address-of-container)  
+[Acknowledgements](https://github.com/ubccr/hpc-toolset-tutorial#acknowledgments)  
 
 ## <a name="requirements"></a>Requirements
 
