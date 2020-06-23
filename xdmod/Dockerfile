@@ -1,6 +1,6 @@
 ARG HPCTS_VERSION=latest
 
-FROM hpcts-slurm:$HPCTS_VERSION
+FROM ubccr/hpcts:slurm-${HPCTS_VERSION}
 COPY . /build
 RUN /build/install.sh && rm -rf /build
 COPY xdmod-httpd.conf /etc/httpd/conf.d/xdmod.conf

@@ -2,7 +2,7 @@ version: "3.5"
 
 services:
   base:
-    image: hpcts-base:$HPCTS_VERSION
+    image: ubccr/hpcts:base-${HPCTS_VERSION}
     build:
       context: ./base
 
@@ -22,7 +22,7 @@ services:
       - "3306"
 
   slurmdbd:
-    image: hpcts-slurm:$HPCTS_VERSION
+    image: ubccr/hpcts:slurm-${HPCTS_VERSION}
     build:
       context: ./slurm
       args:
@@ -44,7 +44,7 @@ services:
       - mysql
 
   slurmctld:
-    image: hpcts-slurm:$HPCTS_VERSION
+    image: ubccr/hpcts:slurm-${HPCTS_VERSION}
     command: ["slurmctld"]
     container_name: slurmctld
     hostname: slurmctld
@@ -61,7 +61,7 @@ services:
       - slurmdbd
 
   c1:
-    image: hpcts-slurm:$HPCTS_VERSION
+    image: ubccr/hpcts:slurm-${HPCTS_VERSION}
     command: ["slurmd"]
     hostname: c1
     container_name: c1
@@ -78,7 +78,7 @@ services:
       - slurmctld
 
   c2:
-    image: hpcts-slurm:$HPCTS_VERSION
+    image: ubccr/hpcts:slurm-${HPCTS_VERSION}
     command: ["slurmd"]
     hostname: c2
     container_name: c2
@@ -95,7 +95,7 @@ services:
       - slurmctld
 
   frontend:
-    image: hpcts-slurm:$HPCTS_VERSION
+    image: ubccr/hpcts:slurm-${HPCTS_VERSION}
     command: ["frontend"]
     hostname: frontend
     container_name: frontend
@@ -111,7 +111,7 @@ services:
       - slurmctld
 
   coldfront:
-    image: hpcts-coldfront:$HPCTS_VERSION
+    image: ubccr/hpcts:coldfront-${HPCTS_VERSION}
     build:
       context: ./coldfront
       args:
@@ -135,7 +135,7 @@ services:
       - frontend
 
   ondemand:
-    image: hpcts-ondemand:$HPCTS_VERSION
+    image: ubccr/hpcts:ondemand-${HPCTS_VERSION}
     build:
       context: ./ondemand
       args:
@@ -157,7 +157,7 @@ services:
       - frontend
 
   xdmod:
-    image: hpcts-xdmod:$HPCTS_VERSION
+    image: ubccr/hpcts:xdmod-${HPCTS_VERSION}
     build:
       context: ./xdmod
       args:

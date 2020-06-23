@@ -1,6 +1,6 @@
 ARG HPCTS_VERSION=latest
 
-FROM hpcts-base:$HPCTS_VERSION
+FROM ubccr/hpcts:base-${HPCTS_VERSION}
 ARG SLURM_VERSION
 COPY . /build
 RUN /build/install.sh && rm -rf /build
