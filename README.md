@@ -47,7 +47,7 @@ An overview of the containers in the cluster:
 There are two ways to start the multi-container HPC Toolset cluster using docker-compose.  The first shown here will pull pre-made containers from Docker Hub. We recommend this if you want to save time on the building process and have a fast internet connection to pull down the images from Docker Hub:
 
 ```
-$ git clone git@github.com:ubccr/hpc-toolset-tutorial.git
+$ git clone https://github.com/ubccr/hpc-toolset-tutorial.git
 $ cd hpc-toolset-tutorial
 $ docker-compose pull
 Pulling base      ... done
@@ -66,7 +66,7 @@ $
 This second option creates the containers, installs all the applications, configures and sets up accounts.  We recommend this if you'd like to see all that goes on during the install/setup procedures and especially if you have a slow internet connection.  When first building the container images, the above command can take anywhere from 10-20 minutes to complete, depending on your local system resources, as it will compile slurm from source and install required packages and the three applications: ColdFront, XDMoD, and OnDemand. 
 
 ```
-$ git clone git@github.com:ubccr/hpc-toolset-tutorial.git
+$ git clone https://github.com/ubccr/hpc-toolset-tutorial.git
 $ cd hpc-toolset-tutorial
 $ docker-compose up -d
 ```
