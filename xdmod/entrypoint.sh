@@ -20,6 +20,7 @@ then
     if [[ -n "$tables" ]]; then
         echo "XDMoD already initialized"
     else
+        echo "Running XDMoD setup and initial ingestion"
         #------------------------
         # Run xdmod-setup
         #------------------------
