@@ -71,6 +71,25 @@ then
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
 
+    until scontrol ping | grep UP 2>&1 > /dev/null
+    do
+        echo "-- Waiting for slurmctld to become active ..."
+        sleep 2
+    done
+
+    accts=$(sacctmgr list -P associations cluster=linux format=Account,Cluster,User,Fairshare | wc -l)
+    if [[ $accts -eq 3 ]]; then
+        #------------------------
+        # Run xdmod-setup
+        #------------------------
+        echo "Creating slurm associations.."
+        sacctmgr -i add account staff Cluster=linux Description=staff
+        sacctmgr -i add user hpcadmin DefaultAccount=staff AdminLevel=Admin;
+        sacctmgr -i add account sfoster Cluster=linux Description="PI account sfoster"
+        sacctmgr -i add user sfoster DefaultAccount=sfoster;
+        sacctmgr -i add user astewart DefaultAccount=sfoster;
+    fi
+
     echo "---> Starting sshd on the frontend..."
     exec /usr/sbin/sshd -D
 fi
