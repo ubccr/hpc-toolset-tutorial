@@ -6,6 +6,6 @@ v2:
     host: "frontend"
   job:
     adapter: "slurm"
-    cluster: "linux"
+    cluster: "hpc"
     bin: "/usr/bin"
     conf: "/etc/slurm/slurm.conf"

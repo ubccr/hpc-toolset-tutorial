@@ -10,7 +10,7 @@ log_info() {
 log_info "Installing required packages for Ondemand.."
 yum install -y \
     centos-release-scl \
-    https://yum.osc.edu/ondemand/latest/ondemand-release-web-latest-1-6.noarch.rpm
+    https://yum.osc.edu/ondemand/1.7/ondemand-release-web-1.7-1.noarch.rpm
 
 yum install -y \
     ondemand \

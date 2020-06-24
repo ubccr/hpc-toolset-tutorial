@@ -9,7 +9,7 @@
 set resources [list]
 
 # Job Resources
-lappend resources [list linux Linux hpc 2 2]
+lappend resources [list hpc HPC hpc 2 2]
 # -------------
 
 #-------------------------------------------------------------------------------

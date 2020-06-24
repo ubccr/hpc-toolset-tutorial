@@ -33,7 +33,7 @@ then
         #------------------------
         # Ingest slurm job data
         #------------------------
-        xdmod-slurm-helper -v -r linux
+        xdmod-slurm-helper -v -r hpc
         xdmod-ingestor -v
     fi
 
