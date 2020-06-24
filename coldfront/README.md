@@ -52,3 +52,9 @@ xdmod-ingestor --start-date 2020-01-01 --end-date 2020-12-31 --last-modified-sta
 - URL  https://localhost:4443/ (cgray:test123)
 - Change date to include today
 - You should see the data from the job you just ran
+
+
+## Tutorial Navigation
+[Next - XDMoD](../xdmod/README.md)  
+[Previous Step - Accessing the Applications](../docs/applications.md)  
+[Back to Start - Overview](../README.md)  

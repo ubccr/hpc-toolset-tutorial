@@ -80,6 +80,6 @@ slurm-3.out
 ```
 
 ## Tutorial Navigation
-[Back to Start - Overview](../README.md)
-[Previous Step - Getting Started](getting_started.md)
-[Next - ColdFront](../coldfront/README.md)
+[Next - ColdFront](../coldfront/README.md)  
+[Previous Step - Getting Started](getting_started.md)  
+[Back to Start - Overview](../README.md)  
