@@ -1,9 +1,10 @@
 ## ColdFront installation
-View script.sh to see how ColdFront is installed
+View `hpc-toolset-tutorial/coldfront/install.sh` to see how ColdFront is installed
 ![ColdFront installation script](../docs/cf_install.gif)
 
 ## Login to Coldfront container
-- Review local_settings.py
+- Review `hpc-toolset-tutorial/coldfront/local_settings.py`
+- This is where you'd enable or disable any plugins and set variables for your local installation
 
 ## Login to the frontend
 - `ssh -p 6222 hpcadmin@localhost`
