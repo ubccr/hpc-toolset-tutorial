@@ -35,8 +35,13 @@ An overview of the containers in the cluster:
 [ColdFront](../coldfront/README.md)  
 [XDMoD](../xdmod/README.md)  
 [OnDemand](../ondemand/README.md)  
-[Docker Tips](docker_tips.md)  
 
+
+## Docker Tips
+Some useful info on navigating this tutorial and learning a bit about docker-compose
+
+[Docker Tips](docker_tips.md)  
+Docker-compose Tutorial (coming soon)
 
 ## Acknowledgments
 
