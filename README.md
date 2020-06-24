@@ -35,9 +35,9 @@ An overview of the containers in the cluster:
 
 [Getting Started](docs/getting_started.md)  
 [Accessing the Applications](docs/applications.md)  
-[ColdFront](../coldfront/README.md)  
-[XDMoD](../xdmod/README.md)  
-[OnDemand](../ondemand/README.md)  
+[ColdFront](/coldfront/README.md)  
+[XDMoD](/xdmod/README.md)  
+[OnDemand](/ondemand/README.md)  
 
 
 ## Docker Tips
