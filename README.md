@@ -43,7 +43,7 @@ An overview of the containers in the cluster:
 ## Docker Tips
 Some useful info on navigating this tutorial and learning a bit about docker-compose
 
-[Docker Tips](docker_tips.md)  
+[Docker Tips](docs/docker_tips.md)  
 Docker-compose Tutorial (coming soon)
 
 ## Acknowledgments
