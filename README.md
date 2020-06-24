@@ -54,8 +54,8 @@ Pulling base      ... done
 Pulling mysql     ... done
 Pulling slurmdbd  ... done
 Pulling slurmctld ... done
-Pulling c1        ... done
-Pulling c2        ... done
+Pulling cpn01     ... done
+Pulling cpn02     ... done
 Pulling frontend  ... done
 Pulling coldfront ... done
 Pulling ondemand  ... done
@@ -85,13 +85,13 @@ mysql        | 200620  4:03:42 [Note] Event Scheduler: Loaded 0 events
 mysql        | 200620  4:03:42 [Note] mysqld: ready for connections.
 frontend     | ---> Starting the MUNGE Authentication service (munged) ...
 frontend     | ---> Starting sshd on the frontend...
-c1           | slurmd: Munge credential signature plugin loaded
-c1           | slurmd: CPUs=1 Boards=1 Sockets=1 Cores=1 Threads=1 Memory=15575 TmpDisk=229951 Uptime=43696 CPUSpecList=(null) FeaturesAvail=(null) FeaturesActive=(null)
-c2           | slurmd: debug:  AcctGatherEnergy NONE plugin loaded
+cpn01        | slurmd: Munge credential signature plugin loaded
+cpn01        | slurmd: CPUs=1 Boards=1 Sockets=1 Cores=1 Threads=1 Memory=15575 TmpDisk=229951 Uptime=43696 CPUSpecList=(null) FeaturesAvail=(null) FeaturesActive=(null)
+cpn02        | slurmd: debug:  AcctGatherEnergy NONE plugin loaded
 coldfront    | -- Waiting for database to become active ...
 coldfront    | -- Initializing coldfront database...
 ondemand     | ---> Starting ondemand httpd24...
-slurmdbd     | slurmdbd: debug2: DBD_NODE_STATE_UP: NODE:c1 REASON:(null) TIME:1592625828
+slurmdbd     | slurmdbd: debug2: DBD_NODE_STATE_UP: NODE:cpn01 REASON:(null) TIME:1592625828
 slurmctld    | slurmctld: SchedulerParameters=default_queue_depth=100,max_rpc_cnt=0,max_sched_time=2,partition_job_depth=0,sched_max_job_start=0,sched_min_interval=2
 xdmod        | 2020-06-21 19:23:48 [notice] xdmod-ingestor end (process_end_time: 2020-06-21 19:23:48)
 xdmod        | ---> Starting XDMoD...
@@ -116,9 +116,9 @@ Creating hpcts-tutorial_base_1 ... done
 Creating mysql                         ... done
 Creating slurmdbd                      ... done
 Creating slurmctld                     ... done
-Creating c2                            ... done
+Creating cpn02                         ... done
 Creating frontend                      ... done
-Creating c1                            ... done
+Creating cpn01                         ... done
 Creating ondemand                      ... done
 Creating xdmod                         ... done
 Creating coldfront                     ... done
@@ -194,10 +194,10 @@ $ ssh -p 6222 cgray@127.0.0.1
 
 [cgray@frontend ~]$ sinfo
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-normal*      up 5-00:00:00      2   idle c[1-2]
+compute*      up 5-00:00:00      2   idle cpn[01-02]
 
 [cgray@frontend ~]$ srun -N1 hostname
-c1
+cpn01
 
 [cgray@frontend ~]$ sbatch --wrap="uptime"
 Submitted batch job 3
@@ -209,9 +209,9 @@ slurm-3.out
  04:11:15 up 12:15,  0 users,  load average: 0.03, 0.29, 0.37
 
 # Test you can ssh into the first compute node from the frontend.
-[cgray@frontend ~]$ ssh c1
+[cgray@frontend ~]$ ssh cpn01
 
-[cgray@c1 ~]$ ls
+[cgray@cpn01 ~]$ ls
 slurm-3.out
 ```
 
