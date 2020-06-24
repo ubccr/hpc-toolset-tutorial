@@ -1,28 +1,24 @@
 # HPC Toolset Tutorial
 
-Tutorial for installing and configuring XDMoD, OnDemand, and ColdFront: an HPC center
-management toolset.
+Tutorial for installing and configuring [OnDemand](https://openondemand.org/), [XDMoD](https://open.xdmod.org), and [ColdFront](http://coldfront.io): an HPC center management toolset.
 
-TODO: write me
+This tutorial aims to demonstrate how three open source applications work in concert to provide a toolset for high performance computing (HPC) centers. ColdFront is an allocations management portal that provides users an easy way to request access to allocations for a Center's resources.  HPC systems staff configure the data center’s resources with attributes that tie ColdFront’s plug-ins to systems such as job schedulers, authentication/account management systems, system monitoring, and XDMoD.  Once the user's allocation is activated in ColdFront, they are able to access the resource using OnDemand, a web-based portal for accessing HPC services that removes the complexities of HPC system environments from the end-user.  Through OnDemand, users can upload and download files, create, edit, submit and monitor jobs, create and share apps, run GUI applications and connect to a terminal, all via a web browser, with no client software to install and configure.  The XDMoD portal provides a rich set of features, which are tailored to the role of the user.  Sample metrics provided by Open XDMoD include: number of jobs, CPUs consumed, wait time, and wall time, with minimum, maximum and the average of these metrics. Performance and quality of service metrics of the HPC infrastructure are also provided, along with application specific performance metrics (flop/s, IO rates, network metrics, etc) for all user applications running on a given resource.  With the new release of Open OnDemand, some user job metrics from XDMoD will be available right on the OnDemand dashboard!
 
-[Requirements](https://github.com/ubccr/hpc-toolset-tutorial#requirements)
 
-[Overview](https://github.com/ubccr/hpc-toolset-tutorial#overview)
 
-[Getting Started](https://github.com/ubccr/hpc-toolset-tutorial#getting-started)
-
-[Accessing the Applications](https://github.com/ubccr/hpc-toolset-tutorial#accessing-the-applications)
-
-* [User Accounts](https://github.com/ubccr/hpc-toolset-tutorial#user-accounts)
-* [ColdFront](https://github.com/ubccr/hpc-toolset-tutorial#coldfront)
-* [OnDemand](https://github.com/ubccr/hpc-toolset-tutorial#ondemand)
-* [XDMoD](https://github.com/ubccr/hpc-toolset-tutorial#xdmod)
-* [Cluster Frontend](https://github.com/ubccr/hpc-toolset-tutorial#cluster-frontend)
+[Requirements](https://github.com/ubccr/hpc-toolset-tutorial#requirements)  
+[Overview](https://github.com/ubccr/hpc-toolset-tutorial#overview)  
+[Getting Started](https://github.com/ubccr/hpc-toolset-tutorial#getting-started)  
+[Accessing the Applications](https://github.com/ubccr/hpc-toolset-tutorial#accessing-the-applications)  
+* [User Accounts](https://github.com/ubccr/hpc-toolset-tutorial#user-accounts)  
+* [ColdFront](https://github.com/ubccr/hpc-toolset-tutorial#coldfront)  
+* [OnDemand](https://github.com/ubccr/hpc-toolset-tutorial#ondemand)  
+* [XDMoD](https://github.com/ubccr/hpc-toolset-tutorial#xdmod)  
+* [Cluster Frontend](https://github.com/ubccr/hpc-toolset-tutorial#cluster-frontend)  
 * [Slurm](https://github.com/ubccr/hpc-toolset-tutorial#slurm)
 
-[Docker Tips](https://github.com/ubccr/hpc-toolset-tutorial#finding-ip-address-of-container)
-
-[Acknowledgements](https://github.com/ubccr/hpc-toolset-tutorial#acknowledgments)
+[Docker Tips](https://github.com/ubccr/hpc-toolset-tutorial#finding-ip-address-of-container)  
+[Acknowledgements](https://github.com/ubccr/hpc-toolset-tutorial#acknowledgments)  
 
 ## <a name="requirements"></a>Requirements
 
@@ -67,7 +63,7 @@ Pulling xdmod     ... done
 $ 
 ```
 
-This second option creates the containers, installs all the applications, configures and sets up accounts.  We recommend this if you'd like to see all that goes on during the install/setup procedures and especially if you have a slow internet connection.  This process takes anywhere from 10-20 minutes to complete depending on your local system resources:
+This second option creates the containers, installs all the applications, configures and sets up accounts.  We recommend this if you'd like to see all that goes on during the install/setup procedures and especially if you have a slow internet connection.  When first building the container images, the above command can take anywhere from 10-20 minutes to complete, depending on your local system resources, as it will compile slurm from source and install required packages and the three applications: ColdFront, XDMoD, and OnDemand. 
 
 ```
 $ git clone git@github.com:ubccr/hpc-toolset-tutorial.git
@@ -75,7 +71,11 @@ $ cd hpc-toolset-tutorial
 $ docker-compose up -d
 ```
 
-Note: When first building the container images, the above command can take a bit of time as it will compile slurm from source and install required packages and the three applications: ColdFront, XDMoD, and OnDemand.
+NOTE: Windows users will get several pop-up messages from Docker Desktop during this process asking to allow local system access to the Docker containers.  Please click the "Share it" button:
+![](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/docs/windows_sharing.PNG)
+
+
+
 
 Once docker-compose finishes you can check the status of the containers:
 
@@ -96,6 +96,7 @@ slurmctld    | slurmctld: SchedulerParameters=default_queue_depth=100,max_rpc_cn
 xdmod        | 2020-06-21 19:23:48 [notice] xdmod-ingestor end (process_end_time: 2020-06-21 19:23:48)
 xdmod        | ---> Starting XDMoD...
 ```
+
 
 You can also use the helper bash script: `hpcts` to stop and start cluster:
 
@@ -129,14 +130,9 @@ Creating coldfront                     ... done
 
 
  XDMoD URL: https://localhost:4443
-
-
- Login to frontend: ssh -p 6222 hpcadmin@localhost
-
-
-$ ./hpcts stop
-$ ./hpcts clean
 ```
+NOTE:  Despite seeing this output with URLs, the processes on these containers may not be fully running yet.  Depending on the speed of your computer, starting up the processes may take a few minutes.  Use the above command to check the docker logs if the websites are not yet displaying.
+
 
 ## Accessing the Applications
 
@@ -232,17 +228,34 @@ $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c
 
 ### Shutting down
 
-To tear down all contianers and remove volumes:
+To stop the containers:
+```
+$ ./hpcts stop
+or
+$ docker-compose stop
+```
+
+To tear down all containers and remove volumes:
 
 ```
 $ ./hpcts clean
 ```
+
 This will run these commands:
 ```
 $ docker-compose stop
 $ docker-compose rm -f
 $ docker-compose down -v
 ```
+
+### Starting everything up again
+
+```
+$ ./hpcts start
+or 
+$ docker-compose up -d
+```
+
 
 ## Acknowledgments
 
