@@ -1,3 +1,13 @@
+## Overview
+
+In this tutorial we present three open source projects that form a core set of
+utilities commonly installed at High Performance Computing (HPC) centers.
+
+An overview of the containers in the cluster:
+
+![Container Overview](HPC-Toolset-sm.png)
+
+
 ## Getting started
 
 There are two ways to start the multi-container HPC Toolset cluster using docker-compose.  The first shown here will pull pre-made containers from Docker Hub. We recommend this if you want to save time on the building process and have a fast internet connection to pull down the images from Docker Hub:
