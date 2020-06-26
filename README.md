@@ -17,15 +17,7 @@ This tutorial aims to demonstrate how three open source applications work in con
 [XDMoD](/xdmod/README.md)  
 [OnDemand](/ondemand/README.md)  
 
-
-
-## Acknowledgments
-
-The multi-container Slurm cluster using docker-compose is loosely based on the
-following:
-
-- https://github.com/giovtorres/slurm-docker-cluster
-- https://github.com/OSC/ood-images/tree/master/docker-with-slurm
+[Acknowledgments](docs/acknowledgments.md)
 
 ## License
 
