@@ -102,4 +102,5 @@ NOTE:  Despite seeing this output with URLs, the processes on these containers m
 
 ## Tutorial Navigation
 [Next - Accessing the Applications](applications.md)  
-[Back - Overview](../README.md)
+[Previous Step - Getting Started](getting_started.md)    
+[Back to Start](../README.md)
