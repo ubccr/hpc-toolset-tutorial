@@ -1,4 +1,4 @@
-version: "3.5"
+version: "3.8"
 
 services:
   base:
@@ -61,6 +61,7 @@ services:
       - slurmdbd
 
   cpn01:
+    init: true
     image: ubccr/hpcts:slurm-${HPCTS_VERSION}
     command: ["slurmd"]
     hostname: cpn01
@@ -78,6 +79,7 @@ services:
       - slurmctld
 
   cpn02:
+    init: true
     image: ubccr/hpcts:slurm-${HPCTS_VERSION}
     command: ["slurmd"]
     hostname: cpn02
