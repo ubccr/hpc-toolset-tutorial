@@ -18,6 +18,9 @@ then
     echo "---> Starting the MUNGE Authentication service (munged) on xdmod ..."
     gosu munge /usr/sbin/munged
 
+    echo "---> Starting sshd on xdmod..."
+    /usr/sbin/sshd
+
     until echo "SELECT 1" | mysql -h $host -u$user -p$pass 2>&1 > /dev/null
     do
         echo "-- Waiting for database to become active ..."
@@ -26,29 +29,43 @@ then
 
     tables=$(mysql -u${user} -p${pass} --host ${host} -NB modw -e "SHOW TABLES")
     if [[ -n "$tables" ]]; then
-        echo "XDMoD already initialized"
+        echo "Open XDMoD already initialized"
     else
-        echo "Running XDMoD setup and initial ingestion"
         #------------------------
         # Run xdmod-setup
         #------------------------
-        echo "---> Setup XDMoD SSO..."
+        echo "---> Open XDMoD Setup: SSO..."
         /srv/xdmod/scripts/xdmod-setup-sso.sh
-
+        echo "---> Open XDMoD Setup: start"
         expect /srv/xdmod/scripts/xdmod-setup-start.tcl | col -b
+        echo "---> Open XDMoD Setup: hpc resource"
         expect /srv/xdmod/scripts/xdmod-setup-jobs.tcl | col -b
+        echo "---> Open XDMoD Setup: finish"
         expect /srv/xdmod/scripts/xdmod-setup-finish.tcl | col -b
 
+        echo "Open XDMoD Import: Hierarchy"
         xdmod-import-csv -t hierarchy -i /srv/xdmod/hierarchy.csv
 
         #------------------------
         # Ingest slurm job data
         #------------------------
-        xdmod-slurm-helper -v -r hpc
-        xdmod-ingestor -v
+        echo "---> Open XDMoD Import: slurm hpc"
+        xdmod-slurm-helper -r hpc
+        echo "---> Open XDMoD: Ingest"
+        xdmod-ingestor
+
+        echo "---> Open XDMoD Setup: Job Performance"
+        expect /srv/xdmod/scripts/xdmod-setup-supremm.tcl | col -b
+        echo "---> Open XDMoD Aggregate: Job Performance"
+        aggregate_supremm.sh
+
+        echo "---> supremm setup"
+        export TERMINFO=/bin/bash
+        export TERM=linux
+        /srv/xdmod/scripts/supremm.py
     fi
 
-    echo "---> Starting XDMoD..."
+    echo "---> Starting HTTPD on xdmod..."
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /var/run/httpd/httpd.pid
     /usr/sbin/httpd -DFOREGROUND
