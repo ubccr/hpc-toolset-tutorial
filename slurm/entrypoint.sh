@@ -21,7 +21,7 @@ then
     echo "---> Starting sshd on the slurmdbd..."
     /usr/sbin/sshd
 
-    exec gosu slurm /usr/sbin/slurmdbd -Dvvv
+    exec gosu slurm /usr/sbin/slurmdbd -Dv
 fi
 
 if [ "$1" = "slurmctld" ]
@@ -42,7 +42,7 @@ then
     /usr/sbin/sshd
 
     echo "---> Starting the Slurm Controller Daemon (slurmctld) ..."
-    exec gosu slurm /usr/sbin/slurmctld -Dvvv
+    exec gosu slurm /usr/sbin/slurmctld -Dv
 fi
 
 if [ "$1" = "slurmd" ]
@@ -63,7 +63,7 @@ then
     /usr/sbin/sshd
 
     echo "---> Starting the Slurm Node Daemon (slurmd) ..."
-    exec /usr/sbin/slurmd -Dvvv
+    exec /usr/sbin/slurmd -Dv
 fi
 
 if [ "$1" = "frontend" ]
