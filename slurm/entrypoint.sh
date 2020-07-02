@@ -77,6 +77,12 @@ then
     done
     echo "-- slurmctld is now active ..."
 
+    echo "---> Starting pmcd on the slurmd..."
+    /usr/share/pcp/lib/pmcd start
+
+    echo "---> Starting pmlogger on the slurmd.."
+    /usr/share/pcp/lib/pmlogger start
+
     echo "---> Starting the Slurm Node Daemon (slurmd) ..."
     exec /usr/sbin/slurmd -Dv
 fi

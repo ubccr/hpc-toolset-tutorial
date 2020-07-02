@@ -76,5 +76,14 @@ chown -R slurm:slurm /var/*/slurm*
 log_info "Creating munge key.."
 /sbin/create-munge-key
 
+log_info "Installing performance data collection software.."
+yum install -y pcp
+
+log_info "Setting PCP defaults suitable for running in a container.."
+echo -e "# Disable Avahi (since it does not run inside the containers)\n-A" >> /etc/pcp/pmcd/pmcd.options
+
+log_info "Configuring PCP logger with suitable container defaults.."
+sed -i 's#^LOCALHOSTNAME.*$#LOCALHOSTNAME   y   n   "/home/pcp/$(date +%Y)/$(date +%m)/LOCALHOSTNAME/$(date +%Y)-$(date +%m)-$(date +%d)"   -r -c /etc/pcp/pmlogger/pmlogger-supremm.config#' /etc/pcp/pmlogger/control.d/local
+
 yum clean all
 rm -rf /var/cache/yum
