@@ -20,7 +20,10 @@ yum install -y \
     sudo \
     epel-release \
     wget \
-    vim
+    vim \
+    openldap-clients \
+    sssd \
+    authconfig
 
 #------------------------
 # Generate ssh host keys
@@ -34,28 +37,62 @@ chgrp ssh_keys /etc/ssh/ssh_host_ecdsa_key
 chgrp ssh_keys /etc/ssh/ssh_host_ed25519_key
 
 #------------------------
+# Setup LDAP and SSSD
+#------------------------
+log_info "Configuring LDAP and SSSD"
+authconfig --enableldap \
+  --enableldapauth \
+  --ldapserver=ldap://ldap:389 \
+  --ldapbasedn="dc=example,dc=org" \
+  --enablerfc2307bis \
+  --enablesssd \
+  --enablesssdauth \
+  --kickstart \
+  --nostart \
+  --update
+
+cat > /etc/sssd/sssd.conf <<EOF
+[domain/default]
+autofs_provider = ldap
+ldap_schema = rfc2307bis
+ldap_search_base = dc=example,dc=org
+id_provider = ldap
+auth_provider = ldap
+chpass_provider = ldap
+ldap_uri = ldap://ldap:389
+cache_credentials = True
+ldap_tls_cacertdir = /etc/openldap/cacerts
+ldap_default_bind_dn = cn=admin,dc=example,dc=org
+ldap_default_authtok = admin
+
+[sssd]
+services = nss, pam
+domains = default
+
+[nss]
+homedir_substring = /home
+
+[pam]
+EOF
+
+#------------------------
 # Setup user accounts
 #------------------------
 
 idnumber=1000
 for uid in hpcadmin $USERS
 do
-    log_info "Creating $uid user account with uidnumber $idnumber.."
-    passvar="PASSWD_$uid"
-    passwd=${!passvar:-ilovelinux}
-    groupadd --gid $idnumber $uid
-    useradd  --gid $idnumber --uid $idnumber $uid
-    echo -n $passwd  | passwd --stdin $uid
-	install -d -o $uid -g $uid -m 0700 /home/$uid/.ssh
-    sudo -u $uid ssh-keygen -b 2048 -t rsa -f /home/$uid/.ssh/id_rsa -q -N ""
-    install -o $uid -g $uid -m 0600 /home/$uid/.ssh/id_rsa.pub /home/$uid/.ssh/authorized_keys
-	sudo -u $uid tee /home/$uid/.ssh/config <<EOF
+    log_info "Bootstrapping $uid user account.."
+    install -d -o $idnumber -g $idnumber -m 0700 /home/$uid/.ssh
+    ssh-keygen -b 2048 -t rsa -f /home/$uid/.ssh/id_rsa -q -N ""
+    install -o $idnumber -g $idnumber -m 0600 /home/$uid/.ssh/id_rsa.pub /home/$uid/.ssh/authorized_keys
+    cat > /home/$uid/.ssh/config <<EOF
 Host *
    StrictHostKeyChecking no
    UserKnownHostsFile=/dev/null
 EOF
-	chmod 0600 /home/$uid/.ssh/config
-
+    chown -R $idnumber:$idnumber /home/$uid/.ssh
+    chmod 0600 /home/$uid/.ssh/config
     idnumber=$((idnumber + 1))
 done
 

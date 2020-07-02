@@ -3,6 +3,9 @@ set -e
 
 if [ "$1" = "slurmdbd" ]
 then
+    echo "---> Starting SSSD ..."
+    /sbin/sssd
+
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
 
@@ -26,6 +29,9 @@ fi
 
 if [ "$1" = "slurmctld" ]
 then
+    echo "---> Starting SSSD ..."
+    /sbin/sssd
+
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
 
@@ -47,6 +53,9 @@ fi
 
 if [ "$1" = "slurmd" ]
 then
+    echo "---> Starting SSSD ..."
+    /sbin/sssd
+
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
 
@@ -68,6 +77,9 @@ fi
 
 if [ "$1" = "frontend" ]
 then
+    echo "---> Starting SSSD ..."
+    /sbin/sssd
+
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
 

@@ -3,6 +3,9 @@ set -e
 
 if [ "$1" = "serve" ]
 then
+    echo "---> Starting SSSD on ondemand ..."
+    /sbin/sssd
+
     echo "---> Starting the MUNGE Authentication service (munged) on ondemand ..."
     gosu munge /usr/sbin/munged
 

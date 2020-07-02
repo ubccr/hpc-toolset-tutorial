@@ -3,6 +3,9 @@ set -e
 
 if [ "$1" = "serve" ]
 then
+    echo "---> Starting SSSD on coldfront ..."
+    /sbin/sssd
+
     echo "---> Starting the MUNGE Authentication service (munged) on coldfront ..."
     gosu munge /usr/sbin/munged
 

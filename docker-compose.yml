@@ -19,6 +19,8 @@ services:
     image: ubccr/hpcts:base-${HPCTS_VERSION}
     build:
       context: ./base
+    networks:
+      - compute
     depends_on:
       - ldap
 

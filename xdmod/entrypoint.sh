@@ -7,6 +7,9 @@ pass=ofbatgorWep0
 
 if [ "$1" = "serve" ]
 then
+    echo "---> Starting SSSD on xdmod ..."
+    /sbin/sssd
+
     echo "---> Starting the MUNGE Authentication service (munged) on xdmod ..."
     gosu munge /usr/sbin/munged
 
