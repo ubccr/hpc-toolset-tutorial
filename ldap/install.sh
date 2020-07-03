@@ -27,7 +27,7 @@ EOF
 # Setup user accounts
 #------------------------
 
-idnumber=1000
+idnumber=1001
 for uid in hpcadmin $USERS
 do
     log_info "Adding LDIF for $uid user account with uidnumber $idnumber.."
