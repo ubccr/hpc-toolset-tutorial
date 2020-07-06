@@ -106,6 +106,7 @@ idnumber=1001
 for uid in hpcadmin $USERS
 do
     log_info "Bootstrapping $uid user account.."
+    install -d -o $idnumber -g $idnumber -m 0700 /home/$uid
     install -d -o $idnumber -g $idnumber -m 0700 /home/$uid/.ssh
     ssh-keygen -b 2048 -t rsa -f /home/$uid/.ssh/id_rsa -q -N ""
     install -o $idnumber -g $idnumber -m 0600 /home/$uid/.ssh/id_rsa.pub /home/$uid/.ssh/authorized_keys
@@ -117,7 +118,7 @@ EOF
     chown -R $idnumber:$idnumber /home/$uid/.ssh
     chmod 0600 /home/$uid/.ssh/config
     cp /etc/skel/.bash* /home/$uid
-    chown $idnumber:$idnumber /home/$uid/.bash*
+    chown $idnumber:$idnumber /home/$uid
     idnumber=$((idnumber + 1))
 done
 
