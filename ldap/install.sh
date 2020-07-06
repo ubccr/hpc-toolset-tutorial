@@ -47,6 +47,7 @@ uidNumber: ${idnumber}
 gidNumber: ${idnumber}
 mail: ${uid}@example.com
 userpassword: ${passwd}
+loginShell: /bin/bash
 
 dn: cn=${uid},ou=Groups,dc=example,dc=org
 objectClass: posixGroup
