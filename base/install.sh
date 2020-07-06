@@ -115,10 +115,9 @@ Host *
    StrictHostKeyChecking no
    UserKnownHostsFile=/dev/null
 EOF
-    chown -R $idnumber:$idnumber /home/$uid/.ssh
     chmod 0600 /home/$uid/.ssh/config
     cp /etc/skel/.bash* /home/$uid
-    chown $idnumber:$idnumber /home/$uid
+    chown -R $idnumber:$idnumber /home/$uid
     idnumber=$((idnumber + 1))
 done
 
