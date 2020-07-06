@@ -6,7 +6,9 @@ Now that your containers have been created and applications launched, you can lo
 
 By default, all containers have local user accounts created. You can login with
 to the containers via ssh, login to Coldfront and OnDemand with the same user
-credentials. Default password for all accounts: ilovelinux
+credentials.
+
+Default password for all accounts (except cgray): `ilovelinux`
 
 - hpcadmin
 - cgray (password: test123)
@@ -20,7 +22,7 @@ Login to Coldfront and setup allocations.
 
 Point your browser at the Coldfront container https://localhost:2443
 
-You can login with user: admin password: admin
+You can login with user: `admin` password: `admin`
 
 You can also login with any of the local system accounts that were created.
 
@@ -40,18 +42,18 @@ Login to XDMoD
 
 Point your browser at the XDMoD container https://localhost:4443
 
-You can login with user: admin password: admin
+You can login with user: `admin` password: `admin`
 
 ### Cluster Frontend
 
-Login to frontend with SSH:
+Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
 ```
 ssh -p 6222 hpcadmin@localhost
 ```
 
 ### Slurm
 
-ssh into the frontend and run a job:
+Login to the frontend via SSH and user: `cgray` password: `test123` to run a job:
 
 ```
 $ ssh -p 6222 cgray@127.0.0.1
