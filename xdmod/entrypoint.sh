@@ -8,7 +8,7 @@ pass=ofbatgorWep0
 if [ "$1" = "serve" ]
 then
     echo "---> Starting SSSD on xdmod ..."
-    /sbin/sssd
+    /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) on xdmod ..."
     gosu munge /usr/sbin/munged
@@ -41,7 +41,7 @@ then
     fi
 
     echo "---> Starting sshd on xdmod..."
-    /usr/sbin/sshd
+    /usr/sbin/sshd -e
 
     echo "---> Starting XDMoD..."
     /usr/sbin/httpd -DFOREGROUND

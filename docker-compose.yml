@@ -10,8 +10,8 @@ services:
     environment:
       - CONTAINER_LOG_LEVEL=debug
       - LDAP_RFC2307BIS_SCHEMA=true
-      - LDAP_TLS=false
       - LDAP_REMOVE_CONFIG_AFTER_SETUP=false
+      - LDAP_TLS_VERIFY_CLIENT=never
     networks:
       - compute
 

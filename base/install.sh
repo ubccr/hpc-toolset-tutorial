@@ -61,28 +61,41 @@ authconfig --enableldap \
   --nostart \
   --update
 
+cat > /etc/openldap/ldap.conf <<EOF
+TLS_CACERTDIR /etc/openldap/cacerts
+TLS_REQCERT never
+SASL_NOCANON	on
+URI ldaps://ldap:636
+BASE dc=example,dc=org
+EOF
+
 cat > /etc/sssd/sssd.conf <<EOF
 [domain/default]
+debug_level = 3
 autofs_provider = ldap
 ldap_schema = rfc2307bis
+ldap_group_member = member
 ldap_search_base = dc=example,dc=org
 id_provider = ldap
 auth_provider = ldap
 chpass_provider = ldap
-ldap_uri = ldap://ldap:389
+ldap_uri = ldaps://ldap:636
 cache_credentials = True
-ldap_tls_cacertdir = /etc/openldap/cacerts
+ldap_tls_reqcert = never
 ldap_default_bind_dn = cn=admin,dc=example,dc=org
 ldap_default_authtok = admin
 
 [sssd]
+debug_level = 3
 services = nss, pam
 domains = default
 
 [nss]
+debug_level = 3
 homedir_substring = /home
 
 [pam]
+debug_level = 3
 EOF
 
 #------------------------
