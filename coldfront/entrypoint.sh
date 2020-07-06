@@ -3,6 +3,9 @@ set -e
 
 if [ "$1" = "serve" ]
 then
+    echo "---> Starting SSSD on coldfront ..."
+    /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
+
     echo "---> Starting the MUNGE Authentication service (munged) on coldfront ..."
     gosu munge /usr/sbin/munged
 
@@ -27,7 +30,7 @@ then
     fi
 
     echo "---> Starting sshd on coldfront..."
-    /usr/sbin/sshd
+    /usr/sbin/sshd -e
 
     echo "---> Starting nginx on coldfront..."
     /sbin/nginx

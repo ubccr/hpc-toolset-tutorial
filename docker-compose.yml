@@ -1,10 +1,28 @@
 version: "3.8"
 
 services:
+  ldap:
+    image: ubccr/hpcts:ldap-${HPCTS_VERSION}
+    build:
+      context: ./ldap
+    hostname: ldap
+    container_name: ldap
+    environment:
+      - CONTAINER_LOG_LEVEL=debug
+      - LDAP_RFC2307BIS_SCHEMA=true
+      - LDAP_REMOVE_CONFIG_AFTER_SETUP=false
+      - LDAP_TLS_VERIFY_CLIENT=never
+    networks:
+      - compute
+
   base:
     image: ubccr/hpcts:base-${HPCTS_VERSION}
     build:
       context: ./base
+    networks:
+      - compute
+    depends_on:
+      - ldap
 
   mysql:
     image: mariadb:$MARIADB_VERSION
@@ -41,6 +59,7 @@ services:
       - "6819"
     depends_on:
       - base
+      - ldap
       - mysql
 
   slurmctld:
@@ -58,6 +77,7 @@ services:
       - "22"
       - "6817"
     depends_on:
+      - ldap
       - slurmdbd
 
   cpn01:
@@ -76,6 +96,7 @@ services:
       - "22"
       - "6818"
     depends_on:
+      - ldap
       - slurmctld
 
   cpn02:
@@ -94,6 +115,7 @@ services:
       - "22"
       - "6818"
     depends_on:
+      - ldap
       - slurmctld
 
   frontend:
@@ -110,6 +132,7 @@ services:
     ports:
       - "127.0.0.1:6222:22"
     depends_on:
+      - ldap
       - slurmctld
 
   coldfront:
@@ -133,6 +156,7 @@ services:
     ports:
       - "127.0.0.1:2443:443"
     depends_on:
+      - ldap
       - mysql
       - frontend
 
@@ -156,6 +180,7 @@ services:
     ports:
       - "127.0.0.1:3443:443"
     depends_on:
+      - ldap
       - frontend
 
   xdmod:
@@ -178,6 +203,7 @@ services:
     ports:
       - "127.0.0.1:4443:443"
     depends_on:
+      - ldap
       - mysql
       - frontend
 

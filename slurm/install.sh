@@ -43,8 +43,8 @@ popd
 rm -rf /tmp/slurm*
 
 log_info "Creating slurm user account.."
-groupadd -r --gid=995 slurm
-useradd -r -g slurm --uid=995 slurm
+groupadd -r --gid=1000 slurm
+useradd -r -g slurm --uid=1000 slurm
 
 log_info "Setting up slurm directories.."
 mkdir /etc/sysconfig/slurm \

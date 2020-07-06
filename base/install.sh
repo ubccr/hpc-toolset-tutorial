@@ -12,6 +12,16 @@ source /build/base.config
 GOSU_VERSION=${GOSU_VERSION:-1.12}
 
 #------------------------
+# Setup system user/groups
+#------------------------
+log_info "Creating munge user account.."
+groupadd -r munge
+useradd -r -g munge -s /sbin/nologin -d /var/run/munge munge
+log_info "Creating sssd user account.."
+groupadd -r sssd
+useradd -r -g sssd -d / -s /sbin/nologin sssd
+
+#------------------------
 # Install base packages
 #------------------------
 log_info "Installing base packages.."
@@ -20,7 +30,10 @@ yum install -y \
     sudo \
     epel-release \
     wget \
-    vim
+    vim \
+    openldap-clients \
+    sssd \
+    authconfig
 
 #------------------------
 # Generate ssh host keys
@@ -34,28 +47,77 @@ chgrp ssh_keys /etc/ssh/ssh_host_ecdsa_key
 chgrp ssh_keys /etc/ssh/ssh_host_ed25519_key
 
 #------------------------
+# Setup LDAP and SSSD
+#------------------------
+log_info "Configuring LDAP and SSSD"
+authconfig --enableldap \
+  --enableldapauth \
+  --ldapserver=ldap://ldap:389 \
+  --ldapbasedn="dc=example,dc=org" \
+  --enablerfc2307bis \
+  --enablesssd \
+  --enablesssdauth \
+  --kickstart \
+  --nostart \
+  --update
+
+cat > /etc/openldap/ldap.conf <<EOF
+TLS_CACERTDIR /etc/openldap/cacerts
+TLS_REQCERT never
+SASL_NOCANON	on
+URI ldaps://ldap:636
+BASE dc=example,dc=org
+EOF
+
+cat > /etc/sssd/sssd.conf <<EOF
+[domain/default]
+debug_level = 3
+autofs_provider = ldap
+ldap_schema = rfc2307bis
+ldap_group_member = member
+ldap_search_base = dc=example,dc=org
+id_provider = ldap
+auth_provider = ldap
+chpass_provider = ldap
+ldap_uri = ldaps://ldap:636
+cache_credentials = True
+ldap_tls_reqcert = never
+ldap_default_bind_dn = cn=admin,dc=example,dc=org
+ldap_default_authtok = admin
+
+[sssd]
+debug_level = 3
+services = nss, pam
+domains = default
+
+[nss]
+debug_level = 3
+homedir_substring = /home
+
+[pam]
+debug_level = 3
+EOF
+
+#------------------------
 # Setup user accounts
 #------------------------
 
-idnumber=1000
+idnumber=1001
 for uid in hpcadmin $USERS
 do
-    log_info "Creating $uid user account with uidnumber $idnumber.."
-    passvar="PASSWD_$uid"
-    passwd=${!passvar:-ilovelinux}
-    groupadd --gid $idnumber $uid
-    useradd  --gid $idnumber --uid $idnumber $uid
-    echo -n $passwd  | passwd --stdin $uid
-	install -d -o $uid -g $uid -m 0700 /home/$uid/.ssh
-    sudo -u $uid ssh-keygen -b 2048 -t rsa -f /home/$uid/.ssh/id_rsa -q -N ""
-    install -o $uid -g $uid -m 0600 /home/$uid/.ssh/id_rsa.pub /home/$uid/.ssh/authorized_keys
-	sudo -u $uid tee /home/$uid/.ssh/config <<EOF
+    log_info "Bootstrapping $uid user account.."
+    install -d -o $idnumber -g $idnumber -m 0700 /home/$uid
+    install -d -o $idnumber -g $idnumber -m 0700 /home/$uid/.ssh
+    ssh-keygen -b 2048 -t rsa -f /home/$uid/.ssh/id_rsa -q -N ""
+    install -o $idnumber -g $idnumber -m 0600 /home/$uid/.ssh/id_rsa.pub /home/$uid/.ssh/authorized_keys
+    cat > /home/$uid/.ssh/config <<EOF
 Host *
    StrictHostKeyChecking no
-   UserKnownHostsFile=/dev/null
+   UserKnownHostsFile /dev/null
 EOF
-	chmod 0600 /home/$uid/.ssh/config
-
+    chmod 0600 /home/$uid/.ssh/config
+    cp /etc/skel/.bash* /home/$uid
+    chown -R $idnumber:$idnumber /home/$uid
     idnumber=$((idnumber + 1))
 done
 
