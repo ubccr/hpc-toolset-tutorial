@@ -113,7 +113,7 @@ do
     cat > /home/$uid/.ssh/config <<EOF
 Host *
    StrictHostKeyChecking no
-   UserKnownHostsFile=/dev/null
+   UserKnownHostsFile /dev/null
 EOF
     chmod 0600 /home/$uid/.ssh/config
     cp /etc/skel/.bash* /home/$uid
