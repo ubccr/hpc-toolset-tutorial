@@ -12,6 +12,16 @@ source /build/base.config
 GOSU_VERSION=${GOSU_VERSION:-1.12}
 
 #------------------------
+# Setup system user/groups
+#------------------------
+log_info "Creating munge user account.."
+groupadd -r munge
+useradd -r -g munge -s /sbin/nologin -d /var/run/munge munge
+log_info "Creating sssd user account.."
+groupadd -r sssd
+useradd -r -g sssd -d / -s /sbin/nologin sssd
+
+#------------------------
 # Install base packages
 #------------------------
 log_info "Installing base packages.."
@@ -79,7 +89,7 @@ EOF
 # Setup user accounts
 #------------------------
 
-idnumber=1000
+idnumber=1001
 for uid in hpcadmin $USERS
 do
     log_info "Bootstrapping $uid user account.."
