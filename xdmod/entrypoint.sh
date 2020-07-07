@@ -10,6 +10,9 @@ then
     echo "---> Starting SSSD on xdmod ..."
     /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
 
+    echo "---> Starting sshd on xdmod..."
+    /usr/sbin/sshd -e
+
     echo "---> Starting the MUNGE Authentication service (munged) on xdmod ..."
     gosu munge /usr/sbin/munged
 
@@ -27,6 +30,9 @@ then
         #------------------------
         # Run xdmod-setup
         #------------------------
+        echo "---> Setup XDMoD SSO..."
+        /srv/xdmod/scripts/xdmod-setup-sso.sh
+
         expect /srv/xdmod/scripts/xdmod-setup-start.tcl | col -b
         expect /srv/xdmod/scripts/xdmod-setup-jobs.tcl | col -b
         expect /srv/xdmod/scripts/xdmod-setup-finish.tcl | col -b
@@ -39,9 +45,6 @@ then
         xdmod-slurm-helper -v -r hpc
         xdmod-ingestor -v
     fi
-
-    echo "---> Starting sshd on xdmod..."
-    /usr/sbin/sshd -e
 
     echo "---> Starting XDMoD..."
     /usr/sbin/httpd -DFOREGROUND
