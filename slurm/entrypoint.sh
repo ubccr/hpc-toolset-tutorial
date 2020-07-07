@@ -91,9 +91,6 @@ then
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
 
-    echo "---> Starting sshd on the frontend..."
-    /usr/sbin/sshd -D -e
-
     until scontrol ping | grep UP 2>&1 > /dev/null
     do
         echo "-- Waiting for slurmctld to become active ..."
@@ -112,6 +109,10 @@ then
         sacctmgr -i add user sfoster DefaultAccount=sfoster;
         sacctmgr -i add user astewart DefaultAccount=sfoster;
     fi
+
+    echo "---> Starting sshd on the frontend..."
+    /usr/sbin/sshd -D -e
+
 fi
 
 exec "$@"
