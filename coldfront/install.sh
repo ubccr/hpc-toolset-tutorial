@@ -14,11 +14,13 @@ yum install -y \
     memcached \
     nginx \
     openssl \
+    openldap-devel \
     redis
 
 log_info "Creating coldfront system user account.."
 groupadd -r coldfront
-useradd -r -g coldfront -m -c 'coldfront server' coldfront
+useradd -r -g coldfront -m -d /srv/www -c 'coldfront server' coldfront
+chmod 0755 /srv/www
 
 log_info "Installing coldfront.."
 install -d -o coldfront -g coldfront -m 0755 /srv/www/ssl
@@ -28,13 +30,9 @@ python3 -mvenv venv
 source venv/bin/activate
 pushd coldfront
 pip install --upgrade pip
-pip install wheel mysqlclient gunicorn django_pam
+pip install wheel mysqlclient gunicorn python-ldap django_auth_ldap
 pip install -r requirements.txt
 pip install -e .
-
-# This is to allow coldfront to use pam for local logins in docker:
-chmod 640 /etc/shadow
-chgrp nginx /etc/shadow
 
 # Adjust nginx
 log_info "Setting up nginx.."
