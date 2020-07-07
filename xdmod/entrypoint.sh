@@ -30,6 +30,9 @@ then
         #------------------------
         # Run xdmod-setup
         #------------------------
+        echo "---> Setup XDMoD SSO..."
+        /srv/xdmod/scripts/xdmod-setup-sso.sh
+
         expect /srv/xdmod/scripts/xdmod-setup-start.tcl | col -b
         expect /srv/xdmod/scripts/xdmod-setup-jobs.tcl | col -b
         expect /srv/xdmod/scripts/xdmod-setup-finish.tcl | col -b
@@ -42,9 +45,6 @@ then
         xdmod-slurm-helper -v -r hpc
         xdmod-ingestor -v
     fi
-
-    echo "---> Setup XDMoD SSO..."
-    /srv/xdmod/scripts/xdmod-setup-sso.sh
 
     echo "---> Starting XDMoD..."
     /usr/sbin/httpd -DFOREGROUND
