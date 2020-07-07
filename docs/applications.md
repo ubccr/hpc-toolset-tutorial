@@ -38,11 +38,25 @@ shell on the frontend container.
 
 ### XDMoD
 
-Login to XDMoD
+XDMoD in this setup is configured with SSO (Signle Sign On).
 
 Point your browser at the XDMoD container https://localhost:4443
 
-You can login with user: `admin` password: `admin`
+#### Login as a User
+
+* Click Sign In in the top left
+* Click `Login Here` to use any of the above user accounts.
+  * This will redirect you to a page that looks VERY different, this is safe the domain will still be https://localhost:4443
+
+#### Login as an Administrator
+
+* Expand Sign in with a local XDMoD
+* Login with user: `admin` password: `admin`
+
+#### Logout
+Because XDMoD is configured for SSO if you want to switch between users you will either need to clear your cookies or use the following link:
+
+https://localhost:4443/simplesaml/module.php/core/authenticate.php?as=xdmod-sp&logout
 
 ### Cluster Frontend
 
