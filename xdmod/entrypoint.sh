@@ -8,6 +8,8 @@ pass=ofbatgorWep0
 if [ "$1" = "serve" ]
 then
     echo "---> Starting SSSD on xdmod ..."
+    # Sometimes on shutdown pid still exists, so delete it
+    rm -f /var/run/sssd.pid
     /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) on xdmod ..."
@@ -44,6 +46,8 @@ then
     /usr/sbin/sshd -e
 
     echo "---> Starting XDMoD..."
+    # Sometimes on shutdown pid still exists, so delete it
+    rm -f /var/run/httpd/httpd.pid
     /usr/sbin/httpd -DFOREGROUND
 
 fi
