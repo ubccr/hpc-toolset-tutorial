@@ -4,10 +4,15 @@ set -e
 if [ "$1" = "slurmdbd" ]
 then
     echo "---> Starting SSSD ..."
+    # Sometimes on shutdown pid still exists, so delete it
+    rm -f /var/run/sssd.pid
     /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
+
+    echo "---> Starting sshd on the slurmdbd..."
+    /usr/sbin/sshd -e
 
     echo "---> Starting the Slurm Database Daemon (slurmdbd) ..."
 
@@ -21,19 +26,21 @@ then
     }
     echo "-- Database is now active ..."
 
-    echo "---> Starting sshd on the slurmdbd..."
-    /usr/sbin/sshd -e
-
     exec gosu slurm /usr/sbin/slurmdbd -Dv
 fi
 
 if [ "$1" = "slurmctld" ]
 then
     echo "---> Starting SSSD ..."
+    # Sometimes on shutdown pid still exists, so delete it
+    rm -f /var/run/sssd.pid
     /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
+
+    echo "---> Starting sshd on the slurmctld..."
+    /usr/sbin/sshd -e
 
     echo "---> Waiting for slurmdbd to become active before starting slurmctld ..."
 
@@ -44,9 +51,6 @@ then
     done
     echo "-- slurmdbd is now active ..."
 
-    echo "---> Starting sshd on the slurmctld..."
-    /usr/sbin/sshd -e
-
     echo "---> Starting the Slurm Controller Daemon (slurmctld) ..."
     exec gosu slurm /usr/sbin/slurmctld -Dv
 fi
@@ -54,10 +58,15 @@ fi
 if [ "$1" = "slurmd" ]
 then
     echo "---> Starting SSSD ..."
+    # Sometimes on shutdown pid still exists, so delete it
+    rm -f /var/run/sssd.pid
     /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
+
+    echo "---> Starting sshd on the slurmd..."
+    /usr/sbin/sshd -e
 
     echo "---> Waiting for slurmctld to become active before starting slurmd..."
 
@@ -68,9 +77,6 @@ then
     done
     echo "-- slurmctld is now active ..."
 
-    echo "---> Starting sshd on the slurmd..."
-    /usr/sbin/sshd -e
-
     echo "---> Starting the Slurm Node Daemon (slurmd) ..."
     exec /usr/sbin/slurmd -Dv
 fi
@@ -78,6 +84,8 @@ fi
 if [ "$1" = "frontend" ]
 then
     echo "---> Starting SSSD ..."
+    # Sometimes on shutdown pid still exists, so delete it
+    rm -f /var/run/sssd.pid
     /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) ..."
@@ -104,6 +112,7 @@ then
 
     echo "---> Starting sshd on the frontend..."
     /usr/sbin/sshd -D -e
+
 fi
 
 exec "$@"

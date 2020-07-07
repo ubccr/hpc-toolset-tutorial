@@ -7,6 +7,8 @@ then
     /usr/bin/ssh-keyscan frontend >> /etc/ssh/ssh_known_hosts
 
     echo "---> Starting SSSD on ondemand ..."
+    # Sometimes on shutdown pid still exists, so delete it
+    rm -f /var/run/sssd.pid
     /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) on ondemand ..."
@@ -19,6 +21,8 @@ then
     gosu ondemand-dex /usr/sbin/ondemand-dex serve /etc/ood/dex/config.yaml &
 
     echo "---> Starting ondemand httpd24..."
+    # Sometimes on shutdown pid still exists, so delete it
+    rm -f /opt/rh/httpd24/root/var/run/httpd/httpd.pid
     /opt/rh/httpd24/root/usr/sbin/httpd-scl-wrapper -DFOREGROUND
 fi
 

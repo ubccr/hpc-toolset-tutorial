@@ -4,7 +4,12 @@ set -e
 if [ "$1" = "serve" ]
 then
     echo "---> Starting SSSD on coldfront ..."
+    # Sometimes on shutdown pid still exists, so delete it
+    rm -f /var/run/sssd.pid
     /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
+
+    echo "---> Starting sshd on coldfront..."
+    /usr/sbin/sshd -e
 
     echo "---> Starting the MUNGE Authentication service (munged) on coldfront ..."
     gosu munge /usr/sbin/munged
@@ -28,9 +33,6 @@ then
         echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@localhost', 'admin')" | \
                /srv/www/coldfront/manage.py shell
     fi
-
-    echo "---> Starting sshd on coldfront..."
-    /usr/sbin/sshd -e
 
     echo "---> Starting nginx on coldfront..."
     /sbin/nginx
