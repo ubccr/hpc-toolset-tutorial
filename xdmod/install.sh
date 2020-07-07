@@ -7,6 +7,9 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
+
+# php-ldap is installed for XDMoD SSO via LDAP
+# See https://open.xdmod.org for more information
 log_info "Installing required packages for xdmod.."
 yum install -y epel-release
 yum install -y \
@@ -15,7 +18,8 @@ yum install -y \
     php-pear-MDB2 php-pear-MDB2-Driver-mysql \
     java-1.8.0-openjdk java-1.8.0-openjdk-devel \
     mariadb-server mariadb cronie logrotate expect \
-    ghostscript php-mbstring php-pecl-apcu jq
+    ghostscript php-mbstring php-pecl-apcu jq \
+    php-ldap
 
 #------------------------
 # XDMoD Installation 

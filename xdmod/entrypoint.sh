@@ -10,6 +10,9 @@ then
     echo "---> Starting SSSD on xdmod ..."
     /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
 
+    echo "---> Starting sshd on xdmod..."
+    /usr/sbin/sshd -e
+
     echo "---> Starting the MUNGE Authentication service (munged) on xdmod ..."
     gosu munge /usr/sbin/munged
 
@@ -40,8 +43,8 @@ then
         xdmod-ingestor -v
     fi
 
-    echo "---> Starting sshd on xdmod..."
-    /usr/sbin/sshd -e
+    echo "---> Setup XDMoD SSO..."
+    /srv/xdmod/scripts/xdmod-setup-sso.sh
 
     echo "---> Starting XDMoD..."
     /usr/sbin/httpd -DFOREGROUND
