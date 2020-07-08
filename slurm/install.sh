@@ -27,6 +27,12 @@ yum install -y \
     mariadb-devel \
     python3
 
+log_info "Installing compute packages .."
+yum install -y https://yum.osc.edu/ondemand/latest/ondemand-release-compute-latest-1-6.noarch.rpm
+yum install -y \
+  ondemand-compute
+yum groupinstall -y "Xfce"
+
 log_info "Compiling slurm version $SLURM_VERSION.."
 curl -o /tmp/slurm-${SLURM_VERSION}.tar.bz2 https://download.schedmd.com/slurm/slurm-${SLURM_VERSION}.tar.bz2
 pushd /tmp

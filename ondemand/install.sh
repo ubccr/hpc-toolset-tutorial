@@ -20,6 +20,7 @@ yum install -y \
 log_info "Setting up Ondemand"
 mkdir -p /etc/ood/config/clusters.d
 mkdir -p /etc/ood/config/apps/shell
+mkdir -p /etc/ood/config/apps/bc_desktop
 echo "DEFAULT_SSHHOST=frontend" > /etc/ood/config/apps/shell/env
 
 log_info "Configuring Ondemand ood_portal.yml .."
@@ -36,6 +37,8 @@ port: 3443
 ssl:
   - 'SSLCertificateFile "/etc/pki/tls/certs/ood.crt"'
   - 'SSLCertificateKeyFile "/etc/pki/tls/private/ood.key"'
+node_uri: "/node"
+rnode_uri: "/rnode"
 oidc_scope: "openid profile email groups"
 dex:
   connectors:
