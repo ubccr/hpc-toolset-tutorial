@@ -71,6 +71,8 @@ EOF
 
 cat > /etc/sssd/sssd.conf <<EOF
 [domain/default]
+reconnection_retries = 10
+offline_timeout = 1
 debug_level = 3
 autofs_provider = ldap
 ldap_schema = rfc2307bis
@@ -91,10 +93,12 @@ services = nss, pam
 domains = default
 
 [nss]
+reconnection_retries = 10
 debug_level = 3
 homedir_substring = /home
 
 [pam]
+reconnection_retries = 10
 debug_level = 3
 EOF
 
