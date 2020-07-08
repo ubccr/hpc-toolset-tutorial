@@ -24,7 +24,7 @@ yum install -y \
 #------------------------
 # XDMoD Installation 
 #------------------------
-yum install -y https://github.com/ubccr/xdmod/releases/download/v8.5.1/xdmod-8.5.1-1.0.el7.noarch.rpm
+yum install -y https://tas-tools-ext-01.ccr.xdmod.org/9.0.0rc1/xdmod-9.0.0-0.1.rc1.el7.noarch.rpm
 
 sed -i 's/.*date.timezone[[:space:]]*=.*/date.timezone = UTC/' /etc/php.ini
 
