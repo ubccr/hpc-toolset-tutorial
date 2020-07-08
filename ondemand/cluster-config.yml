@@ -9,3 +9,9 @@ v2:
     cluster: "hpc"
     bin: "/usr/bin"
     conf: "/etc/slurm/slurm.conf"
+  batch_connect:
+    vnc:
+      script_wrapper: |
+        export PATH="/opt/TurboVNC/bin:$PATH"
+        export WEBSOCKIFY_CMD="/usr/bin/websockify"
+        %s
