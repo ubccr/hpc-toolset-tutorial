@@ -218,6 +218,7 @@ services:
     ports:
       - "127.0.0.1:4443:443"
     depends_on:
+      - mongodb
       - ldap
       - mysql
       - frontend
