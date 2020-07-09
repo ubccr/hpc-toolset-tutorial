@@ -17,6 +17,14 @@ proc answerQuestion { question response } {
 	send $response\n
 }
 
+proc answerQuestionAlt { question response } {
+	expect {
+		timeout { send_user "\nFailed to get prompt\n"; exit 1 }
+        -re "\n$question \\\[.*\\\] "
+	}
+	send $response\n
+}
+
 proc provideInput { prompt response } {
 	expect {
 		timeout { send_user "\nFailed to get prompt\n"; exit 1 }

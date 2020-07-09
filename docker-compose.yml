@@ -24,6 +24,20 @@ services:
     depends_on:
       - ldap
 
+  mongodb:
+    image: mongo:3.6.18
+    hostname: mongodb
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=hBbeOfpFLfFT5ZO
+    networks:
+      - compute
+    volumes:
+      - ./mongodb:/docker-entrypoint-initdb.d 
+      - data_db:/data/db
+    expose:
+      - "27017"
   mysql:
     image: mariadb:$MARIADB_VERSION
     hostname: mysql
@@ -204,6 +218,7 @@ services:
     ports:
       - "127.0.0.1:4443:443"
     depends_on:
+      - mongodb
       - ldap
       - mysql
       - frontend
@@ -213,6 +228,7 @@ volumes:
   etc_slurm:
   home:
   var_lib_mysql:
+  data_db:
   srv_www:
 
 networks:

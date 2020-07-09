@@ -36,11 +36,10 @@ You can login with any of the local system accounts that were created. Click on
 "Clusters" and then "HPC Cluster Shell Access" and you should have a login
 shell on the frontend container.
 
-### XDMoD
+### Open XDMoD
+Open XDMoD in this setup is configured with SSO (Signle Sign On).
 
-XDMoD in this setup is configured with SSO (Signle Sign On).
-
-Point your browser at the XDMoD container https://localhost:4443
+Point your browser at the Open XDMoD container https://localhost:4443
 
 #### Login as a User
 
@@ -54,7 +53,7 @@ Point your browser at the XDMoD container https://localhost:4443
 * Login with user: `admin` password: `admin`
 
 #### Logout
-Because XDMoD is configured for SSO if you want to switch between users you will either need to clear your cookies or use the following link:
+Because Open XDMoD is configured for SSO if you want to switch between users you will either need to clear your cookies or use the following link:
 
 https://localhost:4443/simplesaml/module.php/core/authenticate.php?as=xdmod-sp&logout
 
