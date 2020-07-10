@@ -77,7 +77,7 @@ openssl genrsa -out /etc/pki/tls/ca.key 4096
 openssl req -new -x509 -days 3650 -sha256 -key /etc/pki/tls/ca.key -extensions v3_ca -out /etc/pki/tls/ca.crt -subj "/CN=fake-ca"
 # Generate certificate request
 openssl genrsa -out /etc/pki/tls/private/ood.key 2048
-openssl req -new -sha256 -key /etc/pki/tls/private/ood.key -out /etc/pki/tls/certs/ood.csr -subj "/C=US/ST=NY/O=HPC Tutorial/CN=ondemand"
+openssl req -new -sha256 -key /etc/pki/tls/private/ood.key -out /etc/pki/tls/certs/ood.csr -subj "/C=US/ST=NY/O=HPC Tutorial/CN=localhost"
 # Config for signing cert
 cat > /etc/pki/tls/ood.ext << EOF
 authorityKeyIdentifier=keyid,issuer
