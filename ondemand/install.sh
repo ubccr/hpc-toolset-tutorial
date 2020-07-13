@@ -14,8 +14,7 @@ yum install -y \
 
 yum install -y \
     ondemand \
-    ondemand-dex \
-    openssl
+    ondemand-dex
 
 log_info "Setting up Ondemand"
 mkdir -p /etc/ood/config/clusters.d
@@ -35,8 +34,8 @@ listen_addr_port:
 servername: localhost
 port: 3443
 ssl:
-  - 'SSLCertificateFile "/etc/pki/tls/certs/ood.crt"'
-  - 'SSLCertificateKeyFile "/etc/pki/tls/private/ood.key"'
+  - 'SSLCertificateFile "/etc/pki/tls/certs/localhost.crt"'
+  - 'SSLCertificateKeyFile "/etc/pki/tls/private/localhost.key"'
 node_uri: "/node"
 rnode_uri: "/rnode"
 oidc_scope: "openid profile email groups"
@@ -69,30 +68,6 @@ dex:
   frontend:
     theme: ondemand
 EOF
-
-log_info "Creating self-signed ssl cert for ondemand.."
-# Dex expects a trusted CA cert is used
-# Generate CA
-openssl genrsa -out /etc/pki/tls/ca.key 4096
-openssl req -new -x509 -days 3650 -sha256 -key /etc/pki/tls/ca.key -extensions v3_ca -out /etc/pki/tls/ca.crt -subj "/CN=fake-ca"
-# Generate certificate request
-openssl genrsa -out /etc/pki/tls/private/ood.key 2048
-openssl req -new -sha256 -key /etc/pki/tls/private/ood.key -out /etc/pki/tls/certs/ood.csr -subj "/C=US/ST=NY/O=HPC Tutorial/CN=localhost"
-# Config for signing cert
-cat > /etc/pki/tls/ood.ext << EOF
-authorityKeyIdentifier=keyid,issuer
-basicConstraints=CA:FALSE
-keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = ondemand
-DNS.2 = localhost
-EOF
-# Sign cert request and generate cert
-openssl x509 -req -in /etc/pki/tls/certs/ood.csr -CA /etc/pki/tls/ca.crt -CAkey /etc/pki/tls/ca.key -CAcreateserial -out /etc/pki/tls/certs/ood.crt -days 365 -sha256 -extfile /etc/pki/tls/ood.ext
-# Add CA to trust store
-cp /etc/pki/tls/ca.crt /etc/pki/ca-trust/source/anchors/
-update-ca-trust extract
 
 log_info "Generating new httpd24 and dex configs.."
 /opt/ood/ood-portal-generator/sbin/update_ood_portal

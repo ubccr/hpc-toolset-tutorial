@@ -40,10 +40,6 @@ yum install -y https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/RPMS
 pip install pexpect==4.4.0
 pip install pymongo --upgrade
 
-# Create self-signed ssl cert
-log_info "Creating self-signed ssl cert for xdmod.."
-openssl req -x509 -nodes -days 365 -subj "/C=US/ST=NY/O=HPC Tutorial/CN=xdmod" -newkey rsa:2048 -keyout /etc/pki/tls/private/xdmod.key -out /etc/pki/tls/certs/xdmod.crt
-
 rm -f /etc/httpd/conf.d/ssl.conf
 
 #------------------------

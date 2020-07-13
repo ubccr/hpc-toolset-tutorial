@@ -2,7 +2,7 @@
 
 mkdir -p /etc/xdmod/simplesamlphp/{config,metadata,cert}
 
-certString=`cat /etc/pki/tls/certs/xdmod.crt | head -n-1 | tail -n+2 | tr -d '\n'`
+certString=`cat /etc/pki/tls/certs/localhost.crt | head -n-1 | tail -n+2 | tr -d '\n'`
 
 cat << EOF > /etc/xdmod/simplesamlphp/metadata/saml20-idp-remote.php
 <?php
