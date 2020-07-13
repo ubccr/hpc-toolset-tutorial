@@ -74,7 +74,7 @@ cat > /etc/sssd/sssd.conf <<EOF
 [domain/default]
 reconnection_retries = 10
 offline_timeout = 1
-debug_level = 3
+debug_level = 2
 autofs_provider = ldap
 ldap_schema = rfc2307bis
 ldap_group_member = member
@@ -82,6 +82,7 @@ ldap_search_base = dc=example,dc=org
 id_provider = ldap
 auth_provider = ldap
 chpass_provider = ldap
+sudo_provider = none
 ldap_uri = ldaps://ldap:636
 cache_credentials = True
 ldap_tls_reqcert = never
@@ -89,18 +90,18 @@ ldap_default_bind_dn = cn=admin,dc=example,dc=org
 ldap_default_authtok = admin
 
 [sssd]
-debug_level = 3
+debug_level = 2
 services = nss, pam
 domains = default
 
 [nss]
 reconnection_retries = 10
-debug_level = 3
+debug_level = 2
 homedir_substring = /home
 
 [pam]
 reconnection_retries = 10
-debug_level = 3
+debug_level = 2
 EOF
 
 #------------------------

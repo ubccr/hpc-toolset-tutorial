@@ -9,7 +9,7 @@ then
     echo "---> Starting SSSD on ondemand ..."
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /var/run/sssd.pid
-    /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
+    /sbin/sssd --logger=stderr -d 2 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) on ondemand ..."
     gosu munge /usr/sbin/munged

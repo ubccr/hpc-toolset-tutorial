@@ -6,7 +6,7 @@ then
     echo "---> Starting SSSD ..."
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /var/run/sssd.pid
-    /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
+    /sbin/sssd --logger=stderr -d 2 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
@@ -34,7 +34,7 @@ then
     echo "---> Starting SSSD ..."
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /var/run/sssd.pid
-    /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
+    /sbin/sssd --logger=stderr -d 2 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
@@ -60,7 +60,7 @@ then
     echo "---> Starting SSSD ..."
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /var/run/sssd.pid
-    /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
+    /sbin/sssd --logger=stderr -d 2 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
@@ -92,7 +92,7 @@ then
     echo "---> Starting SSSD ..."
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /var/run/sssd.pid
-    /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
+    /sbin/sssd --logger=stderr -d 2 -i 2>&1 &
 
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     gosu munge /usr/sbin/munged
