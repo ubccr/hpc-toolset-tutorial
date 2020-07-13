@@ -33,7 +33,8 @@ yum install -y \
     vim \
     openldap-clients \
     sssd \
-    authconfig
+    authconfig \
+    openssl
 
 #------------------------
 # Generate ssh host keys
@@ -138,6 +139,30 @@ log_info "Installing gosu.."
 wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64"
 chmod +x /usr/local/bin/gosu
 gosu nobody true
+
+log_info "Creating self-signed ssl certs.."
+# Generate CA
+openssl genrsa -out /etc/pki/tls/ca.key 4096
+openssl req -new -x509 -days 3650 -sha256 -key /etc/pki/tls/ca.key -extensions v3_ca -out /etc/pki/tls/ca.crt -subj "/CN=fake-ca"
+# Generate certificate request
+openssl genrsa -out /etc/pki/tls/private/localhost.key 2048
+openssl req -new -sha256 -key /etc/pki/tls/private/localhost.key -out /etc/pki/tls/certs/localhost.csr -subj "/C=US/ST=NY/O=HPC Tutorial/CN=localhost"
+# Config for signing cert
+cat > /etc/pki/tls/localhost.ext << EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = localhost
+EOF
+# Sign cert request and generate cert
+openssl x509 -req -CA /etc/pki/tls/ca.crt -CAkey /etc/pki/tls/ca.key -CAcreateserial \
+  -in /etc/pki/tls/certs/localhost.csr -out /etc/pki/tls/certs/localhost.crt \
+  -days 365 -sha256 -extfile /etc/pki/tls/localhost.ext
+# Add CA to trust store
+cp /etc/pki/tls/ca.crt /etc/pki/ca-trust/source/anchors/
+update-ca-trust extract
 
 yum clean all
 rm -rf /var/cache/yum

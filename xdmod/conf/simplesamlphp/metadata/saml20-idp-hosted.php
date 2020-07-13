@@ -11,8 +11,8 @@
      * The private key and certificate to use when signing responses.
      * These are stored in the cert-directory.
      */
-    'privatekey' => 'private/xdmod.key',
-    'certificate' => 'certs/xdmod.crt',
+    'privatekey' => 'private/localhost.key',
+    'certificate' => 'certs/localhost.crt',
 
     /*
      * The authentication source which should be used to authenticate the
