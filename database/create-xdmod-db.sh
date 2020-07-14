@@ -11,7 +11,7 @@ EOF
 
 echo "Creating xdmod databases.."
 
-for db in mod_hpcdb mod_logger mod_shredder moddb modw modw_aggregates modw_filters
+for db in mod_hpcdb mod_logger mod_shredder moddb modw modw_aggregates modw_filters modw_supremm modw_etl modw_jobefficiency
 do
     echo "Creating $db database.."
     echo "create database if not exists $db" | mysql -uroot

@@ -6,7 +6,7 @@ then
     echo "---> Starting SSSD on coldfront ..."
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /var/run/sssd.pid
-    /sbin/sssd --logger=stderr -d 3 -i 2>&1 &
+    /sbin/sssd --logger=stderr -d 2 -i 2>&1 &
 
     echo "---> Starting sshd on coldfront..."
     /usr/sbin/sshd -e
