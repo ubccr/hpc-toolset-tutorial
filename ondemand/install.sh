@@ -103,3 +103,7 @@ rm -rf /var/cache/yum
 log_info "Cloning repos to assist with app development.."
 mkdir -p /var/git
 git clone https://github.com/OSC/bc_example_jupyter.git --bare /var/git/bc_example_jupyter
+
+log_info "Enabling app development for hpcadmin..."
+mkdir -p /var/www/ood/apps/dev/hpcadmin
+ln -s /home/hpcadmin/ondemand/dev /var/www/ood/apps/dev/hpcadmin/gateway
