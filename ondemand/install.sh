@@ -44,7 +44,7 @@ rnode_uri: "/rnode"
 oidc_scope: "openid profile email groups"
 dex:
   client_redirect_uris:
-    - "https://localhost:4443/simplesaml/module.php/authglobus/linkback.php"
+    - "https://localhost:4443/simplesaml/module.php/authoidcoauth2/linkback.php"
     - "https://localhost:2443/oidc/callback/"
   client_secret: 334389048b872a533002b34d73f8c29fd09efc50
   client_id: localhost

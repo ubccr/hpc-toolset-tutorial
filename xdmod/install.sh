@@ -24,8 +24,8 @@ yum install -y \
 #------------------------
 # XDMoD Installation 
 #------------------------
-yum install -y https://tas-tools-ext-01.ccr.xdmod.org/9.0.0rc1/xdmod-9.0.0-0.1.rc1.el7.noarch.rpm \
-               https://tas-tools-ext-01.ccr.xdmod.org/9.0.0rc1/xdmod-supremm-9.0.0-0.1.rc1.el7.noarch.rpm \
+yum install -y https://tas-tools-ext-01.ccr.xdmod.org/9.0.0rc2/xdmod-9.0.0-0.2.rc2.el7.noarch.rpm \
+               https://tas-tools-ext-01.ccr.xdmod.org/9.0.0rc2/xdmod-supremm-9.0.0-0.2.rc2.el7.noarch.rpm \
                https://github.com/ubccr/supremm/releases/download/1.4.0rc01/supremm-1.4.0-rc01.el7.x86_64.rpm
 
 sed -i 's/.*date.timezone[[:space:]]*=.*/date.timezone = UTC/' /etc/php.ini
