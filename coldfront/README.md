@@ -32,6 +32,8 @@ NOTE: you can also install ColdFront using pip.  See the github repo for more de
 - Activate the allocation and set the appropriate allocation attributes:  
 `slurm_account:cgray, slurm_specs:Fairshare=100, slurm_user_specs:Fairshare=parent`
 
+![ColdFront demo](../docs/cf_demo.gif)
+
 ## Run slurm plugin to sync active allocations from ColdFront to slurm
 - Login to the frontend container first, then to the coldfront container:  
 `ssh -p 6222 hpcadmin@localhost`  
@@ -63,14 +65,14 @@ NOTE: you can also install ColdFront using pip.  See the github repo for more de
 `ps -ef |grep cgray`  
 
 ## Login to OnDemand website
-- URL https://localhost:3443/ (cgray:test123)
+- Login to Open OnDemand as ` cgray (test123)`  https://localhost:3443/
 - Go to Active Jobs and click on your running job
 - Delete (cancel) the job
 - Submit a job using job template
 - Launch an interactive Job
 
 ## Login to XDMoD website
-- URL  https://localhost:4443/ (cgray:test123)
+- Login to Open XDMoD as `cgray (test123)`  https://localhost:4443/
 - Change date to include today
 - There is currently no data in XDMoD
 
@@ -92,17 +94,17 @@ summarize_jobs.py
 aggregate_supremm.sh
 ```
 
-**Note: More information about this script in the Open XDMoD portion of this tutorial
+**Note: More information about this script in the Open XDMoD portion of this tutorial**
 
 ## Login to Open XDMoD website
-- URL  https://localhost:4443/ (cgray:test123)
+- Login to Open XDMoD as `cgray (test123)`  https://localhost:4443/
 - Change date to include today
 - You should see the data from the job you just ran
 
 ## Adding new users to project & allocation (time permitting)
-- Login to ColdFront as csimmons (ilovelinux) https://localhost:2443/
+- Login to ColdFront as `csimmons (ilovelinux)` https://localhost:2443/
 - Notice there are no projects and no allocations.  Logout
-- Login as cgray (test123)
+- Login as `cgray (test123)`
 - Click on project
 - Click on Add User - search for `csimmons`
 - Add to allocation
@@ -124,6 +126,6 @@ aggregate_supremm.sh
 
 
 ## Tutorial Navigation
-[Next - Open XDMoD](../xdmod/README.md)
-[Previous Step - Accessing the Applications](../docs/applications.md)
+[Next - Open XDMoD](../xdmod/README.md)  
+[Previous Step - Accessing the Applications](../docs/applications.md)  
 [Back to Start](../README.md)
