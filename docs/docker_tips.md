@@ -70,10 +70,19 @@ or
 $ docker-compose up -d
 ```
 
-### Deleting Docker images
+### Deleting Docker containers/images/volumes
 If you really want to clean up images and start fresh:  
 `docker image list`  
-`docker image rm XX` (XX=image id)
+`docker image rm XX` (XX=image id)  
+`docker container list`  
+`docker container rm XX` (XX=container id)  
+`docker volume list`  
+`docker volume rm XX` (XX=volume id)
+
+If you're getting an error about volumes in use but there is nothing running, stop docker, manually delete the files, and start docker:  
+`sudo systemctl stop docker`  
+`sudo rm /var/lib/docker/volumes/XXX` (XXX=name of volume)  
+`sudo systemctl start docker`  
 
 ### Finding IP address of container
 
