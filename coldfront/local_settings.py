@@ -153,34 +153,46 @@ LOCAL_SETTINGS_EXPORT = []
 #------------------------------------------------------------------------------
 EXTRA_AUTHENTICATION_BACKENDS += ['django_su.backends.SuBackend',]
 
+#------------------------------------------------------------------------------
+# Example config for OAuth2/OpenID Authentication. This configuration 
+# authenticates against Dex (provided in the ondemand container). 
+#------------------------------------------------------------------------------
+EXTRA_APPS += [
+    'mozilla_django_oidc',
+]
+
+EXTRA_AUTHENTICATION_BACKENDS += [
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+]
+
+EXTRA_MIDDLEWARE += [
+    'mozilla_django_oidc.middleware.SessionRefresh',
+]
+
+OIDC_OP_JWKS_ENDPOINT = "https://ondemand:5554/keys"
+OIDC_RP_SIGN_ALGO = 'RS256'
+OIDC_RP_CLIENT_ID = 'coldfront'
+OIDC_RP_CLIENT_SECRET = 'fY8MwkYymslM5aKTllcDTKUNgTmYgPQDwQ1GSSwTWX24Qsh4D1hbyDuyK7QnbHj3'
+OIDC_OP_AUTHORIZATION_ENDPOINT = "https://localhost:5554/auth"
+OIDC_OP_TOKEN_ENDPOINT = "https://ondemand:5554/token"
+OIDC_OP_USER_ENDPOINT = "https://ondemand:5554/userinfo"
+OIDC_VERIFY_SSL = False
+OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = 60 * 60
+
+def generate_username(email):
+    # XXX This is a simple example to generate usernames. Do not use in production
+    return email.split('@')[0]
+
+OIDC_USERNAME_ALGO=generate_username
 
 #------------------------------------------------------------------------------
-# Example config for enabling LDAP user authentication using django-auth-ldap.
-# This will enable LDAP user/password logins.
+# Example config for enabling LDAP user search (connects to the LDAP container)
 #------------------------------------------------------------------------------
-import ldap
-from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
-
-AUTH_LDAP_SERVER_URI = 'ldap://ldap'
-AUTH_LDAP_USER_SEARCH_BASE = 'ou=People,dc=example,dc=org'
-AUTH_LDAP_START_TLS = True
-AUTH_LDAP_BIND_DN = 'cn=admin,dc=example,dc=org'
-AUTH_LDAP_BIND_PASSWORD = 'admin'
-AUTH_LDAP_MIRROR_GROUPS = True
-AUTH_LDAP_USER_SEARCH = LDAPSearch(
-    AUTH_LDAP_USER_SEARCH_BASE, ldap.SCOPE_ONELEVEL, '(uid=%(user)s)')
-AUTH_LDAP_GROUP_SEARCH_BASE = 'ou=Groups,dc=example,dc=org'
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
-    AUTH_LDAP_GROUP_SEARCH_BASE, ldap.SCOPE_ONELEVEL, '(objectClass=groupOfMembers)')
-AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
-AUTH_LDAP_USER_ATTR_MAP = {
-    'username': 'uid',
-    'first_name': 'cn',
-    'last_name': 'sn',
-    'email': 'mail',
-}
-
-EXTRA_AUTHENTICATION_BACKENDS += ['django_auth_ldap.backend.LDAPBackend',]
+LDAP_SERVER_URI = 'ldap://ldap'
+LDAP_USER_SEARCH_BASE = 'ou=People,dc=example,dc=org'
+LDAP_BIND_DN = 'cn=admin,dc=example,dc=org'
+LDAP_BIND_PASSWORD = 'admin'
+ADDITIONAL_USER_SEARCH_CLASSES = ['coldfront.plugins.ldap_user_search.utils.LDAPUserSearch',]
 
 # ------------------------------------------------------------------------------
 # Enable invoice functionality

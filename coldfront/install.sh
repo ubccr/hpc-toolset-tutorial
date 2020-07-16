@@ -30,7 +30,7 @@ python3 -mvenv venv
 source venv/bin/activate
 pushd coldfront
 pip install --upgrade pip
-pip install wheel mysqlclient gunicorn python-ldap django_auth_ldap
+pip install wheel mysqlclient gunicorn python-ldap ldap3 mozilla_django_oidc
 pip install -r requirements.txt
 pip install -e .
 
