@@ -34,7 +34,8 @@ yum install -y \
     openldap-clients \
     sssd \
     authconfig \
-    openssl
+    openssl \
+    bash-completion
 
 #------------------------
 # Generate ssh host keys
