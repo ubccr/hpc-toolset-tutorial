@@ -78,7 +78,7 @@ NOTE: you can also install ColdFront using pip.  See the github repo https://git
 ![ColdFront OnDemand demo](../docs/cf_demo2.gif)
 
 
-## Login to XDMoD website
+## Login to Open XDMoD website
 - Login to Open XDMoD as `cgray (test123)`  https://localhost:4443/
 - Change date to include today
 - There is currently no data in XDMoD
