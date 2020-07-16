@@ -20,7 +20,10 @@ log_info "Setting up Ondemand"
 mkdir -p /etc/ood/config/clusters.d
 mkdir -p /etc/ood/config/apps/shell
 mkdir -p /etc/ood/config/apps/bc_desktop
+mkdir -p /etc/ood/config/apps/dashboard
 echo "DEFAULT_SSHHOST=frontend" > /etc/ood/config/apps/shell/env
+echo "OOD_SSHHOST_ALLOWLIST=ondemand" >> /etc/ood/config/apps/shell/env
+echo "OOD_DEV_SSH_HOST=ondemand" >> /etc/ood/config/apps/dashboard/env
 
 log_info "Configuring Ondemand ood_portal.yml .."
 
@@ -82,3 +85,4 @@ git clone https://github.com/OSC/bc_example_jupyter.git --bare /var/git/bc_examp
 log_info "Enabling app development for hpcadmin..."
 mkdir -p /var/www/ood/apps/dev/hpcadmin
 ln -s /home/hpcadmin/ondemand/dev /var/www/ood/apps/dev/hpcadmin/gateway
+echo 'if [[ ${HOSTNAME} == ondemand ]]; then source scl_source enable ondemand; fi' >> /home/hpcadmin/.bash_profile
