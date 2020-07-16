@@ -44,20 +44,20 @@ then
         expect /srv/xdmod/scripts/xdmod-setup-finish.tcl | col -b
 
         echo "Open XDMoD Import: Hierarchy"
-        xdmod-import-csv -t hierarchy -i /srv/xdmod/hierarchy.csv
+        sudo -u xdmod xdmod-import-csv -t hierarchy -i /srv/xdmod/hierarchy.csv
 
         #------------------------
         # Ingest slurm job data
         #------------------------
         echo "---> Open XDMoD Import: slurm hpc"
-        xdmod-slurm-helper -r hpc
+        sudo -u xdmod xdmod-slurm-helper -r hpc
         echo "---> Open XDMoD: Ingest"
-        xdmod-ingestor
+        sudo -u xdmod xdmod-ingestor
 
         echo "---> Open XDMoD Setup: Job Performance"
         expect /srv/xdmod/scripts/xdmod-setup-supremm.tcl | col -b
         echo "---> Open XDMoD Aggregate: Job Performance"
-        aggregate_supremm.sh
+        sudo -u xdmod aggregate_supremm.sh
 
         echo "---> supremm setup"
         export TERMINFO=/bin/bash

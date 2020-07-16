@@ -71,7 +71,7 @@ NOTE: you can also install ColdFront using pip.  See the github repo for more de
 - Submit a job using job template
 - Launch an interactive Job
 
-## Login to XDMoD website
+## Login to Open XDMoD website
 - Login to Open XDMoD as `cgray (test123)`  https://localhost:4443/
 - Change date to include today
 - There is currently no data in XDMoD
@@ -79,20 +79,7 @@ NOTE: you can also install ColdFront using pip.  See the github repo for more de
 ## Login to Open XDMoD container
 - `ssh hpcadmin@xdmod`
 - In order to see the job data just generated in slurm, we need to ingest the data into Open XDMoD and aggregate it.  This is normally done once a day on a typical system but for the purposes of this demo, we have created a script that you can run now:
-`sudo /srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
-
-The contents of the script are:
-```bash
-#!/bin/bash
-yesterday=`date +%Y-%m-%d --date="-1 day"`
-tomorrow=`date +%Y-%m-%d --date="+1 day"`
-
-xdmod-slurm-helper -r hpc --start-time $yesterday --end-time $tomorrow
-xdmod-ingestor
-indexarchives.py -a
-summarize_jobs.py
-aggregate_supremm.sh
-```
+`sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
 
 **Note: More information about this script in the Open XDMoD portion of this tutorial**
 
