@@ -20,7 +20,10 @@ log_info "Setting up Ondemand"
 mkdir -p /etc/ood/config/clusters.d
 mkdir -p /etc/ood/config/apps/shell
 mkdir -p /etc/ood/config/apps/bc_desktop
+mkdir -p /etc/ood/config/apps/dashboard
 echo "DEFAULT_SSHHOST=frontend" > /etc/ood/config/apps/shell/env
+echo "OOD_SSHHOST_ALLOWLIST=ondemand" >> /etc/ood/config/apps/shell/env
+echo "OOD_DEV_SSH_HOST=ondemand" >> /etc/ood/config/apps/dashboard/env
 
 log_info "Configuring Ondemand ood_portal.yml .."
 
@@ -40,6 +43,15 @@ node_uri: "/node"
 rnode_uri: "/rnode"
 oidc_scope: "openid profile email groups"
 dex:
+  static_clients:
+    - id: xdmod
+      redirectURIs: ["https://localhost:4443/simplesaml/module.php/authglobus/linkback.php"]
+      name: XDMoD
+      secret: 1CyQBbVHkw37nZWJeS65ZeMPwlVXuTtkcj9qlUI7u6KnRoINzhfuBu0NpahKeNKT
+    - id: coldfront
+      redirectURIs: ["https://localhost:2443/oidc/callback/"]
+      name: Coldfront
+      secret: fY8MwkYymslM5aKTllcDTKUNgTmYgPQDwQ1GSSwTWX24Qsh4D1hbyDuyK7QnbHj3
   connectors:
     - type: ldap
       id: ldap
@@ -74,3 +86,12 @@ log_info "Generating new httpd24 and dex configs.."
 
 yum clean all
 rm -rf /var/cache/yum
+
+log_info "Cloning repos to assist with app development.."
+mkdir -p /var/git
+git clone https://github.com/OSC/bc_example_jupyter.git --bare /var/git/bc_example_jupyter
+
+log_info "Enabling app development for hpcadmin..."
+mkdir -p /var/www/ood/apps/dev/hpcadmin
+ln -s /home/hpcadmin/ondemand/dev /var/www/ood/apps/dev/hpcadmin/gateway
+echo 'if [[ ${HOSTNAME} == ondemand ]]; then source scl_source enable ondemand; fi' >> /home/hpcadmin/.bash_profile

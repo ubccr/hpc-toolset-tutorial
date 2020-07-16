@@ -37,7 +37,8 @@ You can login with any of the local system accounts that were created. Click on
 shell on the frontend container.
 
 ### Open XDMoD
-Open XDMoD in this setup is configured with SSO (Signle Sign On).
+Open XDMoD is configured with a local admin account in addition to the
+local system accounts.
 
 Point your browser at the Open XDMoD container https://localhost:4443
 
@@ -45,17 +46,15 @@ Point your browser at the Open XDMoD container https://localhost:4443
 
 * Click Sign In in the top left
 * Click `Login Here` to use any of the above user accounts.
-  * This will redirect you to a page that looks VERY different, this is safe the domain will still be https://localhost:4443
 
 #### Login as an Administrator
 
-* Expand Sign in with a local XDMoD
-* Login with user: `admin` password: `admin`
+* Click Sign In in the top left
+* Expand the "Sign in with a local XDMoD account" menubar
+* Login with Username: `admin` Password: `admin`
 
 #### Logout
-Because Open XDMoD is configured for SSO if you want to switch between users you will either need to clear your cookies or use the following link:
-
-https://localhost:4443/simplesaml/module.php/core/authenticate.php?as=xdmod-sp&logout
+Because Open XDMoD is configured for SSO if you want to switch between users you will either need to clear the browser cookies or close the browser.
 
 ### Cluster Frontend
 
