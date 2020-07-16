@@ -14,9 +14,9 @@ cat << EOF > /etc/xdmod/simplesamlphp/metadata/saml20-idp-remote.php
  * See: https://simplesamlphp.org/docs/stable/simplesamlphp-reference-idp-remote
  */
 
-\$metadata['xdmod-hosted-idp-ldap'] = array (
+\$metadata['xdmod-hosted-idp-dex'] = array (
   'metadata-set' => 'saml20-idp-remote',
-  'entityid' => 'xdmod-hosted-idp-ldap',
+  'entityid' => 'xdmod-hosted-idp-dex',
   'SingleSignOnService' =>
   array (
     0 =>

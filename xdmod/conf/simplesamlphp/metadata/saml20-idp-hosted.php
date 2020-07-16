@@ -1,5 +1,5 @@
 <?php
-  $metadata['xdmod-hosted-idp-ldap'] = array(
+  $metadata['xdmod-hosted-idp-dex'] = array(
     /*
      * The hostname for this IdP. This makes it possible to run multiple
      * IdPs from the same configuration. '__DEFAULT__' means that this one
@@ -18,5 +18,5 @@
      * The authentication source which should be used to authenticate the
      * user. This must match one of the entries in config/authsources.php.
      */
-    'auth' => 'ldap',
+    'auth' => 'dex',
 );
