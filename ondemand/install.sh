@@ -43,15 +43,11 @@ node_uri: "/node"
 rnode_uri: "/rnode"
 oidc_scope: "openid profile email groups"
 dex:
-  static_clients:
-    - id: xdmod
-      redirectURIs: ["https://localhost:4443/simplesaml/module.php/authglobus/linkback.php"]
-      name: XDMoD
-      secret: 1CyQBbVHkw37nZWJeS65ZeMPwlVXuTtkcj9qlUI7u6KnRoINzhfuBu0NpahKeNKT
-    - id: coldfront
-      redirectURIs: ["https://localhost:2443/oidc/callback/"]
-      name: Coldfront
-      secret: fY8MwkYymslM5aKTllcDTKUNgTmYgPQDwQ1GSSwTWX24Qsh4D1hbyDuyK7QnbHj3
+  client_redirect_uris:
+    - "https://localhost:4443/simplesaml/module.php/authglobus/linkback.php"
+    - "https://localhost:2443/oidc/callback/"
+  client_secret: 334389048b872a533002b34d73f8c29fd09efc50
+  client_id: localhost
   connectors:
     - type: ldap
       id: ldap
