@@ -17,7 +17,6 @@ This tutorial will be using the the `hpcadmin` credentials listed in
 Now you should login to Open OnDemand through `https://localhost:3443`.  Note that you'll have to
 accept the self-signed certificates from both Open OnDemand and the identity provider.
 
-
 #### Get a shell session
 
 At some points during this tutorial you'll need to execute commands in a shell session.
@@ -49,6 +48,15 @@ You can navigate to these files [through the Files app with this link](https://l
 or simply Press the "Files" button in Jupyter's row of the sandbox applications table.
 
 IMG NEEDED
+
+You'll also need to setup `git` for the hpcadmin user at this point.
+
+Configure your user email and name so that you can commit changes to the jupyter app.
+
+```shell
+git config --global user.email hpcadmin@localhost
+git config --global user.name "HPC Admin"
+```
 
 ### Get Jupyter Working
 
@@ -84,7 +92,7 @@ IMG NEEDED
 [Follow this link](https://localhost:3443/pun/sys/dashboard/batch_connect/dev/jupyter/session_contexts/new) and we'll be
 presented with this form for specifying different attributes about the job we want to submit to the SLURM scheduler.
 
-IMG NEEEDED
+IMG NEEDED
 
 We don't need to change anything in this form, so simply press "Launch" at the bottom of the form. After pressing
 launch the job should have successfully launched the job and redirected us back
@@ -117,18 +125,18 @@ Timed out waiting for Jupyter Notebook server to open port 16970!
 
 #### Configure jupyter PATH
 
-So we know what the issue is, the job can't find the `jupyter` executable in the `PATH`.
+So we know what the issue is, the job's script can't find the `jupyter` executable in the `PATH`.
 
 Jupyter was installed in these containers through Python's virtual environment and that's
 why it's not directly in the shell scripts `PATH`.
 
-We need to add this line to our job's shell script.
+We need to add this line to our job's shell script to enable it.
 
 ```shell
 source /usr/local/jupyter/2.1.4/bin/activate
 ```
 
-So let's [open this file in the file editor](https://localhost:3443/pun/sys/file-editor/edit/home/hpcadmin/ondemand/dev/jupyter/template/script.sh.erb)
+So let's [open the template/script.sh.erb in the file editor](https://localhost:3443/pun/sys/file-editor/edit/home/hpcadmin/ondemand/dev/jupyter/template/script.sh.erb)
 and add this to line 27 of the shell script, just before we start jupyter.
 
 Lines 24 - 31 of `template/script.sh.erb` should now look like this.
@@ -260,8 +268,7 @@ new field.  You can edit it in the
 
 You'll need to specify the script's queue_name as the partition like so. The `script` is the logical
 "script" we're submitting to the scheduler.  And the `queue_name` is the field of the script that will
-specify the queue. (in SLURM parlance it's called partition, so that's why we're calling it partition, but
-OnDemand does this translation at lower layer).
+specify the queue. (OnDemand knows how to translate it from queue_name into partition for SLURM).
 
 ```yaml
 script:
@@ -336,10 +343,10 @@ that you can't override, because it doesn't make sense to specify 0 or less core
 
 #### Using script native attributes
 
-`script.native` attributes are way for us to specify any arguments to the schedulers that
-we can't pre-define or have a good generic way of doing it.
+`script.native` attributes are way for us to specify _any_ arguments to the schedulers that
+we can't pre-define or have a good generic defining (like `queue_name` above).
 
-In this section we're going to put make OnDemand request memory through the sbatch's 
+In this section we're going to put make OnDemand request memory through the sbatch's
 `--mem` argument.
 
 First, let's add it to the form like so.
@@ -349,10 +356,10 @@ not defined the default 'Memory' would have been OK.  Also we don't really need 
 the help message here, it was really just for illustration.
 
 * `widget` specifies the type of widget to be a number
-* `max` the maximum value, 2 GB in this case
-* `min` the minimum value, 256 MB
+* `max` the maximum value, ~1 GB in this case
+* `min` the minimum value, 200 MB
 * `step` the step size when users increase or decrease the value
-* `value` the default value of 512 MB
+* `value` the default value of 500 MB
 * `label` the for UIs label
 * `help` a help message
 
@@ -361,10 +368,10 @@ the help message here, it was really just for illustration.
 attributes:
   memory:
     widget: "number_field"
-    max: 1024
-    min: 256
-    step: 256
-    value: 512
+    max: 1000
+    min: 200
+    step: 200
+    value: 500
     label: "Memory (MB)"
     help: "RSS Memory"
 form:
@@ -385,16 +392,16 @@ script:
 Native attributes are an array and they're passed to the schedule just as they're
 defined here.
 
-This would translate into a command much like: `sbatch --mem 768M`.  As you can see
+This would translate into a command much like: `sbatch --mem 800M`.  As you can see
 native allows us to pass _anything_ we wish into the scheduler command.
 
 To confirm your job is running with the correct memory parameters, simply
 [login to a shell](#get-a-shell-session) and run the command below. You should see output like this.
 
 ```shell
-[hpcadmin@frontend ~]$ squeue -o "%j %m"
+[hpcadmin@ondemand /]$ squeue -o "%j %m"
 NAME MIN_MEMORY
-sys/dashboard/dev/jupyter 768M
+sys/dashboard/dev/jupyter 800M
 ```
 
 At this point, this should be the entirety of the `script.yml.erb` and `form.yml` (without comments).
@@ -426,10 +433,10 @@ attributes:
     max: 2
   memory:
     widget: "number_field"
-    max: 2048
-    min: 256
-    step: 256
-    value: 512
+    max: 1000
+    min: 200
+    step: 200
+    value: 500
     label: "Memory (MB)"
     help: "RSS Memory"
 form:
@@ -470,7 +477,7 @@ actual script that's ran during the job, so we have to edit `template.sh.erb`.  
 this is also an ERB script, so it gets templated in Ruby before being submitted to the
 scheduler.
 
-Line 29 is as follows:
+Line 31 is as follows:
 
 ```shell
 jupyter notebook --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
@@ -496,6 +503,7 @@ At this point, this should be the entirety of the `form.yml` (without comments).
 They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
 
 ```yaml
+# form.yml
 cluster: "hpc"
 attributes:
   modules: "python"
@@ -510,10 +518,10 @@ attributes:
     max: 2
   memory:
     widget: "number_field"
-    max: 2048
-    min: 256
-    step: 256
-    value: 512
+    max: 1000
+    min: 200
+    step: 200
+    value: 500
     label: "Memory (MB)"
     help: "RSS Memory"
   jupyterlab_switch:
@@ -557,7 +565,6 @@ Since we got rid of `extra_jupyter_args` and `modules`, we'll also have them rem
 Remove lines 13-22 to get rid of modules. And extra_jupyter_args is on line 29 of `template/script.sh.erb`.
 
 ```shell
-
 # remove this block from the 'unless' on line 13 to the 'end' at line 22.
 <%- unless context.modules.blank? -%>
 # Purge the module environment to avoid conflicts
@@ -570,6 +577,9 @@ module load <%= context.modules %>
 module list
 <%- end -%>
 
+# ...
+
+# and remove the last parameter given to jupyter on line 31
 jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
 ```
 
@@ -598,12 +608,15 @@ cd "${HOME}"
 # Benchmark info
 echo "TIMING - Starting jupyter at: $(date)"
 
+source /usr/local/jupyter/2.1.4/bin/activate
+
 # Launch the Jupyter Notebook Server
 set -x
 jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}"
 ```
 
 ```yaml
+# form.yml
 cluster: "hpc"
 attributes:
   custom_queue:
@@ -616,10 +629,10 @@ attributes:
     max: 2
   memory:
     widget: "number_field"
-    max: 2048
-    min: 256
-    step: 256
-    value: 512
+    max: 1000
+    min: 200
+    step: 200
+    value: 500
     label: "Memory (MB)"
     help: "RSS Memory"
   jupyterlab_switch:
@@ -652,7 +665,7 @@ name: HPC Tutorial Jupyter
 # change the category just to differentiate from the system installed
 # deskop application
 category: Tutorial Apps
-# change the 
+# change the subcategory
 subcategory: Machine Learning
 role: batch_connect
 # change the description, this shows up when you hover over the menu item
@@ -674,7 +687,7 @@ is deploy this development application to production.
 Deploying to production is as easy as copying the files from your dev directory
 to the system's app directory.
 
-If you don't already have a shell session open [get a shell session now](#get-a-shell-session)
+If you don't already have a shell session [get a shell session now](#get-a-shell-session)
 and execute these commands.
 
 ```shell
