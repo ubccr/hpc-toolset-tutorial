@@ -5,8 +5,11 @@ log_info() {
 }
 
 start() {
+    log_info "Fetching latest HPC Toolset Images.."
+    docker-compose pull
+
     log_info "Starting HPC Toolset Cluster.."
-    docker-compose up -d
+    docker-compose up -d --no-build
 
     log_info "Coldfront URL: https://localhost:2443"
     log_info "OnDemand URL: https://localhost:3443"
@@ -15,15 +18,16 @@ start() {
 }
 
 stop() {
-    log_info "Stopping HPC Toolset Cluster.."
-    docker-compose stop
-}
-
-clean() {
     log_info "Stopping and removing HPC Toolset Cluster containers and volumes.."
     docker-compose stop && \
     docker-compose rm -f -v && \
     docker-compose down -v
+}
+
+cleanup() {
+    log_info "Cleaning up HPC Toolset containers and images.."
+    stop
+    docker rmi $(docker images -f "reference=ubccr/hpcts*" -q)
 }
 
 case "$1" in
@@ -33,11 +37,11 @@ case "$1" in
     'stop')
         stop
         ;;
-    'clean')
-        clean
+    'cleanup')
+        cleanup
         ;;
     *)
-        log_info "Usage: $0 { start | stop | clean }"
+        log_info "Usage: $0 { start | stop | cleanup}"
         exit 1
         ;;
 esac
