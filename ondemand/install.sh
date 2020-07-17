@@ -90,6 +90,7 @@ rm -rf /var/cache/yum
 log_info "Cloning repos to assist with app development.."
 mkdir -p /var/git
 git clone https://github.com/OSC/bc_example_jupyter.git --bare /var/git/bc_example_jupyter
+git clone https://github.com/OSC/ood-example-ps.git --bare /var/git/ood-example-ps
 
 log_info "Enabling app development for hpcadmin..."
 mkdir -p /var/www/ood/apps/dev/hpcadmin
