@@ -154,6 +154,34 @@ LOCAL_SETTINGS_EXPORT = []
 EXTRA_AUTHENTICATION_BACKENDS += ['django_su.backends.SuBackend',]
 
 #------------------------------------------------------------------------------
+# Example config for enabling LDAP user authentication using django-auth-ldap.
+# This will enable LDAP user/password logins (provided in the LDAP container)
+#------------------------------------------------------------------------------
+import ldap
+from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
+
+AUTH_LDAP_SERVER_URI = 'ldap://ldap'
+AUTH_LDAP_USER_SEARCH_BASE = 'ou=People,dc=example,dc=org'
+AUTH_LDAP_START_TLS = True
+AUTH_LDAP_BIND_DN = 'cn=admin,dc=example,dc=org'
+AUTH_LDAP_BIND_PASSWORD = 'admin'
+AUTH_LDAP_MIRROR_GROUPS = True
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    AUTH_LDAP_USER_SEARCH_BASE, ldap.SCOPE_ONELEVEL, '(uid=%(user)s)')
+AUTH_LDAP_GROUP_SEARCH_BASE = 'ou=Groups,dc=example,dc=org'
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+    AUTH_LDAP_GROUP_SEARCH_BASE, ldap.SCOPE_ONELEVEL, '(objectClass=groupOfMembers)')
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
+AUTH_LDAP_USER_ATTR_MAP = {
+    'username': 'uid',
+    'first_name': 'cn',
+    'last_name': 'sn',
+    'email': 'mail',
+}
+
+EXTRA_AUTHENTICATION_BACKENDS += ['django_auth_ldap.backend.LDAPBackend',]
+
+#------------------------------------------------------------------------------
 # Example config for OAuth2/OpenID Authentication. This configuration 
 # authenticates against Dex (provided in the ondemand container). 
 #------------------------------------------------------------------------------
