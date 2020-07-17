@@ -17,13 +17,11 @@ This tutorial will be using the the `hpcadmin` credentials listed in
 Now you should login to Open OnDemand through `https://localhost:3443`.  Note that you'll have to
 accept the self-signed certificates from both Open OnDemand and the identity provider.
 
-Now you should login to Open OnDemand through `https://localhost:3443`.  Note that you'll have to
-accept the self-signed certificates from both Open OnDemand and the identity provider.
 
 #### Get a shell session
 
 At some points during this tutorial you'll need to execute commands in a shell session.
-You can [use the shell app](https://localhost:3443/pun/sys/shell/ssh/frontend)
+You can [use the shell app](https://localhost:3443/pun/sys/shell/ssh/ondemand)
 to get an ssh session in the web browser for this purpose.
 
 #### Create the jupyter application
@@ -46,20 +44,11 @@ application.
 
 IMG NEEDED
 
-This copied what was in `/var/git/bc_example_jupyter` to `/home/hpcadmin/ondemand/dev/jupyer`. 
+This copied what was in `/var/git/bc_example_jupyter` to `/home/hpcadmin/ondemand/dev/jupyer`.
 You can navigate to these files [through the Files app with this link](https://localhost:3443/pun/sys/files/fs/home/hpcadmin/ondemand/dev/jupyter/)
 or simply Press the "Files" button in Jupyter's row of the sandbox applications table.
 
 IMG NEEDED
-
-You'll also need to setup `git` for the hpcadmin user at this point.
-
-Configure your user email and name so that you can commit changes to the jupyter app.
-
-```shell
-git config --global user.email hpcadmin@localhost
-git config --global user.name "HPC Admin"
-```
 
 ### Get Jupyter Working
 
@@ -67,6 +56,10 @@ git config --global user.name "HPC Admin"
 
 The example application we've created does not use the correct cluster configuration, so we've got
 to modify it.
+
+If you try to submit it as is, you'll get this error:
+
+IMG NEEDED
 
 We need to edit the `form.yml` in the appication's folder. We can navigate to the folder through the
 files app.  The URL is `https://localhost:3443/pun/sys/files/fs/home/hpcadmin/ondemand/dev/jupyter/`.
@@ -98,8 +91,64 @@ launch the job should have successfully launched the job and redirected us back
 the [interactive sessions](https://localhost:3443/pun/sys/dashboard/batch_connect/sessions) page where we'll
 see a panel showing our job.  
 
-Initially the panel will be grey because our job is being scheduled and jupyter is starting.  When it is
-up and running and available to use the panel will show a "Connect to Jupyter" button.  Click this button
+#### Debug failure
+
+This job is going to run and fail during startup.  But don't worry! We're going to debug and fix it.
+
+When the job completes, the panel still exists, so you can follow the link in the panel to the log
+directory of the job.
+
+IMG NEEDED
+
+Follow the link and we'll be redirected to the job's working directory where an `output.log` file is.
+Let's open that file with the "View" button.
+
+IMG NEEDED
+
+When you open the log file, you'll see the something like this where it says **jupyter: command not found**.
+So you can see, we have `PATH` issues.
+
+```shell
+TIMING - Starting jupyter at: Fri Jul 17 18:06:34 UTC 2020
++ jupyter notebook --config=/home/hpcadmin/ondemand/data/sys/dashboard/batch_connect/dev/jupyter/output/e16b9a77-1a4f-4c9e-95f3-d3c23e5e8d76/config.py
+/home/hpcadmin/ondemand/data/sys/dashboard/batch_connect/dev/jupyter/output/e16b9a77-1a4f-4c9e-95f3-d3c23e5e8d76/script.sh: line 27: jupyter: command not found
+Timed out waiting for Jupyter Notebook server to open port 16970!
+```
+
+#### Configure jupyter PATH
+
+So we know what the issue is, the job can't find the `jupyter` executable in the `PATH`.
+
+Jupyter was installed in these containers through Python's virtual environment and that's
+why it's not directly in the shell scripts `PATH`.
+
+We need to add this line to our job's shell script.
+
+```shell
+source /usr/local/jupyter/2.1.4/bin/activate
+```
+
+So let's [open this file in the file editor](https://localhost:3443/pun/sys/file-editor/edit/home/hpcadmin/ondemand/dev/jupyter/template/script.sh.erb)
+and add this to line 27 of the shell script, just before we start jupyter.
+
+Lines 24 - 31 of `template/script.sh.erb` should now look like this.
+
+```shell
+# Benchmark info
+echo "TIMING - Starting jupyter at: $(date)"
+
+source /usr/local/jupyter/2.1.4/bin/activate
+
+# Launch the Jupyter Notebook Server
+set -x
+jupyter notebook --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+```
+
+#### Correctly launch
+
+Now we can [launch the application again](####-Launch-the-Jupyter-Application) and it should work.
+
+When it is up and running and available to use the panel will show a "Connect to Jupyter" button.  Click this button
 and OnDemand will redirect us to Jupyter.  
 
 IMGs NEEDED
@@ -107,7 +156,7 @@ IMGs NEEDED
 Congratulations! We've now started development on the Jupyter Notebook batch connect application and
 successfully connected to it.
 
-You may want to delete this job now by using the "Delete" button on the panel as we'll be iterating through
+You may want to delete this job now by using the "Delete" button on the panels as we'll be iterating through
 developing the application and starting new jobs.
 
 #### Save your spot
@@ -118,7 +167,7 @@ section, and you may want to use and save _it_ instead so that any `git diff` yo
 smaller and easier to read.
 
 You can use the
-[shell app to login to this directory](https://localhost:3443/pun/sys/shell/ssh/default/home/hpcadmin/ondemand/dev/jupyter/)
+[shell app to login to this directory](https://localhost:3443/pun/sys/shell/ssh/ondemand/home/hpcadmin/ondemand/dev/jupyter/)
 
 In this shell you'll save in git with these commands:
 
@@ -134,6 +183,7 @@ Let's take a closer look at the `form.yml` that created the form you just submit
 understanding of how they relate to what's shown in the UI.
 
 This is the `form.yml` you at this point without all the comments.
+
 ```yaml
 cluster: "hpc"
 attributes:
@@ -188,7 +238,7 @@ and a new label. The first element in options arrays is what will be shown to th
 where the second element is the value what's actually used in the sbatch command.
 
 ```yaml
-# other things in form.yml removed for brevity, but should still exist in yours
+# form.yml, with only this addition for brevity
 attributes:
   custom_queue:
     widget: "select"
@@ -218,14 +268,22 @@ script:
   queue_name: "<%= custom_queue %>"
 ```
 
-Here you'll notice that the file extension is `.erb` and the `<%= custom_queue %>` is a little strange.
-That's because this file is a embedded ruby template file and `<%= custom_queue %>` is ERB template syntax for
-turning the `custom_queue` variable (defined in the `form.yml` and specified by the user when they press "Launch")
-into a string for the yml file.
+The .erb file extension indicates this is embedded ruby file. `<%=` and `%>` are embedded ruby tags. A variable
+for each attribute defined in the form.yml can be used in this ERB file, containing the string representation
+of the value submitted by the user.
 
 If you're not super comfortable with the terminology just remember this: `custom_queue` is defined in the `form.yml`
 (the file that defines what the UI form looks like) so it can be used in the `submit.yml.erb` (the file
 that is used to configure the job that is being submitted) as `<%= custom_queue =>`.
+
+When [launch the application again](####-Launch-the-Jupyter-Application) you can [login to a shell](#get-a-shell-session)
+and confirm you chose a different queue with this command.
+
+```shell
+[hpcadmin@ondemand ~]$ squeue -o "%j %P"
+NAME PARTITION
+sys/dashboard/dev/jupyter debug
+```
 
 At this point, this should be the entirety of the `script.yml.erb` and `form.yml` (without comments).
 They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
@@ -384,6 +442,251 @@ form:
   - bc_email_on_started
   - memory
 ```
+
+#### Adding a jupyterlab checkbox
+
+Jupyter ships with both Notebooks and JupyterLab. Some users may want to
+use JuypterLab instead of Notebooks, so let's give them that option.
+
+First, let's add the checkbox to the form.
+
+```yaml
+# form.yml, with only this addition for brevity
+attributes:
+  jupyterlab_switch:
+    widget: "check_box"
+    label: "Use JupyterLab instead of Jupyter Notebook?"
+    help: |
+      JupyterLab is the next generation of Jupyter, and is completely compatible with existing Jupyter Notebooks.
+form:
+  - jupyterlab_switch
+```
+
+Refresh the [new session form](https://localhost:3443/pun/sys/dashboard/batch_connect/dev/jupyter/session_contexts/new)
+and you should now see your updates.
+
+For this change, there's no need to edit the `submit.yml.erb`.  This toggle happens in the
+actual script that's ran during the job, so we have to edit `template.sh.erb`.  Note that
+this is also an ERB script, so it gets templated in Ruby before being submitted to the
+scheduler.
+
+Line 29 is as follows:
+
+```shell
+jupyter notebook --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+```
+
+Replace the `notebook` parameter with this new toggle.
+
+```shell
+jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+```
+
+If you're unfamiliar with Ruby ternary statements, you can read it them like
+this: `if true ? do this : else do that`. So this reads, `if context.jupyterlab_switch is 1 use lab, else use notebook`.
+
+Also note the use of `context` here where we didn't have to use that in the `submit.yml.erb`.
+This is an important difference.  To reference variables from the form in the `template/*.sh.erb` files
+you **must** reference them through the `context` object.
+
+Now you can submit the job with the checked box to use JupyterLab instead of Notebook and you can see
+the Jupyter UI is significantly different.
+
+At this point, this should be the entirety of the `form.yml` (without comments).
+They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
+
+```yaml
+cluster: "hpc"
+attributes:
+  modules: "python"
+  extra_jupyter_args: ""
+  custom_queue:
+    widget: "select"
+    label: "Partition"
+    options:
+      - ["Compute", "compute"]
+      - ["Debug", "debug"]
+  bc_num_slots:
+    max: 2
+  memory:
+    widget: "number_field"
+    max: 2048
+    min: 256
+    step: 256
+    value: 512
+    label: "Memory (MB)"
+    help: "RSS Memory"
+  jupyterlab_switch:
+    widget: "check_box"
+    label: "Use JupyterLab instead of Jupyter Notebook?"
+    help: |
+      JupyterLab is the next generation of Jupyter, and is completely compatible with existing Jupyter Notebooks.
+form:
+form:
+  - modules
+  - extra_jupyter_args
+  - bc_account
+  - custom_queue
+  - bc_num_hours
+  - bc_num_slots
+  - bc_email_on_started
+  - memory
+  - jupyterlab_switch
+```
+
+### Promoting to production
+
+#### Cleaning up the form
+
+Now we're ready to deploy to production, let's clean up the form a little bit.
+
+We want to remove some items because they're in the example for a real site, but
+for containers, they just don't apply.
+
+Let's remove these items from the form. Note you'll also have to remove `modules` and
+`extra_jupyter_args` from the attributes section too.
+
+* `modules` becuase modules don't exist on these compute nodes
+* `extra_jupyter_args` because we're not passing any
+* `bc_account` because only 1 account is applied to each user, so there's no need to change it.
+* `bc_email_on_started` because containers can't email these fake users
+
+Since we got rid of `extra_jupyter_args` and `modules`, we'll also have them remove it from the
+`template/script.sh.erb` as well.
+
+Remove lines 13-22 to get rid of modules. And extra_jupyter_args is on line 29 of `template/script.sh.erb`.
+
+```shell
+
+# remove this block from the 'unless' on line 13 to the 'end' at line 22.
+<%- unless context.modules.blank? -%>
+# Purge the module environment to avoid conflicts
+module purge
+
+# Load the require modules
+module load <%= context.modules %>
+
+# List loaded modules
+module list
+<%- end -%>
+
+jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+```
+
+Now it should look like this:
+
+```shell
+jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}"
+```
+
+At this point, this should be the entirety of the `template/script.sh.erb` and `form.yml` (without comments).
+They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
+
+```shell
+#!/usr/bin/env bash
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+# Set working directory to home directory
+cd "${HOME}"
+
+#
+# Start Jupyter Notebook Server
+#
+
+# Benchmark info
+echo "TIMING - Starting jupyter at: $(date)"
+
+# Launch the Jupyter Notebook Server
+set -x
+jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}"
+```
+
+```yaml
+cluster: "hpc"
+attributes:
+  custom_queue:
+    widget: "select"
+    label: "Partition"
+    options:
+      - ["Compute", "compute"]
+      - ["Debug", "debug"]
+  bc_num_slots:
+    max: 2
+  memory:
+    widget: "number_field"
+    max: 2048
+    min: 256
+    step: 256
+    value: 512
+    label: "Memory (MB)"
+    help: "RSS Memory"
+  jupyterlab_switch:
+    widget: "check_box"
+    label: "Use JupyterLab instead of Jupyter Notebook?"
+    help: |
+      JupyterLab is the next generation of Jupyter, and is completely compatible with existing Jupyter Notebooks.
+form:
+  - custom_queue
+  - bc_num_hours
+  - bc_num_slots
+  - memory
+  - jupyterlab_switch
+```
+
+#### Edit the manifest
+
+The OnDemand UI pulls things from the `manifest.yml` like the title of the application and where to
+put it in the column of interactive applications.
+
+Let's change the these fields.  You can change any field except for `role`. And you can change
+them to something different than what's given here (have fun with it!). All fields besides `role`
+are purely descriptive or relate to UI groups so we can freely change them without any behavior change.
+Conversely, `role` _needs_ to be `batch_connect` so don't change this!
+
+```yaml
+---
+# change the name, this is what shows up in the menu
+name: HPC Tutorial Jupyter
+# change the category just to differentiate from the system installed
+# deskop application
+category: Tutorial Apps
+# change the 
+subcategory: Machine Learning
+role: batch_connect
+# change the description, this shows up when you hover over the menu item
+description: |
+  This app will launch a Jupyter Lab or Notebootk on one or more nodes.
+```
+
+If you want to change `category` and `subcategory` you can freely do so.
+These attributes create groupings for applications.  Since we will only have two
+applications (the system installed "Interactive Apps/Desktops" and this app)
+
+IMG NEEDED
+
+Now [save your spot](#save-your-spot) because the next thing we're going to do
+is deploy this development application to production.
+
+#### Deploying to production
+
+Deploying to production is as easy as copying the files from your dev directory
+to the system's app directory.
+
+If you don't already have a shell session open [get a shell session now](#get-a-shell-session)
+and execute these commands.
+
+```shell
+ssh ondemand
+cd ~/ondemand/dev
+sudo cp -R jupyter/ /var/www/ood/apps/sys/
+```
+
+And that's it! All you have to do now is refresh the page and you should see your
+Jupyter system app in the menu along with your sandbox development app.
+
+IMG NEEDED
 
 ## Tutorial Navigation
 [Next - Acknowledgments](../docs/acknowledgments.md)
