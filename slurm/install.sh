@@ -25,7 +25,8 @@ yum install -y \
     curl-devel \
     mariadb \
     mariadb-devel \
-    python3
+    python3 \
+    stress
 
 log_info "Installing compute packages .."
 yum install -y https://yum.osc.edu/ondemand/latest/ondemand-release-compute-latest-1-6.noarch.rpm
