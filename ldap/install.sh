@@ -28,17 +28,23 @@ EOF
 #------------------------
 
 idnumber=1001
+
+declare -A realnames
+realnames=([sfoster]='Stephanie Foster' [cgray]='Carl Grey' [csimmons]="Charles,Simmons" [astewart]="Andrea Stewart")
+
 for uid in hpcadmin $USERS
 do
     log_info "Adding LDIF for $uid user account with uidnumber $idnumber.."
     passvar="PASSWD_$uid"
     passwd=${!passvar:-ilovelinux}
+    fullnamevar="${realnames[$uid]}"
+    fullname=${fullnamevar:-$uid}
     cat > /container/service/slapd/assets/config/bootstrap/ldif/custom/1-$uid.ldif <<EOF
 dn: cn=${uid},ou=People,dc=example,dc=org
 objectClass: person
 objectClass: posixAccount
 objectClass: inetOrgPerson
-gecos: ${uid}
+gecos: ${fullname}
 cn: ${uid}
 sn: ${uid}
 uid: ${uid}
