@@ -1,30 +1,29 @@
-## ColdFront installation
-View `hpc-toolset-tutorial/coldfront/install.sh` to see how ColdFront is installed
-![ColdFront installation script](../docs/cf_install.gif)
-
-NOTE: you can also install ColdFront using pip.  See the github repo for more details
-
-## Login to Coldfront container
-- Review `hpc-toolset-tutorial/coldfront/local_settings.py`
+## ColdFront installation & Configuration
+- View `hpc-toolset-tutorial/coldfront/install.sh` to see how ColdFront is installed
+- View `hpc-toolset-tutorial/coldfront/local_settings.py` to see how ColdFront is configured
 - This is where you'd enable or disable any plugins and set variables for your local installation
 
-## Login to the frontend
-`ssh -p 6222 hpcadmin@localhost`  
-- Look at current slurm associations
-`sacctmgr show user cgray -s list`
+[![asciicast](https://asciinema.org/a/347965.svg)](https://asciinema.org/a/347965)
+
+NOTE: you can also install ColdFront using pip.  See the github repo https://github.com/ubccr/coldfront for more details
 
 ## Login to ColdFront website
 - URL https://localhost:2443/
-- Login as `admin:admin`
+- You'll need to login as some of the users for this tutorial to get things started:
+- Login using the OpenID Connect as user `hpcadmin` password: `ilovelinux`
+- Logout
+- Login using the OpenID Connect as user `cgray` password: `test123`
+- Logout
+- Login locally (not OpenID) as `admin:admin`
 - Go to Admin interface, Users
-- Add new user `hpcadmin` password: `ilovelinux`
+- Click on the hpcadmin user
 - Make this user a 'superuser' by checking the boxes next to "Staff Status" and "Superuser Status" - SAVE
-- Logout
-- Login as `hpcadmin` user
+- Go to Admin interface, User Profiles
+- Click on `cgray` check ``"Is pi"``  SAVE
+- Go back to Admin interface, Click on Resources
 - Add a resource: `cluster, cluster name=hpc, attribute: slurm_cluster=hpc`
-- Make `cgray` a PI: Under UserProfile, select `cgray` user and check ``"Is pi"``  SAVE
 - Logout
-- Login as PI `cgray:test123`
+- Login using OpenID as PI `cgray:test123`
 - Create a new project
 - Request an allocation for resource: hpc
 - Logout
@@ -38,31 +37,36 @@ NOTE: you can also install ColdFront using pip.  See the github repo for more de
 - Login to the frontend container first, then to the coldfront container:  
 `ssh -p 6222 hpcadmin@localhost`  
 `ssh coldfront`  
+`cd /srv/www`  
 `source venv/bin/activate`  
 `cd coldfront`  
 
 - Let's see what slurm access cgray currently has:  
 `sacctmgr show user cgray -s list`
 - Now dump the slurm account/association info from ColdFront's active allocations:  
-`coldfront slurm_dump -c hpc -o /tmp/slurm_dump`
+`coldfront slurm_dump -c hpc -o ~/slurm_dump`
 - Let's see what was created:  
-`ls -al /tmp/slurm_dump`  
-`cat /tmp/slurm_dump/hpc.cfg`  
+`ls -al ~/slurm_dump`  
+`cat ~/slurm_dump/hpc.cfg`  
 - Load the slurm dump into slurm database:  
-`sacctmgr load file=/tmp/slurm_dump/hpc.cfg`  
+`sacctmgr load file=~/slurm_dump/hpc.cfg`  
 `Type 'Y'` to add the new account & associations for cgray
 - Let's look at cgray's slurm account again:  
 `sacctmgr show user cgray -s list`
 
-
+[![asciicast](https://asciinema.org/a/347945.svg)](https://asciinema.org/a/347945)
 
 ## Login (or go back) to frontend container
-- check slurm associations for cgray again: they should now show access to the hpc cluster  
+`ssh -p 6222 hpcadmin@localhost`
+- check slurm associations for cgray again: they should now show access to the hpc cluster
+`sacctmgr show user cgray -s list`    
 `su - cgray`  
 `sbatch --wrap "sleep 600"`  
 `squeue`  (the job should be running on a node)  
-`ssh` to node  
+`ssh` to the allocated node  
 `ps -ef |grep cgray`  
+
+[![asciicast](https://asciinema.org/a/347948.svg)](https://asciinema.org/a/347948)
 
 ## Login to OnDemand website
 - Login to Open OnDemand as ` cgray (test123)`  https://localhost:3443/
@@ -71,15 +75,35 @@ NOTE: you can also install ColdFront using pip.  See the github repo for more de
 - Submit a job using job template
 - Launch an interactive Job
 
+![ColdFront OnDemand demo](../docs/cf_demo2.gif)
+
+
 ## Login to Open XDMoD website
 - Login to Open XDMoD as `cgray (test123)`  https://localhost:4443/
 - Change date to include today
 - There is currently no data in XDMoD
 
+![XDMoD no data](../docs/xdmod_empty.png)
+
+
 ## Login to Open XDMoD container
 - `ssh hpcadmin@xdmod`
 - In order to see the job data just generated in slurm, we need to ingest the data into Open XDMoD and aggregate it.  This is normally done once a day on a typical system but for the purposes of this demo, we have created a script that you can run now:
-`sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
+`sudo /srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
+
+The contents of the script are:
+```bash
+#!/bin/bash
+yesterday=`date +%Y-%m-%d --date="-1 day"`
+tomorrow=`date +%Y-%m-%d --date="+1 day"`
+
+xdmod-slurm-helper -r hpc --start-time $yesterday --end-time $tomorrow
+xdmod-ingestor
+indexarchives.py -a
+summarize_jobs.py
+aggregate_supremm.sh
+```
+[![asciicast](https://asciinema.org/a/347955.svg)](https://asciinema.org/a/347955)
 
 **Note: More information about this script in the Open XDMoD portion of this tutorial**
 
@@ -87,6 +111,9 @@ NOTE: you can also install ColdFront using pip.  See the github repo for more de
 - Login to Open XDMoD as `cgray (test123)`  https://localhost:4443/
 - Change date to include today
 - You should see the data from the job you just ran
+NOTE: There won't be much info except that we ran a few jobs. More will be presented in the XDMoD portion of the tutorial
+
+![XDMoD job data](../docs/xdmod_jobs.png)
 
 ## Adding new users to project & allocation (time permitting)
 - Login to ColdFront as `csimmons (ilovelinux)` https://localhost:2443/
