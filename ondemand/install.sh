@@ -22,7 +22,7 @@ mkdir -p /etc/ood/config/apps/shell
 mkdir -p /etc/ood/config/apps/bc_desktop
 mkdir -p /etc/ood/config/apps/dashboard
 echo "DEFAULT_SSHHOST=frontend" > /etc/ood/config/apps/shell/env
-echo "OOD_SSHHOST_ALLOWLIST=ondemand" >> /etc/ood/config/apps/shell/env
+echo "OOD_SSHHOST_ALLOWLIST=ondemand:cpn01:cpn02" >> /etc/ood/config/apps/shell/env
 echo "OOD_DEV_SSH_HOST=ondemand" >> /etc/ood/config/apps/dashboard/env
 
 log_info "Configuring Ondemand ood_portal.yml .."
@@ -86,6 +86,7 @@ rm -rf /var/cache/yum
 log_info "Cloning repos to assist with app development.."
 mkdir -p /var/git
 git clone https://github.com/OSC/bc_example_jupyter.git --bare /var/git/bc_example_jupyter
+git clone https://github.com/OSC/ood-example-ps.git --bare /var/git/ood-example-ps
 
 log_info "Enabling app development for hpcadmin..."
 mkdir -p /var/www/ood/apps/dev/hpcadmin
