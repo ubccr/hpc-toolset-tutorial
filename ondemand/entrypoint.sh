@@ -20,10 +20,6 @@ then
     echo "---> Starting ondemand-dex..."
     gosu ondemand-dex /usr/sbin/ondemand-dex serve /etc/ood/dex/config.yaml &
 
-    echo "---> Setting git configs for hpcadmin"
-    su hpcadmin bash -c "git config --global user.email hpcadmin@localhost"
-    su hpcadmin bash -c "git config --global user.name 'HPC Admin'"
-
     echo "---> Starting ondemand httpd24..."
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /opt/rh/httpd24/root/var/run/httpd/httpd.pid
