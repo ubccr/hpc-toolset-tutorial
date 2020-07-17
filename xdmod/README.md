@@ -7,7 +7,7 @@ allows Open XDMoD to also display performance data for HPC jobs.
 
 ## Submit some jobs to the cluster
 Before we install and configure XDMoD we are going to submit
-some HPC jobs to the cluster. These job will run while we go through
+some HPC jobs to the cluster. These jobs will run while we go through
 the install and then we will be able to view the job information
 in Open XDMoD.
 
