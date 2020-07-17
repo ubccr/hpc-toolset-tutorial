@@ -5,16 +5,16 @@
 
 [![asciicast](https://asciinema.org/a/347965.svg)](https://asciinema.org/a/347965)
 
-NOTE: you can also install ColdFront using pip.  See the github repo https://github.com/ubccr/coldfront for more details
+NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfront/
 
 ## Login to ColdFront website
 - URL https://localhost:2443/
 - You'll need to login as some of the users for this tutorial to get things started:
-- Login using the OpenID Connect as user `hpcadmin` password: `ilovelinux`
+- Login locally as user `hpcadmin` password: `ilovelinux`
 - Logout
-- Login using the OpenID Connect as user `cgray` password: `test123`
+- Login locally as user `cgray` password: `test123`
 - Logout
-- Login locally (not OpenID) as `admin:admin`
+- Login locally as `admin:admin`
 - Go to Admin interface, Users
 - Click on the hpcadmin user
 - Make this user a 'superuser' by checking the boxes next to "Staff Status" and "Superuser Status" - SAVE
@@ -83,7 +83,7 @@ NOTE: you can also install ColdFront using pip.  See the github repo https://git
 - Change date to include today
 - There is currently no data in XDMoD
 
-![XDMoD no data](../docs/xdmod_empty.png)
+![XDMoD no data](../docs/xdmod_empty.PNG)
 
 
 ## Login to Open XDMoD container
@@ -113,7 +113,7 @@ aggregate_supremm.sh
 - You should see the data from the job you just ran
 NOTE: There won't be much info except that we ran a few jobs. More will be presented in the XDMoD portion of the tutorial
 
-![XDMoD job data](../docs/xdmod_jobs.png)
+![XDMoD job data](../docs/xdmod_jobs.PNG)
 
 ## Adding new users to project & allocation (time permitting)
 - Login to ColdFront as `csimmons (ilovelinux)` https://localhost:2443/
