@@ -21,15 +21,18 @@ $config = array(
                     '/\S+/'
                 ),
             ),
-            // Since we dont have ldap populated with first and last name, this will force it to use the username
+            // Use name if it has a space in it to be the first and last name otherwise use username 
             // assuming <first initial><last name> as the format
             70 => array(
                 'class' => 'core:PHP',
                 'code' => '
-                    if (empty($attributes["first_name"])) {
-                        $attributes["first_name"][0] = strtoupper($attributes["username"][0][0]);
+                    if (!empty($attributes["name"]) && strpos($attributes["name"][0], " ") !== false) {
+                        $firstLast = explode(" ", $attributes["name"][0]);
+                        $attributes["first_name"][0] = $firstLast[0];
+                        $attributes["last_name"][0] = $firstLast[1];
                     }
-                    if (empty($attributes["last_name"])) {
+                    else {
+                        $attributes["first_name"][0] = strtoupper($attributes["username"][0][0]);
                         $attributes["last_name"][0] = substr($attributes["username"][0], 1);
                         $attributes["last_name"][0][0] = strtoupper($attributes["last_name"][0][0]);
                     }
