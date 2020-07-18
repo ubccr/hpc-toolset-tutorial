@@ -1,0 +1,13 @@
+#### Tutorial links
+
+- Coldfront: https://localhost:2443
+- OnDemand: https://localhost:3443
+- XDMoD: https://localhost:4443
+- Login to frontend: `ssh -p 6222 hpcadmin@localhost`
+- GitHub Repo: https://github.com/ubccr/hpc-toolset-tutorial
+
+#### Project links
+
+- Coldfront: https://github.com/ubccr/coldfront
+- OnDemand: https://openondemand.org
+- XDMoD: https://open.xdmod.org

@@ -24,6 +24,8 @@ mkdir -p /etc/ood/config/apps/dashboard
 echo "DEFAULT_SSHHOST=frontend" > /etc/ood/config/apps/shell/env
 echo "OOD_SSHHOST_ALLOWLIST=ondemand:cpn01:cpn02" >> /etc/ood/config/apps/shell/env
 echo "OOD_DEV_SSH_HOST=ondemand" >> /etc/ood/config/apps/dashboard/env
+echo "MOTD_PATH=/etc/motd" >> /etc/ood/config/apps/dashboard/env
+echo "MOTD_FORMAT=markdown" >> /etc/ood/config/apps/dashboard/env
 
 log_info "Configuring Ondemand ood_portal.yml .."
 
