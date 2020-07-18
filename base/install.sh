@@ -154,9 +154,8 @@ cat > /etc/pki/tls/localhost.ext << EOF
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE
 keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = localhost
+subjectAltName = DNS:localhost
+extendedKeyUsage = serverAuth
 EOF
 # Sign cert request and generate cert
 openssl x509 -req -CA /etc/pki/tls/ca.crt -CAkey /etc/pki/tls/ca.key -CAcreateserial \
