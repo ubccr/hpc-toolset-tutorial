@@ -109,8 +109,8 @@ xdmod        | ---> Starting XDMoD...
 ```
 
 ## Something still not right?
-If errors are showing up in the logs or the services have not all started, run the 'clean' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:  
-`./hpcts cleanup`  
+If errors are showing up in the logs or the services have not all started, run the 'stop' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:  
+`./hpcts stop`  
 `docker container list`  
 Should show no containers  
 `docker volume list`  
