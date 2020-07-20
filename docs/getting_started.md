@@ -1,7 +1,6 @@
 ## Overview
 
-In this tutorial we present three open source projects that form a core set of
-utilities commonly installed at High Performance Computing (HPC) centers.
+In this tutorial we present three open source projects that form a core set of utilities commonly installed at High Performance Computing (HPC) centers.
 
 An overview of the containers in the cluster:
 
@@ -10,12 +9,14 @@ An overview of the containers in the cluster:
 
 ## Getting started
 
-There are two ways to start the multi-container HPC Toolset cluster using docker-compose.  The first shown here will pull pre-made containers from Docker Hub. We recommend this if you want to save time on the building process and have a decent internet connection to pull down the images from Docker Hub.  On a recent test from a home fiber optic network this took 2 minutes.  The images total approximately 7GB in size.
+You will need to clone the tutorial repo and then run the helper script.  The first time running this, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 7GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network this download and container startup process took 17 minutes.  
 
 ```
 $ git clone https://github.com/ubccr/hpc-toolset-tutorial.git
 $ cd hpc-toolset-tutorial
-$ docker-compose pull
+$ ./hpcts start
+Fetching latest HPC Toolset Images..
+
 Pulling ldap      ... done
 Pulling base      ... done
 Pulling mongodb   ... done
@@ -29,20 +30,46 @@ Pulling coldfront ... done
 Pulling ondemand  ... done
 Pulling xdmod     ... done
 
-```
+Starting HPC Toolset Cluster..
 
-This second option creates the containers, installs all the applications, configures and sets up accounts.  We recommend this if you'd like to see all that goes on during the install/setup procedures and especially if you have a slow internet connection.  When first building the container images, the above command can take anywhere from 30-40 minutes to complete, depending on your local system resources, as it will compile slurm from source and install required packages and the three applications: ColdFront, XDMoD, and OnDemand.
+Creating network "hpc-toolset-tutorial_compute" with the default driver
+Creating volume "hpc-toolset-tutorial_etc_munge" with default driver
+Creating volume "hpc-toolset-tutorial_etc_slurm" with default driver
+Creating volume "hpc-toolset-tutorial_home" with default driver
+Creating volume "hpc-toolset-tutorial_var_lib_mysql" with default driver
+Creating volume "hpc-toolset-tutorial_data_db" with default driver
+Creating volume "hpc-toolset-tutorial_srv_www" with default driver
+Creating mysql   ... done
+Creating ldap    ... done
+Creating mongodb ... done
+Creating hpc-toolset-tutorial_base_1 ... done
+Creating slurmdbd                    ... done
+Creating slurmctld                   ... done
+Creating frontend                    ... done
+Creating cpn02                       ... done
+Creating cpn01                       ... done
+Creating coldfront                   ... done
+Creating xdmod                       ... done
+Creating ondemand                    ... done
+
+Coldfront URL: https://localhost:2443
+
+
+OnDemand URL: https://localhost:3443
+
+
+XDMoD URL: https://localhost:4443
+
+
+Login to frontend: ssh -p 6222 hpcadmin@localhost
+
 
 ```
-$ git clone https://github.com/ubccr/hpc-toolset-tutorial.git
-$ cd hpc-toolset-tutorial
-$ docker-compose up -d
-```
-
 NOTE: Windows users will get several pop-up messages from Docker Desktop during this process asking to allow local system access to the Docker containers.  Please click the "Share it" button:
 ![](windows_sharing.PNG)
 
 
+**NOTE:  Despite seeing this output with URLs, the processes on these containers may not be fully running yet.  Depending on the speed of your computer, starting up the processes may take a few minutes (or even up to 10 minutes).  Use the command below to check the docker logs if the websites are not yet displaying.**
 
 
 Once docker-compose finishes you can check the status of the containers:
@@ -65,41 +92,20 @@ xdmod        | 2020-06-21 19:23:48 [notice] xdmod-ingestor end (process_end_time
 xdmod        | ---> Starting XDMoD...
 ```
 
+## Something still not right?
+If errors are showing up in the logs or the services have not all started, run the 'clean' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:
+`./hpcts clean`  
+`docker container list`  
+Should show no containers  
+`docker volume list`  
+Should show no volumes  
+If either do, you should run the corresponding remove command:  
+`docker container rm [imgID]`  
+`docker volume rm [imgID]`  
+Then start it all up again:
+`./hpcts start`  
+Since you already downloaded all the images, this command will only startup the containers and services which only takes a few minutes.
 
-Once the docker-compose command finishes, you should use the helper bash script: `hpcts` to stop and start cluster:
-
-```
-./hpcts start
-
- Starting HPC Toolset Cluster..
-
-Creating network "hpcts-tutorial_default" with the default driver
-Creating network "hpcts-tutorial_compute" with the default driver
-Creating volume "hpcts-tutorial_etc_munge" with default driver
-Creating volume "hpcts-tutorial_etc_slurm" with default driver
-Creating volume "hpcts-tutorial_home" with default driver
-Creating volume "hpcts-tutorial_var_lib_mysql" with default driver
-Creating volume "hpcts-tutorial_srv_www" with default driver
-Creating hpcts-tutorial_base_1 ... done
-Creating mysql                         ... done
-Creating slurmdbd                      ... done
-Creating slurmctld                     ... done
-Creating cpn02                         ... done
-Creating frontend                      ... done
-Creating cpn01                         ... done
-Creating ondemand                      ... done
-Creating xdmod                         ... done
-Creating coldfront                     ... done
-
- Coldfront URL: https://localhost:2443
-
-
- OnDemand URL: https://localhost:3443
-
-
- XDMoD URL: https://localhost:4443
-```
-**NOTE:  Despite seeing this output with URLs, the processes on these containers may not be fully running yet.  Depending on the speed of your computer, starting up the processes may take a few minutes (or even up to 10 minutees).  Use the above command to check the docker logs if the websites are not yet displaying.**
 
 
 ## Tutorial Navigation
