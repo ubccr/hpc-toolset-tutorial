@@ -28,11 +28,7 @@ to get an ssh session in the web browser for this purpose.
 Click on "My Sandbox Apps (Development)" from the dropdown menu "Develop" in the navigation bar
 to navigate to the sandbox app workspace.
 
-IMG NEEDED
-
 Now create a new app from the button labeled "New App".
-
-IMG NEEDED
 
 This will bring you to a page where you'll click "Clone Existing App" which will bring you to
 this form to fill out.  
@@ -41,13 +37,11 @@ Fill in `jupyter` as the directory name. `/var/git/bc_example_jupyter` as the Gi
 check "Create a new Git Project from this?".  Then click "Submit" to create a new development
 application.
 
-IMG NEEDED
-
 This copied what was in `/var/git/bc_example_jupyter` to `/home/hpcadmin/ondemand/dev/jupyer`.
 You can navigate to these files [through the Files app with this link](https://localhost:3443/pun/sys/files/fs/home/hpcadmin/ondemand/dev/jupyter/)
 or simply Press the "Files" button in Jupyter's row of the sandbox applications table.
 
-IMG NEEDED
+![create sandbox app](imgs/create_sandbox_app.gif)
 
 You'll also need to setup `git` for the hpcadmin user at this point.
 
@@ -67,37 +61,29 @@ to modify it.
 
 If you try to submit it as is, you'll get this error:
 
-IMG NEEDED
-
 We need to edit the `form.yml` in the appication's folder. We can navigate to the folder through the
 files app.  The URL is `https://localhost:3443/pun/sys/files/fs/home/hpcadmin/ondemand/dev/jupyter/`.
 
 Here you'll see the `form.yml` file. We can edit it by clicking on the file and pressing the "Edit"
 button.  This will take us to the [file editor app, with this file open](https://localhost:3443/pun/sys/file-editor/edit/home/hpcadmin/ondemand/dev/jupyter/form.yml)
 
-IMG NEEDED
-
 In the file Editor, specify `hpc` as the cluster attribute on line 11 like so: `cluster: "hpc"`. Save this file by clicking
 the "Save" button at the top left.
-
-IMG NEEDED
 
 #### Launch the Jupyter Application
 
 Now when we navigate back to our [interactive sessions](https://localhost:3443/pun/sys/dashboard/batch_connect/sessions),
 you'll see the "Interactive Apps \[Sandbox\]" menu with an item labeled "Jupyter Notebook".
 
-IMG NEEDED
-
 [Follow this link](https://localhost:3443/pun/sys/dashboard/batch_connect/dev/jupyter/session_contexts/new) and we'll be
 presented with this form for specifying different attributes about the job we want to submit to the SLURM scheduler.
-
-IMG NEEDED
 
 We don't need to change anything in this form, so simply press "Launch" at the bottom of the form. After pressing
 launch the job should have successfully launched the job and redirected us back
 the [interactive sessions](https://localhost:3443/pun/sys/dashboard/batch_connect/sessions) page where we'll
 see a panel showing our job.  
+
+![fix cluster and submit](imgs/fix_cluster.gif)
 
 #### Debug failure
 
@@ -106,12 +92,8 @@ This job is going to run and fail during startup.  But don't worry! We're going 
 When the job completes, the panel still exists, so you can follow the link in the panel to the log
 directory of the job.
 
-IMG NEEDED
-
 Follow the link and we'll be redirected to the job's working directory where an `output.log` file is.
 Let's open that file with the "View" button.
-
-IMG NEEDED
 
 When you open the log file, you'll see the something like this where it says **jupyter: command not found**.
 So you can see, we have `PATH` issues.
@@ -159,7 +141,7 @@ Now we can [launch the application again](####-Launch-the-Jupyter-Application) a
 When it is up and running and available to use the panel will show a "Connect to Jupyter" button.  Click this button
 and OnDemand will redirect us to Jupyter.  
 
-IMGs NEEDED
+![fix path and launch](imgs/fix_path_and_launch.gif)
 
 Congratulations! We've now started development on the Jupyter Notebook batch connect application and
 successfully connected to it.
@@ -183,6 +165,8 @@ In this shell you'll save in git with these commands:
 git add .
 git commit -m 'initial commit that correctly submits to the hpc cluster'
 ```
+
+![git save initial](imgs/git_save_initial.gif)
 
 ### A closer look at the form.yml
 
@@ -291,6 +275,8 @@ and confirm you chose a different queue with this command.
 NAME PARTITION
 sys/dashboard/dev/jupyter debug
 ```
+
+![make custom queue](imgs/make_custom_queue.gif)
 
 At this point, this should be the entirety of the `script.yml.erb` and `form.yml` (without comments).
 They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
@@ -677,8 +663,6 @@ If you want to change `category` and `subcategory` you can freely do so.
 These attributes create groupings for applications.  Since we will only have two
 applications (the system installed "Interactive Apps/Desktops" and this app)
 
-IMG NEEDED
-
 Now [save your spot](#save-your-spot) because the next thing we're going to do
 is deploy this development application to production.
 
@@ -699,7 +683,7 @@ sudo cp -R jupyter/ /var/www/ood/apps/sys/
 And that's it! All you have to do now is refresh the page and you should see your
 Jupyter system app in the menu along with your sandbox development app.
 
-IMG NEEDED
+![deploy to production](imgs/deploy_to_production.gif)
 
 ## Tutorial Navigation
 [Next - Acknowledgments](../docs/acknowledgments.md)
