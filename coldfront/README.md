@@ -89,7 +89,7 @@ NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfro
 ## Login to Open XDMoD container
 - `ssh hpcadmin@xdmod`
 - In order to see the job data just generated in slurm, we need to ingest the data into Open XDMoD and aggregate it.  This is normally done once a day on a typical system but for the purposes of this demo, we have created a script that you can run now:
-`sudo /srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
+`sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
 
 The contents of the script are:
 ```bash

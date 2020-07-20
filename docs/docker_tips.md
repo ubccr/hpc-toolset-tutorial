@@ -12,17 +12,16 @@ https://docs.docker.com/compose/install/
 
 ### Verify working Docker
 `docker info`  
-*This should display your system info along with Docker-specific info.  If there are any errors, stop/start Docker*
-
+**This should display your system info along with Docker-specific info.  If there are any errors, stop/start Docker**
 
 ### Error when starting up tutorial containers
 
-If you get this error when running `docker-compose up -d`  
+If you get this error when starting the tutorial   
 `ERROR: Couldn't connect to Docker daemon at http+docker://localunixsocket - is it running?`  
+or  
+`ERROR: Couldn't connect to Docker daemon at http+docker://localhost - is it running?`
 
-Try stopping and starting Docker (restart doesn't usually fix the problem)  
-`sudo systemctl stop docker  
-sudo systemctl start docker`
+Try stopping and starting Docker (restart doesn't usually fix the problem).  Commands for this differ depending on operating system.
 
 If the error persists, try:  
 `export DOCKER_HOST=127.0.0.1`  
@@ -31,44 +30,30 @@ NOTE: this is only necessary on some systems so don't use it if the previous com
 ### Display Docker processes
 `docker ps -a`
 
+### Display Tutorial Container Logs
+`docker-compose logs -f`
+
 ### Display Docker containers
 `docker container list`
 
 ### Display Docker images
 `docker image list`
 
-
+### Display Docker volumes
+`docker volume list`
 
 ### Shutting down the tutorial containers
 **NOTE: This is the preferred method to stop/start or tear down the tutorial setup as the containers rely on each other and stopping, starting or deleting them individually usually has unintended side effects**
 
-To stop the containers:
-```
-$ ./hpcts stop
-or
-$ docker-compose stop
-```
+To stop the containers:  
+`./hpcts stop`
 
-To tear down all containers and remove volumes:
-
-```
-$ ./hpcts clean
-```
-
-This will run these commands:
-```
-$ docker-compose stop
-$ docker-compose rm -f
-$ docker-compose down -v
-```
+To tear down all containers and remove the volumes:  
+`./hpcts cleanup`
 
 ### Starting everything up again
 
-```
-$ ./hpcts start
-or
-$ docker-compose up -d
-```
+`./hpcts start`
 
 ### Deleting Docker containers/images/volumes
 If you really want to clean up images and start fresh:  
@@ -79,10 +64,8 @@ If you really want to clean up images and start fresh:
 `docker volume list`  
 `docker volume rm XX` (XX=volume id)
 
-If you're getting an error about volumes in use but there is nothing running, stop docker, manually delete the files, and start docker:  
-`sudo systemctl stop docker`  
-`sudo rm /var/lib/docker/volumes/XXX` (XXX=name of volume)  
-`sudo systemctl start docker`  
+If you're getting an error about volumes in use but there is nothing running, stop docker, manually delete the files, and start docker again.  These commands are different depending on the operating system so we recommend using your favorite search provider to locate instructions for this.
+
 
 ### Finding IP address of container
 
