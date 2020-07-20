@@ -45,17 +45,17 @@ NOTE: this is only necessary on some systems so don't use it if the previous com
 ### Shutting down the tutorial containers
 **NOTE: This is the preferred method to stop/start or tear down the tutorial setup as the containers rely on each other and stopping, starting or deleting them individually usually has unintended side effects**
 
-To stop the containers:  
+To tear down all containers and remove the volumes:  
 `./hpcts stop`
 
-To tear down all containers and remove the volumes:  
+To tear down all containers, remove volumes, and remove the container images (next time you run start they will be re-downloaded):
 `./hpcts cleanup`
 
 ### Starting everything up again
 
 `./hpcts start`
 
-### Deleting Docker containers/images/volumes
+### Deleting Docker containers/images/volumes manually
 If you really want to clean up images and start fresh:  
 `docker image list`  
 `docker image rm XX` (XX=image id)  
