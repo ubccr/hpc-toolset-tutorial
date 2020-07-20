@@ -6,6 +6,8 @@ An overview of the containers in the cluster:
 
 ![Container Overview](HPC-Toolset-sm.png)
 
+## Requirements
+If you haven't already installed and tested the required packages, please refer to the [requirements page](requirements.md)
 
 ## Getting started
 
@@ -65,14 +67,28 @@ Login to frontend: ssh -p 6222 hpcadmin@localhost
 
 
 ```
+**NOTE:  Despite seeing this output with URLs, the processes on these containers may not be fully running yet.  Depending on the speed of your computer, starting up the processes may take a few minutes (or even up to 10 minutes).  Use the command below to check the docker logs if the websites are not yet displaying.**
+
 NOTE: Windows users will get several pop-up messages from Docker Desktop during this process asking to allow local system access to the Docker containers.  Please click the "Share it" button:
 ![](windows_sharing.PNG)
 
 
-**NOTE:  Despite seeing this output with URLs, the processes on these containers may not be fully running yet.  Depending on the speed of your computer, starting up the processes may take a few minutes (or even up to 10 minutes).  Use the command below to check the docker logs if the websites are not yet displaying.**
+### Error when starting up tutorial containers
+
+If you get this error when starting the tutorial   
+`ERROR: Couldn't connect to Docker daemon at http+docker://localunixsocket - is it running?`   
+or  
+`ERROR: Couldn't connect to Docker daemon at http+docker://localhost - is it running?`
+
+Try stopping and starting Docker (restart doesn't usually fix the problem).  Commands for this differ depending on operating system.
+
+If the error persists, try:  
+`export DOCKER_HOST=127.0.0.1`  
+NOTE: this is only necessary on some systems so don't use it if the previous command works
 
 
-Once docker-compose finishes you can check the status of the containers:
+### Docker Logs
+Once the helper script finishes you can check the status of the containers:
 
 ```
 $ docker-compose logs -f
@@ -93,8 +109,8 @@ xdmod        | ---> Starting XDMoD...
 ```
 
 ## Something still not right?
-If errors are showing up in the logs or the services have not all started, run the 'clean' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:
-`./hpcts clean`  
+If errors are showing up in the logs or the services have not all started, run the 'clean' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:  
+`./hpcts cleanup`  
 `docker container list`  
 Should show no containers  
 `docker volume list`  
@@ -104,10 +120,11 @@ If either do, you should run the corresponding remove command:
 `docker volume rm [imgID]`  
 Then start it all up again:
 `./hpcts start`  
-Since you already downloaded all the images, this command will only startup the containers and services which only takes a few minutes.
+Since you already downloaded all the images, this command will only startup the containers and services which only takes a few minutes.  Just in case none of this worked here are [more Docker tips](docker_tips.md)
 
 
 
 ## Tutorial Navigation
 [Next - Accessing the Applications](applications.md)  
+[Docker Tips](docker_tips.md)  
 [Back to Start](../README.md)
