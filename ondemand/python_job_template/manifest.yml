@@ -1,0 +1,5 @@
+name: Basic Python Serial Job
+host: hpc
+script: script.sh
+notes: |
+  A Basic Python Serial Job

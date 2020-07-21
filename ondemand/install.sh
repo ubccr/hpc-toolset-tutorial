@@ -21,7 +21,9 @@ mkdir -p /etc/ood/config/clusters.d
 mkdir -p /etc/ood/config/apps/shell
 mkdir -p /etc/ood/config/apps/bc_desktop
 mkdir -p /etc/ood/config/apps/dashboard
+mkdir -p /etc/ood/config/apps/myjobs/templates
 echo "DEFAULT_SSHHOST=frontend" > /etc/ood/config/apps/shell/env
+echo "OOD_DEFAULT_SSHHOST=frontend" >> /etc/ood/config/apps/shell/env
 echo "OOD_SSHHOST_ALLOWLIST=ondemand:cpn01:cpn02" >> /etc/ood/config/apps/shell/env
 echo "OOD_DEV_SSH_HOST=ondemand" >> /etc/ood/config/apps/dashboard/env
 echo "MOTD_PATH=/etc/motd" >> /etc/ood/config/apps/dashboard/env
