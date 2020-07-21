@@ -78,12 +78,12 @@ There is a slurm controller, slurm database container, and two compute nodes in 
 Login to the front end first:
 `ssh -p 6222 hpcadmin@localhost`
 
-Then login to any of the containers using any of the LDAP accounts listed above.
+Then login to any of the containers using any of the LDAP accounts listed above.  
 
-SSH container name for Slurm controller: `slurmctld`
-SSH container name for Slurm database: `slurmdbd`
-SSH container name for compute node 1: `cpn01`
-SSH container name for compute node 2: `cpn02`
+SSH container name for Slurm controller: `slurmctld`  
+SSH container name for Slurm database: `slurmdbd`  
+SSH container name for compute node 1: `cpn01`  
+SSH container name for compute node 2: `cpn02`  
 
 
 

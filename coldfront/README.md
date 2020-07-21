@@ -23,11 +23,11 @@ NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfro
 - Go back to Admin interface, Click on Resources
 - Add a resource: `cluster, cluster name=hpc, attribute: slurm_cluster=hpc`
 - Logout
-- Login using OpenID as PI `cgray:test123`
+- Login locally as PI `cgray:test123`
 - Create a new project
 - Request an allocation for resource: hpc
 - Logout
-- Login as `hpcadmin`
+- Login locally as `hpcadmin`
 - Activate the allocation and set the appropriate allocation attributes:  
 `slurm_account:cgray, slurm_specs:Fairshare=100, slurm_user_specs:Fairshare=parent`
 
@@ -142,4 +142,5 @@ NOTE: There won't be much info except that we ran a few jobs. More will be prese
 ## Tutorial Navigation
 [Next - Open XDMoD](../xdmod/README.md)  
 [Previous Step - Accessing the Applications](../docs/applications.md)  
+[Docker Tips](../docs/docker_tips.md)  
 [Back to Start](../README.md)

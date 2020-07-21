@@ -13,6 +13,12 @@ If you haven't already installed and tested the required packages, please refer 
 
 You will need to clone the tutorial repo and then run the helper script.  The first time running this, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 7GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network this download and container startup process took 17 minutes.  
 
+NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command before cloning the tutorial repo:
+```
+git config --global core.autocrlf input
+```
+
+### Clone Repo and Start Containers
 ```
 $ git clone https://github.com/ubccr/hpc-toolset-tutorial.git
 $ cd hpc-toolset-tutorial
@@ -80,11 +86,13 @@ If you get this error when starting the tutorial
 or  
 `ERROR: Couldn't connect to Docker daemon at http+docker://localhost - is it running?`
 
-Try stopping and starting Docker (restart doesn't usually fix the problem).  Commands for this differ depending on operating system.
+Try stopping and starting Docker (restart doesn't usually fix the problem).  Commands for this differ depending on operating system.  
 
 If the error persists, try:  
 `export DOCKER_HOST=127.0.0.1`  
 NOTE: this is only necessary on some systems so don't use it if the previous command works
+
+**Sometimes restarting your operating system is the only solution.**
 
 
 ### Docker Logs
