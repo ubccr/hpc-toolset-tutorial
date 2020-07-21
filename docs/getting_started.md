@@ -117,18 +117,27 @@ xdmod        | ---> Starting XDMoD...
 ```
 
 ## Something still not right?
-If errors are showing up in the logs or the services have not all started, run the 'stop' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:  
+If errors are showing up in the logs or the services have not all started, check to see which images have been downloaded and which containers are running.  This is what you should see:  
+![](containers_images.PNG)  
+
+If not, run the 'stop' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:  
 `./hpcts stop`  
 `docker container list`  
 Should show no containers  
 `docker volume list`  
 Should show no volumes  
 If either do, you should run the corresponding remove command:  
-`docker container rm [imgID]`  
-`docker volume rm [imgID]`  
-Then start it all up again:
+`docker container rm [ContainerID]`  
+`docker volume rm [VolumeName]`  
+Then start it all up again:  
 `./hpcts start`  
-Since you already downloaded all the images, this command will only startup the containers and services which only takes a few minutes.  Just in case none of this worked here are [more Docker tips](docker_tips.md)
+Since you already downloaded all the images, this command will only startup the containers and services which only takes a few minutes.  
+
+To completely start over, run:  
+`./hpcts cleanup`  
+`./hpcts start`
+
+Just in case none of this worked here are [more Docker tips](docker_tips.md)
 
 
 
