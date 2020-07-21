@@ -13,7 +13,7 @@ If you haven't already installed and tested the required packages, please refer 
 
 You will need to clone the tutorial repo and then run the helper script.  The first time running this, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 7GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network this download and container startup process took 17 minutes.  
 
-NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command before cloning the tutorial repo:
+NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command using the git-bash shell application before cloning the tutorial repo:
 ```
 git config --global core.autocrlf input
 ```

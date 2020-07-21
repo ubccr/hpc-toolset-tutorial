@@ -2,6 +2,9 @@
 
 Some things you might find useful while using this setup:
 
+### Docker Documentation
+https://docs.docker.com
+
 ### Install & Start Docker
 https://docs.docker.com/engine/install/
 
@@ -26,6 +29,8 @@ Try stopping and starting Docker (restart doesn't usually fix the problem).  Com
 If the error persists, try:  
 `export DOCKER_HOST=127.0.0.1`  
 NOTE: this is only necessary on some systems so don't use it if the previous command works
+
+**Sometimes restarting your operating system is the only solution.**
 
 ### Docker Troubleshooting
 Linux: https://docs.docker.com/engine/install/linux-postinstall/  

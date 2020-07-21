@@ -1,15 +1,12 @@
 ## Requirements
 
-For this tutorial you will need to have git and docker installed on your local machine.  
-https://docs.docker.com/get-docker/
+For this tutorial you will need to have git, docker, docker-compose and a web browser installed on your local machine.  This tutorial has been tested on various versions of Linux, MacOS, and Windows 10 with the following package versions:
 
-This tutorial has been tested on Linux, MacOS, and Windows 10:
-
-- git
+- git 2.17+ (Windows users we recommend:  https://gitforwindows.org/)
 - docker version 19.03.8+
 - docker-compose 1.25.2+
 
-NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command before cloning the tutorial repo:
+NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command using the git-bash shell application before cloning the tutorial repo:
 ```
 git config --global core.autocrlf input
 ```
