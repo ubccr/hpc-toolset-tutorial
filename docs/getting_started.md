@@ -13,6 +13,12 @@ If you haven't already installed and tested the required packages, please refer 
 
 You will need to clone the tutorial repo and then run the helper script.  The first time running this, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 7GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network this download and container startup process took 17 minutes.  
 
+NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command using the git-bash shell application before cloning the tutorial repo:
+```
+git config --global core.autocrlf input
+```
+
+### Clone Repo and Start Containers
 ```
 $ git clone https://github.com/ubccr/hpc-toolset-tutorial.git
 $ cd hpc-toolset-tutorial
@@ -80,11 +86,13 @@ If you get this error when starting the tutorial
 or  
 `ERROR: Couldn't connect to Docker daemon at http+docker://localhost - is it running?`
 
-Try stopping and starting Docker (restart doesn't usually fix the problem).  Commands for this differ depending on operating system.
+Try stopping and starting Docker (restart doesn't usually fix the problem).  Commands for this differ depending on operating system.  
 
 If the error persists, try:  
 `export DOCKER_HOST=127.0.0.1`  
 NOTE: this is only necessary on some systems so don't use it if the previous command works
+
+**Sometimes restarting your operating system is the only solution.**
 
 
 ### Docker Logs
@@ -109,18 +117,27 @@ xdmod        | ---> Starting XDMoD...
 ```
 
 ## Something still not right?
-If errors are showing up in the logs or the services have not all started, run the 'stop' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:  
+If errors are showing up in the logs or the services have not all started, check to see which images have been downloaded and which containers are running.  This is what you should see:  
+![](containers_images.PNG)  
+
+If not, run the 'stop' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:  
 `./hpcts stop`  
 `docker container list`  
 Should show no containers  
 `docker volume list`  
 Should show no volumes  
 If either do, you should run the corresponding remove command:  
-`docker container rm [imgID]`  
-`docker volume rm [imgID]`  
-Then start it all up again:
+`docker container rm [ContainerID]`  
+`docker volume rm [VolumeName]`  
+Then start it all up again:  
 `./hpcts start`  
-Since you already downloaded all the images, this command will only startup the containers and services which only takes a few minutes.  Just in case none of this worked here are [more Docker tips](docker_tips.md)
+Since you already downloaded all the images, this command will only startup the containers and services which only takes a few minutes.  
+
+To completely start over, run:  
+`./hpcts cleanup`  
+`./hpcts start`
+
+Just in case none of this worked here are [more Docker tips](docker_tips.md)
 
 
 

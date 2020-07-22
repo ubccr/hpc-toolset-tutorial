@@ -2,6 +2,9 @@
 
 Some things you might find useful while using this setup:
 
+### Docker Documentation
+https://docs.docker.com
+
 ### Install & Start Docker
 https://docs.docker.com/engine/install/
 
@@ -27,6 +30,13 @@ If the error persists, try:
 `export DOCKER_HOST=127.0.0.1`  
 NOTE: this is only necessary on some systems so don't use it if the previous command works
 
+**Sometimes restarting your operating system is the only solution.**
+
+### Docker Troubleshooting
+Linux: https://docs.docker.com/engine/install/linux-postinstall/  
+MacOS - Docker Desktop: https://docs.docker.com/docker-for-mac/troubleshoot/  
+Windows - Docker Desktop:  https://docs.docker.com/docker-for-windows/troubleshoot/  
+
 ### Display Docker processes
 `docker ps -a`
 
@@ -45,10 +55,10 @@ NOTE: this is only necessary on some systems so don't use it if the previous com
 ### Shutting down the tutorial containers
 **NOTE: This is the preferred method to stop/start or tear down the tutorial setup as the containers rely on each other and stopping, starting or deleting them individually usually has unintended side effects**
 
-To tear down all containers and remove the volumes:  
+To tear down all containers and remove the volumes:   
 `./hpcts stop`
 
-To tear down all containers, remove volumes, and remove the container images (next time you run start they will be re-downloaded):
+To tear down all containers, remove volumes, and remove the container images (next time you run start they will be re-downloaded):  
 `./hpcts cleanup`
 
 ### Starting everything up again

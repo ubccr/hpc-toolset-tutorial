@@ -23,11 +23,11 @@ NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfro
 - Go back to Admin interface, Click on Resources
 - Add a resource: `cluster, cluster name=hpc, attribute: slurm_cluster=hpc`
 - Logout
-- Login using OpenID as PI `cgray:test123`
+- Login locally as PI `cgray:test123`
 - Create a new project
 - Request an allocation for resource: hpc
 - Logout
-- Login as `hpcadmin`
+- Login locally as `hpcadmin`
 - Activate the allocation and set the appropriate allocation attributes:  
 `slurm_account:cgray, slurm_specs:Fairshare=100, slurm_user_specs:Fairshare=parent`
 
@@ -79,8 +79,8 @@ NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfro
 
 
 ## Login to Open XDMoD website
-- Login to Open XDMoD as `cgray (test123)`  https://localhost:4443/
-- Change date to include today
+- Login to Open XDMoD https://localhost:4443/  
+ -- Under the section "Sign in with tutorial:"  Click on "Login Here" and enter `cgray:test123`
 - There is currently no data in XDMoD
 
 ![XDMoD no data](../docs/xdmod_empty.PNG)
@@ -108,17 +108,18 @@ aggregate_supremm.sh
 **Note: More information about this script in the Open XDMoD portion of this tutorial**
 
 ## Login to Open XDMoD website
-- Login to Open XDMoD as `cgray (test123)`  https://localhost:4443/
-- Change date to include today
-- You should see the data from the job you just ran
+- Login to Open XDMoD https://localhost:4443/  
+ -- Under the section "Sign in with tutorial:"  Click on "Login Here" and enter `cgray:test123`
+- You should see the data from the job you just ran  
 NOTE: There won't be much info except that we ran a few jobs. More will be presented in the XDMoD portion of the tutorial
 
 ![XDMoD job data](../docs/xdmod_jobs.PNG)
 
 ## Adding new users to project & allocation (time permitting)
-- Login to ColdFront as `csimmons (ilovelinux)` https://localhost:2443/
+- Login to ColdFront as local user `csimmons (ilovelinux)` https://localhost:2443/  
+ **NOTE:**  You'll need to use a separate browser or incognito window as you'll already be logged in using the single sign on with XDMoD and OnDemand.
 - Notice there are no projects and no allocations.  Logout
-- Login as `cgray (test123)`
+- Login locally as user `cgray (test123)`
 - Click on project
 - Click on Add User - search for `csimmons`
 - Add to allocation
@@ -142,4 +143,5 @@ NOTE: There won't be much info except that we ran a few jobs. More will be prese
 ## Tutorial Navigation
 [Next - Open XDMoD](../xdmod/README.md)  
 [Previous Step - Accessing the Applications](../docs/applications.md)  
+[Docker Tips](../docs/docker_tips.md)  
 [Back to Start](../README.md)
