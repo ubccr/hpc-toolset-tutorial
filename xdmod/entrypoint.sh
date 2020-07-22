@@ -43,6 +43,17 @@ then
         echo "---> Open XDMoD Setup: finish"
         expect /srv/xdmod/scripts/xdmod-setup-finish.tcl | col -b
 
+        #------------------------
+        # The xdmod-setup interactive script includes menu items for all of the
+        # common basic Open XDMoD configuration.  The
+        # /etc/xdmod/portal_settings.ini file can always be manually edited for
+        # site-specific configuration For the demo we enable the CORS setting
+        # to allow the Open XDMoD server to process requests from within
+        # OnDemand. In a production system this should be set to the
+        # appropriate address of the OnDemand webserver.
+        #------------------------
+        sed -i 's%domains = ""%domains = "https://localhost:3443"%g' /etc/xdmod/portal_settings.ini
+
         echo "Open XDMoD Import: Hierarchy"
         sudo -u xdmod xdmod-import-csv -t hierarchy -i /srv/xdmod/hierarchy.csv
 
