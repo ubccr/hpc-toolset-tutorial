@@ -11,5 +11,6 @@ COPY motd /etc/motd
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY notebook_data /data/notebook_data
 COPY initializers/dashboard.rb /etc/ood/config/apps/dashboard/initializers/dashboard.rb
+COPY themes/hpc-coop /usr/share/ondemand-dex/web/themes/hpc-coop
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
