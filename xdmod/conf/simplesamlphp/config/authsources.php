@@ -48,7 +48,8 @@ $config = array(
         'secret' => '334389048b872a533002b34d73f8c29fd09efc50',
         'scope' => 'openid email profile',
         'response_type' => 'code',
-        'redirect_uri' => 'https://localhost:4443/simplesaml/module.php/authoidcoauth2/linkback.php'
+        'redirect_uri' => 'https://localhost:4443/simplesaml/module.php/authoidcoauth2/linkback.php',
+        'verify_ssl' => 0
     ),
     'admin' => array(
         // The default is to use core:AdminPassword, but it can be replaced with
