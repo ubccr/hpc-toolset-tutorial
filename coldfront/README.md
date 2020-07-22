@@ -91,18 +91,6 @@ NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfro
 - In order to see the job data just generated in slurm, we need to ingest the data into Open XDMoD and aggregate it.  This is normally done once a day on a typical system but for the purposes of this demo, we have created a script that you can run now:
 `sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
 
-The contents of the script are:
-```bash
-#!/bin/bash
-yesterday=`date +%Y-%m-%d --date="-1 day"`
-tomorrow=`date +%Y-%m-%d --date="+1 day"`
-
-xdmod-slurm-helper -r hpc --start-time $yesterday --end-time $tomorrow
-xdmod-ingestor
-indexarchives.py -a
-summarize_jobs.py
-aggregate_supremm.sh
-```
 [![asciicast](https://asciinema.org/a/347955.svg)](https://asciinema.org/a/347955)
 
 **Note: More information about this script in the Open XDMoD portion of this tutorial**
