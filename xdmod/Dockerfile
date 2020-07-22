@@ -9,4 +9,5 @@ COPY hierarchy.csv /srv/xdmod/hierarchy.csv
 COPY scripts/ /srv/xdmod/scripts
 COPY bin/sendmail /usr/sbin/sendmail
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY small-logo.png /srv/xdmod/small-logo.png
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

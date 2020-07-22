@@ -20,7 +20,8 @@ provideInput {Email Address:} ccr-xdmod-help@buffalo.edu
 answerQuestion {Java Path} /usr/bin/java
 answerQuestion {Javac Path} /usr/bin/javac
 provideInput {PhantomJS Path:} /usr/local/bin/phantomjs
-provideInput {Center Logo Path:} {}
+provideInput {Center Logo Path:} /srv/xdmod/small-logo.png
+provideInput {Center Logo Width:} 354
 provideInput {Enable Dashboard Tab*} {on}
 confirmFileWrite yes
 enterToContinue
