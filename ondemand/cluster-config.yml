@@ -15,3 +15,6 @@ v2:
         export PATH="/opt/TurboVNC/bin:$PATH"
         export WEBSOCKIFY_CMD="/usr/bin/websockify"
         %s
+  custom:
+    xdmod:
+      resource_id: 1

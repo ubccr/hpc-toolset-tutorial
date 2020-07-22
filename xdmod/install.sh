@@ -45,6 +45,9 @@ yum install -y https://tas-tools-ext-01.ccr.xdmod.org/9.0.0rc3/xdmod-9.0.0-0.3.r
                https://tas-tools-ext-01.ccr.xdmod.org/9.0.0rc3/xdmod-supremm-9.0.0-0.3.rc3.el7.noarch.rpm \
                https://github.com/ubccr/supremm/releases/download/1.4.0rc01/supremm-1.4.0-rc01.el7.x86_64.rpm
 
+# modify portal_settings.ini to enable CORS for OnDemand
+sed -i 's%domains = ""%domains = "https://localhost:3443"%g' /etc/xdmod/portal_settings.ini
+
 #------------------------
 # phantomjs is used by Open XDMoD for chart image export and for the
 # report generator.
