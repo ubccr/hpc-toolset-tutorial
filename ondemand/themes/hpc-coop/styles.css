@@ -10,7 +10,7 @@
   color: #333;
   font-size: 13px;
   font-weight: 100;
-  height: 46px;
+  height: 70px;
   overflow: hidden;
   padding: 0 10px;
 }
@@ -20,12 +20,12 @@
   height: 100%;
   overflow: hidden;
   padding: 10px 15px;
-  width: 300px;
+  width: 500px;
 }
 
 .theme-navbar__logo {
   height: 100%;
-  max-height: 25px;
+  width: 100%;
 }
 
 .theme-heading {
