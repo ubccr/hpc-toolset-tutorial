@@ -8,7 +8,7 @@
 ## Jupyter Installation Tutorial
 
 This tutorial will be using the the `hpcadmin` credentials listed in
-[the getting started documentation](../docs/getting_started.md).
+[Accessing the Applications](../docs/applications.md).
 
 ### Getting Started
 
