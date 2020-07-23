@@ -126,7 +126,7 @@ Resource Setup:
 
 #### What about a Heterogeneous cluster?
 
-`xdmod-setup` is for the general use case. For some configuration you will need to edit
+The `xdmod-setup` script is used for the basic setup of Open XDMoD. The script includes options to configure the Open XDMoD database, setup the admin user account and configure resources.
 Open XDMoD's [Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files.
 
 Resource Specs Modification:
@@ -169,13 +169,16 @@ This tutorial uses the [Job Performance](https://supremm.xdmod.org) module for O
 
 The example in this tutorial uses [Performance Co-Pilot (PCP)](https://pcp.io)  as the performance data collection software. This must be [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
 
-This tutorial uses a cut-down list of metrics from the recommened list.
+This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system.
 This shorter list is suitable for running inside the docker demo. On a
 real HPC system the data collection should be setup following the
 [PCP Data collection](https://supremm.xdmod.org/supremm-compute-pcp.html#configuration-templates) guide
 
 The file used in this demo can be viewed here: https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/pmlogger-supremm.config#L56-L59
 
+VERY IMPORTANT - Don't start the configuration of the Job Performance module until there is job data ingested into Open XDMoD
+The Job performance setup relies on the accounting data from the Jobs realm in Open XDMoD.
+This was done as part of this tutorial as part of setup and will be done again later in the tutorial.
 
 Job Performance XDMoD Module Setup:
 [![asciicast](https://asciinema.org/a/349241.svg)](https://asciinema.org/a/349241)
