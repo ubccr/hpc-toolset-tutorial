@@ -805,8 +805,8 @@ Notice hpcadmin does not have access
     sudo setfacl -m u:hpcadmin:rx df
     getfacl df
 
-Notice hpcadmin has access
-Notice sfoster does not have access
+- Now hpcadmin has access
+- Now sfoster does not have access
 
 Notes
 
@@ -926,10 +926,13 @@ Review integration steps (see dashboard MOTD)
 
 Review dashboard widgets - restart Web Server to see
 
+* job efficiency report is based on both core and memory usage but these containers don't gather all the necessary information, which is why they display 100%
+
 Review Job Composer links - access Job Composer
 
-## Tutorial Navigation
 
-[Next - Acknowledgments](../docs/acknowledgments.md)
-[Previous Step - Open XDMoD](../xdmod/README.md)
+
+## Tutorial Navigation
+[Next - Acknowledgments](../docs/acknowledgments.md)  
+[Previous Step - Open XDMoD](../xdmod/README.md)  
 [Back to Start](../README.md)
