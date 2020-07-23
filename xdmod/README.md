@@ -165,7 +165,7 @@ The Job Performance module is optional, but highly recommended.
 
 ### Job Performance Configuration
 
-This tutorial uses the [Job Performance](https://supremm.xdmod.org) module for Open XDMoD
+This tutorial uses the [Job Performance](https://supremm.xdmod.org) module for Open XDMoD. The Job Performance module displays job performance metric based on data collected on the HPC compute nodes.
 
 The main requirement being [Performance Co-Pilot (PCP)](https://pcp.io) being [instealled](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
 
