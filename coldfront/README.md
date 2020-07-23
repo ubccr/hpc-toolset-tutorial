@@ -31,7 +31,7 @@ NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfro
 - Activate the allocation and set the appropriate allocation attributes:  
 `slurm_account:cgray, slurm_specs:Fairshare=100, slurm_user_specs:Fairshare=parent`
 
-![ColdFront demo](../docs/cf_demo.gif)
+![ColdFront demo](../docs/CF_demo.mp4)  
 
 ## Run slurm plugin to sync active allocations from ColdFront to slurm
 - Login to the frontend container first, then to the coldfront container:  
@@ -84,7 +84,7 @@ password: `test123`
 - Submit a job using job template
 - Launch an interactive Job
 
-![ColdFront OnDemand demo](../docs/cf_demo2.gif)
+![ColdFront OnDemand demo](../docs/CF_OOD.mp4)  
 
 
 ## Login to Open XDMoD website
