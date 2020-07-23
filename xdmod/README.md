@@ -167,7 +167,7 @@ The Job Performance module is optional, but highly recommended.
 
 This tutorial uses the [Job Performance](https://supremm.xdmod.org) module for Open XDMoD. The Job Performance module displays job performance metric based on data collected on the HPC compute nodes.
 
-The main requirement being [Performance Co-Pilot (PCP)](https://pcp.io) being [instealled](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
+The example in this tutorial uses [Performance Co-Pilot (PCP)](https://pcp.io)  as the performance data collection software. This must be [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
 
 This tutorial uses a cut-down list of metrics from the recommened list.
 This shorter list is suitable for running inside the docker demo. On a
