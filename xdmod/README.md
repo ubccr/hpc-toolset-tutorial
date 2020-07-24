@@ -145,7 +145,10 @@ Decanal Unit -> Department -> PI Group
 Reference: [Hierarchy Guide](https://open.xdmod.org/hierarchy.html)
 
 #### User / PI Names
-Open XDMoD has the ability to import a full names.
+
+Open XDMoD has the ability to import a full names.  If full names are not imported, usernames are used.
+
+![Group By User(names not importe)](./tutorial-screenshots/usernames.png)
 
 This has not been automated for this tutorial. We dont want you to fall asleep!
 
@@ -174,6 +177,8 @@ Now this needs to be imported into xdmod with the command [`xdmod-import-csv`](h
 sudo su - xdmod xdmod-import-csv -t names -i /var/tmp/names.csv
 ```
 
+
+![Group By User](./tutorial-screenshots/fullnames.png)
 
 Reference: [User/PI Names Guide](https://open.xdmod.org/user-names.html)
 
