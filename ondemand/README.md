@@ -345,7 +345,7 @@ the help message here, it was really just for illustration.
 * `max` the maximum value, ~1 GB in this case
 * `min` the minimum value, 200 MB
 * `step` the step size when users increase or decrease the value
-* `value` the default value of 500 MB
+* `value` the default value of 600 MB
 * `label` the for UIs label
 * `help` a help message
 
@@ -357,7 +357,7 @@ attributes:
     max: 1000
     min: 200
     step: 200
-    value: 500
+    value: 600
     label: "Memory (MB)"
     help: "RSS Memory"
 form:
@@ -422,7 +422,7 @@ attributes:
     max: 1000
     min: 200
     step: 200
-    value: 500
+    value: 600
     label: "Memory (MB)"
     help: "RSS Memory"
 form:
@@ -507,7 +507,7 @@ attributes:
     max: 1000
     min: 200
     step: 200
-    value: 500
+    value: 600
     label: "Memory (MB)"
     help: "RSS Memory"
   jupyterlab_switch:
@@ -515,7 +515,6 @@ attributes:
     label: "Use JupyterLab instead of Jupyter Notebook?"
     help: |
       JupyterLab is the next generation of Jupyter, and is completely compatible with existing Jupyter Notebooks.
-form:
 form:
   - modules
   - extra_jupyter_args
@@ -618,7 +617,7 @@ attributes:
     max: 1000
     min: 200
     step: 200
-    value: 500
+    value: 600
     label: "Memory (MB)"
     help: "RSS Memory"
   jupyterlab_switch:
