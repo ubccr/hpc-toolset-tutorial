@@ -1,10 +1,11 @@
 ## Requirements
 
-For this tutorial you will need to have git, docker, docker-compose and a web browser installed on your local machine.  This tutorial has been tested on various versions of Linux, MacOS, and Windows 10 with the following package versions:
+For this tutorial you will need to have **12GB of free disk space** and git, docker, docker-compose and a web browser installed on your local machine.  This tutorial has been tested on various versions of Linux, MacOS, and Windows 10 with the following package versions:
 
 - git 2.17+ (Windows users we recommend:  https://gitforwindows.org/)
 - docker version 19.03.8+
 - docker-compose 1.25.2+
+
 
 NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command using the git-bash shell application before cloning the tutorial repo:
 ```
@@ -42,6 +43,7 @@ Some useful info on installing Docker, navigating this tutorial and learning a b
 
 [Docker Tips](docker_tips.md)  
 [Docker Compose Tutorial](https://youtu.be/DX1T-PKHKhg) *Unaffiliated with us but a very good overview of Docker Compose*
+
 
 ## Tutorial Navigation
 [Next - Getting Started](getting_started.md)  

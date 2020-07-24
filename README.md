@@ -23,6 +23,12 @@ This tutorial aims to demonstrate how three open source applications work in con
 
 [Acknowledgments](docs/acknowledgments.md)
 
+
+## Workshops
+This tutorial will be presented at the following conferences:  
+[PEARC20](https://pearc.acm.org/pearc20/) - [Schedule](https://sched.co/cnSs)     
+[Gateways 2020](https://sciencegateways.org/web/gateways2020)
+
 ## License
 
 This tutorial is released under the GPLv3 license. See the LICENSE file.
