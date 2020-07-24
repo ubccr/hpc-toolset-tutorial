@@ -87,9 +87,8 @@ password: `test123`
 - Submit a job using job template
 - Launch an interactive Job
 
-<figure class="video_container">
-  <iframe src="https://drive.google.com/file/d/1CWF6Xlig5EJWgENK-mPmZB2vXhjhbHcb/view?usp=sharing" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
+<iframe src="https://drive.google.com/file/d/1CWF6Xlig5EJWgENK-mPmZB2vXhjhbHcb/view?usp=sharing" frameborder="0" allowfullscreen="true"> </iframe>
+
 
 ## Login to Open XDMoD website
 - Login to Open XDMoD https://localhost:4443/  
