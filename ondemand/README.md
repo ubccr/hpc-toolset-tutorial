@@ -684,7 +684,284 @@ Jupyter system app in the menu along with your sandbox development app.
 
 ![deploy to production](imgs/deploy_to_production.gif)
 
+## Passenger app tutorial
+
+### Create a simplest app from scratch
+
+
+1. Access OnDemand dashboard https://localhost:3443
+2. Develop => My Sandbox Apps to see the list of apps
+3. Click Launch Files
+4. "New Dir" insert "df" then close
+5. Reload My Sandbox Apps
+6. Click "Details" on df app to open in App Editor
+
+7. Click "Files" button
+8. "New File" => config.ru
+9. Select and "Edit"
+
+8. Copy app below into editor and click Save:
+
+```ruby
+require 'sinatra'
+
+get "/" do
+    "<h1>Hello</h1>"
+end
+
+run Sinatra::Application
+```
+
+9. App Editor tab: Click Launch
+10. App not initialized; click button to initialize. App displays
+
+Notes:
+
+* You can do the same steps through the shell - we are just editing files and accessing URLs.
+* Sinatre gem is included in gem set already available with the ondemand deployment. The ondemand gem rpms are separate rpms with version in the name so they stick around until you remove it - no loss of dependencies due to yum update.
+
+
+### Apps can be written in different languages
+
+Passenger native support for Ruby, NodeJS, Python
+
+Example NodeJS app, create an `app.js` file in the app directory with this content:
+
+```
+const http = require('http')
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' })
+  res.write('Hello World from Open OnDemand')
+  res.end()
+})
+
+server.listen(3000, () => {
+  console.log('Listening on port :3000')
+})
+```
+
+Example Python app using system python (v2), create a `passenger_wsgi.py` file in the app directory with this content:
+
+```
+import sys
+
+def application(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return ["Hello World from Open OnDemand (Python WSGI)!\n\n" + sys.version]
+```
+
+Can specify a different version of Python/Ruby/Node with wrapper script i.e. `bin/python` and `chmod 755` the file:
+
+```
+#!/bin/bash
+# if using software collections:
+#
+#     source scl_source enable rh-python35
+#
+# then use python instead of python3 below
+exec /bin/env python3 "$@"
+```
+
+* `chmod 755 bin/python` after creating the file!
+
+Example Python app using python3, create a `passenger_wsgi.py` file in the app directory with this content:
+
+```
+import sys
+
+def application(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return ["Hello World from Open OnDemand (Python WSGI)!\n\n" + sys.version]
+```
+
+Notes:
+
+* Passenger detects what app by the presence of a startup file
+* restart the PUN if you change the type of app (ruby => python)
+* see https://www.phusionpassenger.com/ for Passenger documentation
+* https://www.phusionpassenger.com/library/walkthroughs/start/python.html#the-passenger-wsgi-file
+
+### Restarting apps
+
+1. In File editor, insert `<pre>#{`df`}</pre>` into response body and save
+2. Access app and reload. Changes do not display.
+3. In App Editor/Dashboard, click Develop => Restart Web Server
+4. Access app and reload
+
+5. In File editor, change title to "df"
+6. Access app and reload. Changes do not display.
+7. In App Editor click "Restart App". Notice the command it runs
+8. Access app and reload
+
+9. In File editor, change title to "df - disk usage"
+10. Access app and reload. Changes do not display.
+11. In App Editor click Shell, then exectue command:
+
+        touch tmp/restart.txt
+
+12. Access app URL
+
+Notes:
+
+* restarting only the app is beneficial when using the shell app with development so you don't lose your shell connection
+* restarting only the app results in shorter reload time
+
+### Manifest and Icon changes
+
+In App Editor, click Edit Metadata
+Type hdd in filter and click the harddrive icon to select
+Click save
+
+Click Files.
+Edit manifest.yml.
+
+    category: Files
+    subcategory: Utilities
+
+In App Editor, click Shell
+
+    cd ..
+    sudo cp -r df /var/www/ood/apps/sys/df
+
+
+Reload dashboard/app editor and see app appear in dropdown. Launch it.
+Initialize app.
+Notice shell connection lost.
+
+Reload shell and `cd /var/www/ood/apps/sys/df`
+`sudo vim manifest.yml` and remove subcategory and save. reload dashboard and see effect.
+remove category too and save. reload dashboard and see effect. access app and reload.
+add back category and subcategory and save.
+
+cp ../jupyter/icon.png . reload dashboard and see effect.
+rm icon.png. reload dashboard and see effect.
+
+Notes
+
+* app is still accessible even if navbar does not display it
+
+### URIs of apps
+
+Go to Sandbox App tab and notice URL: https://localhost:3443/pun/dev/df
+Production app is same URL except "sys" instead of "dev": https://localhost:3443/pun/sys/df
+
+Open new private browser window. Login as sfoster. Try accessing both URLs.
+
+Notes:
+
+* dev apps are only accessible by the user that owns them
+* prod apps are accessible to everyone, even if they don't appear in navbar
+
+### App authorization in production
+
+In App Editor, click Shell
+
+    cd ..
+    sudo cp -r df /var/www/ood/apps/sys
+    chmod 700
+
+Notice hpcadmin does not have access
+
+    sudo setfacl -m u:hpcadmin:rx df
+    getfacl df
+
+- Now hpcadmin has access
+- Now sfoster does not have access
+
+Notes
+
+* authorization controled through file permissions
+* can use ACLs or group ownership
+
+
+
+### Status app template
+
+1. My Sandbox Apps. Click New App.
+2. Git Remote: `/var/git/ood-example-ps`.
+3. Launch
+
+#### Benefits for user
+
+#### Benefits for developer
+
+File edit app.rb. Change title. Save. Launch. You can make some changes without app restart.
+
+There is a unit test. You can change the test first, then change the code to verify. Open shell. Execute `rake`.
+
+Notes:
+
+* See tutorial for details: https://osc.github.io/ood-documentation/master/app-development/tutorials-passenger-apps/ps-to-quota.html
+* As an exercise you could change the app to execute  `df --output=target,pcent | tail -n+2`
+* https://github.com/OSC/ood-example-ps
+
+
+### Use the correct environment when developing apps
+
+1. Open Shell app from Sandbox apps. `which rake` and `which ruby`. OnDemand uses SoftwareCollections for RHEL7.
+2. `scl --list` shows the SCLs. To source the environment, `source scl_source enable ondemand`.
+3. For convenience, this was added to .bash_profile: `cat ~/.bash_profile`
+4. OnDemand configured to ssh to OnDemand host for development `cat /etc/ood/config/apps/dashboard/env`
+
+### Apps can use own dependencies
+
+1. Open Shell app to ood-example-ps app
+2. `bundle install --path vendor/bundle`
+3. `touch tmp/restart`
+
+Notes:
+
+- you can use whatever dependencies you want
+- app continues to work even if system libs change
+- app specific dependencies adds a "build" step
+- takes up more space (but space is cheap)
+- very useful during app development to experiment with new packages
+
+
+### NGINX auto serves assets in public/ directory
+
+1. Open Shell app to df app
+2. `mkdir public`
+3. `cp /var/www/ood/apps/sys/jupyter/icon.png public/`
+4. https://localhost:3443/pun/dev/df3/icon.png
+
+Notes:
+
+- when dealing with links to assets or pages in your app, prefix with app suburi
+- app suburi is set in env var `PASSENGER_BASE_URI` set by Passenger
+
+## XDMoD Integration Tutorial
+
+(Optional) submit a job from job composer to demonstrate XDMoD integration with Job Composer:
+
+1. Jobs => Job Composer
+2. Templates
+3. Create New Job (with python template)
+4. Edit Files
+5. Click `jupyter_notebook_data` in tree.
+6. Select `plot_rbm_logistic_classification.py` and click Copy
+7. Go "back" in browser and click Paste
+8. Select script.sh click edit
+9. change `hello.py` to `plot_rbm_logistic_classification.py` and save
+10. Back to Job Composer and submit job
+
+### Enable the integration
+
+Review integration steps (see dashboard MOTD)
+
+1. run command to update config
+2. run command to ingest
+
+Review dashboard widgets - restart Web Server to see
+
+* job efficiency report is based on both core and memory usage but these containers don't gather all the necessary information, which is why they display 100%
+
+Review Job Composer links - access Job Composer
+
+
+
 ## Tutorial Navigation
-[Next - Acknowledgments](../docs/acknowledgments.md)
-[Previous Step - Open XDMoD](../xdmod/README.md)
+[Next - Acknowledgments](../docs/acknowledgments.md)  
+[Previous Step - Open XDMoD](../xdmod/README.md)  
 [Back to Start](../README.md)
