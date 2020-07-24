@@ -6,6 +6,7 @@ resource manager as the data source.  We are also going to install the optional 
 allows Open XDMoD to also display performance data for HPC jobs.
 
 The asciinema media is not meant to be used on its own, they are intended for use in a "live" demonstration.
+Command Line Demos in a Light color, are meant to be watched.  Dark theme are interactive
 
 `VIM` is used to edit files in this tutorial.  If you prefer a different editor, please install it on the xdmod container.
 
@@ -82,6 +83,9 @@ Also the following technical information:
     - DB Username
     - DB Password
 
+If you are installing the Job Performance module (as we are in this tutorial) 
+- mongoDB connection information
+
 ### Prerequisites used in this Tutorial
 
 - Name of the organization: `Tutorial` abbreviation: `hpcts`
@@ -102,6 +106,7 @@ Also the following technical information:
     - Admin Password: ` leave blank `
     - DB Username: `xdmodapp`
     - DB Password: `ofbatgorWep0`
+- mongoDB connection information `mongodb://xdmod:xsZ0LpZstneBpijLy7@mongodb:27017/supremm?authSource=admin`
 
 ### Basic Configuration
 Open XDMoD provides an interactive configuration script that performs the
@@ -118,24 +123,20 @@ General Setup:
 [![asciicast](https://asciinema.org/a/349236.svg)](https://asciinema.org/a/349236)
 
 Database Setup:
-[![asciicast](https://asciinema.org/a/349237.svg)](https://asciinema.org/349237)
+[![asciicast](https://asciinema.org/a/349237.svg)](https://asciinema.org/a/349237)
 
 Organization Setup:
-[![asciicast](https://asciinema.org/a/349238.svg)](https://asciinema.org/349238)
+[![asciicast](https://asciinema.org/a/349238.svg)](https://asciinema.org/a/349238)
 
 Resource Setup:
-[![asciicast](https://asciinema.org/a/349240.svg)](https://asciinema.org/349240)
+[![asciicast](https://asciinema.org/a/349240.svg)](https://asciinema.org/a/349240)
 
-#### What about a Heterogeneous cluster?
+#### Advanced configuration
 
 The `xdmod-setup` script is used for the basic setup of Open XDMoD. The script includes options to configure the Open XDMoD database, setup the admin user account and configure resources.
-Open XDMoD's [Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files.
+Open XDMoD's [Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files can be modified directly when needing more advanced customization.
 
-
-*Have a heterogeneous cluster?*  You would need to modify `/etc/xdmod/resource_specs.json`:
-
-[![asciicast](https://asciinema.org/a/349249.svg)](https://asciinema.org/349249)
-
+*Have a heterogeneous cluster?*  You could modify `/etc/xdmod/resource_specs.json` and set the PPN to the average number of processors per node.
 
 #### Hierarchy
 
@@ -146,63 +147,19 @@ Decanal Unit -> Department -> PI Group
 
 Reference: [Hierarchy Guide](https://open.xdmod.org/hierarchy.html)
 
-#### User / PI Names
-
-The resource manager logs contain the system usernames of the users that submitted jobs.
-To display the full names in Open XDMoD you must provide a data file that contains the 
-full name of each user for each system username. This file is in a `csv` format.
-
-![Group By User(names not importe)](./tutorial-screenshots/usernames.png)
-
-This has not been automated for this tutorial. We dont want you to fall asleep!
-
-Create a file with the contents below:
-
-The file needs to be able to be read by the `xdmod` user, for this demo it will be
-created in /var/tmp
-
-```bash
-vim /var/tmp/names.csv
-```
-
-The first column should include the user name or group name used by your resource manager, the second column is the user’s first name and the third column is the user’s last name.
-(Feel free to change the First and Last names)
-
-```csv
-cgray,Carl,Gray
-sfoster,Stephanie,Foster
-csimmons,Charles,Simmons
-astewart,Andrea,Stewart
-hpcadmin,HPC, Administrators
-```
-
-Now this needs to be imported into xdmod with the command [`xdmod-import-csv`](https://open.xdmod.org/commands.html#xdmod-import-csv)
-
-```bash
-sudo su - xdmod xdmod-import-csv -t names -i /var/tmp/names.csv
-```
-
-
-![Group By User](./tutorial-screenshots/fullnames.png)
-
-Reference: [User/PI Names Guide](https://open.xdmod.org/user-names.html)
-
-xdmod-import-csv -t names:
-[![asciicast](https://asciinema.org/a/349325.svg)](https://asciinema.org/349325)
-
-
-
 ## Open XDMoD Job Performance
+
 The Job Performance module is optional, but highly recommended.
 
 ![Job Performance Dataflow](./tutorial-screenshots/admin-job-performance-dataflow.png)
 
 ### Job Performance Configuration
 
-This tutorial uses the [Job Performance](https://supremm.xdmod.org) module for Open XDMoD. The Job Performance module displays job performance metric based on data collected on the HPC compute nodes.
+[Job Performance](https://supremm.xdmod.org) data - for the Open source release we'll try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io).
+We chose PCP because it is included by default in Centos / RedHat.
+In XSEDE we use tacc_stats and PCP (depending on the resource provider). and we have also used LDMS, Cray RUR and are aware of groups using Ganglia too.
 
-The example in this tutorial uses [Performance Co-Pilot (PCP)](https://pcp.io)  as the performance data collection software. This must be [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
-
+PCP has been [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
 This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system.
 This shorter list is suitable for running inside the docker demo. On a
 real HPC system the data collection should be setup following the
@@ -226,6 +183,7 @@ Job summarization (SUPReMM) configuration:
 
 Shredding
 > Load logs from a scheduler (SLURM in this tutorial) and put them into the Open XDMoD databases.
+> see [Open XDMoD](https://open.xdmod.org/) for notes on SGE/Grid Engine, Univa Grid Engine, PBS/TORQUE, LSF
 > Reference: [Shredder Guide](https://open.xdmod.org/shredder.html)
 
 Ingestion
@@ -265,15 +223,61 @@ This is going to produce A LOT of output.  Each of these commands have flags tha
 -  `[WARNING] Autoperiod library not found, TimeseriesPatterns plugins will not do period analysis`
     -  The autoperiod code is used for detecting period I/O patterns in the parallel filesystem traffic. (not needed in the tutorial configuration)
 
-## Open XDMoD Functionality
 
-TODO: User Dashboard
+## User / PI Names
 
-TODO: User
+The resource manager logs contain the system usernames of the users that submitted jobs.
+To display the full names in Open XDMoD you must provide a data file that contains the
+full name of each user for each system username. This file is in a `csv` format.
 
-TODO: PI
+![Group By User(names not importe)](./tutorial-screenshots/usernames.png)
 
-TODO: Center
+This has not been automated for this tutorial. We dont want you to fall asleep!
+
+Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
+```bash
+ssh -p6222 hpcadmin@localhost
+```
+
+Create a file with the contents below:
+The file needs to be able to be read by the `xdmod` user, for this demo it will be
+created in /var/tmp
+
+```bash
+vim /var/tmp/names.csv
+```
+
+The first column should include the user name or group name used by your resource manager, the second column is the user’s first name and the third column is the user’s last name.
+(Feel free to change the First and Last names)
+
+```csv
+cgray,Carl,Gray
+sfoster,Stephanie,Foster
+csimmons,Charles,Simmons
+astewart,Andrea,Stewart
+hpcadmin,HPC, Administrators
+```
+
+Now this needs to be imported into xdmod with the command [`xdmod-import-csv`](https://open.xdmod.org/commands.html#xdmod-import-csv)
+
+```bash
+sudo -u  xdmod xdmod-import-csv -t names -i /var/tmp/names.csv
+```
+
+Then we will need to reingest and aggregate the data
+
+```bash
+sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh
+```
+![Group By User](./tutorial-screenshots/fullnames.png)
+
+Reference: [User/PI Names Guide](https://open.xdmod.org/user-names.html)
+
+xdmod-import-csv -t names:
+[![asciicast](https://asciinema.org/a/349325.svg)](https://asciinema.org/a/349325)
+
+## Open XDMoD Functionality (Interactive Demo)
+
 
 ### Administration
 
@@ -284,6 +288,16 @@ You know that the user is an admin by the addition of the "Admin Dashboard"
 Admin Dashboard:
 
 ![Admin Dashboard](./tutorial-screenshots/admin-dashboard.png)
+
+### End User
+
+Lets actually use Open XDMoD now.
+
+User:
+
+PI:
+
+Center: Staff
 
 ## Tutorial Navigation
 [Next - OnDemand](../ondemand/README.md)  
