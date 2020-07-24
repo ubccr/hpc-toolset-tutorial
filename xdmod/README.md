@@ -131,7 +131,9 @@ Resource Setup:
 The `xdmod-setup` script is used for the basic setup of Open XDMoD. The script includes options to configure the Open XDMoD database, setup the admin user account and configure resources.
 Open XDMoD's [Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files.
 
-Resource Specs Modification:
+
+*Have a heterogeneous cluster?*  You would need to modify `/etc/xdmod/resource_specs.json`:
+
 [![asciicast](https://asciinema.org/a/349249.svg)](https://asciinema.org/349249)
 
 
@@ -146,14 +148,17 @@ Reference: [Hierarchy Guide](https://open.xdmod.org/hierarchy.html)
 
 #### User / PI Names
 
-Open XDMoD has the ability to import a full names.  If full names are not imported, usernames are used.
+The resource manager logs contain the system usernames of the users that submitted jobs.
+To display the full names in Open XDMoD you must provide a data file that contains the 
+full name of each user for each system username. This file is in a `csv` format.
 
 ![Group By User(names not importe)](./tutorial-screenshots/usernames.png)
 
 This has not been automated for this tutorial. We dont want you to fall asleep!
 
 Create a file with the contents below:
-The file needs to be able to be read by the `xdmod` user to for this demo it will be
+
+The file needs to be able to be read by the `xdmod` user, for this demo it will be
 created in /var/tmp
 
 ```bash
@@ -270,7 +275,6 @@ TODO: PI
 
 TODO: Center
 
-TODO: Basic Admin
 ### Administration
 
 You know that the user is an admin by the addition of the "Admin Dashboard"
