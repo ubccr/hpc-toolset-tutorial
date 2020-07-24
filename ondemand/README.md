@@ -817,28 +817,54 @@ Notes
 
 Passenger native support for Ruby, NodeJS, Python
 
-Example NodeJS app:
+Example NodeJS app, create an `app.js` file in the app directory with this content:
 
 ```
-TODO
+const http = require('http')
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' })
+  res.write('Hello World from Open OnDemand')
+  res.end()
+})
+
+server.listen(3000, () => {
+  console.log('Listening on port :3000')
+})
 ```
 
-Example Python app using system python (v2):
+Example Python app using system python (v2), create a `passenger_wsgi.py` file in the app directory with this content:
 
 ```
-TODO
+import sys
+
+def application(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return ["Hello World from Open OnDemand (Python WSGI)!\n\n" + sys.version]
 ```
 
-Can specify a different version of Python/Ruby/Node with wrapper script i.e. `bin/python`:
+Can specify a different version of Python/Ruby/Node with wrapper script i.e. `bin/python` and `chmod 755` the file:
 
 ```
-TODO
+#!/bin/bash
+# if using software collections:
+#
+#     source scl_source enable rh-python35
+#
+# then use python instead of python3 below
+exec /bin/env python3 "$@"
 ```
 
-Example Python app using python3
+* `chmod 755 bin/python` after creating the file!
+
+Example Python app using python3, create a `passenger_wsgi.py` file in the app directory with this content:
 
 ```
-TODO
+import sys
+
+def application(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return ["Hello World from Open OnDemand (Python WSGI)!\n\n" + sys.version]
 ```
 
 Notes:
@@ -846,6 +872,7 @@ Notes:
 * Passenger detects what app by the presence of a startup file
 * restart the PUN if you change the type of app (ruby => python)
 * see https://www.phusionpassenger.com/ for Passenger documentation
+* https://www.phusionpassenger.com/library/walkthroughs/start/python.html#the-passenger-wsgi-file
 
 ### Status app template
 
