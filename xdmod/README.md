@@ -7,6 +7,8 @@ allows Open XDMoD to also display performance data for HPC jobs.
 
 The asciinema media is not meant to be used on its own, they are intended for use in a "live" demonstration.
 
+`VIM` is used to edit files in this tutorial.  If you prefer a different editor, please install it on the xdmod container.
+
 ## Submit some jobs to the cluster
 
 Before we install and configure XDMoD we are going to submit
@@ -145,7 +147,18 @@ Reference: [Hierarchy Guide](https://open.xdmod.org/hierarchy.html)
 #### User / PI Names
 Open XDMoD has the ability to import a full names.
 
-This has not been automated for this tutorial.
+This has not been automated for this tutorial. We dont want you to fall asleep!
+
+Create a file with the contents below:
+The file needs to be able to be read by the `xdmod` user to for this demo it will be
+created in /var/tmp
+
+```bash
+vim /var/tmp/names.csv
+```
+
+The first column should include the user name or group name used by your resource manager, the second column is the user’s first name and the third column is the user’s last name.
+(Feel free to change the First and Last names)
 
 ```csv
 cgray,Carl,Gray
@@ -155,7 +168,18 @@ astewart,Andrea,Stewart
 hpcadmin,HPC, Administrators
 ```
 
+Now this needs to be imported into xdmod with the command [`xdmod-import-csv`](https://open.xdmod.org/commands.html#xdmod-import-csv)
+
+```bash
+sudo su - xdmod xdmod-import-csv -t names -i /var/tmp/names.csv
+```
+
+
 Reference: [User/PI Names Guide](https://open.xdmod.org/user-names.html)
+
+xdmod-import-csv -t names:
+[![asciicast](https://asciinema.org/a/349325.svg)](https://asciinema.org/349325)
+
 
 
 ## Open XDMoD Job Performance
