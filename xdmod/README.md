@@ -138,7 +138,7 @@ Resource Specs Modification:
 #### Hierarchy
 
 Open XDMoD supports a three level hierarchy.
-In this tutorial we use a University Type Hierarchy.
+In this tutorial we use a hierarchy configuration that is typical of the organizational structure in a University.
 
 Decanal Unit -> Department -> PI Group
 
