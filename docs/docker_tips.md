@@ -96,7 +96,9 @@ To tear down all containers and remove the volumes:
 
 To tear down all containers, remove volumes, and remove the container images (next time you run start they will be re-downloaded):  
 
-`./hpcts cleanup`
+```
+./hpcts cleanup
+```
 
 ### Starting everything up again
 
