@@ -142,7 +142,7 @@ $ ./hpcts stop
 $ docker container list
 (Should show no containers)
 
-$docker volume list
+$ docker volume list
 (Should show no volumes)
 ```
 
