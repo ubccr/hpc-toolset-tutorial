@@ -688,19 +688,21 @@ Jupyter system app in the menu along with your sandbox development app.
 
 ### Create a simplest app from scratch
 
+Create new app
 
 1. Access OnDemand dashboard https://localhost:3443
 2. Develop => My Sandbox Apps to see the list of apps
 3. Click Launch Files
 4. "New Dir" insert "df" then close
 5. Reload My Sandbox Apps
-6. Click "Details" on df app to open in App Editor
 
-7. Click "Files" button
-8. "New File" => config.ru
-9. Select and "Edit"
+Edit app
 
-8. Copy app below into editor and click Save:
+1. Click "Details" on df app to open in App Editor
+2. Click "Files" button
+3. "New File" => config.ru
+4. Select and "Edit"
+5. Copy app below into editor and click Save:
 
 ```ruby
 require 'sinatra'
@@ -712,8 +714,10 @@ end
 run Sinatra::Application
 ```
 
-9. App Editor tab: Click Launch
-10. App not initialized; click button to initialize. App displays
+Launch app
+
+1. App Editor tab: Click Launch
+2. App not initialized; click button to initialize. App displays
 
 Notes:
 
@@ -784,23 +788,29 @@ Notes:
 
 ### Restarting apps
 
+Reload via "Restart Web Server"
+
 1. In File editor, insert `<pre>#{`df`}</pre>` into response body and save
 2. Access app and reload. Changes do not display.
 3. In App Editor/Dashboard, click Develop => Restart Web Server
 4. Access app and reload
 
-5. In File editor, change title to "df"
-6. Access app and reload. Changes do not display.
-7. In App Editor click "Restart App". Notice the command it runs
-8. Access app and reload
+Reload via App Editor
 
-9. In File editor, change title to "df - disk usage"
-10. Access app and reload. Changes do not display.
-11. In App Editor click Shell, then exectue command:
+1. In File editor, change title to "df"
+2. Access app and reload. Changes do not display.
+3. In App Editor click "Restart App". Notice the command it runs
+4. Access app and reload
 
-        touch tmp/restart.txt
+Reload via touch tmp/restart.txt
 
-12. Access app URL
+1. In File editor, change title to "df - disk usage"
+2. Access app and reload. Changes do not display.
+3. In App Editor click Shell, then exectue command:
+
+       touch tmp/restart.txt
+
+4. Access app URL
 
 Notes:
 
@@ -809,37 +819,31 @@ Notes:
 
 ### Manifest and Icon changes
 
-In App Editor, click Edit Metadata
-Type hdd in filter and click the harddrive icon to select
-Click save
+Create manifest
 
-Click Files.
-Edit manifest.yml.
+1. In App Editor, click Edit Metadata
+2. Type hdd in filter and click the harddrive icon to set icon
+3. Click save
+
+Add category:
+
+1. Click Files.
+2. Edit manifest.yml.
 
     category: Files
     subcategory: Utilities
 
-In App Editor, click Shell
+Deploy app
+
+1. In App Editor, click Shell
 
     cd ..
     sudo cp -r df /var/www/ood/apps/sys/df
 
+2. Reload dashboard/app editor and see app appear in dropdown. Launch it.
+3. Initialize app. Notice shell connection lost.
 
-Reload dashboard/app editor and see app appear in dropdown. Launch it.
-Initialize app.
-Notice shell connection lost.
 
-Reload shell and `cd /var/www/ood/apps/sys/df`
-`sudo vim manifest.yml` and remove subcategory and save. reload dashboard and see effect.
-remove category too and save. reload dashboard and see effect. access app and reload.
-add back category and subcategory and save.
-
-cp ../jupyter/icon.png . reload dashboard and see effect.
-rm icon.png. reload dashboard and see effect.
-
-Notes
-
-* app is still accessible even if navbar does not display it
 
 ### URIs of apps
 
@@ -874,8 +878,6 @@ Notes
 * authorization controled through file permissions
 * can use ACLs or group ownership
 
-
-
 ### Status app template
 
 1. My Sandbox Apps. Click New App.
@@ -886,9 +888,16 @@ Notes
 
 #### Benefits for developer
 
-File edit app.rb. Change title. Save. Launch. You can make some changes without app restart.
+You can make some changes without app restart
 
-There is a unit test. You can change the test first, then change the code to verify. Open shell. Execute `rake`.
+1. File edit app.rb.
+2. Change title.
+3. Save & launch or reload app.
+
+There is a unit test. You can change the test first, then change the code to verify.
+
+1. Open shell.
+2. Execute `rake`.
 
 Notes:
 
@@ -930,6 +939,29 @@ Notes:
 
 - when dealing with links to assets or pages in your app, prefix with app suburi
 - app suburi is set in env var `PASSENGER_BASE_URI` set by Passenger
+
+### Manifest category, subcategory and icons
+
+Subcategory specifies section in navbar dropdown
+
+1. Reload shell and `cd /var/www/ood/apps/sys/df`
+   `sudo vim manifest.yml` and remove subcategory and save.
+2. reload dashboard and see effect.
+3. remove category too and save.
+4. reload dashboard and see effect.
+5. access app and reload.
+6. add back category and subcategory and save.
+
+Icon can be an image or a font awesome icon:
+
+1. cp ../jupyter/icon.png .
+2. reload dashboard and see effect.
+3. rm icon.png.
+4. reload dashboard and see effect.
+
+Notes
+
+* app is still accessible even if navbar does not display it
 
 ## XDMoD Integration Tutorial
 
