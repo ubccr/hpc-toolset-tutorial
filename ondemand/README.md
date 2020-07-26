@@ -690,6 +690,8 @@ Jupyter system app in the menu along with your sandbox development app.
 
 ## Passenger app tutorial
 
+Access OnDemand dashboard https://localhost:3443
+
 ### Ensure environment is configured for development
 
 Configure OnDemand to specify ssh dev host
