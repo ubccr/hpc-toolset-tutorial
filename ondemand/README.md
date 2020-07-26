@@ -2,6 +2,7 @@
 
 - [Jupyter App Tutorial](#jupyter-app-tutorial)
 - [Passenger App Tutorial](#passenger-app-tutorial)
+- [XDMoD Integration Tutorial](#xdmod-integration-tutorial)
 
 ## External links
 
@@ -793,7 +794,7 @@ Notes:
 
 Reload via "Restart Web Server"
 
-1. In File editor, insert `<pre>#{`df`}</pre>` into response body and save
+1. In File editor, insert ``<pre>#{`df`}</pre>`` into response body and save
 2. Access app and reload. Changes do not display.
 3. In App Editor/Dashboard, click Develop => Restart Web Server
 4. Access app and reload
@@ -833,15 +834,15 @@ Add category:
 1. Click Files.
 2. Edit manifest.yml.
 
-    category: Files
-    subcategory: Utilities
+      category: Files
+      subcategory: Utilities
 
 Deploy app
 
 1. In App Editor, click Shell
 
-    cd ..
-    sudo cp -r df /var/www/ood/apps/sys/df
+       cd ..
+       sudo cp -r df /var/www/ood/apps/sys/df
 
 2. Reload dashboard/app editor and see app appear in dropdown. Launch it.
 3. Initialize app. Notice shell connection lost.
@@ -864,9 +865,8 @@ Notes:
 
 In App Editor, click Shell
 
-    cd ..
-    sudo cp -r df /var/www/ood/apps/sys
-    chmod 700
+    cd /var/www/ood/apps/sys
+    chmod 700 df
 
 Notice hpcadmin does not have access
 
@@ -889,6 +889,10 @@ Notes
 
 #### Benefits for user
 
+App is branded to look like an OnDemand app
+
+Navbar contains link back to the dashboard.
+
 #### Benefits for developer
 
 You can make some changes without app restart
@@ -901,6 +905,8 @@ There is a unit test. You can change the test first, then change the code to ver
 
 1. Open shell.
 2. Execute `rake`.
+
+Many status apps will do the same thing - get data from a shell command, parse it into an intermediate object, use that to generate a view.
 
 Notes:
 
