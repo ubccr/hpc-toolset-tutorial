@@ -6,12 +6,22 @@ For this tutorial you will need to have **12GB of free disk space** and git, doc
 - docker version 19.03.8+
 - docker-compose 1.25.2+
 
-
 NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command using the git-bash shell application before cloning the tutorial repo:
 
 ```
 git config --global core.autocrlf input
 ```
+
+The following ports must be open and available:
+
+- 2443
+- 3443
+- 4443
+- 5554
+- 6222
+
+If they are not you might see an error like:
+`Cannot start service X: Ports are not available`
 
 ### Install & Start Docker
 
