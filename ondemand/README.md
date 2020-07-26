@@ -792,6 +792,8 @@ Notes:
 
 ### Restarting apps
 
+First go to app editor of df app and launch the app.
+
 Reload via "Restart Web Server"
 
 1. In File editor, insert ``<pre>#{`df`}</pre>`` into response body and save
@@ -825,17 +827,17 @@ Notes:
 
 Create manifest
 
-1. In App Editor, click Edit Metadata
-2. Type hdd in filter and click the harddrive icon to set icon
-3. Click save
+1. In App Editor, click Files.
+2. new file: manifest.yml. then select to edit
 
-Add category:
-
-1. Click Files.
-2. Edit manifest.yml.
-
-      category: Files
-      subcategory: Utilities
+```
+---
+name: df
+description: disk usage
+icon: far://hdd
+category: Files
+subcategory: Utilities
+```
 
 Deploy app
 
@@ -866,7 +868,7 @@ Notes:
 In App Editor, click Shell
 
     cd /var/www/ood/apps/sys
-    chmod 700 df
+    sudo chmod 700 df
 
 Notice hpcadmin does not have access
 
@@ -878,7 +880,7 @@ Notice hpcadmin does not have access
 
 Notes
 
-* authorization controled through file permissions
+* authorization controlled through file permissions
 * can use ACLs or group ownership
 
 ### Status app template
