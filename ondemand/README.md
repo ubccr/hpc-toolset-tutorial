@@ -690,7 +690,9 @@ Jupyter system app in the menu along with your sandbox development app.
 
 ## Passenger app tutorial
 
-### Ensure environment for developing is configured
+Access OnDemand dashboard https://localhost:3443
+
+### Ensure environment is configured for development
 
 Configure OnDemand to specify ssh dev host
 
@@ -741,7 +743,7 @@ Launch app
 Notes:
 
 * You can do the same steps through the shell - we are just editing files and accessing URLs.
-* Sinatre gem is included in gem set already available with the ondemand deployment. The ondemand gem rpms are separate rpms with version in the name so they stick around until you remove it - no loss of dependencies due to yum update.
+* Sinatre gem is included in gem set already available with the ondemand deployment. The ondemand gem rpms are separate rpms with version in the name so they stick around until you remove it - no loss of dependencies due to yum update. See ondemand-gems rpms at https://yum.osc.edu/ondemand/latest/web/el7/x86_64/
 
 
 ### Apps can be written in different languages
