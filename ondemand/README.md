@@ -1,11 +1,14 @@
 # Open OnDemand Tutorial
 
+- [Jupyter App Tutorial](#jupyter-app-tutorial)
+- [Passenger App Tutorial](#passenger-app-tutorial)
+
 ## External links
 
 * [Online Documentation](https://osc.github.io/ood-documentation/master/)
 * [Jupyter Install Tutorial](https://osc.github.io/ood-documentation/master/app-development/tutorials-interactive-apps/add-jupyter.html)
 
-## Jupyter Installation Tutorial
+## Jupyter App Tutorial
 
 This tutorial will be using the the `hpcadmin` credentials listed in
 [Accessing the Applications](../docs/applications.md).
