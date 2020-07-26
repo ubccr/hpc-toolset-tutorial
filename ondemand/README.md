@@ -690,6 +690,21 @@ Jupyter system app in the menu along with your sandbox development app.
 
 ## Passenger app tutorial
 
+### Ensure environment for developing is configured
+
+Configure OnDemand to specify ssh dev host
+
+1. Open Shell app from Sandbox apps
+2. Notice the host is the ondemand
+
+Use ondemand SCL
+
+1. `which ruby`. OnDemand uses SoftwareCollections for RHEL7.
+2. `scl --list` shows the SCLs. To source the environment, `source scl_source enable ondemand`.
+3. For convenience, this was added to `.bash_profile` - `cat ~/.bash_profile`
+4. OnDemand configured to ssh to OnDemand host for development `cat /etc/ood/config/apps/dashboard/env`
+
+
 ### Create a simplest app from scratch
 
 Create new app
@@ -792,6 +807,8 @@ Notes:
 
 ### Restarting apps
 
+First go to app editor of df app and launch the app.
+
 Reload via "Restart Web Server"
 
 1. In File editor, insert ``<pre>#{`df`}</pre>`` into response body and save
@@ -825,17 +842,17 @@ Notes:
 
 Create manifest
 
-1. In App Editor, click Edit Metadata
-2. Type hdd in filter and click the harddrive icon to set icon
-3. Click save
+1. In App Editor, click Files.
+2. new file: manifest.yml. then select to edit
 
-Add category:
-
-1. Click Files.
-2. Edit manifest.yml.
-
-      category: Files
-      subcategory: Utilities
+```
+---
+name: df
+description: disk usage
+icon: far://hdd
+category: Files
+subcategory: Utilities
+```
 
 Deploy app
 
@@ -866,7 +883,7 @@ Notes:
 In App Editor, click Shell
 
     cd /var/www/ood/apps/sys
-    chmod 700 df
+    sudo chmod 700 df
 
 Notice hpcadmin does not have access
 
@@ -878,7 +895,7 @@ Notice hpcadmin does not have access
 
 Notes
 
-* authorization controled through file permissions
+* authorization controlled through file permissions
 * can use ACLs or group ownership
 
 ### Status app template
@@ -915,12 +932,6 @@ Notes:
 * https://github.com/OSC/ood-example-ps
 
 
-### Use the correct environment when developing apps
-
-1. Open Shell app from Sandbox apps. `which rake` and `which ruby`. OnDemand uses SoftwareCollections for RHEL7.
-2. `scl --list` shows the SCLs. To source the environment, `source scl_source enable ondemand`.
-3. For convenience, this was added to .bash_profile: `cat ~/.bash_profile`
-4. OnDemand configured to ssh to OnDemand host for development `cat /etc/ood/config/apps/dashboard/env`
 
 ### Apps can use own dependencies
 
