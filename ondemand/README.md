@@ -690,6 +690,21 @@ Jupyter system app in the menu along with your sandbox development app.
 
 ## Passenger app tutorial
 
+### Ensure environment for developing is configured
+
+Configure OnDemand to specify ssh dev host
+
+1. Open Shell app from Sandbox apps
+2. Notice the host is the ondemand
+
+Use ondemand SCL
+
+1. `which ruby`. OnDemand uses SoftwareCollections for RHEL7.
+2. `scl --list` shows the SCLs. To source the environment, `source scl_source enable ondemand`.
+3. For convenience, this was added to `.bash_profile` - `cat ~/.bash_profile`
+4. OnDemand configured to ssh to OnDemand host for development `cat /etc/ood/config/apps/dashboard/env`
+
+
 ### Create a simplest app from scratch
 
 Create new app
@@ -917,12 +932,6 @@ Notes:
 * https://github.com/OSC/ood-example-ps
 
 
-### Use the correct environment when developing apps
-
-1. Open Shell app from Sandbox apps. `which rake` and `which ruby`. OnDemand uses SoftwareCollections for RHEL7.
-2. `scl --list` shows the SCLs. To source the environment, `source scl_source enable ondemand`.
-3. For convenience, this was added to .bash_profile: `cat ~/.bash_profile`
-4. OnDemand configured to ssh to OnDemand host for development `cat /etc/ood/config/apps/dashboard/env`
 
 ### Apps can use own dependencies
 
