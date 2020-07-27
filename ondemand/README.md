@@ -130,6 +130,27 @@ attributes:
     max: 2
 ```
 
+### Add checkbox to start JupyterLab
+
+form.yml:
+
+```
+attributes:
+  jupyterlab_switch:
+    widget: "check_box"
+    label: "Use JupyterLab instead of Jupyter Notebook?"
+    help: |
+      JupyterLab is the next generation of Jupyter, and is completely compatible with existing Jupyter Notebooks.
+form:
+  - jupyterlab_switch
+```
+
+template script.sh:
+
+```
+jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+```
+
 
 ## Jupyter App Detailed Tutorial
 
