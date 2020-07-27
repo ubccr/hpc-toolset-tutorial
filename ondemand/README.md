@@ -408,7 +408,7 @@ At this point, this should be the entirety of the `script.yml.erb` and `form.yml
 They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
 
 ```yaml
-# script.erb.yml
+# script.yml.erb
 script:
   queue_name: "<%= custom_queue %>"
 ```
@@ -494,7 +494,7 @@ Again, now to actually use the value we populate in the form, we need to use
 it in the `submit.yml.erb`.  This is where `script.native` attributes come in.
 
 ```yaml
-# script.erb.yml
+# script.yml.erb
 script:
   native:
     - "--mem"
@@ -520,7 +520,7 @@ At this point, this should be the entirety of the `script.yml.erb` and `form.yml
 They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
 
 ```yaml
-# script.erb.yml
+# script.yml.erb
 ---
 script:
   queue_name: "<%= custom_queue %>"
