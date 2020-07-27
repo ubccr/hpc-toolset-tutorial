@@ -840,7 +840,7 @@ Notes:
 * restarting only the app is beneficial when using the shell app with development so you don't lose your shell connection
 * restarting only the app results in shorter reload time
 
-### Manifest and Icon changes
+### Deploy the app
 
 Create manifest
 
