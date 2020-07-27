@@ -1,5 +1,6 @@
 # Open OnDemand Tutorial
 
+- [Jupyter App Tutorial Summary](#jupyter-app-tutorial-summary)
 - [Jupyter App Tutorial](#jupyter-app-tutorial)
 - [Passenger App Tutorial](#passenger-app-tutorial)
 - [XDMoD Integration Tutorial](#xdmod-integration-tutorial)
@@ -9,7 +10,149 @@
 * [Online Documentation](https://osc.github.io/ood-documentation/master/)
 * [Jupyter Install Tutorial](https://osc.github.io/ood-documentation/master/app-development/tutorials-interactive-apps/add-jupyter.html)
 
-## Jupyter App Tutorial
+## Jupyter App Tutorial Summary
+
+This section provides a few snippets helpful for following along with the live tutorial.
+
+Login to OnDemand as hpcadmin to https://localhost:3443
+
+### Get the app working
+
+1. Develop => My Sandbox Apps
+2. Click New App
+3. Click Clone Existing App: `jupyter` and `/var/git/bc_example_jupyter`
+
+Fix environment: `source /usr/local/jupyter/2.1.4/bin/activate`
+
+
+### Modify the Partition field
+
+form.yml changes:
+
+```
+attributes:
+  custom_queue:
+    widget: "select"
+    label: "Partition"
+    options:
+      - ["Compute", "compute"]
+      - ["Debug", "debug"]
+form:
+  - custom_queue
+#   - bc_queue
+```
+
+- `custom_queue` is used instead of `partition` because of 1.8 bug that will be fixed prior to release
+
+script.yml.erb changes:
+
+```yaml
+script:
+  queue_name: "<%= custom_queue %>"
+```
+
+- the constructor for the Ruby object https://osc.github.io/ood_core/0.11.4/OodCore/Job/Script.html  shows all the options you can set in the script.yml above (https://www.rubydoc.info/gems/ood_core/OodCore/Job/Script typically shows the latest - but sometimes this service is unavailable)
+
+### Deploy to production
+
+Edit manifest:
+
+```
+---
+# change the name, this is what shows up in the menu
+name: HPC Tutorial Jupyter
+# change the category just to differentiate from the system installed
+# deskop application
+category: Tutorial Apps
+# change the subcategory
+subcategory: Machine Learning
+role: batch_connect
+# change the description, this shows up when you hover over the menu item on the interactive sessions page
+description: |
+  This app will launch a Jupyter Lab or Notebootk on one or more nodes.
+
+```
+
+Deployment steps on ondemand host via Shell:
+
+    sudo mv /var/www/ood/apps/sys/jupyter /var/www/ood/apps/sys/jupyter.old
+    sudo cp -r jupyter /var/www/ood/apps/sys/jupyter
+
+- app directory names with periods in them do not display in the navbar, which is why we can rename the old app to jupyter.old
+
+
+### Set the memory for the job 
+
+form.yml changes:
+
+```
+attributes:
+  memory:
+    widget: "number_field"
+    max: 1000
+    min: 200
+    step: 200
+    value: 600
+    label: "Memory (MB)"
+    help: "RSS Memory"
+form:
+  - memory
+```
+
+- widget specifies the type of widget to be a number
+- max the maximum value, ~1 GB in this case
+- min the minimum value, 200 MB
+- step the step size when users increase or decrease the value
+- value the default value of 600 MB
+- label the for UIs label
+- help a help message
+- See https://osc.github.io/ood-documentation/master/app-development/interactive/form.html#customizing-attributes for more details about what you can set in each "attribute"
+
+script.yml.erb modifications:
+
+```
+script:
+  native:
+    - "--mem"
+    - "<%= memory %>M"
+```
+
+- script.native attributes are way for us to specify scheduler specific argument to sbatch or qsub or bsub
+- this lets you set arguments that OnDemand doesn't provide an abstraction for
+
+### Limit number of cores
+
+form.yml:
+
+```yaml
+attributes:
+  bc_num_slots:
+    max: 2
+```
+
+### Add checkbox to start JupyterLab
+
+form.yml:
+
+```
+attributes:
+  jupyterlab_switch:
+    widget: "check_box"
+    label: "Use JupyterLab instead of Jupyter Notebook?"
+    help: |
+      JupyterLab is the next generation of Jupyter, and is completely compatible with existing Jupyter Notebooks.
+form:
+  - jupyterlab_switch
+```
+
+template script.sh:
+
+```
+jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+```
+
+
+## Jupyter App Detailed Tutorial
 
 This tutorial will be using the the `hpcadmin` credentials listed in
 [Accessing the Applications](../docs/applications.md).
@@ -286,7 +429,7 @@ At this point, this should be the entirety of the `script.yml.erb` and `form.yml
 They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
 
 ```yaml
-# script.erb.yml
+# script.yml.erb
 script:
   queue_name: "<%= custom_queue %>"
 ```
@@ -372,7 +515,7 @@ Again, now to actually use the value we populate in the form, we need to use
 it in the `submit.yml.erb`.  This is where `script.native` attributes come in.
 
 ```yaml
-# script.erb.yml
+# script.yml.erb
 script:
   native:
     - "--mem"
@@ -398,7 +541,7 @@ At this point, this should be the entirety of the `script.yml.erb` and `form.yml
 They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
 
 ```yaml
-# script.erb.yml
+# script.yml.erb
 ---
 script:
   queue_name: "<%= custom_queue %>"
