@@ -26,7 +26,7 @@ This tutorial aims to demonstrate how three open source applications work in con
 
 ## Workshops
 This tutorial will be presented at the following conferences:  
-[PEARC20](https://pearc.acm.org/pearc20/) - [Schedule](https://sched.co/cnSs)     
+[PEARC20](https://pearc.acm.org/pearc20/) - [Schedule](https://sched.co/cnSs) - [Slides](https://osu.box.com/s/08qsrzk9hliaq2cg5tf9ptz103pb83vt)  
 [Gateways 2020](https://sciencegateways.org/web/gateways2020)
 
 ## License
