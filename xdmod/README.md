@@ -235,8 +235,14 @@ full name of each user for each system username. This file is in a `csv` format.
 This has not been automated for this tutorial. We dont want you to fall asleep!
 
 Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
+
 ```bash
 ssh -p6222 hpcadmin@localhost
+```
+SSH to the xdmod container:
+
+```bash
+ssh xdmod
 ```
 
 Create a file with the contents below:
