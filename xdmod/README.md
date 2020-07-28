@@ -255,7 +255,7 @@ cgray,Carl,Gray
 sfoster,Stephanie,Foster
 csimmons,Charles,Simmons
 astewart,Andrea,Stewart
-hpcadmin,HPC, Administrators
+hpcadmin,,HPC Administrators
 ```
 
 Now this needs to be imported into xdmod with the command [`xdmod-import-csv`](https://open.xdmod.org/commands.html#xdmod-import-csv)
