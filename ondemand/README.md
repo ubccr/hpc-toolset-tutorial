@@ -1,14 +1,21 @@
 # Open OnDemand Tutorial
 
+## Table of Contents
+
+Live tutorial steps we took during PEARC. See the PEARC video recording to follow along (with images and explanations!):
+
 - [Jupyter App Tutorial Summary](#jupyter-app-tutorial-summary)
-- [Jupyter App Tutorial](#jupyter-app-tutorial)
 - [Passenger App Tutorial](#passenger-app-tutorial)
 - [XDMoD Integration Tutorial](#xdmod-integration-tutorial)
 
+Detailed tutorials, for working through on your own time
+
+- [Jupyter App Tutorial](#jupyter-app-detailed-tutorial)
+
 ## External links
 
-* [Online Documentation](https://osc.github.io/ood-documentation/master/)
-* [Jupyter Install Tutorial](https://osc.github.io/ood-documentation/master/app-development/tutorials-interactive-apps/add-jupyter.html)
+- [Online Documentation](https://osc.github.io/ood-documentation/master/)
+- [Jupyter Install Tutorial](https://osc.github.io/ood-documentation/master/app-development/tutorials-interactive-apps/add-jupyter.html)
 
 ## Jupyter App Tutorial Summary
 
@@ -24,12 +31,11 @@ Login to OnDemand as hpcadmin to https://localhost:3443
 
 Fix environment: `source /usr/local/jupyter/2.1.4/bin/activate`
 
-
 ### Modify the Partition field
 
 form.yml changes:
 
-```
+```yaml
 attributes:
   custom_queue:
     widget: "select"
@@ -44,7 +50,7 @@ form:
 
 - `custom_queue` is used instead of `partition` because of 1.8 bug that will be fixed prior to release
 
-script.yml.erb changes:
+submit.yml.erb changes:
 
 ```yaml
 script:
@@ -57,7 +63,7 @@ script:
 
 Edit manifest:
 
-```
+```yaml
 ---
 # change the name, this is what shows up in the menu
 name: HPC Tutorial Jupyter
@@ -75,17 +81,18 @@ description: |
 
 Deployment steps on ondemand host via Shell:
 
+```shell
     sudo mv /var/www/ood/apps/sys/jupyter /var/www/ood/apps/sys/jupyter.old
     sudo cp -r jupyter /var/www/ood/apps/sys/jupyter
+```
 
 - app directory names with periods in them do not display in the navbar, which is why we can rename the old app to jupyter.old
 
-
-### Set the memory for the job 
+### Set the memory for the job
 
 form.yml changes:
 
-```
+```yaml
 attributes:
   memory:
     widget: "number_field"
@@ -110,7 +117,7 @@ form:
 
 script.yml.erb modifications:
 
-```
+```yaml
 script:
   native:
     - "--mem"
@@ -134,7 +141,7 @@ attributes:
 
 form.yml:
 
-```
+```yaml
 attributes:
   jupyterlab_switch:
     widget: "check_box"
@@ -147,10 +154,9 @@ form:
 
 template script.sh:
 
-```
+```ruby
 jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
 ```
-
 
 ## Jupyter App Detailed Tutorial
 
