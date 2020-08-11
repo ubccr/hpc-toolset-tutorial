@@ -123,7 +123,7 @@ General Setup:
 [![asciicast](https://asciinema.org/a/349236.svg)](https://asciinema.org/a/349236)
 
 Database Setup:
-[![asciicast](https://asciinema.org/a/349237.svg)](https://asciinema.org/a/349237)
+[![asciicast](https://asciinema.org/a/352844.svg)](https://asciinema.org/a/352844)
 
 Organization Setup:
 [![asciicast](https://asciinema.org/a/349238.svg)](https://asciinema.org/a/349238)
@@ -172,7 +172,7 @@ The Job performance setup relies on the accounting data from the Jobs realm in O
 This was done as part of this tutorial as part of setup and will be done again later in the tutorial.
 
 Job Performance XDMoD Module Setup:
-[![asciicast](https://asciinema.org/a/349241.svg)](https://asciinema.org/a/349241)
+[![asciicast](https://asciinema.org/a/352845.svg)](https://asciinema.org/a/352845)
 
 Job summarization (SUPReMM) configuration:
 [![asciicast](https://asciinema.org/a/349243.svg)](https://asciinema.org/a/349243)
