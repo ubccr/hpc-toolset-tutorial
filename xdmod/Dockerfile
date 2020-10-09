@@ -6,6 +6,7 @@ RUN /build/install.sh && rm -rf /build
 COPY conf/httpd.conf /etc/httpd/conf.d/xdmod.conf
 COPY conf/simplesamlphp /etc/xdmod/simplesamlphp
 COPY hierarchy.csv /srv/xdmod/hierarchy.csv
+COPY historical/ /srv/xdmod/historical
 COPY scripts/ /srv/xdmod/scripts
 COPY bin/sendmail /usr/sbin/sendmail
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
