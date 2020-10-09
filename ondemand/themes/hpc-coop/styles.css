@@ -1,3 +1,13 @@
+.card-body .row {
+  display: none;
+}
+
+.ood-nav-logo {
+  max-height: 70px;
+  max-width: 997px;
+  width: 100%;
+}
+
 .theme-body {
   background-color: #efefef;
   color: #333;
