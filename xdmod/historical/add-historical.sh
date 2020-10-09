@@ -11,8 +11,8 @@ if [ -f $historicaldir/.hasrun ]; then
 fi
 touch $historicaldir/.hasrun
 tar -zxf $historicaldir/historical-data.tgz -C $historicaldir/
-jq --argfile f1 /etc/xdmod/resources.json --argfile f2 $historicaldir/resources.json -n '$f1 + $f2' | sudo tee /etc/xdmod/resources.json 
-jq --argfile f1 /etc/xdmod/resource_specs.json --argfile f2 $historicaldir/resource_specs.json -n '$f1 + $f2' | sudo tee /etc/xdmod/resource_specs.json 
+jq --argfile f1 /etc/xdmod/resources.json --argfile f2 $historicaldir/resources.json -n '$f1 + $f2' | tee /etc/xdmod/resources.json 
+jq --argfile f1 /etc/xdmod/resource_specs.json --argfile f2 $historicaldir/resource_specs.json -n '$f1 + $f2' | tee /etc/xdmod/resource_specs.json 
 types='Cloud Jobs Storage'
 for resource in $historicaldir/Jobs/*.log; do
     sudo -u xdmod xdmod-shredder -r `basename $resource .log` -f slurm -i $resource;
