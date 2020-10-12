@@ -48,6 +48,7 @@ services:
       - compute
     volumes:
       - ./database:/docker-entrypoint-initdb.d
+      - ./database:/etc/mysql/conf.d
       - ./slurm/slurmdbd.conf:/etc/slurm/slurmdbd.conf
       - var_lib_mysql:/var/lib/mysql
     expose:
