@@ -1,16 +1,21 @@
 ## Overview
 
-In this part of the tutorial we are going to install and configure Open XDMoD.
+**NOTE:**
+Due to COVID and this tutorial being virtual and much shorter than anticipated; this part of the tutorial is going to be a bit more of an interactive demo.  Some parts are going to be skipped over quicker than usual, however, our team is available in SLACK and the zoom chat to answer any questions that you may have.
+
+In this part of the tutorial we are going to go over the installation and configuratoin of Open XDMoD.
 The base component of Open XDMoD uses the job accounting logs from the HPC
-resource manager as the data source.  We are also going to install the optional Job Performance Module. This
-allows Open XDMoD to also display performance data for HPC jobs.
+resource manager as the data source.  We have also installed the optional Job Performance Module. This allows Open XDMoD to also display performance data for HPC jobs.
 
 The asciinema media is not meant to be used on its own, they are intended for use in a "live" demonstration.
-Command Line Demos in a Light color, are meant to be watched.  Dark theme are interactive
+
+Command Line Demos in a Light color, are meant to be watched.  Dark theme are interactive.
 
 `VIM` is used to edit files in this tutorial.  If you prefer a different editor, please install it on the xdmod container.
 
 ## Submit some jobs to the cluster
+
+**NOTE:** For the Gateways2020 tutorial the Presentor has already done this on their machine.  If you are intresed in running this on your own please do so.
 
 Before we install and configure XDMoD we are going to submit
 some HPC jobs to the cluster. These jobs will run while we go through
@@ -24,15 +29,41 @@ ssh -p6222 hpcadmin@localhost
 
 Run the provided script that submits several jobs to the cluster. These jobs
 run as multiple different users with different job sizes and durations. The
-purpose of this is to generate data to display in Open XDMoD. This, of course,
-would not be required on a production deployment. This script should be run
-as the hpcadmin user as it uses `sudo` to submit jobs as different cluster
-users.
+purpose of this is to generate data to display in Open XDMoD.
+
+**NOTE**: This, of course, would not be required on a production deployment.
+
+This script should be run as the hpcadmin user as it uses `sudo` to submit jobs as different cluster users.
 ```bash
 submit_jobs.sh
 ```
 
+Output should look similar to:
+```bash
+[hpcadmin@xdmod ~]$ submit_jobs.sh 
+Submitted batch job 2
+Submitted batch job 3
+Submitted batch job 4
+Submitted batch job 5
+Submitted batch job 6
+Submitted batch job 7
+Submitted batch job 8
+Submitted batch job 9
+Submitted batch job 10
+Submitted batch job 11
+Submitted batch job 12
+Submitted batch job 13
+Submitted batch job 14
+Submitted batch job 15
+Submitted batch job 16
+Submitted batch job 17
+Submitted batch job 18
+Submitted batch job 19
+```
+
 ## Open XDMoD Installation
+
+**Note** This part will be brief in the Gateways2020 tutorial.  This processes has been done already as part of the docker.
 
 For this tutorial, the Open XDMoD software will be installed in the `xdmod` container.
 Open XDMoD will use the MySQL database from the `mysql` container. Since we
@@ -53,6 +84,8 @@ Package Installation:
 [![asciicast](https://asciinema.org/a/349235.svg)](https://asciinema.org/a/349235)
 
 ## Open XDMoD Configuration
+
+**Note** This part will be brief in the Gateways2020 tutorial.  This processes has been done already as part of the docker.
 
 ### Prerequisites
 
@@ -149,6 +182,8 @@ Reference: [Hierarchy Guide](https://open.xdmod.org/hierarchy.html)
 
 ## Open XDMoD Job Performance
 
+**Note** This part will be brief in the Gateways2020 tutorial.  This processes has been done already as part of the docker.
+
 The Job Performance module is optional, but highly recommended.
 
 ![Job Performance Dataflow](./tutorial-screenshots/admin-job-performance-dataflow.png)
@@ -157,7 +192,7 @@ The Job Performance module is optional, but highly recommended.
 
 [Job Performance](https://supremm.xdmod.org) data - for the Open source release we'll try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io).
 We chose PCP because it is included by default in Centos / RedHat.
-In XSEDE we use tacc_stats and PCP (depending on the resource provider). and we have also used LDMS, Cray RUR and are aware of groups using Ganglia too.
+In XSEDE we use tacc_stats and PCP (depending on the resource provider).  We are also aware of groups using LDMS, Cray RUR and Ganglia too.  We have a team now looking into Prometheus.
 
 PCP has been [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
 This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system.
@@ -226,11 +261,13 @@ This is going to produce A LOT of output.  Each of these commands have flags tha
 
 ## User / PI Names
 
+**NOTE**: Feel Free to skip this part in the Gateways2020 Tutorial, as it does not impact the use of the system.
+
 The resource manager logs contain the system usernames of the users that submitted jobs.
 To display the full names in Open XDMoD you must provide a data file that contains the
 full name of each user for each system username. This file is in a `csv` format.
 
-![Group By User(names not importe)](./tutorial-screenshots/usernames.png)
+![Group By User(names not imported)](./tutorial-screenshots/usernames.png)
 
 This has not been automated for this tutorial. We dont want you to fall asleep!
 
@@ -284,6 +321,13 @@ xdmod-import-csv -t names:
 
 ## Open XDMoD Functionality (Interactive Demo)
 
+**Note** The Gateways2020 demo has additional anonymized historical data (about 2 months) that can be added, this takes a while (depending on your system, mine took about 3 hours...) to actually run.  This data will be used by the presentor for this demonstration.
+
+If / when you run this it will look a lot like when we ran `/srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
+
+```bash
+sudo /srv/xdmod/historical/add-historical.sh
+```
 
 ### Administration
 
@@ -299,12 +343,22 @@ Admin Dashboard:
 
 Lets actually use Open XDMoD now.
 
-User:
+With a fully installed system we have quite a bit of data.  Job information, Storage Usage, Cloud Usage, Job Performance (SUPREMM)
+![Public User Usage](./tutorial-screenshots/public-user-options.png)
+
+User Dashboard:
+![Logged in User Dashboard](./tutorial-screenshots/loggedin-dashboard.png)
+
+![Logged in User Job Performance](./tutorial-screenshots/loggedin-performance.png)
 
 PI:
+![Logged in PI Dashboard](./tutorial-screenshots/loggedin-pi-dashboard.png)
 
-Center: Staff
+Center Staff:
+![Logged in Center Staff Dashboard](./tutorial-screenshots/centerdirector-dashboard.png)
 
+Report Generator:
+![Report Generator](./tutorial-screenshots/report-generator.png)
 ## Tutorial Navigation
 [Next - OnDemand](../ondemand/README.md)  
 [Previous Step - ColdFront](../coldfront/README.md)  
