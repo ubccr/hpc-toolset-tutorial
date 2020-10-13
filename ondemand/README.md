@@ -163,6 +163,16 @@ jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="$
 This tutorial will be using the the `hpcadmin` credentials listed in
 [Accessing the Applications](../docs/applications.md).
 
+It covers:
+
+- Initializing the developer application.
+- Debugging the app and getting it to run correctly.
+- Changing an existing form option.
+- Adding new form options.
+- Explanations on important files.
+- Editing the manifest.yml.
+- Promoting the application to production.
+
 ### Getting Started
 
 #### Login
@@ -327,7 +337,7 @@ The items in the form.yml directly create what's shown to the users in the form 
 Let's take a closer look at the `form.yml` that created the form you just submitted to get an
 understanding of how they relate to what's shown in the UI.
 
-This is the `form.yml` you at this point without all the comments.
+This is the `form.yml` you should have at this point without all the comments.
 
 ```yaml
 cluster: "hpc"
