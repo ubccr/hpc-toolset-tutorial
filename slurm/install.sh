@@ -7,7 +7,7 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
-SLURM_VERSION=${SLURM_VERSION:-20.02.7}
+SLURM_VERSION=${SLURM_VERSION:-20.11.7}
 
 log_info "Installing required packages for building slurm.."
 yum install -y \
