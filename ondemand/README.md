@@ -25,7 +25,7 @@ It covers:
 - [Changing the type of a form option.](#change-bc_queue-to-a-select-field)
 - [Adding limits for form options.](#limit-bc_num_cores)
 - [Adding new form options.](#adding-a-jupyterlab-checkbox)
-- [Explanations of the form.yml file.](#a-closer-look-at-the-form.yml)
+- [Explanations of the form.yml file.](#a-closer-look-at-the-formyml)
 - [Editing the manifest.yml](#edit-the-manifest).
 - [Promoting the application to production.](#deploying-to-production)
 
