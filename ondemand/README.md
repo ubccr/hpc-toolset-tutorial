@@ -20,13 +20,14 @@ This tutorial will be using the the `hpcadmin` credentials listed in
 
 It covers:
 
-- Initializing the developer application.
-- Debugging the app and getting it to run correctly.
-- Changing an existing form option.
-- Adding new form options.
-- Explanations on important files.
-- Editing the manifest.yml.
-- Promoting the application to production.
+- [Initializing the developer application.](#create-the-jupyter-application)
+- [Debugging the app and getting it to run correctly.](#get-jupyter-working)
+- [Changing the type of a form option.](#change-bc_queue-to-a-select-field)
+- [Adding limits for form options.](#limit-bc_num_cores)
+- [Adding new form options.](#adding-a-jupyterlab-checkbox)
+- [Explanations of the form.yml file.](#a-closer-look-at-the-form.yml)
+- [Editing the manifest.yml](#edit-the-manifest).
+- [Promoting the application to production.](#deploying-to-production)
 
 ### Getting Started
 
