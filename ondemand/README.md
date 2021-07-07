@@ -23,8 +23,9 @@ It covers:
 - [Initializing the developer application.](#create-the-jupyter-application)
 - [Debugging the app and getting it to run correctly.](#get-jupyter-working)
 - [Changing the type of a form option.](#change-bc_queue-to-a-select-field)
-- [Adding limits for form options.](#limit-bc_num_cores)
+- [Adding limits for form options.](#limit-bc_num_slots)
 - [Adding new form options.](#adding-a-jupyterlab-checkbox)
+- [Using native scheduler arguements](#using-script-native-attributes)
 - [Explanations of the form.yml file.](#a-closer-look-at-the-formyml)
 - [Editing the manifest.yml](#edit-the-manifest).
 - [Promoting the application to production.](#deploying-to-production)
@@ -239,8 +240,7 @@ back and forth between the two terms in this tutorial). We've started with a fie
 is a text field, but it's likely much easier for users to simply choose the partition out of a
 select dropdown menu instead.
 
-So let's remove the `bc_queue` field in the form and replace it with a new field we'll call `custom_queue`.
-Add `custom_queue` in the form section and remove bc_queue.  
+So let's replace the `bc_queue` field in the form with a new field that we'll call `custom_queue`.
 
 We'll also add `custom_queue` to the attributes section.  Adding a field to the form section adds it to the form
 in the UI.  By default, this field will be a text field. If you want this field to be a different type of widget
@@ -270,8 +270,8 @@ Refresh the [new session form](https://localhost:3443/pun/sys/dashboard/batch_co
 and you should now see your updates.
 
 But before we submit to test them out, we'll need to reconfigure the `submit.yml.erb` to use this
-new field.  You can edit it in the
-[file editor app](https://localhost:3443/pun/sys/file-editor/edit/home/hpcadmin/ondemand/dev/jupyter/submit.yml.erb).
+new field.  You can
+[edit the submit.yml.erb in the file editor app](https://localhost:3443/pun/sys/file-editor/edit/home/hpcadmin/ondemand/dev/jupyter/submit.yml.erb).
 
 You'll need to specify the script's queue_name as the partition like so. The `script` is the logical
 "script" we're submitting to the scheduler.  And the `queue_name` is the field of the script that will
@@ -282,13 +282,14 @@ script:
   queue_name: "<%= custom_queue %>"
 ```
 
-The .erb file extension indicates this is embedded ruby file. `<%=` and `%>` are embedded ruby tags. A variable
-for each attribute defined in the form.yml can be used in this ERB file, containing the string representation
-of the value submitted by the user.
+The .erb file extension indicates this is embedded ruby file. This means that Ruby will template this file
+and turn it into a yml file that OnDemand will then read.  `<%=` and `%>` are embedded ruby tags to turn the
+variable (or expression) into a string. Anything we've defined in the `form.yml` can be used in this ERB file.
+In this example we just defined `custom_queue` in the form so we can use it directly here.
 
 If you're not super comfortable with the terminology just remember this: `custom_queue` is defined in the `form.yml`
 (the file that defines what the UI form looks like) so it can be used in the `submit.yml.erb` (the file
-that is used to configure the job that is being submitted) as `<%= custom_queue =>`.
+that is used to configure the job that is being submitted) as `<%= custom_queue %>`.
 
 When [launch the application again](####-Launch-the-Jupyter-Application) you can [login to a shell](#get-a-shell-session)
 and confirm you chose a different queue with this command.
@@ -332,9 +333,9 @@ form:
   - bc_email_on_started
 ```
 
-#### Limit bc_num_cores
+#### Limit bc_num_slots
 
-SLURM is configured with only 2 cores total.  If you were now to submit this app
+SLURM is configured with only 2 nodes total.  If you were now to submit this app
 with say 3 or more `bc_num_slots` it would sit in the queue forever because SLURM
 cannot find a suitable host to run it on.
 
@@ -348,19 +349,19 @@ attributes:
 ```
 
 That's it! Again, because `bc_num_slots` is convenience field, it already has a minimum of 1
-that you can't override, because it doesn't make sense to specify 0 or less cores.
+that you can't override, because it doesn't make sense to specify 0 or less nodes.
 
 #### Using script native attributes
 
 `script.native` attributes are way for us to specify _any_ arguments to the schedulers that
-we can't pre-define or have a good generic defining (like `queue_name` above).
+we can't pre-define or have a good generic definition like `queue_name` above.
 
 In this section we're going to put make OnDemand request memory through the sbatch's
 `--mem` argument.
 
 First, let's add it to the form like so.
 
-Here are descriptions of all the fields we applied to it.  Note if the label was not
+Here are descriptions of all the fields we'll apply to it.  Note if the label was not
 not defined the default 'Memory' would have been OK.  Also we don't really need the
 the help message here, it was really just for illustration.
 
