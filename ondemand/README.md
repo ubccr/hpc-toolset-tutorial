@@ -4,174 +4,31 @@
 
 Live tutorial steps we took during PEARC. See the PEARC video recording to follow along (with images and explanations!):
 
-- [Jupyter App Tutorial Summary](#jupyter-app-tutorial-summary)
+- [Jupyter App Tutorial](#jupyter-app-tutorial)
 - [Passenger App Tutorial](#passenger-app-tutorial)
 - [XDMoD Integration Tutorial](#xdmod-integration-tutorial)
-
-Detailed tutorials, for working through on your own time
-
-- [Jupyter App Tutorial](#jupyter-app-detailed-tutorial)
 
 ## External links
 
 - [Online Documentation](https://osc.github.io/ood-documentation/master/)
 - [Jupyter Install Tutorial](https://osc.github.io/ood-documentation/master/app-development/tutorials-interactive-apps/add-jupyter.html)
 
-## Jupyter App Tutorial Summary
-
-This section provides a few snippets helpful for following along with the live tutorial.
-
-Login to OnDemand as hpcadmin to https://localhost:3443
-
-### Get the app working
-
-1. Develop => My Sandbox Apps
-2. Click New App
-3. Click Clone Existing App: `jupyter` and `/var/git/bc_example_jupyter`
-
-Fix environment: `source /usr/local/jupyter/2.1.4/bin/activate`
-
-### Modify the Partition field
-
-form.yml changes:
-
-```yaml
-attributes:
-  custom_queue:
-    widget: "select"
-    label: "Partition"
-    options:
-      - ["Compute", "compute"]
-      - ["Debug", "debug"]
-form:
-  - custom_queue
-#   - bc_queue
-```
-
-- `custom_queue` is used instead of `partition` because of 1.8 bug that will be fixed prior to release
-
-submit.yml.erb changes:
-
-```yaml
-script:
-  queue_name: "<%= custom_queue %>"
-```
-
-- the constructor for the Ruby object https://osc.github.io/ood_core/0.11.4/OodCore/Job/Script.html  shows all the options you can set in the script.yml above (https://www.rubydoc.info/gems/ood_core/OodCore/Job/Script typically shows the latest - but sometimes this service is unavailable)
-
-### Deploy to production
-
-Edit manifest:
-
-```yaml
----
-# change the name, this is what shows up in the menu
-name: HPC Tutorial Jupyter
-# change the category just to differentiate from the system installed
-# deskop application
-category: Tutorial Apps
-# change the subcategory
-subcategory: Machine Learning
-role: batch_connect
-# change the description, this shows up when you hover over the menu item on the interactive sessions page
-description: |
-  This app will launch a Jupyter Lab or Notebootk on one or more nodes.
-
-```
-
-Deployment steps on ondemand host via Shell:
-
-```shell
-    sudo mv /var/www/ood/apps/sys/jupyter /var/www/ood/apps/sys/jupyter.old
-    sudo cp -r jupyter /var/www/ood/apps/sys/jupyter
-```
-
-- app directory names with periods in them do not display in the navbar, which is why we can rename the old app to jupyter.old
-
-### Set the memory for the job
-
-form.yml changes:
-
-```yaml
-attributes:
-  memory:
-    widget: "number_field"
-    max: 1000
-    min: 200
-    step: 200
-    value: 600
-    label: "Memory (MB)"
-    help: "RSS Memory"
-form:
-  - memory
-```
-
-- widget specifies the type of widget to be a number
-- max the maximum value, ~1 GB in this case
-- min the minimum value, 200 MB
-- step the step size when users increase or decrease the value
-- value the default value of 600 MB
-- label the for UIs label
-- help a help message
-- See https://osc.github.io/ood-documentation/master/app-development/interactive/form.html#customizing-attributes for more details about what you can set in each "attribute"
-
-script.yml.erb modifications:
-
-```yaml
-script:
-  native:
-    - "--mem"
-    - "<%= memory %>M"
-```
-
-- script.native attributes are way for us to specify scheduler specific argument to sbatch or qsub or bsub
-- this lets you set arguments that OnDemand doesn't provide an abstraction for
-
-### Limit number of cores
-
-form.yml:
-
-```yaml
-attributes:
-  bc_num_slots:
-    max: 2
-```
-
-### Add checkbox to start JupyterLab
-
-form.yml:
-
-```yaml
-attributes:
-  jupyterlab_switch:
-    widget: "check_box"
-    label: "Use JupyterLab instead of Jupyter Notebook?"
-    help: |
-      JupyterLab is the next generation of Jupyter, and is completely compatible with existing Jupyter Notebooks.
-form:
-  - jupyterlab_switch
-```
-
-template script.sh:
-
-```ruby
-jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
-```
-
-## Jupyter App Detailed Tutorial
+## Jupyter App Tutorial
 
 This tutorial will be using the the `hpcadmin` credentials listed in
 [Accessing the Applications](../docs/applications.md).
 
 It covers:
 
-- Initializing the developer application.
-- Debugging the app and getting it to run correctly.
-- Changing an existing form option.
-- Adding new form options.
-- Explanations on important files.
-- Editing the manifest.yml.
-- Promoting the application to production.
+- [Initializing the developer application.](#create-the-jupyter-application)
+- [Debugging the app and getting it to run correctly.](#get-jupyter-working)
+- [Changing the type of a form option.](#change-bc_queue-to-a-select-field)
+- [Adding limits for form options.](#limit-bc_num_slots)
+- [Adding new form options.](#adding-a-jupyterlab-checkbox)
+- [Using native scheduler arguements](#using-script-native-attributes)
+- [Explanations of the form.yml file.](#a-closer-look-at-the-formyml)
+- [Editing the manifest.yml](#edit-the-manifest).
+- [Promoting the application to production.](#deploying-to-production)
 
 ### Getting Started
 
@@ -206,13 +63,15 @@ or simply Press the "Files" button in Jupyter's row of the sandbox applications 
 
 ![create sandbox app](imgs/create_sandbox_app.gif)
 
-You'll also need to setup `git` for the hpcadmin user at this point.
-
-Configure your user email and name so that you can commit changes to the jupyter app.
+You'll also need to setup `git` for the hpcadmin user at this point, so let's go ahead and do that
+and make first commit to the jupyter app as the starting point.
 
 ```shell
 git config --global user.email hpcadmin@localhost
 git config --global user.name "HPC Admin"
+cd ~/ondemand/dev/jupyter
+git add .
+git commit -m 'starting point'
 ```
 
 ### Get Jupyter Working
@@ -223,6 +82,8 @@ The example application we've created does not use the correct cluster configura
 to modify it.
 
 If you try to submit it as is, you'll get this error:
+
+![error message that reads The cluster was never set. Either set it in form.yml.erb with `cluster` or `form.cluster` or set `cluster` in submit.yml.erb.](imgs/no_cluster.png)
 
 We need to edit the `form.yml` in the appication's folder. We can navigate to the folder through the
 files app.  The URL is `https://localhost:3443/pun/sys/files/fs/home/hpcadmin/ondemand/dev/jupyter/`.
@@ -379,8 +240,7 @@ back and forth between the two terms in this tutorial). We've started with a fie
 is a text field, but it's likely much easier for users to simply choose the partition out of a
 select dropdown menu instead.
 
-So let's remove the `bc_queue` field in the form and replace it with a new field we'll call `custom_queue`.
-Add `custom_queue` in the form section and remove bc_queue.  
+So let's replace the `bc_queue` field in the form with a new field that we'll call `custom_queue`.
 
 We'll also add `custom_queue` to the attributes section.  Adding a field to the form section adds it to the form
 in the UI.  By default, this field will be a text field. If you want this field to be a different type of widget
@@ -410,8 +270,8 @@ Refresh the [new session form](https://localhost:3443/pun/sys/dashboard/batch_co
 and you should now see your updates.
 
 But before we submit to test them out, we'll need to reconfigure the `submit.yml.erb` to use this
-new field.  You can edit it in the
-[file editor app](https://localhost:3443/pun/sys/file-editor/edit/home/hpcadmin/ondemand/dev/jupyter/submit.yml.erb).
+new field.  You can
+[edit the submit.yml.erb in the file editor app](https://localhost:3443/pun/sys/file-editor/edit/home/hpcadmin/ondemand/dev/jupyter/submit.yml.erb).
 
 You'll need to specify the script's queue_name as the partition like so. The `script` is the logical
 "script" we're submitting to the scheduler.  And the `queue_name` is the field of the script that will
@@ -422,13 +282,14 @@ script:
   queue_name: "<%= custom_queue %>"
 ```
 
-The .erb file extension indicates this is embedded ruby file. `<%=` and `%>` are embedded ruby tags. A variable
-for each attribute defined in the form.yml can be used in this ERB file, containing the string representation
-of the value submitted by the user.
+The .erb file extension indicates this is embedded ruby file. This means that Ruby will template this file
+and turn it into a yml file that OnDemand will then read.  `<%=` and `%>` are embedded ruby tags to turn the
+variable (or expression) into a string. Anything we've defined in the `form.yml` can be used in this ERB file.
+In this example we just defined `custom_queue` in the form so we can use it directly here.
 
 If you're not super comfortable with the terminology just remember this: `custom_queue` is defined in the `form.yml`
 (the file that defines what the UI form looks like) so it can be used in the `submit.yml.erb` (the file
-that is used to configure the job that is being submitted) as `<%= custom_queue =>`.
+that is used to configure the job that is being submitted) as `<%= custom_queue %>`.
 
 When [launch the application again](####-Launch-the-Jupyter-Application) you can [login to a shell](#get-a-shell-session)
 and confirm you chose a different queue with this command.
@@ -472,9 +333,9 @@ form:
   - bc_email_on_started
 ```
 
-#### Limit bc_num_cores
+#### Limit bc_num_slots
 
-SLURM is configured with only 2 cores total.  If you were now to submit this app
+SLURM is configured with only 2 nodes total.  If you were now to submit this app
 with say 3 or more `bc_num_slots` it would sit in the queue forever because SLURM
 cannot find a suitable host to run it on.
 
@@ -488,19 +349,19 @@ attributes:
 ```
 
 That's it! Again, because `bc_num_slots` is convenience field, it already has a minimum of 1
-that you can't override, because it doesn't make sense to specify 0 or less cores.
+that you can't override, because it doesn't make sense to specify 0 or less nodes.
 
 #### Using script native attributes
 
 `script.native` attributes are way for us to specify _any_ arguments to the schedulers that
-we can't pre-define or have a good generic defining (like `queue_name` above).
+we can't pre-define or have a good generic definition like `queue_name` above.
 
 In this section we're going to put make OnDemand request memory through the sbatch's
 `--mem` argument.
 
 First, let's add it to the form like so.
 
-Here are descriptions of all the fields we applied to it.  Note if the label was not
+Here are descriptions of all the fields we'll apply to it.  Note if the label was not
 not defined the default 'Memory' would have been OK.  Also we don't really need the
 the help message here, it was really just for illustration.
 
