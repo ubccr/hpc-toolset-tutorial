@@ -44,15 +44,6 @@ then
         expect /srv/xdmod/scripts/xdmod-setup-finish.tcl | col -b
 
         #------------------------
-        # Run xdmod-setup
-        #------------------------
-        echo "---> XDMoD OnDemand Module: Setup"
-        expect /srv/xdmod/scripts/xdmod-setup-ondemand.tcl | col -b
-
-        # Remove the GeoIP file property from the OpenOnDemand config.
-        sed -i '/"geoip_file":/d' /etc/xdmod/etl/etl.d/ood.json
-
-        #------------------------
         # The xdmod-setup interactive script includes menu items for all of the
         # common basic Open XDMoD configuration.  The
         # /etc/xdmod/portal_settings.ini file can always be manually edited for
