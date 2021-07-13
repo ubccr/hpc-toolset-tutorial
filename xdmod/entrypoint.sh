@@ -63,16 +63,6 @@ then
         #------------------------
         sed -i 's%domains = ""%domains = "https://localhost:3443"%g' /etc/xdmod/portal_settings.ini
 
-        echo "---> Backup XDMoD's config files"
-        tar -czvf /srv/xdmod/backups/xdmod-config.tar.gz /etc/xdmod
-
-        echo "---> Backup XDMoD's databases"
-        for db in mod_hpcdb mod_logger mod_shredder moddb modw modw_aggregates modw_cloud modw_etl modw_filters modw_ondemand modw_supremm
-        do
-          echo "  ---> Backing up $db"
-          mysqldump -h mysql $db > /srv/xdmod/backups/$db.sql
-        done
-
         echo "Open XDMoD Import: Hierarchy"
         sudo -u xdmod xdmod-import-csv -t hierarchy -i /srv/xdmod/hierarchy.csv
 
@@ -96,15 +86,6 @@ then
 
         echo "---> Make sure we have a place to keep our backups"
         mkdir -p /srv/xdmod/backups
-
-        echo "---> Create a .my.cnf file so we don't have to prompt the user"
-        cat >/root/.my.cnf <<EOL
-[mysqldump]
-user=xdmodapp
-password=ofbatgorWep0
-EOL
-
-
     fi
 
     echo "---> Starting HTTPD on xdmod..."

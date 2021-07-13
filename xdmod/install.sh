@@ -43,7 +43,6 @@ pip install pexpect==4.4.0
 #------------------------
 yum install -y https://github.com/ubccr/xdmod/releases/download/v9.5.0/xdmod-9.5.0-1.0.el7.noarch.rpm \
                https://github.com/ubccr/xdmod-supremm/releases/download/v9.5.0/xdmod-supremm-9.5.0-1.0.el7.noarch.rpm \
-               https://github.com/ubccr/xdmod-ondemand/releases/download/9.5.0-rc1/xdmod-ondemand-9.5.0-1.0.rc.1.el7.noarch.rpm \
                https://github.com/ubccr/supremm/releases/download/1.4.1/supremm-1.4.1-1.el7.x86_64.rpm
 
 #------------------------
@@ -92,3 +91,5 @@ rm -rf /var/cache/yum
 #     the OnDemand XDMoD Module.
 #------------------------
 mkdir -p /scratch/ondemand
+
+mkdir -p /srv/xdmod/backups
