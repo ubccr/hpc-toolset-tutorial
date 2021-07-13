@@ -1,11 +1,9 @@
 ## ColdFront installation & Configuration
 - View `hpc-toolset-tutorial/coldfront/install.sh` to see how ColdFront is installed
-- View `hpc-toolset-tutorial/coldfront/local_settings.py` to see how ColdFront is configured
-- This is where you'd enable or disable any plugins and set variables for your local installation
+- View `hpc-toolset-tutorial/coldfront/coldfront.env` to see how ColdFront is configured  
+- This is where you'd enable or disable any plugins and set variables for your local installation.  Check out the [full configuration options available in the ColdFront documentation](https://coldfront.readthedocs.io/en/latest/config/)  
+- View `hpc-toolset-tutorial/coldfront/coldfront-nginx.conf` for an example of ColdFront web configuration  
 
-[![asciicast](https://asciinema.org/a/347965.svg)](https://asciinema.org/a/347965)
-
-NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfront/
 
 ## Login to ColdFront website
 - URL https://localhost:2443/
@@ -13,7 +11,8 @@ NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfro
 - Login locally as username `hpcadmin` password: `ilovelinux`
 - Logout
 - Login locally as username `cgray` password: `test123`
-- Logout
+- Logout  
+- Login locally as username `csimmons`  password: `ilovelinux`  
 - Login locally as username `admin` password: `admin`
 - Go to Admin interface, Users
 - Click on the hpcadmin user
@@ -21,21 +20,17 @@ NOTE: you can also install ColdFront using pip: https://pypi.org/project/coldfro
 - Go to Admin interface, User Profiles
 - Click on `cgray` check ``"Is pi"``  SAVE
 - Go back to Admin interface, Click on Resources
-- Add a resource: `cluster, cluster name=hpc, attribute: slurm_cluster=hpc`
+- Add a resource: `cluster, cluster name=hpc, description: anything you want, resource attribute: slurm_cluster=hpc` - click SAVE  
 - Logout
 - Login as the PI using local account username: `cgray` password: `test123`
-- Create a new project
-- Request an allocation for resource: hpc
+- Create a new project, filling in the name, description, and selecting any field of science  
+- Request an allocation for resource: hpc  
+- Add a user to the project - search for `csimmons` and add to the HPC cluster allocation  
 - Logout
 - Login using local account username: `hpcadmin` password: `ilovelinux`  
 - Activate the allocation and set the appropriate allocation attributes:  
 `slurm_account:cgray, slurm_specs:Fairshare=100, slurm_user_specs:Fairshare=parent`
 
-![ColdFront demo](../docs/cf_demo.gif)  
-
-**This animated gif is also available as a video you can stop/start/rewind:**  
-[Click here to access it](https://drive.google.com/file/d/18YJXrS7rNWZlA9YK84sJbAGDdpAoopG7/view?usp=sharing)  
-We recommend you download it for best quality
 
 ## Run slurm plugin to sync active allocations from ColdFront to slurm
 - Login to the frontend container first, then to the coldfront container:  
@@ -47,7 +42,9 @@ password: `ilovelinux`
 `cd coldfront`  
 
 - Let's see what slurm access cgray currently has:  
-`sacctmgr show user cgray -s list`
+`sacctmgr show user cgray -s list`  
+- Let's see what slurm access csimmons currently has:  
+`sacctmgr show user csimmons -s list`
 - Now dump the slurm account/association info from ColdFront's active allocations:  
 `coldfront slurm_dump -c hpc -o ~/slurm_dump`
 - Let's see what was created:  
@@ -58,10 +55,12 @@ password: `ilovelinux`
 `Type 'Y'` to add the new account & associations for cgray
 - Let's look at cgray's slurm account again:  
 `sacctmgr show user cgray -s list`  
+- Let's look at csimmons's slurm account again:  
+`sacctmgr show user csimmons -s list`  
+NOTE: The csimmons user is under the cgray slurm account  
 - Logout of ColdFront container  
 `exit`  
 
-[![asciicast](https://asciinema.org/a/347945.svg)](https://asciinema.org/a/347945)
 
 ## Login (or go back) to frontend container
 NOTE: you should already be on the frontend but just in case you're not:  
@@ -79,7 +78,6 @@ password: `test123`
 `exit` (logout from compute node)  
 `exit` (logout from cgray account)  
 
-[![asciicast](https://asciinema.org/a/347948.svg)](https://asciinema.org/a/347948)
 
 ## Login to OnDemand website
 - Login to Open OnDemand  https://localhost:3443/ as username: `cgray` password: `test123`
@@ -88,11 +86,6 @@ password: `test123`
 - Submit a job using job template
 - Launch an interactive Job
 
-![ColdFront OnDemand demo](../docs/cf_ood.gif)  
-
-**This animated gif is also available as a video you can stop/start/rewind:**  
-[Click here to access it](https://drive.google.com/file/d/1CWF6Xlig5EJWgENK-mPmZB2vXhjhbHcb/view?usp=sharing)  
-We recommend you download it for best quality
 
 ## Login to Open XDMoD website
 - Login to Open XDMoD https://localhost:4443/  
@@ -113,8 +106,6 @@ password: `ilovelinux`
 `exit`  
 
 
-[![asciicast](https://asciinema.org/a/347955.svg)](https://asciinema.org/a/347955)
-
 **Note: More information about this script in the Open XDMoD portion of this tutorial**
 
 ## Login to Open XDMoD website
@@ -126,28 +117,17 @@ NOTE: There won't be much info except that we ran a few jobs. More will be prese
 
 ![XDMoD job data](../docs/xdmod_jobs.PNG)
 
-## Adding new users to project & allocation (time permitting)
-- Login to ColdFront https://localhost:2443/ with locally as username: `csimmons` password: `ilovelinux`   
- **NOTE:**  You'll need to use a separate browser or incognito window as you'll already be logged in using the single sign on with XDMoD and OnDemand.
-- Notice there are no projects and no allocations.  Logout
-- Login locally as username `cgray` password: `test123`
-- Click on project
-- Click on Add User - search for `csimmons`
-- Add to allocation
-- Login to coldfront container and re-run slurm plug-in commands to add csimmons to slurm associations  
-`ssh coldfront`
-- Let's see what slurm access csimmons currently has:  
-`sacctmgr show user csimmons -s list`
-- Now dump the slurm account/association info from ColdFront's active allocations:  
-`coldfront slurm_dump -c hpc -o /tmp/slurm_dump`
-- Let's see what was created:  
-`ls -al /tmp/slurm_dump`  
-`cat /tmp/slurm_dump/hpc.cfg`  
-- Load the slurm dump into slurm database:  
-`sacctmgr load file=/tmp/slurm_dump/hpc.cfg`  
-`Type 'Y'` to add the new association for csimmons
-- Let's look at csimmons's slurm account again:  
-`sacctmgr show user csimmons -s list`
+## Integrating OnDemand with ColdFront (time permitting)  
+This is a very simple example of modifying the ColdFront configuration to use a plugin.  This  plugin allows us to provide a link to our OnDemand instance for any allocations for resources that have "OnDemand enabled"  
+
+We have already added the OnDemand instance info to the ColdFront config.  You can see this outside the containers in your git directory:  See `hpc-toolset-tutorial/coldfront/coldfront.env`  
+
+Now let's enable OnDemand for our cluster resource:  
+- Log back in to the ColdFront Administration site `https://localhost:2443/admin/` as the `hpcadmin` acccount - password `ilovelinux`:
+
+- Navigate to the Resources section and click on the 'HPC' cluster resource.  Add a new resource attribute:  `OnDemand = "Yes"`  
+- Log out and log in as the PI user `cgray` password `test123`  
+- Notice on the ColdFront home page next to the allocation for the HPC cluster resource you see the OnDemand logo.  Click on the Project name and see this logo also shows up next to the allocation.  When we click on that logo, it directs us to the OnDemand instance.  
 
 
 
