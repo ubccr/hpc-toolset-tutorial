@@ -12,7 +12,7 @@ If you haven't already installed and tested the required packages, please refer 
 
 ## Getting started
 
-You will need to clone the tutorial repo and then run the helper script.  The first time running this, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 7GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network this download and container startup process took 17 minutes.  
+You will need to clone the tutorial repo and then run the helper script.  The first time running this, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 13GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network with client connected over wifi this download and container startup process took 12 minutes.  
 
 NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command using the git-bash shell application before cloning the tutorial repo:
 
@@ -161,11 +161,18 @@ Then start it all up again:
 
 Since you already downloaded all the images, this command will only startup the containers and services which only takes a few minutes.  
 
-To completely start over, run:  
+To completely start over, run the cleanup script and then startup script:  
 
 ```
 $ ./hpcts cleanup
 $ ./hpcts start
+```
+NOTE:  The cleanup script removes ALL containers, images and volumes except the mongo and mariadb images.  If you're getting database errors we recommend you remove these manually with these docker commands:  
+
+```
+$ docker image list  
+$ docker image rm [IMAGE IDs for mongo and mariadb images]  
+$ ./hpcts start  
 ```
 
 Just in case none of this worked here are [more Docker tips](docker_tips.md)
