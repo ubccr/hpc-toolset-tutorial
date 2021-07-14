@@ -57,7 +57,7 @@ Fill in `jupyter` as the directory name. `/var/git/bc_example_jupyter` as the Gi
 check "Create a new Git Project from this?".  Then click "Submit" to create a new development
 application.
 
-This copied what was in `/var/git/bc_example_jupyter` to `/home/hpcadmin/ondemand/dev/jupyer`.
+This copied what was in `/var/git/bc_example_jupyter` to `/home/hpcadmin/ondemand/dev/jupyter`.
 You can navigate to these files [through the Files app with this link](https://localhost:3443/pun/sys/files/fs/home/hpcadmin/ondemand/dev/jupyter/)
 or simply Press the "Files" button in Jupyter's row of the sandbox applications table.
 
@@ -160,7 +160,7 @@ jupyter notebook --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
 
 #### Correctly launch
 
-Now we can [launch the application again](####-Launch-the-Jupyter-Application) and it should work.
+Now we can [launch the application again](https://localhost:3443/pun/sys/dashboard/batch_connect/dev/jupyter/session_contexts/new) and it should work.
 
 When it is up and running and available to use the panel will show a "Connect to Jupyter" button.  Click this button
 and OnDemand will redirect us to Jupyter.  
@@ -291,8 +291,8 @@ If you're not super comfortable with the terminology just remember this: `custom
 (the file that defines what the UI form looks like) so it can be used in the `submit.yml.erb` (the file
 that is used to configure the job that is being submitted) as `<%= custom_queue %>`.
 
-When [launch the application again](####-Launch-the-Jupyter-Application) you can [login to a shell](#get-a-shell-session)
-and confirm you chose a different queue with this command.
+When [launch the application again](https://localhost:3443/pun/sys/dashboard/batch_connect/dev/jupyter/session_contexts/new) 
+you can [login to a shell](#get-a-shell-session) and confirm you chose a different queue with this command.
 
 ```shell
 [hpcadmin@ondemand ~]$ squeue -o "%j %P"
@@ -302,11 +302,11 @@ sys/dashboard/dev/jupyter debug
 
 ![make custom queue](imgs/make_custom_queue.gif)
 
-At this point, this should be the entirety of the `script.yml.erb` and `form.yml` (without comments).
+At this point, this should be the entirety of the `submit.yml.erb` and `form.yml` (without comments).
 They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
 
 ```yaml
-# script.yml.erb
+# submit.yml.erb
 script:
   queue_name: "<%= custom_queue %>"
 ```
@@ -392,7 +392,7 @@ Again, now to actually use the value we populate in the form, we need to use
 it in the `submit.yml.erb`.  This is where `script.native` attributes come in.
 
 ```yaml
-# script.yml.erb
+# submit.yml.erb
 script:
   native:
     - "--mem"
@@ -414,7 +414,7 @@ NAME MIN_MEMORY
 sys/dashboard/dev/jupyter 800M
 ```
 
-At this point, this should be the entirety of the `script.yml.erb` and `form.yml` (without comments).
+At this point, this should be the entirety of the `submit.yml.erb` and `form.yml` (without comments).
 They're given here in full if you want to copy/paste them. And remember to [save your spot](#save-your-spot)!
 
 ```yaml
@@ -679,7 +679,7 @@ subcategory: Machine Learning
 role: batch_connect
 # change the description, this shows up when you hover over the menu item
 description: |
-  This app will launch a Jupyter Lab or Notebootk on one or more nodes.
+  This app will launch a Jupyter Lab or Notebook on one or more nodes.
 ```
 
 If you want to change `category` and `subcategory` you can freely do so.
