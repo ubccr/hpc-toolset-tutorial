@@ -39,7 +39,6 @@ password: `ilovelinux`
 `ssh coldfront`  
 `cd /srv/www`  
 `source venv/bin/activate`  
-`cd coldfront`  
 
 - Let's see what slurm access cgray currently has:  
 `sacctmgr show user cgray -s list`  
