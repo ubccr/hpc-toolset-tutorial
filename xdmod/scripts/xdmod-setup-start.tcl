@@ -17,9 +17,9 @@ spawn "xdmod-setup"
 selectMenuOption 1
 answerQuestion {Site Address} https://localhost:4443/
 provideInput {Email Address:} ccr-xdmod-help@buffalo.edu
-answerQuestion {Java Path} /usr/bin/java
-answerQuestion {Javac Path} /usr/bin/javac
-provideInput {PhantomJS Path:} /usr/local/bin/phantomjs
+provideInput {Java Path:} /usr/bin/java
+provideInput {Javac Path:} /usr/bin/javac
+provideInput {Chromium Path:} /usr/lib64/chromium-browser/headless_shell
 provideInput {Center Logo Path:} /srv/xdmod/small-logo.png
 provideInput {Center Logo Width:} 354
 provideInput {Enable Dashboard Tab*} {on}

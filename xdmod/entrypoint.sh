@@ -74,6 +74,9 @@ then
         export TERMINFO=/bin/bash
         export TERM=linux
         /srv/xdmod/scripts/supremm.py
+
+        echo "---> Make sure we have a place to keep our backups"
+        mkdir -p /srv/xdmod/backups
     fi
 
     echo "---> Starting HTTPD on xdmod..."

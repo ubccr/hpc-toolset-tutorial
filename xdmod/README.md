@@ -1,26 +1,24 @@
 ## Overview
 
 **NOTE:**
-Due to COVID and this tutorial being virtual and much shorter than anticipated; this part of the tutorial is going to be a bit more of an interactive demo.  Some parts are going to be skipped over quicker than usual, however, our team is available in SLACK and the zoom chat to answer any questions that you may have.
+Due to this tutorial being virtual and much shorter than anticipated; this part of the tutorial is going to be a bit more of an interactive demo. Some parts are going to be skipped over quicker than usual, however, our team is available in SLACK and Zoom chat to answer any questions that you may have.
 
-In this part of the tutorial we are going to go over the installation and configuratoin of Open XDMoD.
-The base component of Open XDMoD uses the job accounting logs from the HPC
-resource manager as the data source.  We have also installed the optional Job Performance Module. This allows Open XDMoD to also display performance data for HPC jobs.
+In this part of the tutorial we are going to go over the installation and configuration of Open XDMoD.
+The base component of Open XDMoD uses the job accounting logs from your HPC
+resource manager as the data source. We have also installed the optional Job Performance Module. This allows Open XDMoD to also display performance data for HPC jobs.
 
 The asciinema media is not meant to be used on its own, they are intended for use in a "live" demonstration.
 
-Command Line Demos in a Light color, are meant to be watched.  Dark theme are interactive.
+Command Line Demos in a Light color, are meant to be watched. Dark theme are interactive.
 
-`VIM` is used to edit files in this tutorial.  If you prefer a different editor, please install it on the xdmod container.
+`vim` is used to edit files in this tutorial. If you prefer a different editor, please install it on the xdmod container.
 
 ## Submit some jobs to the cluster
 
-**NOTE:** For the Gateways2020 tutorial the Presentor has already done this on their machine.  If you are intresed in running this on your own please do so.
+**NOTE:** For the PEARC2021 tutorial the Presenter has already done this on their machine. If you are interested in running this on your own please do so.
 
 Before we install and configure XDMoD we are going to submit
-some HPC jobs to the cluster. These jobs will run while we go through
-the install and then we will be able to view the job information
-in Open XDMoD.
+some HPC jobs to the cluster. This will ensure that we'll have something to view when we're done setting up XDMoD.
 
 Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
 ```bash
@@ -63,17 +61,13 @@ Submitted batch job 19
 
 ## Open XDMoD Installation
 
-**Note** This part will be brief in the Gateways2020 tutorial.  This processes has been done already as part of the docker.
+**Note** This part will be brief in the PEARC2021 tutorial. These processes have been done already as part of the docker.
 
 For this tutorial, the Open XDMoD software will be installed in the `xdmod` container.
 Open XDMoD will use the MySQL database from the `mysql` container. Since we
 will also be installing the optional Job Performance module we also run
 a MongoDB database in the `mongodb` container. The various runtime scripts to process
 the Job accounting and Job performance data will all be run in the `xdmod` container.
-
-The Open XDMoD software is installed via RPMs. The majority of the software dependencies
-are automatically installed via RPM. However, the `phantomjs` software
-that Open XDMoD uses for its image export must be installed seperately.
 
 The [`hpc-toolset-tutorial/xdmod/install.sh`](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/xdmod/install.sh) script contains the step-by-step
 instructions to install the packages.
@@ -85,7 +79,7 @@ Package Installation:
 
 ## Open XDMoD Configuration
 
-**Note** This part will be brief in the Gateways2020 tutorial.  This processes has been done already as part of the docker.
+**Note** This part will be brief in the PEARC2021 tutorial. These processes have been done already as part of the docker.
 
 ### Prerequisites
 
@@ -102,12 +96,11 @@ The following information is needed by Open XDMoD:
 Optionally:
 
 - An image file containing the HPC center logo
-    - The width HPC center logo
+    - The width of the HPC center logo in pixels
 
-Also the following technical information:
+You will also need the following technical information:
 
 - The public url of Open XDMoD
-- Paths to installed dependencies (phantomjs)
 - MySQL connection information
     - Host
     - Port
@@ -130,8 +123,7 @@ If you are installing the Job Performance module (as we are in this tutorial)
     - Whether it runs shared jobs: `no`
 - An image file containing the HPC center logo: `/srv/xdmod/small-logo.png`
     - The width HPC center logo: `354`
-- The public url of Open XDMoD:  `https://localhost:4443`
-- Paths to installed dependencies (phantomjs):  `detected defaults`
+- The public url of Open XDMoD: `https://localhost:4443`
 - MySQL connection information
     - Host: `mysql`
     - Port: `3306`
@@ -150,7 +142,7 @@ The [`hpc-toolset-tutorial/xdmod/entrypoint.sh`](https://github.com/ubccr/hpc-to
 
 Reference: [Configuration Guide](https://open.xdmod.org/configuration.html)
 
-The following asciinema recordings are how an administrator would do perform these actions:
+The following asciinema recordings are how an administrator would perform these actions:
 
 General Setup:
 [![asciicast](https://asciinema.org/a/349236.svg)](https://asciinema.org/a/349236)
@@ -166,10 +158,10 @@ Resource Setup:
 
 #### Advanced configuration
 
-The `xdmod-setup` script is used for the basic setup of Open XDMoD. The script includes options to configure the Open XDMoD database, setup the admin user account and configure resources.
+The `xdmod-setup` script is used for the basic setup of Open XDMoD. The script includes options to configure the Open XDMoD database, set up the admin user account and configure resources.
 Open XDMoD's [Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files can be modified directly when needing more advanced customization.
 
-*Have a heterogeneous cluster?*  You could modify `/etc/xdmod/resource_specs.json` and set the PPN to the average number of processors per node.
+*Have a heterogeneous cluster?*  You can modify `/etc/xdmod/resource_specs.json` and set the PPN to the average number of processors per node.
 
 #### Hierarchy
 
@@ -182,7 +174,7 @@ Reference: [Hierarchy Guide](https://open.xdmod.org/hierarchy.html)
 
 ## Open XDMoD Job Performance
 
-**Note** This part will be brief in the Gateways2020 tutorial.  This processes has been done already as part of the docker.
+**Note** This part will be brief in the PEARC2021 tutorial. These processes have been done already as part of the docker.
 
 The Job Performance module is optional, but highly recommended.
 
@@ -190,9 +182,9 @@ The Job Performance module is optional, but highly recommended.
 
 ### Job Performance Configuration
 
-[Job Performance](https://supremm.xdmod.org) data - for the Open source release we'll try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io).
+[Job Performance](https://supremm.xdmod.org) data - for the open source release we'll try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io).
 We chose PCP because it is included by default in Centos / RedHat.
-In XSEDE we use tacc_stats and PCP (depending on the resource provider).  We are also aware of groups using LDMS, Cray RUR and Ganglia too.  We have a team now looking into Prometheus.
+In XSEDE we use tacc_stats and PCP (depending on the resource provider). We are also aware of groups using LDMS, Cray RUR and Ganglia too. We have a team now looking into Prometheus.
 
 PCP has been [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
 This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system.
@@ -226,7 +218,7 @@ Ingestion
 > Reference: [Ingestor Guide](https://open.xdmod.org/ingestor.html)
 
 Aggregation
-> What actually gets data into the Open XDMoD portal. For core xdmod this is part of ingestion.  Job Performance has a separate script.
+> What actually gets data into the Open XDMoD portal. For core xdmod this is part of ingestion. Job Performance has a separate script.
 
 This tutorial provides a script [`shred-ingest-aggregate-all.sh`](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/xdmod/scripts/shred-ingest-aggregate-all.sh)
 that does this. In a typical setup this would be part of a cron job run when it is best suited for the HPC system.
@@ -248,20 +240,20 @@ Run the script as the xdmod user:
 ```bash
 sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh
 ```
-This is going to produce A LOT of output.  Each of these commands have flags that will turn this off.  For the purpose of this tutorial they have not been silenced.
+This is going to produce A LOT of output. Each of these commands have flags that will turn this off. For the purpose of this tutorial they have not been silenced.
 
 [![asciicast](https://asciinema.org/a/349242.svg)](https://asciinema.org/a/349242)
 
-#### It is Known
+#### Expected Warnings
 -  `[WARNING] ... RuntimeWarning: invalid value encountered in double_scalars`
     -  https://stackoverflow.com/questions/27784528/numpy-division-with-runtimewarning-invalid-value-encountered-in-double-scalars/27784588#27784588
 -  `[WARNING] Autoperiod library not found, TimeseriesPatterns plugins will not do period analysis`
-    -  The autoperiod code is used for detecting period I/O patterns in the parallel filesystem traffic. (not needed in the tutorial configuration)
+    -  The autoperiod code is used for detecting periodic I/O patterns in the parallel filesystem traffic. (not needed in the tutorial configuration)
 
 
 ## User / PI Names
 
-**NOTE**: Feel Free to skip this part in the Gateways2020 Tutorial, as it does not impact the use of the system.
+**NOTE**: Feel Free to skip this part in the PEARC2021 Tutorial, as it does not impact the use of the system.
 
 The resource manager logs contain the system usernames of the users that submitted jobs.
 To display the full names in Open XDMoD you must provide a data file that contains the
@@ -269,7 +261,7 @@ full name of each user for each system username. This file is in a `csv` format.
 
 ![Group By User(names not imported)](./tutorial-screenshots/usernames.png)
 
-This has not been automated for this tutorial. We dont want you to fall asleep!
+This step has not been automated as we don't want you falling asleep!
 
 Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
 
@@ -282,15 +274,13 @@ SSH to the xdmod container:
 ssh xdmod
 ```
 
-Create a file with the contents below:
-The file needs to be able to be read by the `xdmod` user, for this demo it will be
-created in /var/tmp
+Create a file as shown below: ( The file needs to be able to be read by the `xdmod` user, for this demo it will be created in /var/tmp )
 
 ```bash
 vim /var/tmp/names.csv
 ```
 
-The first column should include the user name or group name used by your resource manager, the second column is the user’s first name and the third column is the user’s last name.
+The first column should include the username or group name used by your resource manager, the second column is the user’s first name, and the third column is the user’s last name.
 (Feel free to change the First and Last names)
 
 ```csv
@@ -304,10 +294,10 @@ hpcadmin,,HPC Administrators
 Now this needs to be imported into xdmod with the command [`xdmod-import-csv`](https://open.xdmod.org/commands.html#xdmod-import-csv)
 
 ```bash
-sudo -u  xdmod xdmod-import-csv -t names -i /var/tmp/names.csv
+sudo -u xdmod xdmod-import-csv -t names -i /var/tmp/names.csv
 ```
 
-Then we will need to reingest and aggregate the data
+Next we will need to re-ingest and aggregate the data:
 
 ```bash
 sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh
@@ -321,7 +311,7 @@ xdmod-import-csv -t names:
 
 ## Open XDMoD Functionality (Interactive Demo)
 
-**Note** The Gateways2020 demo has additional anonymized historical data (about 2 months) that can be added, this takes a while (depending on your system, mine took about 3 hours...) to actually run.  This data will be used by the presentor for this demonstration.
+**Note** The Gateways2020 demo has additional anonymized historical data (about 2 months) that can be added, this takes a while (depending on your system, mine took about 3 hours...) to actually run. This data will be used by the presenter for this demonstration.
 
 If / when you run this it will look a lot like when we ran `/srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
 
@@ -341,9 +331,9 @@ Admin Dashboard:
 
 ### End User
 
-Lets actually use Open XDMoD now.
+Let's actually use Open XDMoD now.
 
-With a fully installed system we have quite a bit of data.  Job information, Storage Usage, Cloud Usage, Job Performance (SUPREMM)
+With a fully installed system we have quite a bit of data. Job information, Storage Usage, Cloud Usage, Job Performance (SUPREMM)
 ![Public User Usage](./tutorial-screenshots/public-user-options.png)
 
 User Dashboard:
@@ -360,6 +350,6 @@ Center Staff:
 Report Generator:
 ![Report Generator](./tutorial-screenshots/report-generator.png)
 ## Tutorial Navigation
-[Next - OnDemand](../ondemand/README.md)  
-[Previous Step - ColdFront](../coldfront/README.md)  
+[Next - OnDemand](../ondemand/README.md)
+[Previous Step - ColdFront](../coldfront/README.md)
 [Back to Start](../README.md)

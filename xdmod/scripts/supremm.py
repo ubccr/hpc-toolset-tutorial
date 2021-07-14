@@ -23,7 +23,7 @@ def main():
         p.sendline()
 
         while True:
-            i = p.expect(["Overwrite config file", "hpc"])
+            i = p.expect(["Overwrite config file", "hpc", pexpect.EOF, pexpect.TIMEOUT])
             if i > 1:
                 p.expect('Enable SUPReMM summarization for this resource?')
             if i > 5:

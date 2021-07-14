@@ -41,20 +41,9 @@ pip install pexpect==4.4.0
 # be installed in the same container.  In a production deployment they may be installed
 # on separate hosts.
 #------------------------
-yum install -y https://github.com/ubccr/xdmod/releases/download/v9.0.0/xdmod-9.0.0-1.0.el7.noarch.rpm \
-               https://github.com/ubccr/xdmod-supremm/releases/download/v9.0.0/xdmod-supremm-9.0.0-1.0.el7.noarch.rpm \
-               https://github.com/ubccr/supremm/releases/download/1.4.0/supremm-1.4.0-1.el7.x86_64.rpm
-
-#------------------------
-# phantomjs is used by Open XDMoD for chart image export and for the
-# report generator.
-#------------------------
-wget -O /var/tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
-pushd /var/tmp
-tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2 phantomjs-2.1.1-linux-x86_64/bin/phantomjs
-cp phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/
-rm -Rf phantomjs-2.1.1-linux-x86_64*
-popd
+yum install -y https://github.com/ubccr/xdmod/releases/download/v9.5.0/xdmod-9.5.0-1.0.el7.noarch.rpm \
+               https://github.com/ubccr/xdmod-supremm/releases/download/v9.5.0/xdmod-supremm-9.5.0-1.0.el7.noarch.rpm \
+               https://github.com/ubccr/supremm/releases/download/1.4.1/supremm-1.4.1-1.el7.x86_64.rpm
 
 #------------------------
 # The Job Performance software uses MongoDB to store the job-level performance
@@ -95,3 +84,12 @@ rm -f /etc/httpd/conf.d/ssl.conf
 #------------------------
 yum clean all
 rm -rf /var/cache/yum
+
+#------------------------
+# OnDemand Module Setup:
+#   - Make sure to create the directory that will contain the OnDemand log files for use with
+#     the OnDemand XDMoD Module.
+#------------------------
+mkdir -p /scratch/ondemand
+
+mkdir -p /srv/xdmod/backups
