@@ -4,21 +4,234 @@
 
 Live tutorial steps we took during PEARC. See the PEARC video recording to follow along (with images and explanations!):
 
+- [Dashboard-developer-mode-tutorial](#dashboard-developer-mode-tutorial)
 - [Jupyter App Tutorial](#jupyter-app-tutorial)
 - [Passenger App Tutorial](#passenger-app-tutorial)
 - [XDMoD Integration Tutorial](#xdmod-integration-tutorial)
+
+These tutorial will be using the the `hpcadmin` credentials listed in
+[Accessing the Applications](../docs/applications.md).
 
 ## External links
 
 - [Online Documentation](https://osc.github.io/ood-documentation/master/)
 - [Jupyter Install Tutorial](https://osc.github.io/ood-documentation/master/app-development/tutorials-interactive-apps/add-jupyter.html)
 
+## Getting Started
+
+### Login
+
+Now you should login to Open OnDemand through `https://localhost:3443`.  Note that you'll have to
+accept the self-signed certificates from both Open OnDemand and the identity provider.
+
+### Get a shell session
+
+At some points during this tutorial you'll need to execute commands in a shell session.
+You can [use the shell app](https://localhost:3443/pun/sys/shell/ssh/ondemand)
+to get an ssh session in the web browser for this purpose.
+
+## Dashboard developer mode Tutorial
+
+This tutorial covers:
+
+- [Starting the dashboard in development mode](#starting-the-dashboard-in-development-mode)
+- [Changing the color of the navbar](#changing-the-navbar-color)
+- [Pinning apps to the dashboard](#pinning-apps)
+- [Changing the dashboard layout](#changing-the-dashboard-layout)
+- [Add a custom widget to the dashboard](#add-a-custom-widget-to-the-dashboard)
+
+### Starting the dashboard in development mode
+
+First we need to pull the source code from the Github Repository. Let's
+[use the shell app](https://localhost:3443/pun/sys/shell/ssh/ondemand) for this.
+
+Be sure to be on the `ondemand` host because that container has node and ruby on it,
+which we need to build the project.
+
+```text
+ssh ondemand
+git clone https://github.com/OSC/ondemand.git ~/ondemand-src-full
+mkdir ~/ondemand/dev
+cd ~/ondemand/dev
+ln -s ../../ondemand-src-full/apps/dashboard/ dashboard
+cd dashboard
+bin/setup
+```
+
+Once you run `bin/setup` you should see a bunch of output about getting Rugy gems and building
+Node.js packages.
+
+If you've successfully setup, then so you should be able to
+[navigate to the development version of the dashboard](https://localhost:3443/pun/dev/dashboard)
+where you'll have to click the button to 'Initialize App' to move forward.
+
+That's it! At this point you should be viewing the dashboard in the development mode.  This means
+that it's _your own version_ of the dashboard. You can modify this as you see fit without having
+to escalate privileges (become root) or disrupt other users.
+
+### Changing the navbar color
+
+We'll need to create and edit an environment file for our development dashboard to read.
+
+```text
+# ~/ondemand/dev/.env.local
+
+# you can use pretty names like 'blue' or hex codes like '#5576d1' for royal blue
+# OOD_BRAND_BG_COLOR='blue'
+OOD_BRAND_BG_COLOR='#5576d1'
+```
+
+Now you may have to restart the server with the button at the top right to see the
+changes take place.
+
+![dashboard navbar button to restart the web server](imgs/restart_web_server.png)
+
+### Pinning Apps
+
+Now we're going to enable a new feature in 2.0 which is pinning app icons to the dashboard.
+
+First we're going to have to reconfigure the `OOD_CONFIG_D_DIRECTORY` environment variable.
+It defaults to `/etc/ood/config/ondemand.d`, but since we don't want to privilege escalate,
+we're going to make a new directory in our home.
+
+```text
+mkdir -p ~/ondemand/config/ondemand.d
+touch ~/ondemand/config/ondemand.d/ondemand.yml
+```
+
+```text
+# /home/hpcadmin/ondemand/dev/.env.local
+
+OOD_CONFIG_D_DIRECTORY="/home/hpcadmin/ondemand/config/ondemand.d"
+```
+
+Now let's [edit the ondemand.yml](https://localhost:3443/pun/sys/dashboard/files/edit/home/hpcadmin/ondemand/config/ondemand.d/ondemand.yml)
+file that we initialized above to add the configuration.
+
+```yaml
+# /home/hpcadmin/ondemand/config/ondemand.d/ondemand.yml
+
+pinned_apps:
+  - 'sys/*'
+```
+
+Restart the dashboard and you should see pinned apps show up.
+
+![dashboard landing page with app icons pinned to it](imgs/pinned_apps.png)
+
+Now let's group them by their `category` by adding this configuration to the same `ondemand.yml` file.
+
+```yaml
+# /home/hpcadmin/ondemand/config/ondemand.d/ondemand.yml
+
+pinned_apps:
+  - 'sys/*'
+
+pinned_apps_group_by: 'category'
+```
+
+Another restart of the webserver will pick up these configurations and you should see pinned apps
+are now grouped by the category of the application.
+
+![dashboard landing page with groups of app icons](imgs/grouped_pinned_apps.png)
+
+See [the documentation on pinned apps](https://osc.github.io/ood-documentation/latest/customization.html#pinning-applications-to-the-dashboard)
+for more information.
+
+### Changing the dashboard layout
+
+First we're going to enable the message of the day (MOTD)
+
+Let's add these two environment variables to our `~/ondemand/dev/dashboard/.env.local` file.
+
+```text
+MOTD_PATH=/etc/motd
+MOTD_FORMAT=markdown
+```
+
+Restart your webserver and you should now see the MOTD to the right of the page.
+
+Now, just to demonstrate this feature, let's move the MOTD to the left of the page with pinned
+app icons being on the right.
+
+```yaml
+# /home/hpcadmin/ondemand/config/ondemand.d/ondemand.yml
+
+dashboard_layout:
+  rows:
+    - columns:
+        - width: 4
+          widgets: [ motd ]
+        - width: 8
+          widgets: [ pinned_apps ]
+```
+
+See the [documentation on customizing the dashboard layout](https://osc.github.io/ood-documentation/latest/customization.html#custom-layouts-in-the-dashboard)
+for more information.
+
+### Add a custom widget to the dashboard
+
+Now that we've changed the layout of the dashboard, let's extend this feature to add a brand new widget.
+
+First, we need to reconfigure where widgets are picked up from.  By default they're in `/etc/ood/config/apps/dashboard/views/widgets`,
+but because we don't want to become root to do this, we're going to reconfigure this location.
+
+So we're going to add these entries to our local environment file.
+
+```text
+# /home/hpcadmin/ondemand/dev/.env.local
+
+OOD_LOAD_EXTERNAL_CONFIG=1
+OOD_APP_CONFIG_ROOT="/home/hpcadmin/ondemand/config"
+```
+
+Next, in a shell, let's initialize some directories and the widget file.
+
+```text
+mkdir -p ~/ondemand/config/views/widgets
+touch ~/ondemand/config/views/widgets/_hello_world.html
+```
+
+Be sure to add the underscore prefix to this filename! This is a Rails convention for partials and not a mistype
+it is indeed `_hello_world.html`.
+
+Now, we can use the [file editor to edit our new widget](https://localhost:3443/pun/sys/dashboard/files/edit/home/hpcadmin/ondemand/config/views/widgets/_hello_world.html).  Let's add this very simple div to just thank you for being here. Of course, you can put
+any text you like here. Feel free to have fun with it!
+
+```html
+<!-- /home/hpcadmin/ondemand/config/views/widgets/_hello_world.html -->
+<div class='alert alert-info text-center' style='font-size:2.2rem;'>
+    <p>Thank you for attending the PEARC 2021 Open OnDemand Tutorial!</p>
+</div>
+```
+
+Now that we have the widget, we need to add it to the layout. Let's make a new row for it and push everything
+else to the second row.  This new row will have only one twelve width column that has our new `hello_world`
+widget.
+
+```yaml
+# /home/hpcadmin/ondemand/config/ondemand.d/ondemand.yml
+
+dashboard_layout:
+  rows:
+    - columns:
+        - width: 12
+          widgets: [ hello_world ]
+    - columns:
+        - width: 4
+          widgets: [ motd ]
+        - width: 8
+          widgets: [ pinned_apps ]
+```
+
+Now your dashboard should look something like this with a brand new widget we just creating showing up on the
+dashboard.
+
+![dashboard landing page with a new custom widget](imgs/dashboard_w_new_widget.png)
+
 ## Jupyter App Tutorial
 
-This tutorial will be using the the `hpcadmin` credentials listed in
-[Accessing the Applications](../docs/applications.md).
-
-It covers:
+This tutorial covers:
 
 - [Initializing the developer application.](#create-the-jupyter-application)
 - [Debugging the app and getting it to run correctly.](#get-jupyter-working)
@@ -30,20 +243,7 @@ It covers:
 - [Editing the manifest.yml](#edit-the-manifest).
 - [Promoting the application to production.](#deploying-to-production)
 
-### Getting Started
-
-#### Login
-
-Now you should login to Open OnDemand through `https://localhost:3443`.  Note that you'll have to
-accept the self-signed certificates from both Open OnDemand and the identity provider.
-
-#### Get a shell session
-
-At some points during this tutorial you'll need to execute commands in a shell session.
-You can [use the shell app](https://localhost:3443/pun/sys/shell/ssh/ondemand)
-to get an ssh session in the web browser for this purpose.
-
-#### Create the jupyter application
+### Create the jupyter application
 
 Click on "My Sandbox Apps (Development)" from the dropdown menu "Develop" in the navigation bar
 to navigate to the sandbox app workspace.
