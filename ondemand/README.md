@@ -45,7 +45,11 @@ This tutorial covers:
 First we need to pull the source code from the Github Repository. Let's
 [use the shell app](https://localhost:3443/pun/sys/shell/ssh/ondemand) for this.
 
+Be sure to be on the `ondemand` host because that container has node and ruby on it,
+which we need to build the project.
+
 ```text
+ssh ondemand
 git clone https://github.com/OSC/ondemand.git ~/ondemand-src-full
 mkdir ~/ondemand/dev
 cd ~/ondemand/dev
