@@ -84,7 +84,7 @@ OOD_BRAND_BG_COLOR='#5576d1'
 Now you may have to restart the server with the button at the top right to see the
 changes take place.
 
-[Img needed]
+![dashboard navbar button to restart the web server](imgs/restar_web_server.png)
 
 ### Pinning Apps
 
@@ -119,9 +119,7 @@ Restart the dashboard and you should see pinned apps show up.
 
 ![dashboard landing page with app icons pinned to it](imgs/pinned_apps.png)
 
-
 Now let's group them by their `category` by adding this configuration to the same `ondemand.yml` file.
-
 
 ```yaml
 # /home/hpcadmin/ondemand/config/ondemand.d/ondemand.yml
