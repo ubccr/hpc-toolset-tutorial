@@ -84,7 +84,7 @@ OOD_BRAND_BG_COLOR='#5576d1'
 Now you may have to restart the server with the button at the top right to see the
 changes take place.
 
-![dashboard navbar button to restart the web server](imgs/restar_web_server.png)
+![dashboard navbar button to restart the web server](imgs/restart_web_server.png)
 
 ### Pinning Apps
 
