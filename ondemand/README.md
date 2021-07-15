@@ -197,9 +197,28 @@ any text you like here. Feel free to have fun with it!
 
 ```html
 <!-- /home/hpcadmin/ondemand/config/views/widgets/_hello_world.html -->
-<div class='alert alert-info text-center' style='font-size:2.5rem;'>
+<div class='alert alert-info text-center' style='font-size:2.2rem;'>
     <p>Thank you for attending the PEARC 2021 Open OnDemand Tutorial!</p>
 </div>
+```
+
+Now that we have the widget, we need to add it to the layout. Let's make a new row for it and push everything
+else to the second row.  This new row will have only one twelve width column that has our new `hello_world`
+widget.
+
+```yaml
+# /home/hpcadmin/ondemand/config/ondemand.d/ondemand.yml
+
+dashboard_layout:
+  rows:
+    - columns:
+        - width: 12
+          widgets: [ hello_world ]
+    - columns:
+        - width: 4
+          widgets: [ motd ]
+        - width: 8
+          widgets: [ pinned_apps ]
 ```
 
 Now your dashboard should look something like this with a brand new widget we just creating showing up on the
