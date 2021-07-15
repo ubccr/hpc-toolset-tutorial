@@ -192,6 +192,9 @@ mkdir -p ~/ondemand/config/views/widgets
 touch ~/ondemand/config/views/widgets/_hello_world.html
 ```
 
+Be sure to add the underscore prefix to this filename! This is a Rails convention for partials and not a mistype
+it is indeed `_hello_world.html`.
+
 Now, we can use the [file editor to edit our new widget](https://localhost:3443/pun/sys/dashboard/files/edit/home/hpcadmin/ondemand/config/views/widgets/_hello_world.html).  Let's add this very simple div to just thank you for being here. Of course, you can put
 any text you like here. Feel free to have fun with it!
 
