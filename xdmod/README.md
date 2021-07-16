@@ -373,7 +373,7 @@ DB Admin Username: [root]
 
 We will next enter the administrative DB User's password. In our case that is an empty password. 
 
-*Note, this would never be done in production. We only do it here for ease of use during the tutorial*
+*Note, a blank password should never be used in a production system. We only do it here for ease of use during the tutorial.*
 
 ```shell
 DB Admin Password:
