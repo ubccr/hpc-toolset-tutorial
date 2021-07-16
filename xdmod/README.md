@@ -885,11 +885,7 @@ means you will be kept up to date when the newest version is released.
 
 - Type `8` and press the `Enter` key.
 
-#### Enable Automatic Update Check
-Like it says on the tin, by answering `yes` your XDMoD installation will periodically check to see if there are any 
-updates available and if they are, email you to let you know about them.   
-
-```
+---
 ========================================================================
 Automatic Update Check Setup
 ========================================================================
@@ -903,8 +899,10 @@ http://listserv.buffalo.edu/cgi-bin/wa?SUBED1=ccr-xdmod-list&A=1
 
 Enable automatic update check (yes, no)? [yes]
 ```
-
 - Press `Enter` to accept the default value of `yes`
+
+This feature will both notify you when we release new versions of XDMoD and also let's us know who is using XDMoD which 
+helps us justify our funding to NSF.
 
 #### Email Address
 If you enable the automatic update check, then you will be prompted for the email address that should receive the update
