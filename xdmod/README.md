@@ -7,8 +7,6 @@ In this part of the tutorial we are going to go over the installation and config
 The base component of Open XDMoD uses the job accounting logs from your HPC
 resource manager as the data source. We have also installed the optional Job Performance Module. This allows Open XDMoD to also display performance data for HPC jobs.
 
-The asciinema media is not meant to be used on its own, they are intended for use in a "live" demonstration.
-
 Command Line Demos in a Light color, are meant to be watched. Dark theme are interactive.
 
 `vim` is used to edit files in this tutorial. If you prefer a different editor, please install it on the xdmod container.
@@ -113,7 +111,7 @@ The following information is needed by Open XDMoD:
 - information for each HPC resource
     - Name
     - Number of compute nodes
-    - Number of cores
+    - Total Number of cores
     - Timezone
     - Whether it runs shared jobs
 
@@ -166,7 +164,7 @@ To begin the setup process for XDMoD you will want to type the following:
 ```
 
 After which you should be greeted by the following screen: 
-```shell
+```
 ========================================================================
 Open XDMoD Setup
 ========================================================================
@@ -206,7 +204,7 @@ Select an option (1, 2, 3, 4, 5, 6, 7, 8, 9, q): 1
 The value you enter here should be the public facing URL that your XDMoD installation will be served from. For the 
 purpose of this tutorial we'll be using the default value.
 
-```shell
+```
 ========================================================================
 General Setup
 ========================================================================
@@ -224,7 +222,7 @@ Site Address: [https://localhost:4443/]
 #### Email Address
 This is the email address your XDMoD installation will use as the recipient of contact and user account requests.
 
-```shell
+```
 The email address you specify will be used as the destination for any
 messages sent via the portal contact page as well as account requests.  In
 addition, any log messages configured for delivery via e-mail will be sent to
@@ -271,7 +269,7 @@ Center Logo Width: [354]
 The XDMoD Dashboard provides users with targeted statistics and reports based on the level of 
 access they've been granted in XDMoD. We highly recommend you turn this feature on in your installation.
 
-```shell
+```
 This release of XDMoD features an optional replacement for the summary
 tab that is intended to provide easier access to XDMoD's many features.
 Detailed information is available at https://open.xdmod.org/dashboard.html
@@ -307,7 +305,7 @@ been set as the default value. We can accept that value by pressing the `Enter` 
 
 *It's important to note that if you are setting up XDMoD for the first time and choose to have your database hosted on another server, you will need to have an SA database account created and allowed to log in from the XDMoD server. This SA account will only be used to create the more restricted db account and databases / schemas that are used during XDMoD's normal operation.*
 
-```shell
+```
 ========================================================================
 Database Setup
 ========================================================================
@@ -361,7 +359,7 @@ You will then be prompted to type the password again to confirm your password ch
 After confirming the password for XDMoD's database account, you will be prompted for the username and password of the 
 admin account. 
 
-```shell
+```
 Please provide the password for the administrative account that will be
 used to create the MySQL user and databases.
 
@@ -505,7 +503,7 @@ Overwrite config file '/etc/xdmod/organization.json' (yes, no)? [yes]
 
 Next we will go through the process of adding a Resource to XDMoD. 
 
-```shell
+```
 ========================================================================
 Open XDMoD Setup
 ========================================================================
@@ -638,7 +636,7 @@ For a general HPC-type resource you will want to enter the number of nodes the r
 adding a gateway resource it doesn't really have nodes or cores per se, so we'll enter 0 for both as if it were a 
 storage resource. 
 
-```shell
+```
 The number of nodes and processors are used to determine resource
 utilization.
 
@@ -741,7 +739,7 @@ Admin user created.
 Press ENTER to continue.
 ```
 
-## [Hierarchy Setup](https://open.xdmod.org/9.5/hierarchy.html)
+## Hierarchy Setup [Documentation](https://open.xdmod.org/9.5/hierarchy.html)
 
 ```shell
 6) Hierarchy
@@ -755,7 +753,7 @@ University at Buffalo.
 
 - Type `6` and press the `Enter` key.
 
-```shell
+```
 ========================================================================
 Hierarchy Setup
 ========================================================================
@@ -828,7 +826,7 @@ The first value we're prompted to provide is the export directory. This is the d
 the data from a user request. 
 
 
-```shell
+```
 ========================================================================
 Data Warehouse Batch Export
 ========================================================================
@@ -846,7 +844,7 @@ Export Directory: [/var/spool/xdmod/export]
 #### Export File Retention Duration
 Next you will be prompted to enter the number of days these exports should be retained on disk.
 
-```shell
+```
 If the export directory does not exist, it must be created and assigned the
 correct permissions and ownership.  It must be readable by the web server and
 both readable and writable by the user that is used to generate the export
@@ -878,7 +876,7 @@ Press ENTER to continue.
 
 ### Automatically Check for Updates
 
-```shell
+```
 8) Automatically Check for Updates
 ```
 
@@ -891,7 +889,7 @@ means you will be kept up to date when the newest version is released.
 Like it says on the tin, by answering `yes` your XDMoD installation will periodically check to see if there are any 
 updates available and if they are, email you to let you know about them.   
 
-```shell
+```
 ========================================================================
 Automatic Update Check Setup
 ========================================================================
@@ -951,12 +949,19 @@ Press ENTER to continue.
 ```
 - Press `Enter` to continue
 
+#### Advanced Configuration
+
+The `xdmod-setup` script is used for the basic setup of Open XDMoD. The script includes options to configure the Open
+XDMoD database, set up the admin user account and configure resources. Open XDMoD's
+[Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files can be modified
+directly when needing more advanced customization.
+
 ## Congratulations! Your XDMoD instance should now be fully configured! 
 
 Now that we have XDMoD setup, it's time to ingest some data. The jobs that we started at the beginning of the tutorial 
 should be complete so let's walk through the shred, ingest, and aggregate steps for job accounting data.
 
-### Shredding ( Documentation available at [https://open.xdmod.org/9.5/shredder.html](https://open.xdmod.org/9.5/shredder.html))
+### Shredding [Documentation](https://open.xdmod.org/9.5/shredder.html)
 XDMoD provides a special command line tool for working with directly with slurm via `sacct` called `xdmod-slurm-helper`.
 To see what command line arguments it accepts you can run `xdmod-slurm-helper -h`. For our purposes we will be using it
 as follows: 
@@ -967,7 +972,7 @@ as follows:
 *Note, you will need to replace `$yesterday` and `$tomrrow` with their respective values in YYYY-MM-DD format.*
 
 If your organization doesn't use Slurm or will be using the log files instead of querying `sacct` directly, then 
-`xdmod-shredder` will be the command for you. You can find our Shredder guide at 
+`xdmod-shredder` will be the command for you. You can find our Shredder guide at [Shredder Guide](https://open.xdmod.org/9.5/shredder.html)
 
 Upon running `xdmod-slurm-helper` you should see output similar to: 
 ```shell
@@ -981,7 +986,7 @@ Upon running `xdmod-slurm-helper` you should see output similar to:
 [root@xdmod ~]#
 ```
 
-### Ingesting & Aggregating ( Documentation available at [https://open.xdmod.org/9.5/ingestor.html](https://open.xdmod.org/9.5/ingestor.html))
+### Ingesting & Aggregating [Documentation](https://open.xdmod.org/9.5/ingestor.html)
 Now that the accounting logs have been shredded we can now ingest and aggregate the information from them, thus making the 
 information available in XDMoD.
 
@@ -1130,16 +1135,122 @@ This will produce **A LOT** of output:
 
 Congratulations! You should now have a fully configured and populated ( with job accounting data ) XDMoD instance up and running.
 
+---
+
 ### Explore the XDMoD interface
+With a fully installed system we have quite a bit of data. Job information, Storage Usage, Cloud Usage, Job Performance (SUPREMM)
+![Public User Usage](./tutorial-screenshots/public-user-options.png)
+
+User Dashboard:
+![Logged in User Dashboard](./tutorial-screenshots/loggedin-dashboard.png)
+
+PI:
+![Logged in PI Dashboard](./tutorial-screenshots/loggedin-pi-dashboard.png)
+
+Center Staff:
+![Logged in Center Staff Dashboard](./tutorial-screenshots/centerdirector-dashboard.png)
+
+Report Generator:
+![Report Generator](./tutorial-screenshots/report-generator.png)
 
 ### Import User Names & Re-Ingest / Aggregate
+**NOTE**: This part of the tutorial does not impact the functioning of XDMoD, but it does make the information XDMoD provides more human-readable.
+
+The resource manager logs contain the system usernames of the users that submitted jobs.
+To display the full names in Open XDMoD you must provide a data file that contains the
+full name of each user for each system username. This file is in a `csv` format.
+
+![Group By User(names not imported)](./tutorial-screenshots/usernames.png)
+
+This step has not been automated as we don't want you falling asleep!
+
+Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
+
+```shell
+[awesome_pearc_attendant@home_box /] ssh -p6222 hpcadmin@localhost
+```
+
+SSH to the xdmod container:
+
+```shell
+[hpcadmin@frontend /] ssh xdmod
+```
+
+Change users to root
+
+```shell
+[hpcadmin@xdmod /] sudo su - 
+```
+
+Create a file as shown below: ( The file needs to be able to be read by the `xdmod` user, for this demo it will be created in /var/tmp )
+
+```shell
+[root@xdmod /] sudo -u xdmod vim /var/tmp/names.csv 
+```
+
+The first column should include the username or group name used by your resource manager, the second column is the user’s first name, and the third column is the user’s last name.
+(Feel free to change the First and Last names)
+
+```csv
+cgray,Carl,Gray
+sfoster,Stephanie,Foster
+csimmons,Charles,Simmons
+astewart,Andrea,Stewart
+hpcadmin,,HPC Administrators
+```
+
+Now this needs to be imported into xdmod with the command [`xdmod-import-csv`](https://open.xdmod.org/commands.html#xdmod-import-csv)
+
+```shell
+[root@xdmod /] sudo -u xdmod xdmod-import-csv -t names -i /var/tmp/names.csv 
+```
+
+Next we will need to re-ingest and aggregate the data:
+
+```shell
+[root@xdmod /] sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh 
+```
+
+![Group By User](./tutorial-screenshots/fullnames.png)
+
+Reference: [User/PI Names Guide](https://open.xdmod.org/user-names.html)
+
+xdmod-import-csv -t names:
+[![asciicast](https://asciinema.org/a/349325.svg)](https://asciinema.org/a/349325)
 
 ### Configure Job Performance Module
+[Job Performance](https://supremm.xdmod.org) data - for the open source release we try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io).
+We chose PCP because it is included by default in Centos / RedHat.
+In XSEDE we use tacc_stats and PCP (depending on the resource provider). We are also aware of groups using LDMS, Cray RUR and Ganglia too. We have a team now looking into Prometheus.
+
+PCP has been [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
+This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system.
+This shorter list is suitable for running inside the docker demo. On a
+real HPC system the data collection should be setup following the
+[PCP Data collection](https://supremm.xdmod.org/supremm-compute-pcp.html#configuration-templates) guide
+
+The file used in this demo can be viewed here: https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/pmlogger-supremm.config#L56-L59
+
+VERY IMPORTANT - Don't start the configuration of the Job Performance module until there is job data ingested into Open XDMoD
+The Job performance setup relies on the accounting data from the Jobs realm in Open XDMoD.
+This was done as part of this tutorial as part of setup and will be done again later in the tutorial.
+
+Job Performance XDMoD Module Setup:
+[![asciicast](https://asciinema.org/a/352845.svg)](https://asciinema.org/a/352845)
+
+Job summarization (SUPReMM) configuration:
+[![asciicast](https://asciinema.org/a/349243.svg)](https://asciinema.org/a/349243)
 
 ### Ingest Job Performance Data
 
 ### Explore Job Performance data in XDMoD 
 
+### Installing XDMoD's new OpenOnDemand Module
+
+- yum -y install https://github.com/ubccr/xdmod-ondemand/releases/download/9.5.0-rc2/xdmod-ondemand-9.5.0-1.0.rc.2.el7.noarch.rpm
+- xdmod-setup -> OpenOnDemand
+- ssh ondemand
+- scp /var/log/httpd24
 
 The [`hpc-toolset-tutorial/xdmod/entrypoint.sh`](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/xdmod/entrypoint.sh) script automates this process.
 
@@ -1183,27 +1294,6 @@ The Job Performance module is optional, but highly recommended.
 
 ### Job Performance Configuration
 
-[Job Performance](https://supremm.xdmod.org) data - for the open source release we'll try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io).
-We chose PCP because it is included by default in Centos / RedHat.
-In XSEDE we use tacc_stats and PCP (depending on the resource provider). We are also aware of groups using LDMS, Cray RUR and Ganglia too. We have a team now looking into Prometheus.
-
-PCP has been [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
-This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system.
-This shorter list is suitable for running inside the docker demo. On a
-real HPC system the data collection should be setup following the
-[PCP Data collection](https://supremm.xdmod.org/supremm-compute-pcp.html#configuration-templates) guide
-
-The file used in this demo can be viewed here: https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/pmlogger-supremm.config#L56-L59
-
-VERY IMPORTANT - Don't start the configuration of the Job Performance module until there is job data ingested into Open XDMoD
-The Job performance setup relies on the accounting data from the Jobs realm in Open XDMoD.
-This was done as part of this tutorial as part of setup and will be done again later in the tutorial.
-
-Job Performance XDMoD Module Setup:
-[![asciicast](https://asciinema.org/a/352845.svg)](https://asciinema.org/a/352845)
-
-Job summarization (SUPReMM) configuration:
-[![asciicast](https://asciinema.org/a/349243.svg)](https://asciinema.org/a/349243)
 
 ## Open XDMoD Operation
 
@@ -1228,14 +1318,16 @@ Run this now on the `xdmod` container
 
 Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
 
-```bash
-ssh -p6222 hpcadmin@localhost
+```shell
+[awesome_pearc_attendant@home_box /] ssh -p6222 hpcadmin@localhost 
 ```
-SSH to the xdmod container:
 
-```bash
-ssh xdmod
+SSH to the xdmod container:
+```shell
+[hpcadmin@frontend /] ssh xdmod 
 ```
+
+
 Run the script as the xdmod user:
 
 ```bash
@@ -1252,63 +1344,6 @@ This is going to produce A LOT of output. Each of these commands have flags that
     -  The autoperiod code is used for detecting periodic I/O patterns in the parallel filesystem traffic. (not needed in the tutorial configuration)
 
 
-## User / PI Names
-
-**NOTE**: Feel Free to skip this part in the PEARC2021 Tutorial, as it does not impact the use of the system.
-
-The resource manager logs contain the system usernames of the users that submitted jobs.
-To display the full names in Open XDMoD you must provide a data file that contains the
-full name of each user for each system username. This file is in a `csv` format.
-
-![Group By User(names not imported)](./tutorial-screenshots/usernames.png)
-
-This step has not been automated as we don't want you falling asleep!
-
-Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
-
-```bash
-ssh -p6222 hpcadmin@localhost
-```
-SSH to the xdmod container:
-
-```bash
-ssh xdmod
-```
-
-Create a file as shown below: ( The file needs to be able to be read by the `xdmod` user, for this demo it will be created in /var/tmp )
-
-```bash
-vim /var/tmp/names.csv
-```
-
-The first column should include the username or group name used by your resource manager, the second column is the user’s first name, and the third column is the user’s last name.
-(Feel free to change the First and Last names)
-
-```csv
-cgray,Carl,Gray
-sfoster,Stephanie,Foster
-csimmons,Charles,Simmons
-astewart,Andrea,Stewart
-hpcadmin,,HPC Administrators
-```
-
-Now this needs to be imported into xdmod with the command [`xdmod-import-csv`](https://open.xdmod.org/commands.html#xdmod-import-csv)
-
-```bash
-sudo -u xdmod xdmod-import-csv -t names -i /var/tmp/names.csv
-```
-
-Next we will need to re-ingest and aggregate the data:
-
-```bash
-sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh
-```
-![Group By User](./tutorial-screenshots/fullnames.png)
-
-Reference: [User/PI Names Guide](https://open.xdmod.org/user-names.html)
-
-xdmod-import-csv -t names:
-[![asciicast](https://asciinema.org/a/349325.svg)](https://asciinema.org/a/349325)
 
 ## Open XDMoD Functionality (Interactive Demo)
 
@@ -1334,22 +1369,7 @@ Admin Dashboard:
 
 Let's actually use Open XDMoD now.
 
-With a fully installed system we have quite a bit of data. Job information, Storage Usage, Cloud Usage, Job Performance (SUPREMM)
-![Public User Usage](./tutorial-screenshots/public-user-options.png)
 
-User Dashboard:
-![Logged in User Dashboard](./tutorial-screenshots/loggedin-dashboard.png)
-
-![Logged in User Job Performance](./tutorial-screenshots/loggedin-performance.png)
-
-PI:
-![Logged in PI Dashboard](./tutorial-screenshots/loggedin-pi-dashboard.png)
-
-Center Staff:
-![Logged in Center Staff Dashboard](./tutorial-screenshots/centerdirector-dashboard.png)
-
-Report Generator:
-![Report Generator](./tutorial-screenshots/report-generator.png)
 ## Tutorial Navigation
 [Next - OnDemand](../ondemand/README.md)
 [Previous Step - ColdFront](../coldfront/README.md)
