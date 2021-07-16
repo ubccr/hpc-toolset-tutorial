@@ -268,7 +268,7 @@ Center Logo Width: [354]
 - Press the `Enter` key to accept the default value.
 
 #### XDMoD Dashboard [Documentation](https://open.xdmod.org/9.5/dashboard.html)
-The new and improved XDMoD Dashboard provides users with carefully curated statistics and reports based on the level of 
+The XDMoD Dashboard provides users with targeted statistics and reports based on the level of 
 access they've been granted in XDMoD. We highly recommend you turn this feature on in your installation.
 
 ```shell
