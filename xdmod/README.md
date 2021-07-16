@@ -244,7 +244,7 @@ Chromium Path: [/usr/lib64/chromium-browser/headless_shell]
 - Press the `Enter` key.
 
 #### Center Logo Path
-XDMoD does support per center branding, so if you do have an image you would like to use in branding your XDMoD 
+XDMoD supports a customizable logo image that is displayed in the web portal. If you have an image you would like to use in branding your XDMoD 
 installation you can provide the path to said image here.
 
 ```shell
