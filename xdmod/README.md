@@ -1243,117 +1243,197 @@ Job summarization (SUPReMM) configuration:
 
 ### Ingest Job Performance Data
 
-### Explore Job Performance data in XDMoD 
-
-### Installing XDMoD's new OpenOnDemand Module
-
-- yum -y install https://github.com/ubccr/xdmod-ondemand/releases/download/9.5.0-rc2/xdmod-ondemand-9.5.0-1.0.rc.2.el7.noarch.rpm
-- xdmod-setup -> OpenOnDemand
-- ssh ondemand
-- scp /var/log/httpd24
-
-The [`hpc-toolset-tutorial/xdmod/entrypoint.sh`](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/xdmod/entrypoint.sh) script automates this process.
-
-Reference: [Configuration Guide](https://open.xdmod.org/configuration.html)
-
-The following asciinema recordings are how an administrator would perform these actions:
-
-General Setup:
-[![asciicast](https://asciinema.org/a/349236.svg)](https://asciinema.org/a/349236)
-
-Database Setup:
-[![asciicast](https://asciinema.org/a/352844.svg)](https://asciinema.org/a/352844)
-
-Organization Setup:
-[![asciicast](https://asciinema.org/a/349238.svg)](https://asciinema.org/a/349238)
-
-Resource Setup:
-[![asciicast](https://asciinema.org/a/349240.svg)](https://asciinema.org/a/349240)
-
-#### Advanced configuration
-
-The `xdmod-setup` script is used for the basic setup of Open XDMoD. The script includes options to configure the Open XDMoD database, set up the admin user account and configure resources.
-Open XDMoD's [Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files can be modified directly when needing more advanced customization.
-
-#### Hierarchy
-
-Open XDMoD supports a three level hierarchy.
-In this tutorial we use a hierarchy configuration that is typical of the organizational structure in a University.
-
-Decanal Unit -> Department -> PI Group
-
-Reference: [Hierarchy Guide](https://open.xdmod.org/hierarchy.html)
-
-## Open XDMoD Job Performance
-
-**Note** This part will be brief in the PEARC2021 tutorial. These processes have been done already as part of the docker.
-
-The Job Performance module is optional, but highly recommended.
-
-![Job Performance Dataflow](./tutorial-screenshots/admin-job-performance-dataflow.png)
-
-### Job Performance Configuration
-
-
-## Open XDMoD Operation
-
-### Shredding Ingestion & Aggregation
-
-Shredding
-> Load logs from a scheduler (SLURM in this tutorial) and put them into the Open XDMoD databases.
-> see [Open XDMoD](https://open.xdmod.org/) for notes on SGE/Grid Engine, Univa Grid Engine, PBS/TORQUE, LSF
-> Reference: [Shredder Guide](https://open.xdmod.org/shredder.html)
-
-Ingestion
-> Prepare data that has already been loaded by the shredder into the Open XDMoD databases so that is can be queried by the Open XDMoD portal.
-> Reference: [Ingestor Guide](https://open.xdmod.org/ingestor.html)
-
-Aggregation
-> What actually gets data into the Open XDMoD portal. For core xdmod this is part of ingestion. Job Performance has a separate script.
-
-This tutorial provides a script [`shred-ingest-aggregate-all.sh`](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/xdmod/scripts/shred-ingest-aggregate-all.sh)
-that does this. In a typical setup this would be part of a cron job run when it is best suited for the HPC system.
-
-Run this now on the `xdmod` container
-
-Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
+To ingest the Job Performance Data we will need to run a couple of commands:
 
 ```shell
-[awesome_pearc_attendant@home_box /] ssh -p6222 hpcadmin@localhost 
+[root@xdmod /] sudo -u xdmod indexarchives.py -m $yesterday -m $tomorrow
 ```
+*Note, you will need to replace `$yesterday` and `$tomorrow` with YYYY-MM-DD formatted dates as we did previously* 
 
-SSH to the xdmod container:
+To summarize the newly ingested Job Performance data we will run:
 ```shell
-[hpcadmin@frontend /] ssh xdmod 
+[root@xdmod /] sudo -u xdmod summarize_jobs.py
 ```
 
+Finally, to aggregate the Job Performance data: 
+```shell
+[root@xdmod /] sudo -u xdmod aggregate_supremm.sh
+```
 
-Run the script as the xdmod user:
+*Note, there is a helper script that will take care of running the full Job Accounting and Job Performance scripts that you can run. `/srv/xdmod/scripts/shred-ingest-aggregate-all.sh`* 
 
+---
+
+## xdmod-ondemand module
+The xdmod-ondemand module is an optional addon for XDMoD that allows the display
+and analysis of Open OnDemand usage. This is intended to be used by HPC center
+staff to analyse who, how and what OnDemand is used.
+
+### Prerequisites
+Since the xdmod-ondemand module displays usage of Open OnDemand you need to
+have used Open OnDemand! If you are running through these steps after having
+used Open OnDemand then there will be data to show in XDMoD. If not then log in
+to Open OnDemand [https://localhost:3443](https://localhost:3443) and click
+around a bit to generate data.
+
+### Installation
+The xdmod-ondemand RPM must be installed on the `xdmod` instance:
+```shell
+[hpcadmin@xdmod /] sudo yum install -y https://github.com/ubccr/xdmod-ondemand/releases/download/9.5.0-rc2/xdmod-ondemand-9.5.0-1.0.el7.noarch.rpm
+```
+
+### Configuration
+Then the module must be configured. This involves setting up the database
+tables and adding a resource, tables for the module are set up via the `xdmod-setup` tool
 ```bash
-sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh
+[root@xdmod /] xdmod-setup
 ```
-This is going to produce A LOT of output. Each of these commands have flags that will turn this off. For the purpose of this tutorial they have not been silenced.
 
-[![asciicast](https://asciinema.org/a/349242.svg)](https://asciinema.org/a/349242)
-
-#### Expected Warnings
--  `[WARNING] ... RuntimeWarning: invalid value encountered in double_scalars`
-    -  https://stackoverflow.com/questions/27784528/numpy-division-with-runtimewarning-invalid-value-encountered-in-double-scalars/27784588#27784588
--  `[WARNING] Autoperiod library not found, TimeseriesPatterns plugins will not do period analysis`
-    -  The autoperiod code is used for detecting periodic I/O patterns in the parallel filesystem traffic. (not needed in the tutorial configuration)
-
-
-
-## Open XDMoD Functionality (Interactive Demo)
-
-**Note** The Gateways2020 demo has additional anonymized historical data (about 2 months) that can be added, this takes a while (depending on your system, mine took about 3 hours...) to actually run. This data will be used by the presenter for this demonstration.
-
-If / when you run this it will look a lot like when we ran `/srv/xdmod/scripts/shred-ingest-aggregate-all.sh`
-
-```bash
-sudo /srv/xdmod/historical/add-historical.sh
+To continue, we'll select the Open OnDemand menu item: 
+```shell
+10) Open OnDemand
 ```
+- Type `10` and press `Enter`
+
+You should now see the Open OnDemand setup sub-menu: 
+```shell
+========================================================================
+Open OnDemand module setup
+========================================================================
+
+d) Setup database
+q) Quit configuration
+
+Select an option (d, q):
+```
+
+Next, we'll want to set up the database
+```shell
+Select an option (d, q): d
+```
+- Type `d` and press `Enter`
+
+The first piece of information we're asked for is the DB Admin's username 
+```shell
+========================================================================
+Open OnDemand module Setup
+========================================================================
+
+The Open OnDemand module stores information in the modw_ondemand
+SQL database. This database must have the same access permissions
+as the existing Open XDMoD databases.
+
+Please provide the password for the administrative account that will be
+used to create the database.
+
+DB Admin Username: [root]
+```
+- Press `Enter` to accept the default value.
+
+You will then be prompted for the DB Admin's password
+```shell
+DB Admin Password:
+```
+- Press `Enter`
+
+Next, you'll be asked to confirm the DB Admin's password
+```shell
+(confirm) DB Admin Password:
+```
+- Press `Enter`
+
+The setup program will now use the credentials you have supplied to detect if the `modw_ondemand` database exists. If it
+does exist than it will ask if you want to drop and recreate the database.
+```shell
+Database `modw_ondemand` already exists.
+Drop and recreate database (yes, no)? [no]
+```
+- Type `yes` and press the `Enter` key.
+
+A configuration syncing script will now be run to make sure that all changes to XDMoD's configuration files are synced 
+up to its database. If no errors are generated you can skip the display of its output.
+```shell
+========================================================================
+Acl Database Configuration
+========================================================================
+
+Verifying that the information contained in the following files are valid:
+    - CONFIG_DIR/datawarehouse.json
+    - CONFIG_DIR/datawarehouse.d/*.json
+    - CONFIG_DIR/roles.json
+    - CONFIG_DIR/roles.d/*.json
+    - CONFIG_DIR/hierarchies.json
+    - CONFIG_DIR/hierarchies.d/*.json
+
+Populating the appropriate Acl related tables from the information found in said
+configuration files.
+
+Note: If you would like to execute this script outside of the setup script it is
+located at: <xdmod_install_dir>/bin/acl-config
+
+This may take a minute or two...
+
+The script executed without error.
+Do you want to see the output (yes, no)? [no]
+```
+- Press `Enter` to accept the default value.
+
+
+### Obtaining Open OnDemand logs
+The xdmod-ondemand module parses the webserver log files from Open OnDemand. For this tutorial
+we will manually copy the webserver logs from the `ondemand` instance to the `xdmod` instance.
+In a production environment you would either ensure the files were available via
+a shared mounted filesystem or configure a periodic cronjob to copy them.
+The following creates a directory on the `xdmod` instance to be used for the
+temporary storage of the Open OnDemand logs. The file permissions are set so
+that the `xdmod` user has read permission.
+
+First we will need to create the directory that will contain the OnDemand logs
+```shell
+[hpcadmin@xdmod /] sudo mkdir -p /scratch/ondemand/logs
+```
+
+Next, we need to ensure that `hpcadmin:xdmod` have access to this directory and its files.
+```shell
+[hpcadmin@xdmod /] sudo chown hpcadmin:xdmod /scratch/ondemand/logs
+```
+
+Finally, we'll adjust the permissions on the directory so that only hpcadmin and xdmod have access to its contents
+```shell
+[hpcadmin@xdmod /] sudo chmod 750 /scratch/ondemand/logs
+```
+
+We now need to copy the files from the `ondemand` instance to the `xdmod` instance. To accomplish this we will first 
+need to ssh to the `ondemand` instance.
+```shell
+[hpcadmin@xdmod /] ssh ondemand
+```
+
+Then we will be using scp to copy Open OnDemands Apache access log to our newly created directory on the `xdmod` instance. 
+```shell
+[hpcadmin@ondemand ~] sudo scp /var/log/httpd24/localhost_access_ssl.log hpcadmin@xdmod:/scratch/ondemand/logs/
+```
+
+When you are prompted for `hpcadmin`s password, go ahead and provide it. If successful you should see the file being transferred. 
+```
+hpcadmin@xdmod's password:
+localhost_access_ssl.log                                                            100%   24KB  34.2MB/s   00:00
+[hpcadmin@ondemand ~]$
+```
+
+We can now log off of the `ondemand` instance
+```shell
+[hpcadmin@ondemand /] exit 
+```
+
+Finally, we can ingest the data that we have just copied over
+```shell
+[hpcadmin@xdmod /] sudo -u xdmod xdmod-ondemand-ingestor -r ondemand -u https://localhost:3443 -d /scratch/ondemand/logs
+```
+
+Then login to the XDMoD web portal as a user account that has center staff or center director access, and the "OnDemand"
+realm should now show in the metric catalog.
+
 
 ### Administration
 
@@ -1364,11 +1444,6 @@ You know that the user is an admin by the addition of the "Admin Dashboard"
 Admin Dashboard:
 
 ![Admin Dashboard](./tutorial-screenshots/admin-dashboard.png)
-
-### End User
-
-Let's actually use Open XDMoD now.
-
 
 ## Tutorial Navigation
 [Next - OnDemand](../ondemand/README.md)
