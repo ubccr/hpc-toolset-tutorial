@@ -99,7 +99,7 @@ We need to install the "Extra Packages for Enterprise Linux" package so that we 
 
 PHP does not set a timezone by default, so we'll need to set one ourselves. We've selected `UTC` for this demo, but 
 regardless of what timezone you end up using, the most important thing is to ensure that the XDMoD web server, the 
-database server, and ideally the timezone of your HPC resources, are all be the same time zone.
+database server, and ideally the timezone of your HPC resources, are all set to the same time zone.
 
 ```shell
 [root@xdmod /] sed -i 's/.*date.timezone[[:space:]]*=.*/date.timezone = UTC/' /etc/php.ini
