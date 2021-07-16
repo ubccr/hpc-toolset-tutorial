@@ -717,7 +717,7 @@ Press ENTER to continue.
 ```shell
 5) Create Admin User
 ```
-
+The XDMoD Admin user has access to the XDMoD admin dashboard. The admin dashboard is used to manage XDMoD portal user accounts and view log information. The tutorial image already has a user 'admin' with password 'admin'.
 If you are setting up XDMoD for your own organization then you will want to go through this configuration step. We 
 already have an admin user created for the tutorial, so in the interest of time we'll be skipping this step. Needless 
 to say it's a pretty standard new user creation process. You'll find a summary of the process below
