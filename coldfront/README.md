@@ -137,13 +137,14 @@ At the start of the tutorial we configured the user `sfoster` with the 'Staff St
 
 
 ## Annual Project Review (time permitting)
-When the project review functionality is enabled (it is by default) a PI will be forced to review their project once every 365 days.  We can force a project to be under review in less than a year.  In the ColdFront Administration interface, click on Projects and click on the cgray project that we created earlier.  Check the box next to 'Force Review'  If there is a project you never want to force reviews on, uncheck 'Requires review'  
+When the project review functionality is enabled (it is by default) a PI will be forced to review their project once every 365 days.  To change this time frame, edit the default in `coldfront.env`  We can force a project to be under review in less than a year which is what we'll do for the cgray project.  
 
-Now login as `cgray` password `test123` and notice the warning banner.  Click on the allocation and try to renew it.  
+Login as `hpcadmin` password `ilovelinux` and go to the ColdFront Administration interface.  Click on Projects and click on the cgray project that we created earlier.  Check the box next to 'Force Review'  
+NOTE: If there is a project you never want project reviews on, uncheck 'Requires review'  
 
-When a project review is required, a PI can't request new allocations or renew expiring allocations.  They can add/remove users, publications, grants, and research output.   
+Now login as `cgray` password `test123` and notice the warning banner.  Click on the allocation and try to renew it.  You should see a warning banner telling you it can't be done because the project review is due.  When a project review is required, a PI can't request new allocations or renew expiring allocations.  They can, however, add/remove users, publications, grants, and research output.   
 
-Click the "Review Project" link.  Provide a reason for not updating the project, check the box to acknowledge the update and click the Submit button.  Now try to renew the expiring allocation.  Log out as `cgray`
+Click the "Review Project" link.  Provide a reason for not providing grant or publication information, check the box to acknowledge the update and click the Submit button.  Now try to renew the expiring allocation.  Log out as `cgray`
 
 Login as `hpcadmin` password `ilovelinux`  
 View the pending allocation requests.  Note that the project review status is pending.  View the pending project reviews.  Mark this one complete and go back to the pending allocation requests.  Click the "Activate" button and ColdFront activates the allocation for another year.  
