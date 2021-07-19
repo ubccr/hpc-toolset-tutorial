@@ -717,23 +717,74 @@ Press ENTER to continue.
 ```shell
 5) Create Admin User
 ```
-The XDMoD Admin user has access to the XDMoD admin dashboard. The admin dashboard is used to manage XDMoD portal user accounts and view log information. The tutorial image already has a user 'admin' with password 'admin'.
-If you are setting up XDMoD for your own organization then you will want to go through this configuration step. We 
-already have an admin user created for the tutorial, so in the interest of time we'll be skipping this step. Needless 
-to say it's a pretty standard new user creation process. You'll find a summary of the process below
+The XDMoD Admin user has access to the XDMoD admin dashboard. The admin dashboard is used to manage XDMoD portal user
+accounts and view log information. 
+
+```
+========================================================================
+Open XDMoD Setup
+========================================================================
+
+1) General Settings
+2) Database Settings
+3) Organization
+4) Resources
+5) Create Admin User
+6) Hierarchy
+7) Data Warehouse Batch Export
+8) Automatically Check for Updates
+9) SUPReMM
+q) Quit
+
+Select an option (1, 2, 3, 4, 5, 6, 7, 8, 9, q): 5
+```
+- Type `5` and press the `Enter` key.
+
+The first value you will be prompted for is the Admin user's username.
 
 ```shell
 ========================================================================
 Create Admin User
 ========================================================================
 
-Username: admin
-Password:
-(confirm) Password:
-First name: XDMoD
-Last name: Admin
-Email address: xdmod.admin@xdmod.com
+Username:
+```
+- Type `admin` and press the `Enter` key.
 
+Next, it will prompt for the user's password. 
+```shell
+Password:
+```
+- Type `admin123` and press the `Enter` key.
+
+It will next ask us to confirm the password we just entered.
+```shell
+(confirm) Password:
+```
+- Type `admin123` and press the `Enter` key.
+*Make a note of this user's username and password as we'll be using it later*
+
+If the two passwords match, then it will proceed to gathering the user's first name.
+```shell
+First name: XDMoD
+
+```
+- Type `XDMoD` and press the `Enter` key.
+
+Followed by the user's last name
+```shell
+Last name: Admin
+```
+- Type `Admin` and press the `Enter` key.
+
+Finally, it will ask for the email address to associate with the admin user. 
+```shell
+Email address: xdmod.admin@xdmod.com
+```
+- Type `xdmod.admin@xdmod.com` and press the `Enter` key.
+
+So long as all the information has been entered correctly you should now see.
+```shell
 Admin user created.
 
 Press ENTER to continue.
