@@ -74,7 +74,7 @@ to escalate privileges (become root) or disrupt other users.
 We'll need to create and edit an environment file for our development dashboard to read.
 
 ```text
-# ~/ondemand/dev/.env.local
+# /home/hpcadmin/ondemand/dev/dashboard/.env.local
 
 # you can use pretty names like 'blue' or hex codes like '#5576d1' for royal blue
 # OOD_BRAND_BG_COLOR='blue'
@@ -100,7 +100,7 @@ touch ~/ondemand/config/ondemand.d/ondemand.yml
 ```
 
 ```text
-# /home/hpcadmin/ondemand/dev/.env.local
+# /home/hpcadmin/ondemand/dev/dashboard/.env.local
 
 OOD_CONFIG_D_DIRECTORY="/home/hpcadmin/ondemand/config/ondemand.d"
 ```
@@ -145,6 +145,8 @@ First we're going to enable the message of the day (MOTD)
 Let's add these two environment variables to our `~/ondemand/dev/dashboard/.env.local` file.
 
 ```text
+# /home/hpcadmin/ondemand/dev/dashboard/.env.local
+
 MOTD_PATH=/etc/motd
 MOTD_FORMAT=markdown
 ```
@@ -179,7 +181,7 @@ but because we don't want to become root to do this, we're going to reconfigure 
 So we're going to add these entries to our local environment file.
 
 ```text
-# /home/hpcadmin/ondemand/dev/.env.local
+# /home/hpcadmin/ondemand/dev/dashboard/.env.local
 
 OOD_LOAD_EXTERNAL_CONFIG=1
 OOD_APP_CONFIG_ROOT="/home/hpcadmin/ondemand/config"
