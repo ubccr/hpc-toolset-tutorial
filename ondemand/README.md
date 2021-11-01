@@ -48,10 +48,13 @@ First we need to pull the source code from the Github Repository. Let's
 Be sure to be on the `ondemand` host because that container has node and ruby on it,
 which we need to build the project.
 
+If you are not using the shell app, use `ssh` to connect to the `ondemand` host from the `frontend` host: `ssh ondemand`
+
+Then, do the following:
+
 ```text
-ssh ondemand
 git clone https://github.com/OSC/ondemand.git ~/ondemand-src-full
-mkdir ~/ondemand/dev
+mkdir -p ~/ondemand/dev
 cd ~/ondemand/dev
 ln -s ../../ondemand-src-full/apps/dashboard/ dashboard
 cd dashboard
