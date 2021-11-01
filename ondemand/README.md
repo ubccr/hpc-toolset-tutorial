@@ -21,7 +21,7 @@ These tutorial will be using the the `hpcadmin` credentials listed in
 
 ### Login
 
-Now you should login to Open OnDemand through `https://localhost:3443`.  Note that you'll have to
+Now you should login to Open OnDemand through https://localhost:3443.  Note that you'll have to
 accept the self-signed certificates from both Open OnDemand and the identity provider.
 
 ### Get a shell session
