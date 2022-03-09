@@ -55,7 +55,7 @@ yum install -y https://github.com/ubccr/xdmod/releases/download/v9.5.0/xdmod-9.5
 yum install -y \
     https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/RPMS/mongodb-org-shell-3.6.18-1.el7.x86_64.rpm
 
-pip install pymongo --upgrade
+pip install pymongo==3.12.3 --upgrade
 
 #------------------------
 # O/S package configuration.
