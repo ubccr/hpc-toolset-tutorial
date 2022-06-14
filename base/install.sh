@@ -7,6 +7,8 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
+TARGETARCH=${TARGETARCH:-amd64}
+
 source /build/base.config
 
 GOSU_VERSION=${GOSU_VERSION:-1.12}
@@ -135,7 +137,7 @@ chmod 0440 /etc/sudoers.d/90-hpcadmin
 # Install gosu
 #------------------------
 log_info "Installing gosu.."
-wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64"
+wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$TARGETARCH"
 chmod +x /usr/local/bin/gosu
 gosu nobody true
 

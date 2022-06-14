@@ -25,7 +25,7 @@ services:
       - ldap
 
   mongodb:
-    image: mongo:3.6.18
+    image: mongo:${MONGODB_VERSION}
     hostname: mongodb
     container_name: mongodb
     environment:
@@ -39,7 +39,7 @@ services:
     expose:
       - "27017"
   mysql:
-    image: mariadb:$MARIADB_VERSION
+    image: mariadb:${MARIADB_VERSION}
     hostname: mysql
     container_name: mysql
     environment:

@@ -9,6 +9,8 @@ log_info() {
 
 log_info "Installing required packages for xdmod.."
 
+TARGETARCH=${TARGETARCH:-amd64}
+
 #------------------------
 # For the purpose of the tutorial we install some extra packages that
 # facilitate the automatic install. These are not requirements for Open XDMoD

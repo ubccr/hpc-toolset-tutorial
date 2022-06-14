@@ -1,6 +1,15 @@
 ARG HPCTS_VERSION=latest
 
-FROM ubccr/hpcts:slurm-${HPCTS_VERSION}
+FROM --platform=linux/amd64 ubccr/hpcts:slurm-${HPCTS_VERSION} as stage-amd64
+
+FROM --platform=linux/arm64 ubccr/hpcts:slurm-${HPCTS_VERSION} as stage-arm64
+
+ARG TARGETARCH
+
+FROM stage-${TARGETARCH} as final
+
+ARG TARGETARCH
+
 COPY . /build
 RUN /build/install.sh && rm -rf /build
 COPY conf/httpd.conf /etc/httpd/conf.d/xdmod.conf

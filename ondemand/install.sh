@@ -7,8 +7,9 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
+TARGETARCH=${TARGETARCH:-amd64}
+
 log_info "Installing required packages for Ondemand.."
-dnf install -y https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm
 
 dnf install -y \
     netcat \

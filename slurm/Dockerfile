@@ -1,7 +1,15 @@
 ARG HPCTS_VERSION=latest
 
-FROM ubccr/hpcts:base-${HPCTS_VERSION}
+FROM --platform=linux/amd64 ubccr/hpcts:base-${HPCTS_VERSION} as stage-amd64
+
+FROM --platform=linux/arm64 ubccr/hpcts:base-${HPCTS_VERSION} as stage-arm64
+
+ARG TARGETARCH
+
+FROM stage-${TARGETARCH} as final
+
 ARG SLURM_VERSION
+ARG TARGETARCH
 COPY . /build
 RUN /build/install.sh && rm -rf /build
 COPY slurm.conf /etc/slurm/slurm.conf

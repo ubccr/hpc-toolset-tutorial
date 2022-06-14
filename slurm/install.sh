@@ -8,6 +8,7 @@ log_info() {
 }
 
 SLURM_VERSION=${SLURM_VERSION:-21.08.8-2}
+TARGETARCH=${TARGETARCH:-amd64}
 
 log_info "Installing required packages for building slurm.."
 dnf -y install dnf-plugins-core
@@ -34,8 +35,46 @@ dnf install -y \
     stress
 
 log_info "Installing compute packages .."
-dnf install -y https://yum.osc.edu/ondemand/2.0/ondemand-release-compute-2.0-1.noarch.rpm
-dnf install -y python-websockify turbovnc
+
+
+tee /etc/yum.repos.d/ondemand-compute.repo <<EOF
+[ondemand-compute]
+name=Open OnDemand Compute Repo
+baseurl=https://yum.osc.edu/ondemand/2.0/compute/el8/x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand
+
+[ondemand-compute-source]
+name=Open OnDemand Compute Repo - source
+baseurl=https://yum.osc.edu/ondemand/2.0/compute/el8/x86_64/SRPMS/
+baseurl=https://yum.osc.edu/ondemand/2.0/compute/el$releasever/SRPMS/
+enabled=0
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand
+EOF
+
+tee /etc/yum.repos.d/ondemand-web.repo <<EOF
+[ondemand-web]
+name=Open OnDemand Web Repo
+baseurl=https://yum.osc.edu/ondemand/2.0/web/el8/x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand
+
+[ondemand-web-source]
+name=Open OnDemand Web Repo
+baseurl=https://yum.osc.edu/ondemand/2.0/web/el8/SRPMS/
+enabled=0
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://yum.osc.edu/ondemand/RPM-GPG-KEY-ondemand
+EOF
+
+dnf install -y python-websockify
 dnf groupinstall -y "Xfce"
 
 log_info "Compiling slurm version $SLURM_VERSION.."
@@ -43,7 +82,7 @@ curl -o /tmp/slurm-${SLURM_VERSION}.tar.bz2 https://download.schedmd.com/slurm/s
 pushd /tmp
 tar xf slurm-${SLURM_VERSION}.tar.bz2
 pushd slurm-${SLURM_VERSION}
-./configure --prefix=/usr --sysconfdir=/etc/slurm --with-mysql_config=/usr/bin  --libdir=/usr/lib64
+./configure --sysconfdir=/etc/slurm 
 make -j4
 make install
 install -D -m644 etc/cgroup.conf.example /etc/slurm/cgroup.conf.example
