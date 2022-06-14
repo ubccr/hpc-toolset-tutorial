@@ -8,7 +8,7 @@ log_info() {
 }
 
 log_info "Installing required packages for coldfront.."
-yum install -y \
+dnf install -y \
     python3 \
     python3-devel \
     memcached \
@@ -37,5 +37,5 @@ pip install coldfront wheel mysqlclient gunicorn python-ldap ldap3 mozilla_djang
 log_info "Setting up nginx.."
 sed -i 's/ default_server;/;/' /etc/nginx/nginx.conf
 
-yum clean all
-rm -rf /var/cache/yum
+dnf clean all
+rm -rf /var/cache/dnf
