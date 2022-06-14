@@ -8,10 +8,9 @@ log_info() {
 }
 
 TARGETARCH=${TARGETARCH:-amd64}
+GOSU_VERSION=${GOSU_VERSION:-1.12}
 
 source /build/base.config
-
-GOSU_VERSION=${GOSU_VERSION:-1.12}
 
 #------------------------
 # Setup system user/groups
