@@ -3,6 +3,12 @@ set -e
 
 if [ "$1" = "serve" ]
 then
+    until nc -vzw 2 frontend 22
+    do
+        echo "-- Waiting for frontend ssh to become active ..."
+        sleep 2
+    done
+
     echo "---> Populating /etc/ssh/ssh_known_hosts from frontend for ondemand..."
     /usr/bin/ssh-keyscan frontend >> /etc/ssh/ssh_known_hosts
 
@@ -22,8 +28,8 @@ then
 
     echo "---> Starting ondemand httpd24..."
     # Sometimes on shutdown pid still exists, so delete it
-    rm -f /opt/rh/httpd24/root/var/run/httpd/httpd.pid
-    /opt/rh/httpd24/root/usr/sbin/httpd-scl-wrapper -DFOREGROUND
+    rm -f /run/httpd/httpd.pid
+    /usr/sbin/httpd -DFOREGROUND
 fi
 
 exec "$@"

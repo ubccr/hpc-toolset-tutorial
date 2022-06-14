@@ -8,11 +8,10 @@ log_info() {
 }
 
 log_info "Installing required packages for Ondemand.."
-yum install -y \
-    centos-release-scl \
-    https://yum.osc.edu/ondemand/latest/ondemand-release-web-latest-1-6.noarch.rpm
+dnf install -y https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm
 
-yum install -y \
+dnf install -y \
+    netcat \
     ondemand \
     ondemand-dex
 
@@ -84,8 +83,8 @@ EOF
 log_info "Generating new httpd24 and dex configs.."
 /opt/ood/ood-portal-generator/sbin/update_ood_portal
 
-yum clean all
-rm -rf /var/cache/yum
+dnf clean all
+rm -rf /var/cache/dnf
 
 log_info "Adding new theme to dex"
 sed -i "s/theme: ondemand/theme: hpc-coop/g" /etc/ood/dex/config.yaml

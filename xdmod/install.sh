@@ -10,12 +10,6 @@ log_info() {
 log_info "Installing required packages for xdmod.."
 
 #------------------------
-# Open XDMoD has several dependencies that are satisfied by
-# packages available in EPEL
-#------------------------
-yum install -y epel-release
-
-#------------------------
 # For the purpose of the tutorial we install some extra packages that
 # facilitate the automatic install. These are not requirements for Open XDMoD
 # itself. The expect and pexpect software are used to automate the interactive
@@ -23,11 +17,11 @@ yum install -y epel-release
 # needed for automated setup, not for supremm
 #------------------------
 
-yum install -y \
+dnf install -y \
     expect \
     python2-pip
 
-pip install pexpect==4.4.0
+pip2 install pexpect==4.4.0
 
 #------------------------
 # Open XDMoD Installation
@@ -41,9 +35,8 @@ pip install pexpect==4.4.0
 # be installed in the same container.  In a production deployment they may be installed
 # on separate hosts.
 #------------------------
-yum install -y https://github.com/ubccr/xdmod/releases/download/v9.5.0/xdmod-9.5.0-1.0.el7.noarch.rpm \
-               https://github.com/ubccr/xdmod-supremm/releases/download/v9.5.0/xdmod-supremm-9.5.0-1.0.el7.noarch.rpm \
-               https://github.com/ubccr/supremm/releases/download/1.4.1/supremm-1.4.1-1.el7.x86_64.rpm
+dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.0/xdmod-10.0.0-1.0.beta1.el8.noarch.rpm \
+               https://github.com/ubccr/xdmod-supremm/releases/download/v10.0.0/xdmod-supremm-10.0.0-1.0.beta1.el8.noarch.rpm
 
 #------------------------
 # The Job Performance software uses MongoDB to store the job-level performance
@@ -52,10 +45,10 @@ yum install -y https://github.com/ubccr/xdmod/releases/download/v9.5.0/xdmod-9.5
 # The appropriate mongo shell is also installed so it can be used as part of the setup.
 #------------------------
 
-yum install -y \
-    https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/RPMS/mongodb-org-shell-3.6.18-1.el7.x86_64.rpm
+dnf install -y \
+    https://repo.mongodb.org/yum/redhat/8/mongodb-org/3.6/x86_64/RPMS/mongodb-org-shell-3.6.23-1.el8.x86_64.rpm
 
-pip install pymongo --upgrade
+pip2 install pymongo --upgrade
 
 #------------------------
 # O/S package configuration.
@@ -82,8 +75,8 @@ rm -f /etc/httpd/conf.d/ssl.conf
 #------------------------
 # These commands remove cached files to reduce the overall image size.
 #------------------------
-yum clean all
-rm -rf /var/cache/yum
+dnf clean all
+rm -rf /var/cache/dnf
 
 #------------------------
 # OnDemand Module Setup:

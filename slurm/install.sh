@@ -7,14 +7,18 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
-SLURM_VERSION=${SLURM_VERSION:-20.11.7}
+SLURM_VERSION=${SLURM_VERSION:-21.08.8-2}
 
 log_info "Installing required packages for building slurm.."
-yum install -y \
+dnf -y install dnf-plugins-core
+dnf -y config-manager --set-enabled powertools
+dnf -y module enable ruby:2.7 nodejs:12
+dnf install -y \
     @Development \
     munge \
     munge-devel \
-    libcgroup-devel curl \
+    libcgroup \
+    curl \
     bzip2 \
     readline-devel \
     numactl-devel \
@@ -26,13 +30,13 @@ yum install -y \
     mariadb \
     mariadb-devel \
     python3 \
+    kitty-terminfo \
     stress
 
 log_info "Installing compute packages .."
-yum install -y https://yum.osc.edu/ondemand/latest/ondemand-release-compute-latest-1-6.noarch.rpm
-yum install -y \
-  ondemand-compute
-yum groupinstall -y "Xfce"
+dnf install -y https://yum.osc.edu/ondemand/2.0/ondemand-release-compute-2.0-1.noarch.rpm
+dnf install -y python-websockify turbovnc
+dnf groupinstall -y "Xfce"
 
 log_info "Compiling slurm version $SLURM_VERSION.."
 curl -o /tmp/slurm-${SLURM_VERSION}.tar.bz2 https://download.schedmd.com/slurm/slurm-${SLURM_VERSION}.tar.bz2
@@ -78,7 +82,10 @@ log_info "Creating munge key.."
 /sbin/create-munge-key
 
 log_info "Installing performance data collection software.."
-yum install -y pcp
+dnf install -y pcp
+
+mkdir -p /run/pcp
+ln -s /usr/lib/systemd/system/pmlogger.service /etc/systemd/system/multi-user.target.wants/pmlogger.service
 
 log_info "Setting PCP defaults suitable for running in a container.."
 echo -e "# Disable Avahi (since it does not run inside the containers)\n-A" >> /etc/pcp/pmcd/pmcd.options
@@ -89,9 +96,10 @@ sed -i 's#^LOCALHOSTNAME.*$#LOCALHOSTNAME   y   n   "/home/pcp/$(date +%Y)/$(dat
 log_info "Installing Jupyter.."
 python3 -m venv --without-pip --prompt jupyter/2.1.4 /usr/local/jupyter/2.1.4
 source /usr/local/jupyter/2.1.4/bin/activate
-curl https://bootstrap.pypa.io/get-pip.py | python
+curl https://bootstrap.pypa.io/pip/3.6/get-pip.py | python
+
 pip install jupyterlab==2.1.4 jupyter-console qtconsole ipywidgets plotly==4.8.2 pandas scikit-learn numpy
 deactivate
 
-yum clean all
-rm -rf /var/cache/yum
+dnf clean all
+rm -rf /var/cache/dnf

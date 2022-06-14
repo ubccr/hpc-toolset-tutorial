@@ -25,7 +25,7 @@ useradd -r -g sssd -d / -s /sbin/nologin sssd
 # Install base packages
 #------------------------
 log_info "Installing base packages.."
-yum install -y \
+dnf install -y \
     openssh-server \
     sudo \
     epel-release \
@@ -33,7 +33,8 @@ yum install -y \
     vim \
     openldap-clients \
     sssd \
-    authconfig \
+    sssd-tools \
+    authselect \
     openssl \
     bash-completion
 
@@ -48,20 +49,13 @@ chgrp ssh_keys /etc/ssh/ssh_host_rsa_key
 chgrp ssh_keys /etc/ssh/ssh_host_ecdsa_key
 chgrp ssh_keys /etc/ssh/ssh_host_ed25519_key
 
+sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/' /etc/ssh/sshd_config
+
 #------------------------
 # Setup LDAP and SSSD
 #------------------------
 log_info "Configuring LDAP and SSSD"
-authconfig --enableldap \
-  --enableldapauth \
-  --ldapserver=ldap://ldap:389 \
-  --ldapbasedn="dc=example,dc=org" \
-  --enablerfc2307bis \
-  --enablesssd \
-  --enablesssdauth \
-  --kickstart \
-  --nostart \
-  --update
+authselect select sssd --force
 
 cat > /etc/openldap/ldap.conf <<EOF
 TLS_CACERTDIR /etc/openldap/cacerts
@@ -104,6 +98,9 @@ homedir_substring = /home
 reconnection_retries = 10
 debug_level = 2
 EOF
+
+chmod 600 /etc/sssd/sssd.conf
+rm -f /var/run/nologin
 
 #------------------------
 # Setup user accounts
@@ -165,5 +162,5 @@ openssl x509 -req -CA /etc/pki/tls/ca.crt -CAkey /etc/pki/tls/ca.key -CAcreatese
 cp /etc/pki/tls/ca.crt /etc/pki/ca-trust/source/anchors/
 update-ca-trust extract
 
-yum clean all
-rm -rf /var/cache/yum
+dnf clean all
+rm -rf /var/cache/dnf
