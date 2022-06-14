@@ -48,7 +48,7 @@ dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.0/xdmod-10
 dnf install -y \
     https://repo.mongodb.org/yum/redhat/8/mongodb-org/3.6/x86_64/RPMS/mongodb-org-shell-3.6.23-1.el8.x86_64.rpm
 
-pip2 install pymongo --upgrade
+pip install pymongo==3.12.3 --upgrade
 
 #------------------------
 # O/S package configuration.
