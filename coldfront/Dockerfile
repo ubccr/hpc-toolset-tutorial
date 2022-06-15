@@ -8,8 +8,6 @@ ARG TARGETARCH
 
 FROM stage-${TARGETARCH} as final
 
-ARG TARGETARCH
-
 COPY . /build
 RUN /build/install.sh && rm -rf /build
 COPY --chown=coldfront:coldfront local_settings.py /etc/coldfront/local_settings.py

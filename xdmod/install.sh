@@ -9,7 +9,7 @@ log_info() {
 
 log_info "Installing required packages for xdmod.."
 
-TARGETARCH=${TARGETARCH:-amd64}
+ARCHTYPE=`uname -m`
 
 #------------------------
 # For the purpose of the tutorial we install some extra packages that
@@ -37,8 +37,7 @@ pip2 install pexpect==4.4.0
 # be installed in the same container.  In a production deployment they may be installed
 # on separate hosts.
 #------------------------
-dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.0/xdmod-10.0.0-1.0.beta1.el8.noarch.rpm \
-               https://github.com/ubccr/xdmod-supremm/releases/download/v10.0.0/xdmod-supremm-10.0.0-1.0.beta1.el8.noarch.rpm
+dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.0/xdmod-10.0.0-1.0.beta1.el8.noarch.rpm
 
 #------------------------
 # The Job Performance software uses MongoDB to store the job-level performance
@@ -48,9 +47,10 @@ dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.0/xdmod-10
 #------------------------
 
 dnf install -y \
-    https://repo.mongodb.org/yum/redhat/8/mongodb-org/3.6/x86_64/RPMS/mongodb-org-shell-3.6.23-1.el8.x86_64.rpm
+    https://repo.mongodb.org/yum/redhat/8/mongodb-org/5.0/${ARCHTYPE}/RPMS/mongodb-org-shell-5.0.9-1.el8.${ARCHTYPE}.rpm
 
-pip install pymongo==3.12.3 --upgrade
+pip3 install pymongo --upgrade
+pip2 install pymongo --upgrade
 
 #------------------------
 # O/S package configuration.

@@ -7,8 +7,10 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
-TARGETARCH=${TARGETARCH:-amd64}
+ARCHTYPE=`uname -m`
 GOSU_VERSION=${GOSU_VERSION:-1.12}
+
+log_info "HPCTS Base image for $ARCHTYPE"
 
 source /build/base.config
 
@@ -136,7 +138,11 @@ chmod 0440 /etc/sudoers.d/90-hpcadmin
 # Install gosu
 #------------------------
 log_info "Installing gosu.."
-wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$TARGETARCH"
+if [[ "${ARCHTYPE}" = "x86_64" ]]; then
+    wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64"
+elif [[ "${ARCHTYPE}" = "aarch64" ]]; then
+    wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-arm64"
+fi
 chmod +x /usr/local/bin/gosu
 gosu nobody true
 

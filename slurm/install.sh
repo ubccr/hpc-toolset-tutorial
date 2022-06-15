@@ -9,7 +9,7 @@ log_info() {
 
 SLURM_VERSION=${SLURM_VERSION:-21.08.8-2}
 WEBSOCKIFY_VERSION=${WEBSOCKIFY_VERSION:-0.8.0}
-TARGETARCH=${TARGETARCH:-amd64}
+ARCHTYPE=`uname -m`
 
 log_info "Installing required packages for building slurm.."
 curl -o /etc/yum.repos.d/turbovnc.repo https://turbovnc.org/pmwiki/uploads/Downloads/TurboVNC.repo

@@ -8,8 +8,6 @@ ARG TARGETARCH
 
 FROM stage-${TARGETARCH} as final
 
-ARG TARGETARCH
-
 COPY . /build
 RUN /build/install.sh && rm -rf /build
 COPY conf/httpd.conf /etc/httpd/conf.d/xdmod.conf

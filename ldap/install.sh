@@ -7,7 +7,7 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
-TARGETARCH=${TARGETARCH:-amd64}
+ARCHTYPE=`uname -m`
 
 source /build/base.config
 

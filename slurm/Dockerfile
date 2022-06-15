@@ -9,7 +9,6 @@ ARG TARGETARCH
 FROM stage-${TARGETARCH} as final
 
 ARG SLURM_VERSION
-ARG TARGETARCH
 COPY . /build
 RUN /build/install.sh && rm -rf /build
 COPY slurm.conf /etc/slurm/slurm.conf
