@@ -123,7 +123,7 @@ install_os_deps() {
         nodejs sqlite sqlite-devel nmap-ncat httpd httpd-devel mod_ssl \
         libcurl-devel autoconf openssl-devel jansson-devel libxml2-devel \
         libxslt-devel gd-devel
-  gem install rake dotenv
+  gem install rake dotenv bcrypt
 }
 
 build_ood_src() {
@@ -147,8 +147,10 @@ build_ood_src() {
   make && make install
 
   cd $BUILD_DIR
-  git clone https://github.com/OSC/ondemand.git
-  cd ondemand
+  OOD_VERSION='2.0.27'
+  wget "https://github.com/OSC/ondemand/archive/refs/tags/v$OOD_VERSION.tar.gz"
+  tar -xf "v$OOD_VERSION.tar.gz"
+  cd ondemand-$OOD_VERSION
   bundle config --local path ~/vendor/bundle
   bundle install
   rake build -mj$(nproc)
