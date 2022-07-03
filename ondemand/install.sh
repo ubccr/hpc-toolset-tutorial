@@ -7,75 +7,6 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
-ARCHTYPE=`uname -m`
-DEX_VERSION=${DEX_VERSION:-2.31.1}
-DEX_PATCH_VERSION=${DEX_PATCH_VERSION:-703e26bc109e86d00be22ef1803bdb96b2dc09e2}
-
-log_info "Installing required packages for Ondemand ${ARCHTYPE}.."
-
-if [[ "${ARCHTYPE}" = "x86_64" ]]; then
-    dnf install -y https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm
-    dnf install -y \
-        netcat \
-        ondemand \
-        ondemand-dex
-elif [[ "${ARCHTYPE}" = "aarch64" ]]; then
-    # TODO: flesh out arm64 builds?
-    dnf install -y golang-bin
-    log_info "Install dex ${DEX_VERSION}..."
-    wget -O /tmp/dex-${DEX_VERSION}.tar.gz https://github.com/dexidp/dex/archive/v${DEX_VERSION}.tar.gz
-    wget -O /tmp/dex-ood.patch https://github.com/OSC/dex/commit/${DEX_PATCH_VERSION}.patch
-    pushd /tmp
-    tar xvf dex-${DEX_VERSION}.tar.gz
-    pushd dex-${DEX_VERSION}
-    make build
-    mv bin/dex bin/dex-orig
-    patch -p1 < ../dex-ood.patch
-    make build
-    mv bin/dex /usr/sbin/ondemand-dex-session
-    mv bin/dex-orig /usr/sbin/ondemand-dex
-    popd
-    rm -rf /tmp/dex*
-    mkdir -p /usr/share/ondemand-dex/
-    git clone https://github.com/OSC/ondemand-dex.git
-    pushd ondemand-dex
-    mv web /usr/share/ondemand-dex/
-    popd
-    rm -Rf ondemand-dex
-    groupadd -r ondemand-dex
-    useradd -r -d /var/lib/ondemand-dex -g ondemand-dex -s /sbin/nologin -c "OnDemand Dex" ondemand-dex
-    mkdir -p /etc/ood/dex
-    tee /etc/ood/dex/config.yaml <<EOF
----
-issuer: http://eb8307ff82be:5556
-storage:
-  type: sqlite3
-  config:
-    file: "/etc/ood/dex/dex.db"
-web:
-  http: 0.0.0.0:5556
-telemetry:
-  http: 0.0.0.0:5558
-staticClients:
-- id: eb8307ff82be
-  redirectURIs:
-  - http://eb8307ff82be/oidc
-  name: OnDemand
-  secret: 7c6c2f51-2f97-4866-886e-2fcf5b974224
-oauth2:
-  skipApprovalScreen: true
-enablePasswordDB: true
-staticPasswords:
-- email: ood@localhost
-  hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
-  username: ood
-  userID: '08a8684b-db88-4b73-90a9-3cd1661f5466'
-frontend:
-  dir: "/usr/share/ondemand-dex/web"
-  theme: hpc-coop
-EOF
-fi
-
 log_info "Setting up Ondemand"
 mkdir -p /etc/ood/config/clusters.d
 mkdir -p /etc/ood/config/apps/shell
@@ -141,13 +72,11 @@ dex:
     theme: ondemand
 EOF
 
-if [[ ${ARCHTYPE} = "x86_64" ]]; then
-    log_info "Generating new httpd24 and dex configs.."
-    /opt/ood/ood-portal-generator/sbin/update_ood_portal
+log_info "Generating new httpd24 and dex configs.."
+/opt/ood/ood-portal-generator/sbin/update_ood_portal
 
-    log_info "Adding new theme to dex"
-    sed -i "s/theme: ondemand/theme: hpc-coop/g" /etc/ood/dex/config.yaml
-fi
+log_info "Adding new theme to dex"
+sed -i "s/theme: ondemand/theme: hpc-coop/g" /etc/ood/dex/config.yaml
 
 dnf clean all
 rm -rf /var/cache/dnf
