@@ -27,17 +27,6 @@ dnf install -y \
 
 pip2 install pexpect==4.4.0
 
-SUPREMM_RPM=""
-
-case "$ARCHTYPE" in
-    "x86_64")
-    SUPREMM_RPM="https://github.com/ubccr/supremm/releases/download/?????"
-    ;;
-    "arm64")
-    SUPREMM_RPM="https://github.com/ubccr/supremm/releases/download/?????"
-    ;;
-esac
-
 #------------------------
 # Open XDMoD Installation
 #
