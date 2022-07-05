@@ -6,6 +6,7 @@ Live tutorial steps we took during PEARC. See the PEARC video recording to follo
 
 - [Dashboard-developer-mode-tutorial](#dashboard-developer-mode-tutorial)
 - [Jupyter App Tutorial](#jupyter-app-tutorial)
+- [Dynamic Batch Connect Fields](#dynamic-batch-connect-fields)
 - [Passenger App Tutorial](#passenger-app-tutorial)
 - [XDMoD Integration Tutorial](#xdmod-integration-tutorial)
 
@@ -58,6 +59,7 @@ mkdir -p ~/ondemand/dev
 cd ~/ondemand/dev
 ln -s ../../ondemand-src-full/apps/dashboard/ dashboard
 cd dashboard
+bin/bundle config --local path vendor/bundle
 bin/setup
 ```
 
@@ -912,6 +914,95 @@ And that's it! All you have to do now is refresh the page and you should see you
 Jupyter system app in the menu along with your sandbox development app.
 
 ![deploy to production](imgs/deploy_to_production.gif)
+
+## Dynamic Batch Connect Fields
+
+Since 2.0 sites can enable dynamic batch connect fields through setting the `OOD_BC_DYNAMIC_JS` environment
+variable. This has already been done within these containers.
+
+```text
+# /etc/ood/config/apps/dashboard/env
+OOD_BC_DYNAMIC_JS=1
+```
+
+With this feature - client side javascript can dynamically change the form fields based on user
+choices. Sites only have to add more YAML to a `form.yml` to enable this behaviour.  Let's
+see some examples.
+
+### Changing min & max values
+
+Let's put some rules around the debug queue.  We set a static `min` and `max` of 200 and 1000
+respectively.  But in this example, we want different min and max values for the debug queue.
+
+We can configure this behaviour with these `data-min-` and `data-max-` directives attached
+to a given option.  When the `debug` queue is choosen we'll automatically set the min and
+maximum values of the `memory` field.
+
+Note that we're also setting the `compute` min and maxes again. This is currently the only way
+to reset back to defaults if there are any.
+
+```yaml
+# form.yml, only showing custom_queue for brevity.
+  custom_queue:
+    widget: "select"
+    label: "Partition"
+    options:
+      - [
+          "Compute", "compute",
+          data-min-memory: 200,         # set the compute queue back to static defaults
+          data-max-memory: 1000,
+        ]
+      - [
+          "Debug", "debug",
+          data-min-memory: 400,         # change min & max for debug queue
+          data-max-memory: 600,
+        ]
+```
+
+![A gif of a user interacting with the form with the dynamic additons described above. The default queue compute is chosen. The user can range memory form from 200 to 1000. The user chooses the debug queue. The user can now range the memory form item from 400 to 600. Switching back to the compute queue and the user can again range the memory form item from 200 to 1000.](imgs/dynamic_min_max.gif)
+
+### Changing values
+
+Let's take this a little further.  Now, when we choose `compute` or `debug` queue, let's automatically
+set the Slurm account we want to use.  Note we'll need to add `bc_account` back, as it's what we'll be
+setting.
+
+We can add the `data-set` directives on the same `custom_queue` form options.  When users choose the
+`debug` queue we'll automatically set the account to `staff`.  When we choose the `compute` queue we
+will set the `sfoster` account.
+
+```yaml
+# form.yml, only showing custom_queue for brevity.
+attributes:
+  custom_queue:
+    widget: "select"
+    label: "Partition"
+    options:
+      - [
+          "Compute", "compute",
+          data-min-memory: 200,
+          data-max-memory: 1000,
+
+          data-set-bc-account: 'sfoster'    # set the account to sfoster when using compute
+        ]
+      - [
+          "Debug", "debug",
+          data-min-memory: 400,
+          data-max-memory: 600,
+
+          data-set-bc-account: 'staff'      # set the account to staff when using debug
+        ]
+form:
+  - bc_account
+```
+
+To use the `sfoster` account you need to run these commands to add the `hpcadmin` user to
+that account.
+
+```
+sacctmgr add user hpcadmin account=sfoster
+sacctmgr modify user where user=hpcadmin set defaultaccount=staff
+```
 
 ## Passenger app tutorial
 
