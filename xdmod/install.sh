@@ -27,6 +27,17 @@ dnf install -y \
 
 pip2 install pexpect==4.4.0
 
+SUPREMM_RPM=""
+
+case "$ARCHTYPE" in
+    "x86_64")
+    SUPREMM_RPM="https://github.com/ubccr/supremm/releases/download/?????"
+    ;;
+    "arm64")
+    SUPREMM_RPM="https://github.com/ubccr/supremm/releases/download/?????"
+    ;;
+esac
+
 #------------------------
 # Open XDMoD Installation
 #
@@ -42,7 +53,7 @@ pip2 install pexpect==4.4.0
 dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta4-el8/xdmod-10.0.0-1.4.beta4.el8.noarch.rpm \
                https://github.com/ubccr/xdmod-ondemand/releases/download/v10.0.0/xdmod-ondemand-10.0.0-1.0.beta1.el8.noarch.rpm \
                https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta4-el8/xdmod-supremm-10.0.0-1.4.beta4.el8.noarch.rpm \
-               /build/bin/supremm-2.0.0-1.el8.x86_64.rpm
+               https://github.com/ubccr/supremm/releases/download/2.0.0-beta3/supremm-2.0.0-1.0_beta3.el8.x86_64.rpm
 
 #------------------------
 # The Job Performance software uses MongoDB to store the job-level performance
