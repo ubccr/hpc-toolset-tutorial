@@ -28,59 +28,84 @@ $ cd hpc-toolset-tutorial
 $ ./hpcts start
 Fetching latest HPC Toolset Images..
 
-Pulling ldap      ... done
-Pulling base      ... done
-Pulling mongodb   ... done
-Pulling mysql     ... done
-Pulling slurmdbd  ... done
-Pulling slurmctld ... done
-Pulling cpn01     ... done
-Pulling cpn02     ... done
-Pulling frontend  ... done
-Pulling coldfront ... done
-Pulling ondemand  ... done
-Pulling xdmod     ... done
+[+] Running 12/12
+ - base Pulled                                                                              5.2s
+ - ondemand Pulled                                                                          5.3s
+ - cpn01 Pulled                                                                             5.3s
+ - cpn02 Pulled                                                                             5.1s
+ - mongodb Pulled                                                                           5.2s
+ - xdmod Pulled                                                                             5.1s
+ - ldap Pulled                                                                              5.2s
+ - mysql Pulled                                                                             5.2s
+ - coldfront Pulled                                                                         5.2s
+ - frontend Pulled                                                                          5.2s
+ - slurmdbd Pulled                                                                          5.1s
+ - slurmctld Pulled                                                                         5.2s
 
 Starting HPC Toolset Cluster..
 
-Creating network "hpc-toolset-tutorial_compute" with the default driver
-Creating volume "hpc-toolset-tutorial_etc_munge" with default driver
-Creating volume "hpc-toolset-tutorial_etc_slurm" with default driver
-Creating volume "hpc-toolset-tutorial_home" with default driver
-Creating volume "hpc-toolset-tutorial_var_lib_mysql" with default driver
-Creating volume "hpc-toolset-tutorial_data_db" with default driver
-Creating volume "hpc-toolset-tutorial_srv_www" with default driver
-Creating mysql   ... done
-Creating ldap    ... done
-Creating mongodb ... done
-Creating hpc-toolset-tutorial_base_1 ... done
-Creating slurmdbd                    ... done
-Creating slurmctld                   ... done
-Creating frontend                    ... done
-Creating cpn02                       ... done
-Creating cpn01                       ... done
-Creating coldfront                   ... done
-Creating xdmod                       ... done
-Creating ondemand                    ... done
+[+] Running 23/23
+ - Network hpc-toolset-tutorial_compute              Created                                0.1s
+ - Volume "hpc-toolset-tutorial_etc_slurm"           Created                                0.0s
+ - Volume "hpc-toolset-tutorial_cpn02_slurmd_state"  Created                                0.0s
+ - Volume "hpc-toolset-tutorial_slurmdbd_state"      Created                                0.0s
+ - Volume "hpc-toolset-tutorial_slurmctld_state"     Created                                0.0s
+ - Volume "hpc-toolset-tutorial_data_db"             Created                                0.0s
+ - Volume "hpc-toolset-tutorial_home"                Created                                0.0s
+ - Volume "hpc-toolset-tutorial_var_lib_mysql"       Created                                0.0s
+ - Volume "hpc-toolset-tutorial_srv_www"             Created                                0.0s
+ - Volume "hpc-toolset-tutorial_cpn01_slurmd_state"  Created                                0.0s
+ - Volume "hpc-toolset-tutorial_etc_munge"           Created                                0.0s
+ - Container mongodb                                 Started                               12.0s
+ - Container mysql                                   Started                               11.9s
+ - Container ldap                                    Started                               11.8s
+ - Container hpc-toolset-tutorial-base-1             Started                               12.3s
+ - Container slurmdbd                                Started                               13.2s
+ - Container slurmctld                               Started                               13.0s
+ - Container frontend                                Started                               15.2s
+ - Container cpn02                                   Started                               14.2s
+ - Container cpn01                                   Started                               15.2s
+ - Container ondemand                                Started                               15.2s
+ - Container coldfront                               Started                               15.7s
+ - Container xdmod                                   Started                               15.5s
 
-Coldfront URL: https://localhost:2443
+ Coldfront URL: https://localhost:2443
 
 
-OnDemand URL: https://localhost:3443
+ OnDemand URL: https://localhost:3443
 
 
-XDMoD URL: https://localhost:4443
+ XDMoD URL: https://localhost:4443
 
 
-Login to frontend: ssh -p 6222 hpcadmin@localhost
-
+ Login to frontend: ssh -p 6222 hpcadmin@localhost
 
 ```
 
 **NOTE:  Despite seeing this output with URLs, the processes on these containers may not be fully running yet.  Depending on the speed of your computer, starting up the processes may take a few minutes (or even up to 10 minutes).  Use the command below to check the docker logs if the websites are not yet displaying.**
 
-NOTE: Windows users will get several pop-up messages from Docker Desktop during this process asking to allow local system access to the Docker containers.  Please click the "Share it" button:
+### Windows Errors  
+
+NOTE: Windows users should get several pop-up messages from Docker Desktop during this process asking to allow local system access to the Docker containers.  Please click the "Share it" button:
 ![](windows_sharing.PNG)
+
+If you have notifications blocked, you may not see these pop-ups and the authorization will eventually time out.  If this happens, you will get this type of error message:    
+
+```
+Error response from daemon: user declined directory sharing C:\Users\path_to_my_folder
+```
+Open Docker Desktop, navigate to Settings - Resources, and click on File Sharing.  Then add the directory where you've cloned the HPC Toolset Tutorial and click "Apply & Restart"
+
+Re-run:  
+```
+./hpcts start  
+```
+
+If this doesn't work, please run:  
+```
+./hpcts cleanup  
+./hpcts start  
+```
 
 
 ### Error when starting up tutorial containers
