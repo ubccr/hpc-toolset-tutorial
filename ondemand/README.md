@@ -1000,8 +1000,8 @@ To use the `sfoster` account you need to run these commands to add the `hpcadmin
 that account.
 
 ```
-sacctmgr add user hpcadmin account=sfoster
-sacctmgr modify user where user=hpcadmin set defaultaccount=staff
+sudo sacctmgr add user hpcadmin account=sfoster
+sudo sacctmgr modify user where user=hpcadmin set defaultaccount=staff
 ```
 
 ## Passenger app tutorial
