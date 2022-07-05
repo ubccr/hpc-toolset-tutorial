@@ -75,9 +75,15 @@ then
         export TERM=linux
         /srv/xdmod/scripts/supremm.py
 
+        echo "---> XDMoD Open OnDemand module setup"
+        expect /srv/xdmod/scripts/xdmod-setup-ondemand.tcl | col -b
+
         echo "---> Make sure we have a place to keep our backups"
         mkdir -p /srv/xdmod/backups
     fi
+    echo "---> Staring php-fpm"
+    mkdir -p /run/php-fpm
+    php-fpm
 
     echo "---> Starting HTTPD on xdmod..."
     # Sometimes on shutdown pid still exists, so delete it
