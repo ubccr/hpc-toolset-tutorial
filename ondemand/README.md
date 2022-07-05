@@ -206,7 +206,7 @@ any text you like here. Feel free to have fun with it!
 ```html
 <!-- /home/hpcadmin/ondemand/config/views/widgets/_hello_world.html -->
 <div class='alert alert-info text-center' style='font-size:2.2rem;'>
-    <p>Thank you for attending the PEARC 2021 Open OnDemand Tutorial!</p>
+    <p>Thank you for attending the PEARC 2022 Open OnDemand Tutorial!</p>
 </div>
 ```
 
