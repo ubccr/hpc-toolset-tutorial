@@ -19,6 +19,7 @@ echo "OOD_SSHHOST_ALLOWLIST=ondemand:cpn01:cpn02" >> /etc/ood/config/apps/shell/
 echo "OOD_DEV_SSH_HOST=ondemand" >> /etc/ood/config/apps/dashboard/env
 echo "MOTD_PATH=/etc/motd" >> /etc/ood/config/apps/dashboard/env
 echo "MOTD_FORMAT=markdown" >> /etc/ood/config/apps/dashboard/env
+echo "OOD_BC_DYNAMIC_JS=1" >> /etc/ood/config/apps/dashboard/env
 
 log_info "Configuring Ondemand ood_portal.yml .."
 
