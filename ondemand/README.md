@@ -1004,6 +1004,26 @@ sudo sacctmgr add user hpcadmin account=sfoster
 sudo sacctmgr modify user where user=hpcadmin set defaultaccount=staff
 ```
 
+### Hiding form options
+
+Lastly, we can use this feature to hide and show other form fields. This can be useful when
+some options are avaialbe for somethings. For example you may want to show CUDA versions as
+a form option for GPU nodes, but not for other nodes.
+
+Add the `data-hide-bc-account` line to our `debug` form option and we'll start hiding that
+field when the debug option is chosen.
+
+```yaml
+      - [
+          "Debug", "debug",
+          data-min-memory: 400,
+          data-max-memory: 600,
+
+          data-set-bc-account: 'staff',
+          data-hide-bc-account: true,       # hide the bc_account field when this is chosen.
+        ]
+```
+
 ## Passenger app tutorial
 
 Access OnDemand dashboard https://localhost:3443
