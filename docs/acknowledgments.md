@@ -22,6 +22,8 @@ A condensed version of this tutorial will be presented at [Gateways 2020](https:
 
 An updated version of this tutorial was presented at the PRACTICE AND EXPERIENCE IN ADVANCED RESEARCH COMPUTING 2021 Virtual Conference (PEARC21) - https://pearc.acm.org/pearc21/  
 
+An updated version of this tutorial was presented at the PRACTICE AND EXPERIENCE IN ADVANCED RESEARCH COMPUTING 2022 Conference (PEARC22), Boston, MA - https://pearc.acm.org/pearc22/ 
+
 
 #### Container Development
 

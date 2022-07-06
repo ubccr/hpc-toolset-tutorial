@@ -3,8 +3,8 @@
 For this tutorial you will need to have **13GB of free disk space** and git, docker, docker-compose and a web browser installed on your local machine.  This tutorial has been tested on various versions of Linux, MacOS, and Windows 10 with the following package versions:
 
 - git 2.17+ (Windows users we recommend:  https://gitforwindows.org/)
-- docker version 19.03.8+
-- docker-compose 1.25.2+
+- docker engine version 20.10.12+
+- docker-compose 2.6.0+
 
 NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command using the git-bash shell application before cloning the tutorial repo:
 

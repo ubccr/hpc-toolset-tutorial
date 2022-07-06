@@ -33,7 +33,7 @@ Because these applications are configured for single-sign on (SSO), if you login
 ColdFront is used for managing center resources and providing access to those resources
 
 SSH container name: coldfront (must login to front end first)  
-URL:https://localhost:2443  
+URL: https://localhost:2443  
 *Portal logins include:*  
 Local administrator account: `admin` password: `admin`  
 Any of the LDAP accounts listed above

@@ -48,6 +48,30 @@ NOTE: this is only necessary on some systems so don't use it if the previous com
 
 **Sometimes restarting your operating system is the only solution.**
 
+### Windows Errors  
+
+NOTE: Windows users should get several pop-up messages from Docker Desktop during this process asking to allow local system access to the Docker containers.  Please click the "Share it" button:
+![](windows_sharing.PNG)
+
+If you have notifications blocked, you may not see these pop-ups and the authorization will eventually time out.  If this happens, you will get this type of error message:    
+
+```
+Error response from daemon: user declined directory sharing C:\Users\path_to_my_folder
+```
+Open Docker Desktop, navigate to Settings - Resources, and click on File Sharing.  Then add the directory where you've cloned the HPC Toolset Tutorial and click "Apply & Restart"
+
+Re-run:  
+```
+./hpcts start  
+```
+
+If this doesn't work, please run:  
+```
+./hpcts cleanup  
+./hpcts start  
+```
+
+
 ### Docker Troubleshooting
 
 Linux: https://docs.docker.com/engine/install/linux-postinstall/  
