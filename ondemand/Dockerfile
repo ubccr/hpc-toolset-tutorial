@@ -35,4 +35,6 @@ COPY notebook_data /data/notebook_data
 COPY initializers/dashboard.rb /etc/ood/config/apps/dashboard/initializers/dashboard.rb
 COPY themes/hpc-coop /usr/share/ondemand-dex/web/themes/hpc-coop
 
+RUN sed -i '/  passenger_load_shell_envvars off;/a   passenger_preload_bundler on;' /opt/ood/nginx_stage/templates/pun.conf.erb
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
