@@ -3,6 +3,11 @@
 # XDMoD instance. This script will fail if run against an already installed
 # XDMoD.
 
+#-------------------------------------------------------------------------------
+# Configuration settings for the XDMoD resources
+
+#-------------------------------------------------------------------------------
+
 # Load helper functions from helper-functions.tcl
 source [file join [file dirname [info script]] helper-functions.tcl]
 
@@ -14,38 +19,33 @@ source [file join [file dirname [info script]] helper-functions.tcl]
 set timeout 240
 spawn "xdmod-setup"
 
+# Add an OnDemand resource
+selectMenuOption 4
+
 selectMenuOption 1
-answerQuestion {Site Address} https://localhost:4443/
-provideInput {Email Address:} ccr-xdmod-help@buffalo.edu
-provideInput {Chromium Path:} /usr/lib64/chromium-browser/headless_shell
-provideInput {Center Logo Path:} /srv/xdmod/small-logo.png
-provideInput {Center Logo Width:} 354
-provideInput {Enable Dashboard Tab*} {on}
+provideInput {Resource Name:} ondemand
+provideInput {Formal Name:} {Open OnDemand Instance}
+provideInput {Resource Type*} Gateway
+provideInput {How many nodes does this resource have?} 0
+provideInput {How many total processors (cpu cores) does this resource have?} 0
+
+selectMenuOption s
+confirmFileWrite yes
+enterToContinue
 confirmFileWrite yes
 enterToContinue
 
-selectMenuOption 2
-answerQuestion {DB Hostname or IP} mysql
-answerQuestion {DB Port} 3306
-answerQuestion {DB Username} xdmodapp
-providePassword {DB Password:} ofbatgorWep0
+# Setup the OnDemand database
+selectMenuOption 10
+
+selectMenuOption d
+
 answerQuestion {DB Admin Username} root
 providePassword {DB Admin Password:} {}
 confirmDropDb yes
-confirmDropDb yes
-confirmDropDb yes
-confirmDropDb yes
-confirmDropDb yes
-confirmDropDb yes
-confirmDropDb yes
-confirmFileWrite yes
-enterToContinue
+provideInput {Do you want to see the output*} {no}
 
-selectMenuOption 3
-provideInput {Organization Name:} Tutorial
-provideInput {Organization Abbreviation:} hpcts
-confirmFileWrite yes
-enterToContinue
+selectMenuOption q
 
 selectMenuOption q
 
