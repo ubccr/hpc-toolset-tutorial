@@ -215,6 +215,7 @@ services:
     networks:
       - compute
     volumes:
+      - etc_xdmod:/etc/xdmod
       - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
       - home:/home
@@ -229,6 +230,7 @@ services:
       - frontend
 
 volumes:
+  etc_xdmod:
   etc_munge:
   etc_slurm:
   home:
