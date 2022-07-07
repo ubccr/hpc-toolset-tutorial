@@ -21,11 +21,9 @@ ARCHTYPE=`uname -m`
 
 dnf install -y \
     expect \
-    python2-pip \
+    python3-pexpect \
     php-pear \
     php-devel
-
-pip2 install pexpect==4.4.0
 
 #------------------------
 # Open XDMoD Installation
@@ -63,7 +61,6 @@ pecl install mongodb
 echo "extension=mongodb.so" >> /etc/php.d/40-mongodb.ini
 
 pip3 install pymongo==3.7.0 --upgrade
-pip2 install pymongo --upgrade
 
 #------------------------
 # O/S package configuration.
