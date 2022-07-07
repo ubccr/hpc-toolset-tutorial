@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 import pexpect
 import sys
 
@@ -6,7 +6,7 @@ def main():
 
     scriptsettings = ['start', 'start', 'start', 'end', 'submit']
 
-    with open("supremm_expect_log", "w") as f:
+    with open("supremm_expect_log", "wb") as f:
         p = pexpect.spawn('supremm-setup')
         p.logfile = f
 
