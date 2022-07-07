@@ -103,9 +103,15 @@ rm -rf /var/cache/dnf
 
 #------------------------
 # OnDemand Module Setup:
-#   - Make sure to create the directory that will contain the OnDemand log files for use with
-#     the OnDemand XDMoD Module.
+# Create the directory that will contain the Open OnDemand log files for use with
+# the Open OnDemand XDMoD Module. Also copy in some 'historical' data for
+# display during the tutorial.
 #------------------------
-mkdir -p /scratch/ondemand
+mkdir -p /scratch/ondemand/logs
+cp /srv/xdmod/historical/localhost_access_ssl-20220706.log /scratch/ondemand/logs
+chmod 750 /scratch/ondemand/logs
+# note - the file permissions will be set to hpcadmin:xdmod after the hpcadmin
+#        user has been created later in the build
+
 
 mkdir -p /srv/xdmod/backups
