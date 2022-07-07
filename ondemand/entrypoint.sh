@@ -9,6 +9,9 @@ then
         sleep 2
     done
 
+    echo "---> Cleaning NGINX ..."
+    /opt/ood/nginx_stage/sbin/nginx_stage nginx_clean
+
     echo "---> Populating /etc/ssh/ssh_known_hosts from frontend for ondemand..."
     /usr/bin/ssh-keyscan frontend >> /etc/ssh/ssh_known_hosts
 
