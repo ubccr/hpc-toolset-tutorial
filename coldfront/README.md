@@ -6,8 +6,8 @@
 
 
 ## Login to ColdFront website
-- URL https://localhost:2443/
-- You'll need to login as some of the users for this tutorial to get things started:
+URL https://localhost:2443/  
+You'll need to login as some of the users for this tutorial to get things started.  Do NOT use the OpenID Connect login option at this point.
 - Login locally as username `hpcadmin` password: `ilovelinux`
 - Logout
 - Login locally as username `cgray` password: `test123`
@@ -15,28 +15,55 @@
 - Login locally as username `csimmons`  password: `ilovelinux`  
 - Login locally as username `sfoster` password: `ilovelinux`  
 - Login locally as username `admin` password: `admin`
-- Go to Admin interface, Users
-- Click on the hpcadmin user
-- Make this user a `superuser` by checking the boxes next to `Staff Status` and `Superuser Status` - SAVE  
-- Click on the sfoster account and check the box next to `Staff Status`  Also under the `User Permissions` section add permissions for `allocation|allocation|Can view all allocations` and `project|project|Can view all projects`  Make sure to SAVE the changes.  
-- Click on the Home link to go to back to the Admin interface, then click "User Profiles"  
-- Click on `cgray` check ``"Is pi"``  SAVE
-- Click on the Home link to go to back to the Admin interface, Click on Resources
-- Add a resource: `cluster, cluster name=hpc, description: anything you want, resource attribute: slurm_cluster=hpc` - click SAVE  
-- Logout
+- Go to Admin menu and click on `ColdFront Administration`  Once there, scroll halfway down to the `Authentication and Authorization` section.  Then click on the `Users` link.  
+- Click on the hpcadmin user and scroll down to the `Permissions` section  
+- Make this user a `superuser` by checking the boxes next to `Staff Status` and `Superuser Status` - scroll to the bottom and click SAVE  
+- Click on the sfoster account and check the box next to `Staff Status`  Also under the `User Permissions` section add permissions to make this user the Center Director  
+ `allocation|allocation|Can manage invoice`   
+ `allocation|allocation|Can view all allocations`  
+ `grant|grant|Can view all grants`  
+ `project|project|Can view all projects`  
+ `project|project|Can review pending project reviews`  
+ `publication|publication|Can view publication`  
+  Make sure to SAVE the changes.  
+- Click on the Home link to go to back to the Admin interface, scroll to the bottom of the page under the `User` section and click `User Profiles`  
+- Click on `cgray` check ``"Is pi"`` - click SAVE  
+
+Create a new resource:  
+- Click on the Home link to go to back to the Admin interface, scroll down near the bottom to the `Resource` section and Click on `Resources` then click the `Add Resource` button  
+- Add a resource with the following settings:  
+Resource type: select `cluster`  
+Name: type `hpc`  
+Description: enter anything you want
+Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
+Under the resource attributes section, click `Add another Resource attribute` and select `slurm_cluster` from the drop down menu.  In the `value` field, enter `hpc` - then click SAVE  
+- Logout  
+
+Request an allocation for the new resource as the PI user:  
 - Login as the PI using local account username: `cgray` password: `test123`
 - Create a new project, filling in the name, description, and selecting any field of science  
 - Request an allocation for resource: hpc  
 - Add a user to the project - search for `csimmons` and add to the HPC cluster allocation  
-- Logout
+- Logout  
+
+Activate and setup the new allocation:  
 - Login using local account username: `hpcadmin` password: `ilovelinux`  
-- Activate the allocation and set the appropriate allocation attributes:  
-`slurm_account:cgray, slurm_specs:Fairshare=100, slurm_user_specs:Fairshare=parent`
+- Navigate to the `Admin` menu and click on `Allocation Requests`  
+- Click on the `Detail` button to configure and activate the allocation:  
+click the `Add Allocation Attribute` button and select these allocation attributes from the drop down menu:  
+`slurm_account_name` Enter: `cgray`  
+`slurm_specs` Enter: `Fairshare=100:DefaultQOS=normal`  
+`slurm_user_specs` Enter: `Fairshare=parent:DefaultQOS=normal`  
+Set the status to `Active`, set the start date to today, and set the expiration date to the end of this month (you'll see why later)  
+Click the `Update` button   
 
 ## Login to OnDemand website
 - Login to Open OnDemand  https://localhost:3443/ as username: `cgray` password: `test123`
-- Try to launch an interactive Job - you will get an error message that you do not have permission to run on the cluster  
+- Click on the `Interactive Apps` menu and click on `HPC Desktop`
+- Try to launch an interactive Job by clicking on the `Launch` button  
+You will get an error message that you do not have permission to run on the cluster  
 `sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified`  
+This is because we have not synced the allocation information in ColdFront with Slurm yet.  
 
 
 ## Run Slurm plugin to sync active allocations from ColdFront to Slurm
@@ -74,8 +101,8 @@ NOTE: you should already be on the frontend but just in case you're not:
 `ssh -p 6222 hpcadmin@localhost`  
 password: `ilovelinux`  
 
-Check slurm associations for cgray again: they should now show access to the hpc cluster  
-`sacctmgr show user cgray -s list`    
+Check slurm associations for cgray account: they should now show access to the hpc cluster  
+`sacctmgr show account cgray -s list`    
 `su - cgray`  
 password: `test123`  
 `sbatch --wrap "sleep 600"`  
@@ -86,42 +113,49 @@ password: `test123`
 ## Login to OnDemand website
 - Login back into or refresh your login to Open OnDemand  https://localhost:3443/ as username: `cgray` password: `test123`  
 - Try to launch an interactive job again.  Does it work this time?  
-- Go to Active Jobs and click on your running jobs to see more details    
+- Go to the `Jobs` menu and click `Active Jobs` and click on your running jobs to see more details    
 - Delete (cancel) the jobs so they show the `completed` status  
 
 
+## Annual Project Review
+When the project review functionality is enabled (it is by default) a PI will be forced to review their project once every 365 days.  To change this time frame, edit the default in `coldfront.env`  We can force a project to be under review in less than a year which is what we'll do for the cgray project.  
 
-## Login to Open XDMoD website
-- Login to Open XDMoD https://localhost:4443/  
- -- Click on `Sign In` at the top left  
- -- Under the section "Sign in with local XDMoD account:"  Click on "Login Here" and enter username: `admin` password: `admin`  
-- Notice there is currently no data in XDMoD
+Login as `hpcadmin` password `ilovelinux`  
+Navigate to the `Admin` menu and click on the `ColdFront Administration` link.  Scroll to the `Project` section and click on `Projects`  Then click on the project that we created earlier.  Check the box next to `Force Review`  
+NOTE: If there is a project you never want project reviews on, uncheck 'Requires review'  
 
-![XDMoD login](../docs/xdmod_login.PNG)
+Logout as `hpcadmin` and login as `cgray` password `test123` and notice the warning banner.  Click on the allocation and try to renew it.  You should see a warning banner telling you it can't be done because the project review is due.  When a project review is required, a PI can't request new allocations or renew expiring allocations.  They can, however, add/remove users, publications, grants, and research output.   Click on the `renew now` link for the allocation to test this out.  
 
-![XDMoD no data](../docs/xdmod_empty.PNG)
+Click the `Review Project` link.  Provide a reason for not providing grant or publication information, check the box to acknowledge the update and click the Submit button.  Now try to renew the expiring allocation.  
 
-
-## Login to Open XDMoD container
-- `ssh hpcadmin@xdmod`  
-password: `ilovelinux`  
-- In order to see the job data just generated in slurm, we need to ingest the data into Open XDMoD and aggregate it.  This is normally done once a day on a typical system but for the purposes of this demo, we have created a script that you can run now:  
-`sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh`  
-`exit`  
+Log out as `cgray`
 
 
-**Note: More information about this script in the Open XDMoD portion of this tutorial**
+## Allocation Change Requests  
+Allocation change requests are turned on by default.  This will allow PIs to request date extensions for their allocations.  The date ranges default to 30, 60, & 90 days but can be set changed or disabled completely in `hpc-toolset-tutorial/coldfront/coldfront.env`  
+See https://coldfront.readthedocs.io/en/latest/config/#coldfront-core-settings for more information.
 
-## Login to Open XDMoD website
-- Login to Open XDMoD https://localhost:4443/  
- -- Click on 'Sign In' at the top left  
- -- Under the section "Sign in with tutorial:"  Click on "Login Here" and enter username: `cgray` password: `test123`  
-- You should see the data from the job you just ran  
-NOTE: There won't be much info except that we ran a few jobs. More will be presented in the XDMoD portion of the tutorial
+If you want PIs to be able to request changes to allocation attributes (i.e. storage quotas, unix group) this needs to be set on the allocation attribute.  For this demo, we will allow the PI to request changes on the `slurm_account` attribute.  
+- Login as `hpcadmin` password `ilovelinux`  
+- Navigate to the `Admin` menu and click on the `ColdFront Administration` link.  Under the `Allocation` section, click on `Allocation Attribute Types`  Click on `slurm_account_name` check the box next to `Is changeable` and then click the SAVE button.  Logout.  
+- Login as `cgray` password `test123`  
+- Click on the allocation `RENEWAL REQUESTED` button or navigate to the Allocation Detail page through the project.  Click on the `Request Change` button, select a date extension, enter a new slurm account and provide a justification.  Then click the `SUBMIT` button.  Logout.
+- Login as `hpcadmin` password `ilovelinux`  
+- Go to the `Admin` menu and click on `Allocation Change Requests`  
+- As the admin you have the ability to approve the date extension, change it to another setting or select `no extension`  You can remove the `slurm_account_name` request or change it.  You can add notes for the PI and users on the allocation to see.  Then you can take action such as `Approve` or `Deny` the request.  For this demo, let's click the `Approve` button.  
+- Next review the pending allocation requests.  Navigate to the `Admin` menu and click on `Allocation Requests`  Note that the project review status is pending.  
+- Click on the `Admin` menu and click on `Pending project reviews`.   
 
-![XDMoD job data](../docs/xdmod_jobs.PNG)
+## Center Director Role and Permissions  
+At the start of the tutorial we configured the user `sfoster` with the 'Staff Status' role and gave permissions to act as the Center Director.  This allows `sfoster` to view all projects, allocations, publications, and grants.  We've also given permission to view the pending project review list.  Login as `sfoster` password `ilovelinux` to see what additional menus and functionality this account has access to.
 
-## Integrating OnDemand with ColdFront    
+Navigate to the `Staff` menu and click on `Project Reviews`  
+Click the `Email` button to see this functionality.  Go back to the `Project Reviews` and click `Mark Complete`.  
+
+For more options on allowing permissions for various types of staff access, see the ColdFront manual:  https://coldfront.readthedocs.io/en/latest/manual/users/  
+
+
+## Integrating OnDemand with ColdFront (Time Permitting)    
 This is a very simple example of modifying the ColdFront configuration to use a plugin.  This  plugin allows us to provide a link to our OnDemand instance for any allocations for resources that have "OnDemand enabled"  
 
 We have already added the OnDemand instance info to the ColdFront config.  You can see this outside the containers in your git directory:  See `hpc-toolset-tutorial/coldfront/coldfront.env`  
@@ -130,24 +164,8 @@ Now let's enable OnDemand for our cluster resource:
 - Log back in to the ColdFront Administration site https://localhost:2443/admin/ as the `hpcadmin` acccount - password `ilovelinux`:  
 - Navigate to the Resources section and click on the 'HPC' cluster resource.  Add a new resource attribute:  `OnDemand = "Yes"`  
 - Log out and log in as the PI user `cgray` password `test123`  
-- Notice on the ColdFront home page next to the allocation for the HPC cluster resource you see the OnDemand logo.  Click on the Project name and see this logo also shows up next to the allocation.  When we click on that logo, it directs us to the OnDemand instance.  
+- Notice on the ColdFront home page next to the allocation for the HPC cluster resource you see the OnDemand logo.  Click on the Project name and see this logo also shows up next to the allocation.  When we click on that logo, it directs us to the OnDemand instance.
 
-## Staff Role  
-At the start of the tutorial we configured the user `sfoster` with the 'Staff Status' role and gave permissions to view all projects and all allocations.  Login as `sfoster` password `ilovelinux` to see what additional menus and functionality this account has access to.
-
-
-## Annual Project Review (time permitting)
-When the project review functionality is enabled (it is by default) a PI will be forced to review their project once every 365 days.  To change this time frame, edit the default in `coldfront.env`  We can force a project to be under review in less than a year which is what we'll do for the cgray project.  
-
-Login as `hpcadmin` password `ilovelinux` and go to the ColdFront Administration interface.  Click on Projects and click on the cgray project that we created earlier.  Check the box next to 'Force Review'  
-NOTE: If there is a project you never want project reviews on, uncheck 'Requires review'  
-
-Now login as `cgray` password `test123` and notice the warning banner.  Click on the allocation and try to renew it.  You should see a warning banner telling you it can't be done because the project review is due.  When a project review is required, a PI can't request new allocations or renew expiring allocations.  They can, however, add/remove users, publications, grants, and research output.   
-
-Click the "Review Project" link.  Provide a reason for not providing grant or publication information, check the box to acknowledge the update and click the Submit button.  Now try to renew the expiring allocation.  Log out as `cgray`
-
-Login as `hpcadmin` password `ilovelinux`  
-View the pending allocation requests.  Note that the project review status is pending.  View the pending project reviews.  Mark this one complete and go back to the pending allocation requests.  Click the "Activate" button and ColdFront activates the allocation for another year.  
 
 ## Tutorial Navigation
 [Next - Open XDMoD](../xdmod/README.md)  
