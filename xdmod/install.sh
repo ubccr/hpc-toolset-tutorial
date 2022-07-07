@@ -21,11 +21,9 @@ ARCHTYPE=`uname -m`
 
 dnf install -y \
     expect \
-    python2-pip \
+    python3-pexpect \
     php-pear \
     php-devel
-
-pip2 install pexpect==4.4.0
 
 #------------------------
 # Open XDMoD Installation
@@ -39,10 +37,10 @@ pip2 install pexpect==4.4.0
 # be installed in the same container.  In a production deployment they may be installed
 # on separate hosts.
 #------------------------
-dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta4-el8/xdmod-10.0.0-1.4.beta4.el8.noarch.rpm \
+dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta5-el8/xdmod-10.0.0-1.5.beta5.el8.noarch.rpm \
                https://github.com/ubccr/xdmod-ondemand/releases/download/v10.0.0/xdmod-ondemand-10.0.0-1.0.beta1.el8.noarch.rpm \
                https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta4-el8/xdmod-supremm-10.0.0-1.4.beta4.el8.noarch.rpm \
-               https://github.com/ubccr/supremm/releases/download/2.0.0-beta3/supremm-2.0.0-1.0_beta3.el8.x86_64.rpm
+               https://github.com/ubccr/supremm/releases/download/2.0.0-beta3/supremm-2.0.0-1.0_beta3.el8."$ARCHTYPE".rpm
 
 #------------------------
 # The Job Performance software uses MongoDB to store the job-level performance
@@ -63,7 +61,6 @@ pecl install mongodb
 echo "extension=mongodb.so" >> /etc/php.d/40-mongodb.ini
 
 pip3 install pymongo==3.7.0 --upgrade
-pip2 install pymongo --upgrade
 
 #------------------------
 # O/S package configuration.
