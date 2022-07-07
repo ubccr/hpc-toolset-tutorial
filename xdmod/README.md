@@ -499,7 +499,7 @@ Overwrite config file '/etc/xdmod/organization.json' (yes, no)? [yes]
 ```
 - Press the `Enter` key.
 
-### Resource Setup [Documentation](https://open.xdmod.org/9.5/configuration.html#resources)
+### Resource Setup [Documentation](https://open.xdmod.org/configuration.html#resources)
 
 Next we will go through the process of adding a Resource to XDMoD. 
 
@@ -712,7 +712,7 @@ Press ENTER to continue.
 
 - Press the `Enter` key once more to be taken back to the main XDMoD configuration menu.
 
-## Create Admin User [Documentation](https://open.xdmod.org/9.5/configuration.html#create-admin-user)
+## Create Admin User [Documentation](https://open.xdmod.org//configuration.html#create-admin-user)
 
 ```shell
 5) Create Admin User
@@ -790,7 +790,7 @@ Admin user created.
 Press ENTER to continue.
 ```
 
-## Hierarchy Setup [Documentation](https://open.xdmod.org/9.5/hierarchy.html)
+## Hierarchy Setup [Documentation](https://open.xdmod.org/hierarchy.html)
 
 ```shell
 6) Hierarchy
@@ -820,7 +820,7 @@ Top Level Name: [Decanal Unit]
 ```
 
 For this tutorial we're going to leave the Hierarchy with its default values, but if you are setting this up for production
-then please see our [Hierarchy Guide](https://open.xdmod.org/9.5/hierarchy.html) as it will more completely describe how
+then please see our [Hierarchy Guide](https://open.xdmod.org//hierarchy.html) as it will more completely describe how
 the hierarchy works as well as how to populate it.
 
 ```shell
@@ -858,7 +858,7 @@ Press ENTER to continue.
 
 - Press the `Enter` key to continue.
 
-## Data Warehouse Batch Export [Documentation](https://open.xdmod.org/9.5/dw-export.html#configuration)
+## Data Warehouse Batch Export [Documentation](https://open.xdmod.org/dw-export.html#configuration)
 
 ```shell
 7) Data Warehouse Batch Export
@@ -1010,7 +1010,7 @@ directly when needing more advanced customization.
 Now that we have XDMoD setup, it's time to ingest some data. The jobs that we started at the beginning of the tutorial 
 should be complete so let's walk through the shred, ingest, and aggregate steps for job accounting data.
 
-### Shredding [Documentation](https://open.xdmod.org/9.5/shredder.html)
+### Shredding [Documentation](https://open.xdmod.org/shredder.html)
 XDMoD provides a special command line tool for working with directly with slurm via `sacct` called `xdmod-slurm-helper`.
 To see what command line arguments it accepts you can run `xdmod-slurm-helper -h`. For our purposes we will be using it
 as follows: 
@@ -1021,7 +1021,7 @@ as follows:
 *Note, you will need to replace `$yesterday` and `$tomrrow` with their respective values in YYYY-MM-DD format.*
 
 If your organization doesn't use Slurm or will be using the log files instead of querying `sacct` directly, then 
-`xdmod-shredder` will be the command for you. You can find our Shredder guide at [Shredder Guide](https://open.xdmod.org/9.5/shredder.html)
+`xdmod-shredder` will be the command for you. You can find our Shredder guide at [Shredder Guide](https://open.xdmod.org/shredder.html)
 
 Upon running `xdmod-slurm-helper` you should see output similar to: 
 ```shell
@@ -1035,7 +1035,7 @@ Upon running `xdmod-slurm-helper` you should see output similar to:
 [root@xdmod ~]#
 ```
 
-### Ingesting & Aggregating [Documentation](https://open.xdmod.org/9.5/ingestor.html)
+### Ingesting & Aggregating [Documentation](https://open.xdmod.org/ingestor.html)
 Now that the accounting logs have been shredded we can now ingest and aggregate the information from them, thus making the 
 information available in XDMoD.
 
@@ -1320,20 +1320,21 @@ staff to analyse who, how and what OnDemand is used.
 
 ### Prerequisites
 Since the xdmod-ondemand module displays usage of Open OnDemand you need to
-have used Open OnDemand! If you are running through these steps after having
-used Open OnDemand then there will be data to show in XDMoD. If not then log in
-to Open OnDemand [https://localhost:3443](https://localhost:3443) and click
-around a bit to generate data.
+have used Open OnDemand! The xdmod container includes an example log
+file generated from Open OnDemand so there is data to show in XDMoD.
 
 ### Installation
-The xdmod-ondemand RPM must be installed on the `xdmod` instance:
+The xdmod-ondemand RPM is already installed on the `xdmod` instance. To install
+it manually you would run the following:
 ```shell
-[hpcadmin@xdmod /] sudo yum install -y https://github.com/ubccr/xdmod-ondemand/releases/download/9.5.0-rc2/xdmod-ondemand-9.5.0-1.0.el7.noarch.rpm
+[hpcadmin@xdmod /] sudo yum install -y https://github.com/ubccr/xdmod-ondemand/releases/download/v10.0.0/xdmod-ondemand-10.0.0-1.0.el7.noarch.rpm
 ```
 
 ### Configuration
-Then the module must be configured. This involves setting up the database
-tables and adding a resource, tables for the module are set up via the `xdmod-setup` tool
+The setup of the OnDemand module involves using the interactive `xdmod-setup` tool
+to initialize the database tables and to add a resource.
+The module has been configured in the container already.  The following instuctions
+step through how this was performed, but do not need to be manually run.
 ```bash
 [root@xdmod /] xdmod-setup
 ```
@@ -1429,28 +1430,18 @@ Do you want to see the output (yes, no)? [no]
 
 
 ### Obtaining Open OnDemand logs
-The xdmod-ondemand module parses the webserver log files from Open OnDemand. For this tutorial
-we will manually copy the webserver logs from the `ondemand` instance to the `xdmod` instance.
+The xdmod-ondemand module parses the webserver log files from Open OnDemand.
+The `xdmod` container in this tutorial includes a example log file that
+was generated from Open OnDemand and is stored in the `/scratch/ondemand/logs` directory.
+
+In this tutorial we will also show how to manually copy the webserver logs from the `ondemand` instance
+to the `xdmod` instance.
 In a production environment you would either ensure the files were available via
 a shared mounted filesystem or configure a periodic cronjob to copy them.
-The following creates a directory on the `xdmod` instance to be used for the
-temporary storage of the Open OnDemand logs. The file permissions are set so
-that the `xdmod` user has read permission.
 
-First we will need to create the directory that will contain the OnDemand logs
-```shell
-[hpcadmin@xdmod /] sudo mkdir -p /scratch/ondemand/logs
-```
-
-Next, we need to ensure that `hpcadmin:xdmod` have access to this directory and its files.
-```shell
-[hpcadmin@xdmod /] sudo chown hpcadmin:xdmod /scratch/ondemand/logs
-```
-
-Finally, we'll adjust the permissions on the directory so that only hpcadmin and xdmod have access to its contents
-```shell
-[hpcadmin@xdmod /] sudo chmod 750 /scratch/ondemand/logs
-```
+In this tutorial we will use the `/scratch/ondemand/logs` directory on the `xdmod` instance for the
+staging area of the Open OnDemand logs to be ingested into XDMoD. The file permissions are set so
+that the `xdmod` user has read permission and the `hpcadmin` user has write access.
 
 We now need to copy the files from the `ondemand` instance to the `xdmod` instance. To accomplish this we will first 
 need to ssh to the `ondemand` instance.
@@ -1460,7 +1451,7 @@ need to ssh to the `ondemand` instance.
 
 Then we will be using scp to copy Open OnDemands Apache access log to our newly created directory on the `xdmod` instance. 
 ```shell
-[hpcadmin@ondemand ~] sudo scp /var/log/httpd24/localhost_access_ssl.log hpcadmin@xdmod:/scratch/ondemand/logs/
+[hpcadmin@ondemand ~] sudo scp /var/log/httpd/localhost_access_ssl.log hpcadmin@xdmod:/scratch/ondemand/logs/
 ```
 
 When you are prompted for `hpcadmin`s password, go ahead and provide it. If successful you should see the file being transferred. 
