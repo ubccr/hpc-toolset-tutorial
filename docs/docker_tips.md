@@ -115,7 +115,7 @@ docker volume list
 To tear down all containers and remove the volumes:   
 
 ```
-./hpcts stop
+./hpcts destroy
 ```
 
 To tear down all containers, remove volumes, and remove the container images (next time you run start they will be re-downloaded):  

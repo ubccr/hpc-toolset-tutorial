@@ -32,6 +32,13 @@ This tutorial will be presented at the following conferences:
 [PEARC20](https://pearc.acm.org/pearc20/)  
 [Gateways 2020](https://sciencegateways.org/web/gateways2020)
 
+## Disclaimer
+
+DO NOT run this project on production systems. This project is for educational
+purposes only. The container images we publish for the tutorial are configured
+with hard coded insecure passwords and should be run locally in development for
+testing and learning only. 
+
 ## License
 
 This tutorial is released under the GPLv3 license. See the LICENSE file.
