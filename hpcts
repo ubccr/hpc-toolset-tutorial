@@ -4,6 +4,10 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
+log_warn() {
+  printf "\e[0;33m $1\e[0m\n"
+}
+
 start() {
     log_info "Fetching latest HPC Toolset Images.."
     docker-compose pull
@@ -30,9 +34,18 @@ destroy() {
 }
 
 cleanup() {
-    log_info "Removing HPC Toolset containers and images.."
-    destroy
-    docker rmi $(docker images -f "reference=ubccr/hpcts*" -q)
+    log_warn "** WARNING: This will remove all container images and you'll need to re-download **"
+    log_warn "You probably want to try running the 'destroy' command first."
+    echo ""
+    read -p "Do you want to proceed? (yes/no) " yn
+
+    if [[ $yn == y* ]]; then
+        log_info "Removing HPC Toolset containers and images.."
+        destroy
+        docker rmi $(docker images -f "reference=ubccr/hpcts*" -q)
+    else
+        log_info "cleanup cancelled. existing.."
+    fi
 }
 
 case "$1" in
