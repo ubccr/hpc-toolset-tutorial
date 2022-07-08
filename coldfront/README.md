@@ -36,8 +36,11 @@ Resource type: select `cluster`
 Name: type `hpc`  
 Description: enter anything you want
 Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
-Under the resource attributes section, click `Add another Resource attribute` and select `slurm_cluster` from the drop down menu.  In the `value` field, enter `hpc` - then click SAVE  
+Under the resource attributes section, click `Add another Resource attribute` and select `slurm_cluster` from the drop down menu.  In the `value` field, enter `hpc`
+Click `Add another Resource attribute` and select `OnDemand` from the drop down menu.  In the `value` field, enter `Yes`  
+- Then click SAVE  
 - Logout  
+ **See below for more info on the OnDemand plugin at the end**
 
 Request an allocation for the new resource as the PI user:  
 - Login as the PI using local account username: `cgray` password: `test123`
@@ -155,16 +158,12 @@ Click the `Email` button to see this functionality.  Go back to the `Project Rev
 For more options on allowing permissions for various types of staff access, see the ColdFront manual:  https://coldfront.readthedocs.io/en/latest/manual/users/  
 
 
-## Integrating OnDemand with ColdFront (Time Permitting)    
+## Integrating OnDemand with ColdFront   
 This is a very simple example of modifying the ColdFront configuration to use a plugin.  This  plugin allows us to provide a link to our OnDemand instance for any allocations for resources that have "OnDemand enabled"  
 
-We have already added the OnDemand instance info to the ColdFront config.  You can see this outside the containers in your git directory:  See `hpc-toolset-tutorial/coldfront/coldfront.env`  
+We have already added the OnDemand instance URL to the ColdFront config.  You can see this outside the containers in your git directory:  See `hpc-toolset-tutorial/coldfront/coldfront.env`  
 
-Now let's enable OnDemand for our cluster resource:  
-- Log back in to the ColdFront Administration site https://localhost:2443/admin/ as the `hpcadmin` acccount - password `ilovelinux`:  
-- Navigate to the Resources section and click on the 'HPC' cluster resource.  Add a new resource attribute:  `OnDemand = "Yes"`  
-- Log out and log in as the PI user `cgray` password `test123`  
-- Notice on the ColdFront home page next to the allocation for the HPC cluster resource you see the OnDemand logo.  Click on the Project name and see this logo also shows up next to the allocation.  When we click on that logo, it directs us to the OnDemand instance.
+When creating the resource at the start of the tutorial, we added the `OnDemand` attribute to the `hpc` resource which tells it to display the OnDemand logo and link to the OnDemand URL for any allocations for this resource.  Notice on the ColdFront home page next to the allocation for the HPC cluster resource you see the OnDemand logo.  Click on the Project name and see this logo also shows up next to the allocation.  When we click on that logo, it directs us to the OnDemand instance.
 
 
 ## Tutorial Navigation
