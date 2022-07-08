@@ -19,12 +19,12 @@ You'll need to login as some of the users for this tutorial to get things starte
 - Click on the hpcadmin user and scroll down to the `Permissions` section  
 - Make this user a `superuser` by checking the boxes next to `Staff Status` and `Superuser Status` - scroll to the bottom and click SAVE  
 - Click on the sfoster account and check the box next to `Staff Status`  Also under the `User Permissions` section add permissions to make this user the Center Director  
- `allocation|allocation|Can manage invoice`   
- `allocation|allocation|Can view all allocations`  
- `grant|grant|Can view all grants`  
- `project|project|Can view all projects`  
- `project|project|Can review pending project reviews`  
- `publication|publication|Can view publication`  
+ `allocation | allocation | Can manage invoice`   
+ `allocation | allocation | Can view all allocations`  
+ `grant | grant | Can view all grants`  
+ `project | project | Can view all projects`  
+ `project | project | Can review pending project reviews`  
+ `publication | publication | Can view publication`  
   Make sure to SAVE the changes.  
 - Click on the Home link to go to back to the Admin interface, scroll to the bottom of the page under the `User` section and click `User Profiles`  
 - Click on `cgray` check ``"Is pi"`` - click SAVE  
