@@ -103,35 +103,9 @@ Re-run:
 
 If this doesn't work, please run:  
 ```
-./hpcts cleanup  
+./hpcts destroy  
 ./hpcts start  
 ```
-
-
-### Error when starting up tutorial containers
-
-If you get this error when starting the tutorial:  
-
-```
-ERROR: Couldn't connect to Docker daemon at http+docker://localunixsocket - is it running?
-
-or  
-
-ERROR: Couldn't connect to Docker daemon at http+docker://localhost - is it running?
-```
-
-Try stopping and starting Docker (restart doesn't usually fix the problem).  Commands for this differ depending on operating system.  
-
-If the error persists, try:  
-
-```
-export DOCKER_HOST=127.0.0.1
-```
-
-NOTE: this is only necessary on some systems so don't use it if the previous command works
-
-**Sometimes restarting your operating system is the only solution.**
-
 
 ### Docker Logs
 
@@ -157,13 +131,15 @@ xdmod        | ---> Starting XDMoD...
 
 ## Something still not right?
 
+Please see our [troubleshooting section](docker_tips.md) for more info.
+
 If errors are showing up in the logs or the services have not all started, check to see which images have been downloaded and which containers are running.  This is what you should see:  
 ![](containers_images.PNG)  
 
-If not, run the 'stop' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:  
+If not, run the 'destroy' option of the helper script to shut everything down and remove all volumes.  Then start everything back up again:  
 
 ```
-$ ./hpcts stop
+$ ./hpcts destroy
 $ docker container list
 (Should show no containers)
 
@@ -186,7 +162,7 @@ Then start it all up again:
 
 Since you already downloaded all the images, this command will only startup the containers and services which only takes a few minutes.  
 
-To completely start over, run the cleanup script and then startup script:  
+To completely start over and re-download all images, run the cleanup script and then startup script:  
 
 ```
 $ ./hpcts cleanup
@@ -199,9 +175,6 @@ $ docker image list
 $ docker image rm [IMAGE IDs for mongo and mariadb images]  
 $ ./hpcts start  
 ```
-
-Just in case none of this worked here are [more Docker tips](docker_tips.md)
-
 
 ## Tutorial Navigation
 [Next - Accessing the Applications](applications.md)  
