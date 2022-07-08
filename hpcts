@@ -18,6 +18,11 @@ start() {
 }
 
 stop() {
+    log_info "Stopping HPC Toolset Cluster containers.."
+    docker-compose stop
+}
+
+destroy() {
     log_info "Stopping and removing HPC Toolset Cluster containers and volumes.."
     docker-compose stop && \
     docker-compose rm -f -v && \
@@ -25,8 +30,8 @@ stop() {
 }
 
 cleanup() {
-    log_info "Cleaning up HPC Toolset containers and images.."
-    stop
+    log_info "Removing HPC Toolset containers and images.."
+    destroy
     docker rmi $(docker images -f "reference=ubccr/hpcts*" -q)
 }
 
@@ -40,8 +45,11 @@ case "$1" in
     'cleanup')
         cleanup
         ;;
+    'destroy')
+        destroy
+        ;;
     *)
-        log_info "Usage: $0 { start | stop | cleanup}"
+        log_info "Usage: $0 { start | stop | destroy | cleanup}"
         exit 1
         ;;
 esac
