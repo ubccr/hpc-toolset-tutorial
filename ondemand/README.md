@@ -63,6 +63,14 @@ bin/bundle config --local path vendor/bundle
 bin/setup
 ```
 
+** NOTE: M1 Mac users need to run the following commands BEFORE `bin/setup`:
+
+```
+bundle config build.nokogiri --use-system-libraries
+bundle config set force_ruby_platform true
+bin/setup
+```
+
 Once you run `bin/setup` you should see a bunch of output about getting Rugy gems and building
 Node.js packages.
 
