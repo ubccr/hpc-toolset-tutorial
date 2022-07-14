@@ -9,9 +9,6 @@ then
         sleep 2
     done
 
-    echo "---> Cleaning NGINX ..."
-    /opt/ood/nginx_stage/sbin/nginx_stage nginx_clean
-
     echo "---> Populating /etc/ssh/ssh_known_hosts from frontend for ondemand..."
     /usr/bin/ssh-keyscan frontend >> /etc/ssh/ssh_known_hosts
 
@@ -19,6 +16,9 @@ then
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /var/run/sssd.pid
     /sbin/sssd --logger=stderr -d 2 -i 2>&1 &
+
+    echo "---> Cleaning NGINX ..."
+    /opt/ood/nginx_stage/sbin/nginx_stage nginx_clean
 
     echo "---> Starting the MUNGE Authentication service (munged) on ondemand ..."
     gosu munge /usr/sbin/munged
