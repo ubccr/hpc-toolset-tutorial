@@ -32,6 +32,8 @@ This tutorial will be presented at the following conferences:
 [PEARC20](https://pearc.acm.org/pearc20/)  
 [Gateways 2020](https://sciencegateways.org/web/gateways2020)
 
+This [overview of HPC Toolset Tutorial](https://www.youtube.com/watch?v=9Nf1GucaVc0) is provided as context to those finding this repo and wanting to go through the hands-on tutorial without attending the full day workshop at a conference.
+
 ## Disclaimer
 
 DO NOT run this project on production systems. This project is for educational
