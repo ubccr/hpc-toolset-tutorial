@@ -10,10 +10,10 @@ log_warn() {
 
 start() {
     log_info "Fetching latest HPC Toolset Images.."
-    docker-compose pull
+    docker compose pull
 
     log_info "Starting HPC Toolset Cluster.."
-    docker-compose up -d --no-build
+    docker compose up -d --no-build
 
     log_info "Coldfront URL: https://localhost:2443"
     log_info "OnDemand URL: https://localhost:3443"
@@ -23,14 +23,14 @@ start() {
 
 stop() {
     log_info "Stopping HPC Toolset Cluster containers.."
-    docker-compose stop
+    docker compose stop
 }
 
 destroy() {
     log_info "Stopping and removing HPC Toolset Cluster containers and volumes.."
-    docker-compose stop && \
-    docker-compose rm -f -v && \
-    docker-compose down -v
+    docker compose stop && \
+    docker compose rm -f -v && \
+    docker compose down -v
 }
 
 cleanup() {

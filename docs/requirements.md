@@ -4,7 +4,7 @@ For this tutorial you will need to have **20GB of free disk space** and git, doc
 
 - git 2.17+ (Windows users we recommend:  https://gitforwindows.org/)
 - docker engine version 20.10.12+
-- docker-compose 2.6.0+
+- docker compose 2.6.0+ (this is distributed with newer versions of docker and not necessary to install separately)  
 
 NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command using the git-bash shell application before cloning the tutorial repo:
 
@@ -28,10 +28,6 @@ If they are not you might see an error like:
 https://docs.docker.com/engine/install/
 
 **NOTE: You'll need to make sure the account you're running docker with is in the 'docker' group**
-
-### Install Docker Compose  
-
-https://docs.docker.com/compose/install/
 
 ### Verify working Docker
 

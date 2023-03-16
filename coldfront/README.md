@@ -4,6 +4,12 @@
 - This is where you'd enable or disable any plugins and set variables for your local installation.  Check out the [full configuration options available in the ColdFront documentation](https://coldfront.readthedocs.io/en/latest/config/)  
 - View `hpc-toolset-tutorial/coldfront/coldfront-nginx.conf` for an example of ColdFront web configuration  
 
+### Seed ColdFront with data for tutorial
+This step allows you to skip the next section and go right into testing out ColdFront.  This will seed the ColdFront database with user permissions and resources.  If you'd like to see how this is done (because you'll need to do this if you install for your organization), you can skip this and go through the steps in the next section.
+
+```
+cat coldfront.dump | docker exec -i mysql mysql --user coldfrontapp --password=9obCuAphabeg coldfront
+```
 
 ### Login to ColdFront, setup account permissions & create resource  
 URL https://localhost:2443/  
@@ -13,7 +19,9 @@ You'll need to login as some of the users for this tutorial to get things starte
 - Login locally as username `cgray` password: `test123`
 - Logout  
 - Login locally as username `csimmons`  password: `ilovelinux`  
+- Logout  
 - Login locally as username `sfoster` password: `ilovelinux`  
+- Logout  
 - Login locally as username `admin` password: `admin`
 - Go to Admin menu and click on `ColdFront Administration`  Once there, scroll halfway down to the `Authentication and Authorization` section.  Then click on the `Users` link.  
 - Click on the hpcadmin user and scroll down to the `Permissions` section  
@@ -29,7 +37,7 @@ You'll need to login as some of the users for this tutorial to get things starte
 - Click on the Home link to go to back to the Admin interface, scroll to the bottom of the page under the `User` section and click `User Profiles`  
 - Click on `cgray` check ``"Is pi"`` - click SAVE  
 
-Create a new resource:  
+Create a new cluster resource:  
 - Click on the Home link to go to back to the Admin interface, scroll down near the bottom to the `Resource` section and Click on `Resources` then click the `Add Resource` button  
 - Add a resource with the following settings:  
 Resource type: select `cluster`  
@@ -41,8 +49,20 @@ Click `Add another Resource attribute` and select `OnDemand` from the drop down 
 - Then click SAVE  
  **See more info on the OnDemand plugin at the end**
 
+Create a new storage resource:  
+- Click on the Home link to go to back to the Admin interface, scroll down near the bottom to the `Resource` section and Click on `Resources` then click the `Add Resource` button  
+- Add a resource with the following settings:  
+Resource type: select `storage`  
+Name: type `project storage`  
+Description: enter anything you want
+Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
+Under the resource attributes section, click `Add another Resource attribute` and select `quantity_label` from the drop down menu.  In the `value` field, enter `Enter storage in 1TB increments`  
+Click `Add another Resource attribute` and select `quantity_default_value` from the drop down menu.  In the `1`  
+Click `Add another Resource attribute` and select `OnDemand` from the drop down menu.  In the `value` field, enter `Yes`  
+- Then click SAVE  
+ 
 Make an allocation attribute changeable:  
-- Under the `Allocation` section, click on `Allocation Attribute Types`  Click on `slurm_account_name` check the box next to `Is changeable` and then click the SAVE button.   
+- Under the `Allocation` section, click on `Allocation Attribute Types`  Click on `Storage Quota` check the box next to `Is changeable` and then click the SAVE button.   
 - Logout  
 
 ### Create a project & request an allocation  
