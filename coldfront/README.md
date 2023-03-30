@@ -4,74 +4,14 @@
 - This is where you'd enable or disable any plugins and set variables for your local installation.  Check out the [full configuration options available in the ColdFront documentation](https://coldfront.readthedocs.io/en/latest/config/)  
 - View `hpc-toolset-tutorial/coldfront/coldfront-nginx.conf` for an example of ColdFront web configuration  
 
-### Seed ColdFront with data for tutorial
-This step allows you to skip the next section and go right into testing out ColdFront.  This will seed the ColdFront database with user permissions and resources.  If you'd like to see how this is done (because you'll need to do this if you install for your organization), you can skip this and go through the steps in the next section.
+## Seed ColdFront with data for tutorial  
+
+This step will seed the ColdFront database with user permissions, resources, an example project and allocation requests.  If you'd like to see how this is done, you can skip this and go through the steps [detailed below](#seeding-the-database).  Due to time constraints for the half day tutorial we'll need to skip the setup and populate the database:  
 
 ```
 cat coldfront.dump | docker exec -i mysql mysql --user coldfrontapp --password=9obCuAphabeg coldfront
 ```
-
-### Login to ColdFront, setup account permissions & create resource  
-URL https://localhost:2443/  
-You'll need to login as some of the users for this tutorial to get things started.  Do NOT use the OpenID Connect login option at this point.
-- Login locally as username `hpcadmin` password: `ilovelinux`
-- Logout
-- Login locally as username `cgray` password: `test123`
-- Logout  
-- Login locally as username `csimmons`  password: `ilovelinux`  
-- Logout  
-- Login locally as username `sfoster` password: `ilovelinux`  
-- Logout  
-- Login locally as username `admin` password: `admin`
-- Go to Admin menu and click on `ColdFront Administration`  Once there, scroll halfway down to the `Authentication and Authorization` section.  Then click on the `Users` link.  
-- Click on the hpcadmin user and scroll down to the `Permissions` section  
-- Make this user a `superuser` by checking the boxes next to `Staff Status` and `Superuser Status` - scroll to the bottom and click SAVE  
-- Click on the sfoster account and check the box next to `Staff Status`  Also under the `User Permissions` section add permissions to make this user the Center Director  
- `allocation | allocation | Can manage invoice`   
- `allocation | allocation | Can view all allocations`  
- `grant | grant | Can view all grants`  
- `project | project | Can view all projects`  
- `project | project | Can review pending project reviews`  
- `publication | publication | Can view publication`  
-  Make sure to SAVE the changes.  
-- Click on the Home link to go to back to the Admin interface, scroll to the bottom of the page under the `User` section and click `User Profiles`  
-- Click on `cgray` check ``"Is pi"`` - click SAVE  
-
-Create a new cluster resource:  
-- Click on the Home link to go to back to the Admin interface, scroll down near the bottom to the `Resource` section and Click on `Resources` then click the `Add Resource` button  
-- Add a resource with the following settings:  
-Resource type: select `cluster`  
-Name: type `hpc`  
-Description: enter anything you want
-Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
-Under the resource attributes section, click `Add another Resource attribute` and select `slurm_cluster` from the drop down menu.  In the `value` field, enter `hpc`
-Click `Add another Resource attribute` and select `OnDemand` from the drop down menu.  In the `value` field, enter `Yes`  
-- Then click SAVE  
- **See more info on the OnDemand plugin at the end**
-
-Create a new storage resource:  
-- Click on the Home link to go to back to the Admin interface, scroll down near the bottom to the `Resource` section and Click on `Resources` then click the `Add Resource` button  
-- Add a resource with the following settings:  
-Resource type: select `storage`  
-Name: type `project storage`  
-Description: enter anything you want
-Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
-Under the resource attributes section, click `Add another Resource attribute` and select `quantity_label` from the drop down menu.  In the `value` field, enter `Enter storage in 1TB increments`  
-Click `Add another Resource attribute` and select `quantity_default_value` from the drop down menu.  In the `1`  
-Click `Add another Resource attribute` and select `OnDemand` from the drop down menu.  In the `value` field, enter `Yes`  
-- Then click SAVE  
- 
-Make an allocation attribute changeable:  
-- Under the `Allocation` section, click on `Allocation Attribute Types`  Click on `Storage Quota` check the box next to `Is changeable` and then click the SAVE button.   
-- Logout  
-
-### Create a project & request an allocation  
-As the PI user: Request an allocation for the new resource:  
-- Login as the PI using local account username: `cgray` password: `test123`
-- Click the `Add a project` button to reate a new project, filling in the name, description, and selecting any field of science  
-- Once redirected to the project detail page, request an allocation by clicking on the `Request Resource Allocation` button.  Select the `hpc` resource from the drop down menu, provide any justification, and click the `Submit` button    
-- Click the `Add Users` button to add a user to the project - search for `csimmons`, select the HPC cluster allocation, check the box next to the username, and click the `Add Selected Users to Project`  
-- Logout  
+  
 
 ### Activate the allocation request  
 As the HPC admin user, activate and setup the new allocation:  
@@ -187,6 +127,76 @@ This is a very simple example of modifying the ColdFront configuration to use a 
 We have already added the OnDemand instance URL to the ColdFront config.  You can see this outside the containers in your git directory:  See `hpc-toolset-tutorial/coldfront/coldfront.env`  
 
 When creating the resource at the start of the tutorial, we added the `OnDemand` attribute to the `hpc` resource which tells it to display the OnDemand logo and link to the OnDemand URL for any allocations for this resource.  Notice on the ColdFront home page next to the allocation for the HPC cluster resource you see the OnDemand logo.  Click on the Project name and see this logo also shows up next to the allocation.  When we click on that logo, it directs us to the OnDemand instance.
+
+
+## Seeding the Database  
+
+These steps were done in advance to allow for the presentation of a condensed version of the tutorial. 
+
+### Login to ColdFront, setup account permissions & create resource  
+URL https://localhost:2443/  
+You'll need to login as some of the users for this tutorial to get things started.  Do NOT use the OpenID Connect login option at this point.
+- Login locally as username `hpcadmin` password: `ilovelinux`
+- Logout
+- Login locally as username `cgray` password: `test123`
+- Logout  
+- Login locally as username `csimmons`  password: `ilovelinux`  
+- Logout  
+- Login locally as username `sfoster` password: `ilovelinux`  
+- Logout  
+- Login locally as username `admin` password: `admin`
+- Go to Admin menu and click on `ColdFront Administration`  Once there, scroll halfway down to the `Authentication and Authorization` section.  Then click on the `Users` link.  
+- Click on the hpcadmin user and scroll down to the `Permissions` section  
+- Make this user a `superuser` by checking the boxes next to `Staff Status` and `Superuser Status` - scroll to the bottom and click SAVE  
+- Click on the sfoster account and check the box next to `Staff Status`  Also under the `User Permissions` section add permissions to make this user the Center Director  
+ `allocation | allocation | Can manage invoice`   
+ `allocation | allocation | Can view all allocations`  
+ `grant | grant | Can view all grants`  
+ `project | project | Can view all projects`  
+ `project | project | Can review pending project reviews`  
+ `publication | publication | Can view publication`  
+  Make sure to SAVE the changes.  
+- Click on the Home link to go to back to the Admin interface, scroll to the bottom of the page under the `User` section and click `User Profiles`  
+- Click on `cgray` check ``"Is pi"`` - click SAVE  
+
+Create a new cluster resource:  
+- Click on the Home link to go to back to the Admin interface, scroll down near the bottom to the `Resource` section and Click on `Resources` then click the `Add Resource` button  
+- Add a resource with the following settings:  
+Resource type: select `cluster`  
+Name: type `hpc`  
+Description: enter anything you want
+Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
+Under the resource attributes section, click `Add another Resource attribute` and select `slurm_cluster` from the drop down menu.  In the `value` field, enter `hpc`
+Click `Add another Resource attribute` and select `OnDemand` from the drop down menu.  In the `value` field, enter `Yes`  
+- Then click SAVE  
+ **See more info on the OnDemand plugin at the end**
+
+Create a new storage resource:  
+- Click on the Home link to go to back to the Admin interface, scroll down near the bottom to the `Resource` section and Click on `Resources` then click the `Add Resource` button  
+- Add a resource with the following settings:  
+Resource type: select `storage`  
+Name: type `project storage`  
+Description: enter anything you want
+Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
+Under the resource attributes section, click `Add another Resource attribute` and select `quantity_label` from the drop down menu.  In the `value` field, enter `Enter storage in 1TB increments`  
+Click `Add another Resource attribute` and select `quantity_default_value` from the drop down menu.  In the `1`  
+Click `Add another Resource attribute` and select `OnDemand` from the drop down menu.  In the `value` field, enter `Yes`  
+- Then click SAVE  
+ 
+Make an allocation attribute changeable:  
+- Under the `Allocation` section, click on `Allocation Attribute Types`  Click on `Storage Quota` check the box next to `Is changeable` and then click the SAVE button.   
+- Logout  
+
+### Create a project & request an allocation  
+As the PI user: Request an allocation for the new resource:  
+- Login as the PI using local account username: `cgray` password: `test123`
+- Click the `Add a project` button to reate a new project, filling in the name, description, and selecting any field of science  
+- Once redirected to the project detail page, request an allocation by clicking on the `Request Resource Allocation` button.  Select the `hpc` resource from the drop down menu, provide any justification, and click the `Submit` button    
+- Request another allocation by clicking on the `Request Resource Allocation` button.  Select the `Project Storage` resource from the drop down menu, enter a quantity in TB or leave the default 1, provide any justification, and click the `Submit` button    
+- Click the `Add Users` button to add a user to the project - search for `csimmons`, select the HPC cluster allocation, check the box next to the username, and click the `Add Selected Users to Project`  
+- Logout  
+
+
 
 
 ## Tutorial Navigation
