@@ -1,6 +1,6 @@
 ## Requirements
 
-For this tutorial you will need to have **20GB of free disk space** and git, docker, docker-compose and a web browser installed on your local machine.  This tutorial has been tested on various versions of Linux, MacOS, and Windows 10 with the following package versions:
+For this tutorial you will need to have **20GB of free disk space** and git, docker, docker-compose and a web browser installed on your local machine.  This tutorial has been tested on various versions of Linux, MacOS, and Windows 10/11 with the following package versions:
 
 - git 2.17+ (Windows users we recommend:  https://gitforwindows.org/)
 - docker engine version 20.10.12+
