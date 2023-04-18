@@ -1,0 +1,2290 @@
+-- MySQL dump 10.19  Distrib 10.3.38-MariaDB, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: coldfront
+-- ------------------------------------------------------
+-- Server version	10.3.38-MariaDB-1:10.3.38+maria~ubu2004
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `allocation_allocation`
+--
+
+DROP TABLE IF EXISTS `allocation_allocation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `justification` longtext NOT NULL,
+  `description` varchar(512) DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `is_locked` tinyint(1) NOT NULL,
+  `is_changeable` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `allocation_allocation_project_id_5e458dcd_fk_project_project_id` (`project_id`),
+  KEY `allocation_allocatio_status_id_b406fc52_fk_allocatio` (`status_id`),
+  CONSTRAINT `allocation_allocatio_status_id_b406fc52_fk_allocatio` FOREIGN KEY (`status_id`) REFERENCES `allocation_allocationstatuschoice` (`id`),
+  CONSTRAINT `allocation_allocation_project_id_5e458dcd_fk_project_project_id` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocation`
+--
+
+LOCK TABLES `allocation_allocation` WRITE;
+/*!40000 ALTER TABLE `allocation_allocation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocation_resources`
+--
+
+DROP TABLE IF EXISTS `allocation_allocation_resources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocation_resources` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `allocation_id` int(11) NOT NULL,
+  `resource_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `allocation_allocation_re_allocation_id_resource_i_34baa7b3_uniq` (`allocation_id`,`resource_id`),
+  KEY `allocation_allocatio_resource_id_9f98fde7_fk_resource_` (`resource_id`),
+  CONSTRAINT `allocation_allocatio_allocation_id_48cd5368_fk_allocatio` FOREIGN KEY (`allocation_id`) REFERENCES `allocation_allocation` (`id`),
+  CONSTRAINT `allocation_allocatio_resource_id_9f98fde7_fk_resource_` FOREIGN KEY (`resource_id`) REFERENCES `resource_resource` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocation_resources`
+--
+
+LOCK TABLES `allocation_allocation_resources` WRITE;
+/*!40000 ALTER TABLE `allocation_allocation_resources` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocation_resources` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationaccount`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationaccount`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationaccount` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `allocation_allocationaccount_user_id_8783d9ae_fk_auth_user_id` (`user_id`),
+  CONSTRAINT `allocation_allocationaccount_user_id_8783d9ae_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationaccount`
+--
+
+LOCK TABLES `allocation_allocationaccount` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationaccount` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocationaccount` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationadminnote`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationadminnote`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationadminnote` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `note` longtext NOT NULL,
+  `allocation_id` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `allocation_allocatio_allocation_id_06fcb8a0_fk_allocatio` (`allocation_id`),
+  KEY `allocation_allocatio_author_id_5bfce103_fk_auth_user` (`author_id`),
+  CONSTRAINT `allocation_allocatio_allocation_id_06fcb8a0_fk_allocatio` FOREIGN KEY (`allocation_id`) REFERENCES `allocation_allocation` (`id`),
+  CONSTRAINT `allocation_allocatio_author_id_5bfce103_fk_auth_user` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationadminnote`
+--
+
+LOCK TABLES `allocation_allocationadminnote` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationadminnote` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocationadminnote` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationattribute`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationattribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationattribute` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `value` varchar(128) NOT NULL,
+  `allocation_id` int(11) NOT NULL,
+  `allocation_attribute_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `allocation_allocatio_allocation_attribute_93461ad6_fk_allocatio` (`allocation_attribute_type_id`),
+  KEY `allocation_allocatio_allocation_id_13033841_fk_allocatio` (`allocation_id`),
+  CONSTRAINT `allocation_allocatio_allocation_attribute_93461ad6_fk_allocatio` FOREIGN KEY (`allocation_attribute_type_id`) REFERENCES `allocation_allocationattributetype` (`id`),
+  CONSTRAINT `allocation_allocatio_allocation_id_13033841_fk_allocatio` FOREIGN KEY (`allocation_id`) REFERENCES `allocation_allocation` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationattribute`
+--
+
+LOCK TABLES `allocation_allocationattribute` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationattribute` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocationattribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationattributechangerequest`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationattributechangerequest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationattributechangerequest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `new_value` varchar(128) NOT NULL,
+  `allocation_attribute_id` int(11) NOT NULL,
+  `allocation_change_request_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `allocation_allocatio_allocation_attribute_bc328b02_fk_allocatio` (`allocation_attribute_id`),
+  KEY `allocation_allocatio_allocation_change_re_fc1fcc16_fk_allocatio` (`allocation_change_request_id`),
+  CONSTRAINT `allocation_allocatio_allocation_attribute_bc328b02_fk_allocatio` FOREIGN KEY (`allocation_attribute_id`) REFERENCES `allocation_allocationattribute` (`id`),
+  CONSTRAINT `allocation_allocatio_allocation_change_re_fc1fcc16_fk_allocatio` FOREIGN KEY (`allocation_change_request_id`) REFERENCES `allocation_allocationchangerequest` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationattributechangerequest`
+--
+
+LOCK TABLES `allocation_allocationattributechangerequest` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationattributechangerequest` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocationattributechangerequest` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationattributetype`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationattributetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationattributetype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `has_usage` tinyint(1) NOT NULL,
+  `is_required` tinyint(1) NOT NULL,
+  `is_unique` tinyint(1) NOT NULL,
+  `is_private` tinyint(1) NOT NULL,
+  `attribute_type_id` int(11) NOT NULL,
+  `is_changeable` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `allocation_allocatio_attribute_type_id_732f910f_fk_allocatio` (`attribute_type_id`),
+  CONSTRAINT `allocation_allocatio_attribute_type_id_732f910f_fk_allocatio` FOREIGN KEY (`attribute_type_id`) REFERENCES `allocation_attributetype` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationattributetype`
+--
+
+LOCK TABLES `allocation_allocationattributetype` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationattributetype` DISABLE KEYS */;
+INSERT INTO `allocation_allocationattributetype` VALUES (1,'2023-03-15 13:12:40.050652','2023-03-15 13:12:40.050652','Cloud Account Name',0,0,0,0,4,0),(2,'2023-03-15 13:12:40.054263','2023-03-15 13:12:40.054263','CLOUD_USAGE_NOTIFICATION',0,0,0,1,5,0),(3,'2023-03-15 13:12:40.061454','2023-03-15 13:12:40.061454','Core Usage (Hours)',1,0,0,0,3,0),(4,'2023-03-15 13:12:40.064905','2023-03-15 13:12:40.064905','Cloud Storage Quota (TB)',1,0,0,0,2,0),(5,'2023-03-15 13:12:40.068364','2023-03-15 13:12:40.068364','EXPIRE NOTIFICATION',0,0,0,1,5,0),(6,'2023-03-15 13:12:40.072630','2023-03-15 13:12:40.072630','freeipa_group',0,0,0,0,4,0),(7,'2023-03-15 13:12:40.076115','2023-03-15 13:12:40.076115','Is Course?',0,0,0,1,5,0),(8,'2023-03-15 13:12:40.079922','2023-03-15 13:12:40.079922','Paid',0,0,0,0,2,0),(9,'2023-03-15 13:12:40.083026','2023-03-15 13:12:40.083026','Paid Cloud Support (Hours)',1,0,0,1,2,0),(10,'2023-03-15 13:12:40.086384','2023-03-15 13:12:40.086384','Paid Network Support (Hours)',1,0,0,1,2,0),(11,'2023-03-15 13:12:40.090028','2023-03-15 13:12:40.090028','Paid Storage Support (Hours)',1,0,0,1,2,0),(12,'2023-03-15 13:12:40.093324','2023-03-15 13:12:40.093324','Purchase Order Number',0,0,0,1,3,0),(13,'2023-03-15 13:12:40.097219','2023-03-15 13:12:40.097219','send_expiry_email_on_date',0,0,0,1,1,0),(14,'2023-03-15 13:12:40.101537','2023-03-15 13:12:40.101537','slurm_account_name',0,0,0,0,4,0),(15,'2023-03-15 13:12:40.105327','2023-03-15 13:12:40.105327','slurm_specs',0,0,0,1,6,0),(16,'2023-03-15 13:12:40.108488','2023-03-15 13:12:40.108488','slurm_specs_attriblist',0,0,0,1,4,0),(17,'2023-03-15 13:12:40.112313','2023-03-15 13:12:40.112313','slurm_user_specs',0,0,0,1,6,0),(18,'2023-03-15 13:12:40.115568','2023-03-15 13:12:40.115568','slurm_user_specs_attriblist',0,0,0,1,4,0),(19,'2023-03-15 13:12:40.119093','2023-03-15 13:12:40.119093','Storage Quota (GB)',0,0,0,0,3,0),(20,'2023-03-15 13:12:40.122457','2023-03-15 13:12:40.122457','Storage_Group_Name',0,0,0,0,4,0),(21,'2023-03-15 13:12:40.125668','2023-03-15 13:12:40.125668','SupportersQOS',0,0,0,0,5,0),(22,'2023-03-15 13:12:40.129282','2023-03-15 13:12:40.129282','SupportersQOSExpireDate',0,0,0,0,1,0);
+/*!40000 ALTER TABLE `allocation_allocationattributetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationattributeusage`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationattributeusage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationattributeusage` (
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `allocation_attribute_id` int(11) NOT NULL,
+  `value` double NOT NULL,
+  PRIMARY KEY (`allocation_attribute_id`),
+  CONSTRAINT `allocation_allocatio_allocation_attribute_179f0a2d_fk_allocatio` FOREIGN KEY (`allocation_attribute_id`) REFERENCES `allocation_allocationattribute` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationattributeusage`
+--
+
+LOCK TABLES `allocation_allocationattributeusage` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationattributeusage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocationattributeusage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationchangerequest`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationchangerequest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationchangerequest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `end_date_extension` int(11) DEFAULT NULL,
+  `justification` longtext NOT NULL,
+  `notes` varchar(512) DEFAULT NULL,
+  `allocation_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `allocation_allocatio_allocation_id_ad985bc4_fk_allocatio` (`allocation_id`),
+  KEY `allocation_allocatio_status_id_76aa30bf_fk_allocatio` (`status_id`),
+  CONSTRAINT `allocation_allocatio_allocation_id_ad985bc4_fk_allocatio` FOREIGN KEY (`allocation_id`) REFERENCES `allocation_allocation` (`id`),
+  CONSTRAINT `allocation_allocatio_status_id_76aa30bf_fk_allocatio` FOREIGN KEY (`status_id`) REFERENCES `allocation_allocationchangestatuschoice` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationchangerequest`
+--
+
+LOCK TABLES `allocation_allocationchangerequest` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationchangerequest` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocationchangerequest` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationchangestatuschoice`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationchangestatuschoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationchangestatuschoice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationchangestatuschoice`
+--
+
+LOCK TABLES `allocation_allocationchangestatuschoice` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationchangestatuschoice` DISABLE KEYS */;
+INSERT INTO `allocation_allocationchangestatuschoice` VALUES (1,'2023-03-15 13:12:37.545255','2023-03-15 13:12:37.545255','Pending'),(2,'2023-03-15 13:12:37.547364','2023-03-15 13:12:37.547364','Approved'),(3,'2023-03-15 13:12:37.548632','2023-03-15 13:12:37.548632','Denied');
+/*!40000 ALTER TABLE `allocation_allocationchangestatuschoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationstatuschoice`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationstatuschoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationstatuschoice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationstatuschoice`
+--
+
+LOCK TABLES `allocation_allocationstatuschoice` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationstatuschoice` DISABLE KEYS */;
+INSERT INTO `allocation_allocationstatuschoice` VALUES (1,'2023-03-15 13:12:40.017543','2023-03-15 13:12:40.017543','Active'),(2,'2023-03-15 13:12:40.019424','2023-03-15 13:12:40.019424','Denied'),(3,'2023-03-15 13:12:40.022531','2023-03-15 13:12:40.022531','Expired'),(4,'2023-03-15 13:12:40.024851','2023-03-15 13:12:40.024851','New'),(5,'2023-03-15 13:12:40.026732','2023-03-15 13:12:40.026732','Paid'),(6,'2023-03-15 13:12:40.028564','2023-03-15 13:12:40.028564','Payment Pending'),(7,'2023-03-15 13:12:40.031330','2023-03-15 13:12:40.031330','Payment Requested'),(8,'2023-03-15 13:12:40.033139','2023-03-15 13:12:40.033139','Payment Declined'),(9,'2023-03-15 13:12:40.035126','2023-03-15 13:12:40.035126','Renewal Requested'),(10,'2023-03-15 13:12:40.037062','2023-03-15 13:12:40.037062','Revoked'),(11,'2023-03-15 13:12:40.038985','2023-03-15 13:12:40.038985','Unpaid');
+/*!40000 ALTER TABLE `allocation_allocationstatuschoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationuser`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationuser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationuser` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `allocation_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `allocation_allocationuser_user_id_allocation_id_7228b95f_uniq` (`user_id`,`allocation_id`),
+  KEY `allocation_allocatio_allocation_id_cbec4328_fk_allocatio` (`allocation_id`),
+  KEY `allocation_allocatio_status_id_2118a472_fk_allocatio` (`status_id`),
+  CONSTRAINT `allocation_allocatio_allocation_id_cbec4328_fk_allocatio` FOREIGN KEY (`allocation_id`) REFERENCES `allocation_allocation` (`id`),
+  CONSTRAINT `allocation_allocatio_status_id_2118a472_fk_allocatio` FOREIGN KEY (`status_id`) REFERENCES `allocation_allocationuserstatuschoice` (`id`),
+  CONSTRAINT `allocation_allocationuser_user_id_41de8fc3_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationuser`
+--
+
+LOCK TABLES `allocation_allocationuser` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationuser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocationuser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationusernote`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationusernote`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationusernote` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `is_private` tinyint(1) NOT NULL,
+  `note` longtext NOT NULL,
+  `allocation_id` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `allocation_allocatio_allocation_id_9c4808b1_fk_allocatio` (`allocation_id`),
+  KEY `allocation_allocationusernote_author_id_57b25b8f_fk_auth_user_id` (`author_id`),
+  CONSTRAINT `allocation_allocatio_allocation_id_9c4808b1_fk_allocatio` FOREIGN KEY (`allocation_id`) REFERENCES `allocation_allocation` (`id`),
+  CONSTRAINT `allocation_allocationusernote_author_id_57b25b8f_fk_auth_user_id` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationusernote`
+--
+
+LOCK TABLES `allocation_allocationusernote` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationusernote` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_allocationusernote` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_allocationuserstatuschoice`
+--
+
+DROP TABLE IF EXISTS `allocation_allocationuserstatuschoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_allocationuserstatuschoice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_allocationuserstatuschoice`
+--
+
+LOCK TABLES `allocation_allocationuserstatuschoice` WRITE;
+/*!40000 ALTER TABLE `allocation_allocationuserstatuschoice` DISABLE KEYS */;
+INSERT INTO `allocation_allocationuserstatuschoice` VALUES (1,'2023-03-15 13:12:40.043157','2023-03-15 13:12:40.043157','Active'),(2,'2023-03-15 13:12:40.044989','2023-03-15 13:12:40.044989','Error'),(3,'2023-03-15 13:12:40.047766','2023-03-15 13:12:40.047766','Removed');
+/*!40000 ALTER TABLE `allocation_allocationuserstatuschoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_attributetype`
+--
+
+DROP TABLE IF EXISTS `allocation_attributetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_attributetype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_attributetype`
+--
+
+LOCK TABLES `allocation_attributetype` WRITE;
+/*!40000 ALTER TABLE `allocation_attributetype` DISABLE KEYS */;
+INSERT INTO `allocation_attributetype` VALUES (1,'2023-03-15 13:12:40.005322','2023-03-15 13:12:40.005322','Date'),(2,'2023-03-15 13:12:40.007089','2023-03-15 13:12:40.007089','Float'),(3,'2023-03-15 13:12:40.008955','2023-03-15 13:12:40.008955','Int'),(4,'2023-03-15 13:12:40.011760','2023-03-15 13:12:40.011760','Text'),(5,'2023-03-15 13:12:40.013805','2023-03-15 13:12:40.013805','Yes/No'),(6,'2023-03-15 13:12:40.015516','2023-03-15 13:12:40.015516','Attribute Expanded Text');
+/*!40000 ALTER TABLE `allocation_attributetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_historicalallocation`
+--
+
+DROP TABLE IF EXISTS `allocation_historicalallocation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_historicalallocation` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `justification` longtext NOT NULL,
+  `description` varchar(512) DEFAULT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `is_locked` tinyint(1) NOT NULL,
+  `is_changeable` tinyint(1) NOT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `allocation_historica_history_user_id_61b290ba_fk_auth_user` (`history_user_id`),
+  KEY `allocation_historicalallocation_id_d5cad58a` (`id`),
+  KEY `allocation_historicalallocation_project_id_de9ddaae` (`project_id`),
+  KEY `allocation_historicalallocation_status_id_2d61603b` (`status_id`),
+  CONSTRAINT `allocation_historica_history_user_id_61b290ba_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_historicalallocation`
+--
+
+LOCK TABLES `allocation_historicalallocation` WRITE;
+/*!40000 ALTER TABLE `allocation_historicalallocation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_historicalallocation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_historicalallocationattribute`
+--
+
+DROP TABLE IF EXISTS `allocation_historicalallocationattribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_historicalallocationattribute` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `value` varchar(128) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `allocation_id` int(11) DEFAULT NULL,
+  `allocation_attribute_type_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `allocation_historica_history_user_id_07ffa88b_fk_auth_user` (`history_user_id`),
+  KEY `allocation_historicalallocationattribute_id_b7d328ef` (`id`),
+  KEY `allocation_historicalallocationattribute_allocation_id_6d6668ce` (`allocation_id`),
+  KEY `allocation_historicalalloca_allocation_attribute_type_i_220f16e6` (`allocation_attribute_type_id`),
+  CONSTRAINT `allocation_historica_history_user_id_07ffa88b_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_historicalallocationattribute`
+--
+
+LOCK TABLES `allocation_historicalallocationattribute` WRITE;
+/*!40000 ALTER TABLE `allocation_historicalallocationattribute` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_historicalallocationattribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_historicalallocationattributechangerequest`
+--
+
+DROP TABLE IF EXISTS `allocation_historicalallocationattributechangerequest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_historicalallocationattributechangerequest` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `new_value` varchar(128) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `allocation_attribute_id` int(11) DEFAULT NULL,
+  `allocation_change_request_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `allocation_historica_history_user_id_eb8e7771_fk_auth_user` (`history_user_id`),
+  KEY `allocation_historicalalloca_id_c82de47a` (`id`),
+  KEY `allocation_historicalalloca_allocation_attribute_id_63107191` (`allocation_attribute_id`),
+  KEY `allocation_historicalalloca_allocation_change_request_i_0833ddb6` (`allocation_change_request_id`),
+  CONSTRAINT `allocation_historica_history_user_id_eb8e7771_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_historicalallocationattributechangerequest`
+--
+
+LOCK TABLES `allocation_historicalallocationattributechangerequest` WRITE;
+/*!40000 ALTER TABLE `allocation_historicalallocationattributechangerequest` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_historicalallocationattributechangerequest` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_historicalallocationattributetype`
+--
+
+DROP TABLE IF EXISTS `allocation_historicalallocationattributetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_historicalallocationattributetype` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `has_usage` tinyint(1) NOT NULL,
+  `is_required` tinyint(1) NOT NULL,
+  `is_unique` tinyint(1) NOT NULL,
+  `is_private` tinyint(1) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `attribute_type_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `is_changeable` tinyint(1) NOT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `allocation_historica_history_user_id_954dbf55_fk_auth_user` (`history_user_id`),
+  KEY `allocation_historicalallocationattributetype_id_14588cf3` (`id`),
+  KEY `allocation_historicalalloca_attribute_type_id_c73541d0` (`attribute_type_id`),
+  CONSTRAINT `allocation_historica_history_user_id_954dbf55_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_historicalallocationattributetype`
+--
+
+LOCK TABLES `allocation_historicalallocationattributetype` WRITE;
+/*!40000 ALTER TABLE `allocation_historicalallocationattributetype` DISABLE KEYS */;
+INSERT INTO `allocation_historicalallocationattributetype` VALUES (1,'2023-03-15 13:12:40.050652','2023-03-15 13:12:40.050652','Cloud Account Name',0,0,0,0,1,'2023-03-15 13:12:40.051239',NULL,'+',4,NULL,0),(2,'2023-03-15 13:12:40.054263','2023-03-15 13:12:40.054263','CLOUD_USAGE_NOTIFICATION',0,0,0,1,2,'2023-03-15 13:12:40.054759',NULL,'+',5,NULL,0),(3,'2023-03-15 13:12:40.061454','2023-03-15 13:12:40.061454','Core Usage (Hours)',1,0,0,0,3,'2023-03-15 13:12:40.061941',NULL,'+',3,NULL,0),(4,'2023-03-15 13:12:40.064905','2023-03-15 13:12:40.064905','Cloud Storage Quota (TB)',1,0,0,0,4,'2023-03-15 13:12:40.065343',NULL,'+',2,NULL,0),(5,'2023-03-15 13:12:40.068364','2023-03-15 13:12:40.068364','EXPIRE NOTIFICATION',0,0,0,1,5,'2023-03-15 13:12:40.068808',NULL,'+',5,NULL,0),(6,'2023-03-15 13:12:40.072630','2023-03-15 13:12:40.072630','freeipa_group',0,0,0,0,6,'2023-03-15 13:12:40.073070',NULL,'+',4,NULL,0),(7,'2023-03-15 13:12:40.076115','2023-03-15 13:12:40.076115','Is Course?',0,0,0,1,7,'2023-03-15 13:12:40.076520',NULL,'+',5,NULL,0),(8,'2023-03-15 13:12:40.079922','2023-03-15 13:12:40.079922','Paid',0,0,0,0,8,'2023-03-15 13:12:40.080333',NULL,'+',2,NULL,0),(9,'2023-03-15 13:12:40.083026','2023-03-15 13:12:40.083026','Paid Cloud Support (Hours)',1,0,0,1,9,'2023-03-15 13:12:40.083472',NULL,'+',2,NULL,0),(10,'2023-03-15 13:12:40.086384','2023-03-15 13:12:40.086384','Paid Network Support (Hours)',1,0,0,1,10,'2023-03-15 13:12:40.086829',NULL,'+',2,NULL,0),(11,'2023-03-15 13:12:40.090028','2023-03-15 13:12:40.090028','Paid Storage Support (Hours)',1,0,0,1,11,'2023-03-15 13:12:40.090501',NULL,'+',2,NULL,0),(12,'2023-03-15 13:12:40.093324','2023-03-15 13:12:40.093324','Purchase Order Number',0,0,0,1,12,'2023-03-15 13:12:40.093767',NULL,'+',3,NULL,0),(13,'2023-03-15 13:12:40.097219','2023-03-15 13:12:40.097219','send_expiry_email_on_date',0,0,0,1,13,'2023-03-15 13:12:40.097647',NULL,'+',1,NULL,0),(14,'2023-03-15 13:12:40.101537','2023-03-15 13:12:40.101537','slurm_account_name',0,0,0,0,14,'2023-03-15 13:12:40.101970',NULL,'+',4,NULL,0),(15,'2023-03-15 13:12:40.105327','2023-03-15 13:12:40.105327','slurm_specs',0,0,0,1,15,'2023-03-15 13:12:40.105747',NULL,'+',6,NULL,0),(16,'2023-03-15 13:12:40.108488','2023-03-15 13:12:40.108488','slurm_specs_attriblist',0,0,0,1,16,'2023-03-15 13:12:40.108883',NULL,'+',4,NULL,0),(17,'2023-03-15 13:12:40.112313','2023-03-15 13:12:40.112313','slurm_user_specs',0,0,0,1,17,'2023-03-15 13:12:40.112767',NULL,'+',6,NULL,0),(18,'2023-03-15 13:12:40.115568','2023-03-15 13:12:40.115568','slurm_user_specs_attriblist',0,0,0,1,18,'2023-03-15 13:12:40.116075',NULL,'+',4,NULL,0),(19,'2023-03-15 13:12:40.119093','2023-03-15 13:12:40.119093','Storage Quota (GB)',0,0,0,0,19,'2023-03-15 13:12:40.119504',NULL,'+',3,NULL,0),(20,'2023-03-15 13:12:40.122457','2023-03-15 13:12:40.122457','Storage_Group_Name',0,0,0,0,20,'2023-03-15 13:12:40.122899',NULL,'+',4,NULL,0),(21,'2023-03-15 13:12:40.125668','2023-03-15 13:12:40.125668','SupportersQOS',0,0,0,0,21,'2023-03-15 13:12:40.126086',NULL,'+',5,NULL,0),(22,'2023-03-15 13:12:40.129282','2023-03-15 13:12:40.129282','SupportersQOSExpireDate',0,0,0,0,22,'2023-03-15 13:12:40.129718',NULL,'+',1,NULL,0);
+/*!40000 ALTER TABLE `allocation_historicalallocationattributetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_historicalallocationattributeusage`
+--
+
+DROP TABLE IF EXISTS `allocation_historicalallocationattributeusage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_historicalallocationattributeusage` (
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `value` double NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `allocation_attribute_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `allocation_historica_history_user_id_842acff8_fk_auth_user` (`history_user_id`),
+  KEY `allocation_historicalalloca_allocation_attribute_id_777fa750` (`allocation_attribute_id`),
+  CONSTRAINT `allocation_historica_history_user_id_842acff8_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_historicalallocationattributeusage`
+--
+
+LOCK TABLES `allocation_historicalallocationattributeusage` WRITE;
+/*!40000 ALTER TABLE `allocation_historicalallocationattributeusage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_historicalallocationattributeusage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_historicalallocationchangerequest`
+--
+
+DROP TABLE IF EXISTS `allocation_historicalallocationchangerequest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_historicalallocationchangerequest` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `end_date_extension` int(11) DEFAULT NULL,
+  `justification` longtext NOT NULL,
+  `notes` varchar(512) DEFAULT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `allocation_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `allocation_historica_history_user_id_089040a8_fk_auth_user` (`history_user_id`),
+  KEY `allocation_historicalallocationchangerequest_id_da47945f` (`id`),
+  KEY `allocation_historicalalloca_allocation_id_06dfdbf8` (`allocation_id`),
+  KEY `allocation_historicalallocationchangerequest_status_id_e548aa4b` (`status_id`),
+  CONSTRAINT `allocation_historica_history_user_id_089040a8_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_historicalallocationchangerequest`
+--
+
+LOCK TABLES `allocation_historicalallocationchangerequest` WRITE;
+/*!40000 ALTER TABLE `allocation_historicalallocationchangerequest` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_historicalallocationchangerequest` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `allocation_historicalallocationuser`
+--
+
+DROP TABLE IF EXISTS `allocation_historicalallocationuser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allocation_historicalallocationuser` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `allocation_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `allocation_historica_history_user_id_855d3b19_fk_auth_user` (`history_user_id`),
+  KEY `allocation_historicalallocationuser_id_b8f3ad63` (`id`),
+  KEY `allocation_historicalallocationuser_allocation_id_131d8e6b` (`allocation_id`),
+  KEY `allocation_historicalallocationuser_status_id_8ba69c0f` (`status_id`),
+  KEY `allocation_historicalallocationuser_user_id_64117d10` (`user_id`),
+  CONSTRAINT `allocation_historica_history_user_id_855d3b19_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allocation_historicalallocationuser`
+--
+
+LOCK TABLES `allocation_historicalallocationuser` WRITE;
+/*!40000 ALTER TABLE `allocation_historicalallocationuser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `allocation_historicalallocationuser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_group`
+--
+
+DROP TABLE IF EXISTS `auth_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_group`
+--
+
+LOCK TABLES `auth_group` WRITE;
+/*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_group_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_group_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_group_permissions`
+--
+
+LOCK TABLES `auth_group_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_permission`
+--
+
+DROP TABLE IF EXISTS `auth_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `content_type_id` int(11) NOT NULL,
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
+  CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=263 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_permission`
+--
+
+LOCK TABLES `auth_permission` WRITE;
+/*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
+INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',2,'add_permission'),(6,'Can change permission',2,'change_permission'),(7,'Can delete permission',2,'delete_permission'),(8,'Can view permission',2,'view_permission'),(9,'Can add group',3,'add_group'),(10,'Can change group',3,'change_group'),(11,'Can delete group',3,'delete_group'),(12,'Can view group',3,'view_group'),(13,'Can add user',4,'add_user'),(14,'Can change user',4,'change_user'),(15,'Can delete user',4,'delete_user'),(16,'Can view user',4,'view_user'),(17,'Can add content type',5,'add_contenttype'),(18,'Can change content type',5,'change_contenttype'),(19,'Can delete content type',5,'delete_contenttype'),(20,'Can view content type',5,'view_contenttype'),(21,'Can add session',6,'add_session'),(22,'Can change session',6,'change_session'),(23,'Can delete session',6,'delete_session'),(24,'Can view session',6,'view_session'),(25,'Can add Scheduled task',7,'add_schedule'),(26,'Can change Scheduled task',7,'change_schedule'),(27,'Can delete Scheduled task',7,'delete_schedule'),(28,'Can view Scheduled task',7,'view_schedule'),(29,'Can add task',8,'add_task'),(30,'Can change task',8,'change_task'),(31,'Can delete task',8,'delete_task'),(32,'Can view task',8,'view_task'),(33,'Can add Failed task',9,'add_failure'),(34,'Can change Failed task',9,'change_failure'),(35,'Can delete Failed task',9,'delete_failure'),(36,'Can view Failed task',9,'view_failure'),(37,'Can add Successful task',10,'add_success'),(38,'Can change Successful task',10,'change_success'),(39,'Can delete Successful task',10,'delete_success'),(40,'Can view Successful task',10,'view_success'),(41,'Can add Queued task',11,'add_ormq'),(42,'Can change Queued task',11,'change_ormq'),(43,'Can delete Queued task',11,'delete_ormq'),(44,'Can view Queued task',11,'view_ormq'),(45,'Can add user profile',12,'add_userprofile'),(46,'Can change user profile',12,'change_userprofile'),(47,'Can delete user profile',12,'delete_userprofile'),(48,'Can view user profile',12,'view_userprofile'),(49,'Can add field of science',13,'add_fieldofscience'),(50,'Can change field of science',13,'change_fieldofscience'),(51,'Can delete field of science',13,'delete_fieldofscience'),(52,'Can view field of science',13,'view_fieldofscience'),(53,'Can add project',14,'add_project'),(54,'Can change project',14,'change_project'),(55,'Can delete project',14,'delete_project'),(56,'Can view project',14,'view_project'),(57,'Can view all projects',14,'can_view_all_projects'),(58,'Can review pending project reviews',14,'can_review_pending_project_reviews'),(59,'Can add project review status choice',15,'add_projectreviewstatuschoice'),(60,'Can change project review status choice',15,'change_projectreviewstatuschoice'),(61,'Can delete project review status choice',15,'delete_projectreviewstatuschoice'),(62,'Can view project review status choice',15,'view_projectreviewstatuschoice'),(63,'Can add project status choice',16,'add_projectstatuschoice'),(64,'Can change project status choice',16,'change_projectstatuschoice'),(65,'Can delete project status choice',16,'delete_projectstatuschoice'),(66,'Can view project status choice',16,'view_projectstatuschoice'),(67,'Can add project user role choice',17,'add_projectuserrolechoice'),(68,'Can change project user role choice',17,'change_projectuserrolechoice'),(69,'Can delete project user role choice',17,'delete_projectuserrolechoice'),(70,'Can view project user role choice',17,'view_projectuserrolechoice'),(71,'Can add project user status choice',18,'add_projectuserstatuschoice'),(72,'Can change project user status choice',18,'change_projectuserstatuschoice'),(73,'Can delete project user status choice',18,'delete_projectuserstatuschoice'),(74,'Can view project user status choice',18,'view_projectuserstatuschoice'),(75,'Can add project user message',19,'add_projectusermessage'),(76,'Can change project user message',19,'change_projectusermessage'),(77,'Can delete project user message',19,'delete_projectusermessage'),(78,'Can view project user message',19,'view_projectusermessage'),(79,'Can add project review',20,'add_projectreview'),(80,'Can change project review',20,'change_projectreview'),(81,'Can delete project review',20,'delete_projectreview'),(82,'Can view project review',20,'view_projectreview'),(83,'Can add project admin comment',21,'add_projectadmincomment'),(84,'Can change project admin comment',21,'change_projectadmincomment'),(85,'Can delete project admin comment',21,'delete_projectadmincomment'),(86,'Can view project admin comment',21,'view_projectadmincomment'),(87,'Can add historical project user',22,'add_historicalprojectuser'),(88,'Can change historical project user',22,'change_historicalprojectuser'),(89,'Can delete historical project user',22,'delete_historicalprojectuser'),(90,'Can view historical project user',22,'view_historicalprojectuser'),(91,'Can add historical project review',23,'add_historicalprojectreview'),(92,'Can change historical project review',23,'change_historicalprojectreview'),(93,'Can delete historical project review',23,'delete_historicalprojectreview'),(94,'Can view historical project review',23,'view_historicalprojectreview'),(95,'Can add historical project',24,'add_historicalproject'),(96,'Can change historical project',24,'change_historicalproject'),(97,'Can delete historical project',24,'delete_historicalproject'),(98,'Can view historical project',24,'view_historicalproject'),(99,'Can add project user',25,'add_projectuser'),(100,'Can change project user',25,'change_projectuser'),(101,'Can delete project user',25,'delete_projectuser'),(102,'Can view project user',25,'view_projectuser'),(103,'Can add attribute type',26,'add_attributetype'),(104,'Can change attribute type',26,'change_attributetype'),(105,'Can delete attribute type',26,'delete_attributetype'),(106,'Can view attribute type',26,'view_attributetype'),(107,'Can add resource type',27,'add_resourcetype'),(108,'Can change resource type',27,'change_resourcetype'),(109,'Can delete resource type',27,'delete_resourcetype'),(110,'Can view resource type',27,'view_resourcetype'),(111,'Can add resource attribute type',28,'add_resourceattributetype'),(112,'Can change resource attribute type',28,'change_resourceattributetype'),(113,'Can delete resource attribute type',28,'delete_resourceattributetype'),(114,'Can view resource attribute type',28,'view_resourceattributetype'),(115,'Can add resource',29,'add_resource'),(116,'Can change resource',29,'change_resource'),(117,'Can delete resource',29,'delete_resource'),(118,'Can view resource',29,'view_resource'),(119,'Can add historical resource type',30,'add_historicalresourcetype'),(120,'Can change historical resource type',30,'change_historicalresourcetype'),(121,'Can delete historical resource type',30,'delete_historicalresourcetype'),(122,'Can view historical resource type',30,'view_historicalresourcetype'),(123,'Can add historical resource attribute type',31,'add_historicalresourceattributetype'),(124,'Can change historical resource attribute type',31,'change_historicalresourceattributetype'),(125,'Can delete historical resource attribute type',31,'delete_historicalresourceattributetype'),(126,'Can view historical resource attribute type',31,'view_historicalresourceattributetype'),(127,'Can add historical resource attribute',32,'add_historicalresourceattribute'),(128,'Can change historical resource attribute',32,'change_historicalresourceattribute'),(129,'Can delete historical resource attribute',32,'delete_historicalresourceattribute'),(130,'Can view historical resource attribute',32,'view_historicalresourceattribute'),(131,'Can add historical resource',33,'add_historicalresource'),(132,'Can change historical resource',33,'change_historicalresource'),(133,'Can delete historical resource',33,'delete_historicalresource'),(134,'Can view historical resource',33,'view_historicalresource'),(135,'Can add resource attribute',34,'add_resourceattribute'),(136,'Can change resource attribute',34,'change_resourceattribute'),(137,'Can delete resource attribute',34,'delete_resourceattribute'),(138,'Can view resource attribute',34,'view_resourceattribute'),(139,'Can add allocation',35,'add_allocation'),(140,'Can change allocation',35,'change_allocation'),(141,'Can delete allocation',35,'delete_allocation'),(142,'Can view allocation',35,'view_allocation'),(143,'Can view all allocations',35,'can_view_all_allocations'),(144,'Can review allocation requests',35,'can_review_allocation_requests'),(145,'Can manage invoice',35,'can_manage_invoice'),(146,'Can add allocation attribute',36,'add_allocationattribute'),(147,'Can change allocation attribute',36,'change_allocationattribute'),(148,'Can delete allocation attribute',36,'delete_allocationattribute'),(149,'Can view allocation attribute',36,'view_allocationattribute'),(150,'Can add allocation attribute type',37,'add_allocationattributetype'),(151,'Can change allocation attribute type',37,'change_allocationattributetype'),(152,'Can delete allocation attribute type',37,'delete_allocationattributetype'),(153,'Can view allocation attribute type',37,'view_allocationattributetype'),(154,'Can add allocation status choice',38,'add_allocationstatuschoice'),(155,'Can change allocation status choice',38,'change_allocationstatuschoice'),(156,'Can delete allocation status choice',38,'delete_allocationstatuschoice'),(157,'Can view allocation status choice',38,'view_allocationstatuschoice'),(158,'Can add allocation user status choice',39,'add_allocationuserstatuschoice'),(159,'Can change allocation user status choice',39,'change_allocationuserstatuschoice'),(160,'Can delete allocation user status choice',39,'delete_allocationuserstatuschoice'),(161,'Can view allocation user status choice',39,'view_allocationuserstatuschoice'),(162,'Can add attribute type',40,'add_attributetype'),(163,'Can change attribute type',40,'change_attributetype'),(164,'Can delete attribute type',40,'delete_attributetype'),(165,'Can view attribute type',40,'view_attributetype'),(166,'Can add allocation attribute usage',41,'add_allocationattributeusage'),(167,'Can change allocation attribute usage',41,'change_allocationattributeusage'),(168,'Can delete allocation attribute usage',41,'delete_allocationattributeusage'),(169,'Can view allocation attribute usage',41,'view_allocationattributeusage'),(170,'Can add historical allocation user',42,'add_historicalallocationuser'),(171,'Can change historical allocation user',42,'change_historicalallocationuser'),(172,'Can delete historical allocation user',42,'delete_historicalallocationuser'),(173,'Can view historical allocation user',42,'view_historicalallocationuser'),(174,'Can add historical allocation attribute usage',43,'add_historicalallocationattributeusage'),(175,'Can change historical allocation attribute usage',43,'change_historicalallocationattributeusage'),(176,'Can delete historical allocation attribute usage',43,'delete_historicalallocationattributeusage'),(177,'Can view historical allocation attribute usage',43,'view_historicalallocationattributeusage'),(178,'Can add historical allocation attribute type',44,'add_historicalallocationattributetype'),(179,'Can change historical allocation attribute type',44,'change_historicalallocationattributetype'),(180,'Can delete historical allocation attribute type',44,'delete_historicalallocationattributetype'),(181,'Can view historical allocation attribute type',44,'view_historicalallocationattributetype'),(182,'Can add historical allocation attribute',45,'add_historicalallocationattribute'),(183,'Can change historical allocation attribute',45,'change_historicalallocationattribute'),(184,'Can delete historical allocation attribute',45,'delete_historicalallocationattribute'),(185,'Can view historical allocation attribute',45,'view_historicalallocationattribute'),(186,'Can add historical allocation',46,'add_historicalallocation'),(187,'Can change historical allocation',46,'change_historicalallocation'),(188,'Can delete historical allocation',46,'delete_historicalallocation'),(189,'Can view historical allocation',46,'view_historicalallocation'),(190,'Can add allocation user note',47,'add_allocationusernote'),(191,'Can change allocation user note',47,'change_allocationusernote'),(192,'Can delete allocation user note',47,'delete_allocationusernote'),(193,'Can view allocation user note',47,'view_allocationusernote'),(194,'Can add allocation user',48,'add_allocationuser'),(195,'Can change allocation user',48,'change_allocationuser'),(196,'Can delete allocation user',48,'delete_allocationuser'),(197,'Can view allocation user',48,'view_allocationuser'),(198,'Can add allocation admin note',49,'add_allocationadminnote'),(199,'Can change allocation admin note',49,'change_allocationadminnote'),(200,'Can delete allocation admin note',49,'delete_allocationadminnote'),(201,'Can view allocation admin note',49,'view_allocationadminnote'),(202,'Can add allocation account',50,'add_allocationaccount'),(203,'Can change allocation account',50,'change_allocationaccount'),(204,'Can delete allocation account',50,'delete_allocationaccount'),(205,'Can view allocation account',50,'view_allocationaccount'),(206,'Can add allocation change request',51,'add_allocationchangerequest'),(207,'Can change allocation change request',51,'change_allocationchangerequest'),(208,'Can delete allocation change request',51,'delete_allocationchangerequest'),(209,'Can view allocation change request',51,'view_allocationchangerequest'),(210,'Can add allocation change status choice',52,'add_allocationchangestatuschoice'),(211,'Can change allocation change status choice',52,'change_allocationchangestatuschoice'),(212,'Can delete allocation change status choice',52,'delete_allocationchangestatuschoice'),(213,'Can view allocation change status choice',52,'view_allocationchangestatuschoice'),(214,'Can add historical allocation change request',53,'add_historicalallocationchangerequest'),(215,'Can change historical allocation change request',53,'change_historicalallocationchangerequest'),(216,'Can delete historical allocation change request',53,'delete_historicalallocationchangerequest'),(217,'Can view historical allocation change request',53,'view_historicalallocationchangerequest'),(218,'Can add historical allocation attribute change request',54,'add_historicalallocationattributechangerequest'),(219,'Can change historical allocation attribute change request',54,'change_historicalallocationattributechangerequest'),(220,'Can delete historical allocation attribute change request',54,'delete_historicalallocationattributechangerequest'),(221,'Can view historical allocation attribute change request',54,'view_historicalallocationattributechangerequest'),(222,'Can add allocation attribute change request',55,'add_allocationattributechangerequest'),(223,'Can change allocation attribute change request',55,'change_allocationattributechangerequest'),(224,'Can delete allocation attribute change request',55,'delete_allocationattributechangerequest'),(225,'Can view allocation attribute change request',55,'view_allocationattributechangerequest'),(226,'Can add grant funding agency',56,'add_grantfundingagency'),(227,'Can change grant funding agency',56,'change_grantfundingagency'),(228,'Can delete grant funding agency',56,'delete_grantfundingagency'),(229,'Can view grant funding agency',56,'view_grantfundingagency'),(230,'Can add grant status choice',57,'add_grantstatuschoice'),(231,'Can change grant status choice',57,'change_grantstatuschoice'),(232,'Can delete grant status choice',57,'delete_grantstatuschoice'),(233,'Can view grant status choice',57,'view_grantstatuschoice'),(234,'Can add historical grant',58,'add_historicalgrant'),(235,'Can change historical grant',58,'change_historicalgrant'),(236,'Can delete historical grant',58,'delete_historicalgrant'),(237,'Can view historical grant',58,'view_historicalgrant'),(238,'Can add grant',59,'add_grant'),(239,'Can change grant',59,'change_grant'),(240,'Can delete grant',59,'delete_grant'),(241,'Can view grant',59,'view_grant'),(242,'Can view all grants',59,'can_view_all_grants'),(243,'Can add publication source',60,'add_publicationsource'),(244,'Can change publication source',60,'change_publicationsource'),(245,'Can delete publication source',60,'delete_publicationsource'),(246,'Can view publication source',60,'view_publicationsource'),(247,'Can add historical publication',61,'add_historicalpublication'),(248,'Can change historical publication',61,'change_historicalpublication'),(249,'Can delete historical publication',61,'delete_historicalpublication'),(250,'Can view historical publication',61,'view_historicalpublication'),(251,'Can add publication',62,'add_publication'),(252,'Can change publication',62,'change_publication'),(253,'Can delete publication',62,'delete_publication'),(254,'Can view publication',62,'view_publication'),(255,'Can add research output',63,'add_researchoutput'),(256,'Can change research output',63,'change_researchoutput'),(257,'Can delete research output',63,'delete_researchoutput'),(258,'Can view research output',63,'view_researchoutput'),(259,'Can add historical research output',64,'add_historicalresearchoutput'),(260,'Can change historical research output',64,'change_historicalresearchoutput'),(261,'Can delete historical research output',64,'delete_historicalresearchoutput'),(262,'Can view historical research output',64,'view_historicalresearchoutput');
+/*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user`
+--
+
+DROP TABLE IF EXISTS `auth_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `first_name` varchar(150) NOT NULL,
+  `last_name` varchar(150) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user`
+--
+
+LOCK TABLES `auth_user` WRITE;
+/*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$260000$o2AjsgQJg76Cg8kDzFCTXi$rpGdCvOSY0+QCbVd1Qrm1GYptA14BGQB7B1RL2mj58c=','2023-03-15 15:48:56.679469',1,'admin','','','admin@localhost',1,1,'2023-03-15 13:12:42.257187'),(2,'!jOFlV1BCdXnDqhTAwfpMDHwy098T8dhCxHk41SjS','2023-03-15 15:48:04.000000',1,'hpcadmin','hpcadmin','hpcadmin','hpcadmin@example.com',1,1,'2023-03-15 15:48:04.000000'),(3,'!3P6NzSmDobhiDwLnOhUGF6WYB1lcXW9SWo1ntFpG','2023-03-15 15:48:14.476571',0,'cgray','cgray','cgray','cgray@example.com',0,1,'2023-03-15 15:48:14.455483'),(4,'!kfbazCPuEnZdEj0QZTz85FlOO26LEDPxPmPb7PKN','2023-03-15 15:48:24.443992',0,'csimmons','csimmons','csimmons','csimmons@example.com',0,1,'2023-03-15 15:48:24.428661'),(5,'!WV3x8FcCDLbLR5mTBJcy1Fp2UhTSyj7h9YUNhgwo','2023-03-15 15:48:38.000000',0,'sfoster','sfoster','sfoster','sfoster@example.com',1,1,'2023-03-15 15:48:38.000000');
+/*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user_groups`
+--
+
+DROP TABLE IF EXISTS `auth_user_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
+  KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user_groups`
+--
+
+LOCK TABLES `auth_user_groups` WRITE;
+/*!40000 ALTER TABLE `auth_user_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user_user_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_user_user_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_user_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
+  KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user_user_permissions`
+--
+
+LOCK TABLES `auth_user_user_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_user_user_permissions` DISABLE KEYS */;
+INSERT INTO `auth_user_user_permissions` VALUES (4,5,57),(5,5,58),(1,5,143),(2,5,145),(3,5,242),(6,5,254);
+/*!40000 ALTER TABLE `auth_user_user_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_admin_log`
+--
+
+DROP TABLE IF EXISTS `django_admin_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `action_time` datetime(6) NOT NULL,
+  `object_id` longtext DEFAULT NULL,
+  `object_repr` varchar(200) NOT NULL,
+  `action_flag` smallint(5) unsigned NOT NULL CHECK (`action_flag` >= 0),
+  `change_message` longtext NOT NULL,
+  `content_type_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`),
+  CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_admin_log`
+--
+
+LOCK TABLES `django_admin_log` WRITE;
+/*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+INSERT INTO `django_admin_log` VALUES (1,'2023-03-15 15:49:32.013078','2','hpcadmin',2,'[{\"changed\": {\"fields\": [\"Staff status\", \"Superuser status\"]}}]',4,1),(2,'2023-03-15 15:50:42.090006','5','sfoster',2,'[{\"changed\": {\"fields\": [\"Staff status\", \"User permissions\"]}}]',4,1),(3,'2023-03-15 15:50:53.775500','3','UserProfile object (3)',2,'[{\"changed\": {\"fields\": [\"Is pi\"]}}]',12,1),(4,'2023-03-15 15:53:19.523978','1','hpc (Cluster)',1,'[{\"added\": {}}, {\"added\": {\"name\": \"resource attribute\", \"object\": \"slurm_cluster: hpc (hpc (Cluster))\"}}, {\"added\": {\"name\": \"resource attribute\", \"object\": \"OnDemand: Yes (hpc (Cluster))\"}}]',29,1),(5,'2023-03-15 15:56:03.820709','2','Project Storage (Storage)',1,'[{\"added\": {}}, {\"added\": {\"name\": \"resource attribute\", \"object\": \"eula: A shared project directory is available for all research groups with a quota of 1TB.  Anyone on this allocation will have access to the directory and permissions are managed by unix groups. (Project Storage (Storage))\"}}]',29,1),(6,'2023-03-15 15:57:39.781905','2','Project Storage (Storage)',2,'[{\"added\": {\"name\": \"resource attribute\", \"object\": \"quantity_label: Enter storage in 1TB increments (Project Storage (Storage))\"}}, {\"added\": {\"name\": \"resource attribute\", \"object\": \"quantity_default_value: 1 (Project Storage (Storage))\"}}, {\"added\": {\"name\": \"resource attribute\", \"object\": \"OnDemand: Yes (Project Storage (Storage))\"}}]',29,1),(7,'2023-03-15 15:58:03.565078','2','Project Storage (Storage)',2,'[{\"changed\": {\"name\": \"resource attribute\", \"object\": \"eula: A shared project directory is available for all research groups with a quota of 1TB.  Anyone on this allocation will have access to the directory and permissions are managed by unix groups.  Directories are backed up off-site daily. (Project Storage (Storage))\", \"fields\": [\"Value\"]}}]',29,1),(8,'2023-03-15 16:00:02.191051','3','Global Scratch (Storage)',1,'[{\"added\": {}}, {\"added\": {\"name\": \"resource attribute\", \"object\": \"eula: Every group with an active allocation to a CCR cluster is permitted up to 10TB of global scratch storage.  Everyone on this allocation will have access to this directory.  \\r\\n\\r\\nThis storage is considered volatile, it is not backed up, and should only be used for temporary file storage while running compute jobs.  Data over 60 days in age is automatically removed nightly.  By clicking on the Submit button, you are agreeing, for your entire group, to the center\'s scratch storage policies:  http://example.com (Global Scratch (Storage))\"}}, {\"added\": {\"name\": \"resource attribute\", \"object\": \"quantity_label: TB (Global Scratch (Storage))\"}}, {\"added\": {\"name\": \"resource attribute\", \"object\": \"quantity_default_value: 10 (Global Scratch (Storage))\"}}, {\"added\": {\"name\": \"resource attribute\", \"object\": \"OnDemand: Yes (Global Scratch (Storage))\"}}]',29,1);
+/*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_content_type`
+--
+
+DROP TABLE IF EXISTS `django_content_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_content_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app_label` varchar(100) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_content_type`
+--
+
+LOCK TABLES `django_content_type` WRITE;
+/*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
+INSERT INTO `django_content_type` VALUES (1,'admin','logentry'),(35,'allocation','allocation'),(50,'allocation','allocationaccount'),(49,'allocation','allocationadminnote'),(36,'allocation','allocationattribute'),(55,'allocation','allocationattributechangerequest'),(37,'allocation','allocationattributetype'),(41,'allocation','allocationattributeusage'),(51,'allocation','allocationchangerequest'),(52,'allocation','allocationchangestatuschoice'),(38,'allocation','allocationstatuschoice'),(48,'allocation','allocationuser'),(47,'allocation','allocationusernote'),(39,'allocation','allocationuserstatuschoice'),(40,'allocation','attributetype'),(46,'allocation','historicalallocation'),(45,'allocation','historicalallocationattribute'),(54,'allocation','historicalallocationattributechangerequest'),(44,'allocation','historicalallocationattributetype'),(43,'allocation','historicalallocationattributeusage'),(53,'allocation','historicalallocationchangerequest'),(42,'allocation','historicalallocationuser'),(3,'auth','group'),(2,'auth','permission'),(4,'auth','user'),(5,'contenttypes','contenttype'),(9,'django_q','failure'),(11,'django_q','ormq'),(7,'django_q','schedule'),(10,'django_q','success'),(8,'django_q','task'),(13,'field_of_science','fieldofscience'),(59,'grant','grant'),(56,'grant','grantfundingagency'),(57,'grant','grantstatuschoice'),(58,'grant','historicalgrant'),(24,'project','historicalproject'),(23,'project','historicalprojectreview'),(22,'project','historicalprojectuser'),(14,'project','project'),(21,'project','projectadmincomment'),(20,'project','projectreview'),(15,'project','projectreviewstatuschoice'),(16,'project','projectstatuschoice'),(25,'project','projectuser'),(19,'project','projectusermessage'),(17,'project','projectuserrolechoice'),(18,'project','projectuserstatuschoice'),(61,'publication','historicalpublication'),(62,'publication','publication'),(60,'publication','publicationsource'),(64,'research_output','historicalresearchoutput'),(63,'research_output','researchoutput'),(26,'resource','attributetype'),(33,'resource','historicalresource'),(32,'resource','historicalresourceattribute'),(31,'resource','historicalresourceattributetype'),(30,'resource','historicalresourcetype'),(29,'resource','resource'),(34,'resource','resourceattribute'),(28,'resource','resourceattributetype'),(27,'resource','resourcetype'),(6,'sessions','session'),(12,'user','userprofile');
+/*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_migrations`
+--
+
+DROP TABLE IF EXISTS `django_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_migrations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `applied` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_migrations`
+--
+
+LOCK TABLES `django_migrations` WRITE;
+/*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2023-03-15 13:12:33.086048'),(2,'auth','0001_initial','2023-03-15 13:12:33.572984'),(3,'admin','0001_initial','2023-03-15 13:12:33.666905'),(4,'admin','0002_logentry_remove_auto_add','2023-03-15 13:12:33.673479'),(5,'admin','0003_logentry_add_action_flag_choices','2023-03-15 13:12:33.679664'),(6,'contenttypes','0002_remove_content_type_name','2023-03-15 13:12:33.752470'),(7,'auth','0002_alter_permission_name_max_length','2023-03-15 13:12:33.763911'),(8,'auth','0003_alter_user_email_max_length','2023-03-15 13:12:33.775434'),(9,'auth','0004_alter_user_username_opts','2023-03-15 13:12:33.782713'),(10,'auth','0005_alter_user_last_login_null','2023-03-15 13:12:33.822314'),(11,'auth','0006_require_contenttypes_0002','2023-03-15 13:12:33.824382'),(12,'auth','0007_alter_validators_add_error_messages','2023-03-15 13:12:33.831746'),(13,'auth','0008_alter_user_username_max_length','2023-03-15 13:12:33.840783'),(14,'auth','0009_alter_user_last_name_max_length','2023-03-15 13:12:33.847978'),(15,'auth','0010_alter_group_name_max_length','2023-03-15 13:12:33.855704'),(16,'auth','0011_update_proxy_permissions','2023-03-15 13:12:33.862001'),(17,'resource','0001_initial','2023-03-15 13:12:34.635016'),(18,'field_of_science','0001_initial','2023-03-15 13:12:34.680745'),(19,'project','0001_initial','2023-03-15 13:12:35.556757'),(20,'allocation','0001_initial','2023-03-15 13:12:36.713381'),(21,'allocation','0002_auto_20190718_1451','2023-03-15 13:12:36.912322'),(22,'allocation','0003_auto_20191018_1049','2023-03-15 13:12:36.964973'),(23,'allocation','0004_auto_20211102_1017','2023-03-15 13:12:37.508047'),(24,'allocation','0005_auto_20211117_1413','2023-03-15 13:12:37.551393'),(25,'auth','0012_alter_user_first_name_max_length','2023-03-15 13:12:37.591189'),(26,'django_q','0001_initial','2023-03-15 13:12:37.621808'),(27,'django_q','0002_auto_20150630_1624','2023-03-15 13:12:37.677411'),(28,'django_q','0003_auto_20150708_1326','2023-03-15 13:12:37.731420'),(29,'django_q','0004_auto_20150710_1043','2023-03-15 13:12:37.740463'),(30,'django_q','0005_auto_20150718_1506','2023-03-15 13:12:37.752379'),(31,'django_q','0006_auto_20150805_1817','2023-03-15 13:12:37.760758'),(32,'django_q','0007_ormq','2023-03-15 13:12:37.772980'),(33,'django_q','0008_auto_20160224_1026','2023-03-15 13:12:37.777511'),(34,'django_q','0009_auto_20171009_0915','2023-03-15 13:12:37.804420'),(35,'django_q','0010_auto_20200610_0856','2023-03-15 13:12:37.816343'),(36,'django_q','0011_auto_20200628_1055','2023-03-15 13:12:37.826070'),(37,'django_q','0012_auto_20200702_1608','2023-03-15 13:12:37.830467'),(38,'django_q','0013_task_attempt_count','2023-03-15 13:12:37.837963'),(39,'django_q','0014_schedule_cluster','2023-03-15 13:12:37.845250'),(40,'grant','0001_initial','2023-03-15 13:12:38.102249'),(41,'project','0002_projectusermessage_is_private','2023-03-15 13:12:38.137209'),(42,'publication','0001_initial','2023-03-15 13:12:38.359707'),(43,'publication','0002_auto_20191223_1115','2023-03-15 13:12:38.452643'),(44,'publication','0003_auto_20200104_1700','2023-03-15 13:12:38.486584'),(45,'publication','0004_add_manual_publication_source','2023-03-15 13:12:38.532089'),(46,'research_output','0001_initial','2023-03-15 13:12:38.728805'),(47,'resource','0002_auto_20191017_1141','2023-03-15 13:12:38.835439'),(48,'sessions','0001_initial','2023-03-15 13:12:38.854092'),(49,'user','0001_initial','2023-03-15 13:12:38.931301');
+/*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_q_ormq`
+--
+
+DROP TABLE IF EXISTS `django_q_ormq`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_q_ormq` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key` varchar(100) NOT NULL,
+  `payload` longtext NOT NULL,
+  `lock` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_q_ormq`
+--
+
+LOCK TABLES `django_q_ormq` WRITE;
+/*!40000 ALTER TABLE `django_q_ormq` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_q_ormq` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_q_schedule`
+--
+
+DROP TABLE IF EXISTS `django_q_schedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_q_schedule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `func` varchar(256) NOT NULL,
+  `hook` varchar(256) DEFAULT NULL,
+  `args` longtext DEFAULT NULL,
+  `kwargs` longtext DEFAULT NULL,
+  `schedule_type` varchar(1) NOT NULL,
+  `repeats` int(11) NOT NULL,
+  `next_run` datetime(6) DEFAULT NULL,
+  `task` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `minutes` smallint(5) unsigned DEFAULT NULL CHECK (`minutes` >= 0),
+  `cron` varchar(100) DEFAULT NULL,
+  `cluster` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_q_schedule`
+--
+
+LOCK TABLES `django_q_schedule` WRITE;
+/*!40000 ALTER TABLE `django_q_schedule` DISABLE KEYS */;
+INSERT INTO `django_q_schedule` VALUES (1,'coldfront.core.allocation.tasks.update_statuses',NULL,'()','{}','D',-1,'2023-03-16 00:00:00.000000',NULL,NULL,NULL,NULL,NULL),(2,'coldfront.core.allocation.tasks.send_expiry_emails',NULL,'()','{}','D',-1,'2023-03-16 00:00:00.000000',NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `django_q_schedule` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_q_task`
+--
+
+DROP TABLE IF EXISTS `django_q_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_q_task` (
+  `name` varchar(100) NOT NULL,
+  `func` varchar(256) NOT NULL,
+  `hook` varchar(256) DEFAULT NULL,
+  `args` longtext DEFAULT NULL,
+  `kwargs` longtext DEFAULT NULL,
+  `result` longtext DEFAULT NULL,
+  `started` datetime(6) NOT NULL,
+  `stopped` datetime(6) NOT NULL,
+  `success` tinyint(1) NOT NULL,
+  `id` varchar(32) NOT NULL,
+  `group` varchar(100) DEFAULT NULL,
+  `attempt_count` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_q_task`
+--
+
+LOCK TABLES `django_q_task` WRITE;
+/*!40000 ALTER TABLE `django_q_task` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_q_task` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_session`
+--
+
+DROP TABLE IF EXISTS `django_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_session` (
+  `session_key` varchar(40) NOT NULL,
+  `session_data` longtext NOT NULL,
+  `expire_date` datetime(6) NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_expire_date_a5c62663` (`expire_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_session`
+--
+
+LOCK TABLES `django_session` WRITE;
+/*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `field_of_science_fieldofscience`
+--
+
+DROP TABLE IF EXISTS `field_of_science_fieldofscience`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `field_of_science_fieldofscience` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `is_selectable` tinyint(1) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `fos_nsf_id` int(11) DEFAULT NULL,
+  `fos_nsf_abbrev` varchar(10) DEFAULT NULL,
+  `directorate_fos_id` int(11) DEFAULT NULL,
+  `parent_id_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `field_of_science_fie_parent_id_id_e239934a_fk_field_of_` (`parent_id_id`),
+  CONSTRAINT `field_of_science_fie_parent_id_id_e239934a_fk_field_of_` FOREIGN KEY (`parent_id_id`) REFERENCES `field_of_science_fieldofscience` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `field_of_science_fieldofscience`
+--
+
+LOCK TABLES `field_of_science_fieldofscience` WRITE;
+/*!40000 ALTER TABLE `field_of_science_fieldofscience` DISABLE KEYS */;
+INSERT INTO `field_of_science_fieldofscience` VALUES (1,'2023-03-15 13:12:39.114447','2023-03-15 13:12:39.114583',0,'Mathematical and Physical Sciences',100,'MPS',1,NULL),(2,'2023-03-15 13:12:39.116224','2023-03-15 13:12:39.118590',0,'Mathematical Sciences',110,'DMS',1,1),(3,'2023-03-15 13:12:39.120494','2023-03-15 13:12:39.123038',1,'Classical Analysis',111,'',1,2),(4,'2023-03-15 13:12:39.124150','2023-03-15 13:12:39.127393',1,'Modern Analysis',112,'',1,2),(5,'2023-03-15 13:12:39.128397','2023-03-15 13:12:39.130873',1,'Geometric Analysis',113,'',1,2),(6,'2023-03-15 13:12:39.132058','2023-03-15 13:12:39.134752',1,'Topology and Foundations',114,'',1,2),(7,'2023-03-15 13:12:39.135934','2023-03-15 13:12:39.137968',1,'Algebra and Number Theory',115,'',1,2),(8,'2023-03-15 13:12:39.140632','2023-03-15 13:12:39.142991',1,'Applied Mathematics',116,'',1,2),(9,'2023-03-15 13:12:39.144220','2023-03-15 13:12:39.146750',1,'Statistics and Probability',117,'',1,2),(10,'2023-03-15 13:12:39.147831','2023-03-15 13:12:39.151316',1,'Computational Mathematics',118,'',1,2),(11,'2023-03-15 13:12:39.152583','2023-03-15 13:12:39.155669',0,'Astronomical Sciences',120,'AST',1,1),(12,'2023-03-15 13:12:39.156863','2023-03-15 13:12:39.159383',1,'Extragalactic Astronomy and Cosmology',121,'',1,11),(13,'2023-03-15 13:12:39.160685','2023-03-15 13:12:39.163488',1,'Planetary Astronomy',122,'',1,11),(14,'2023-03-15 13:12:39.165459','2023-03-15 13:12:39.168423',1,'Stellar Astronomy and Astrophysics',123,'',1,11),(15,'2023-03-15 13:12:39.170516','2023-03-15 13:12:39.173301',1,'Galactic Astronomy',124,'',1,11),(16,'2023-03-15 13:12:39.174582','2023-03-15 13:12:39.176956',0,'Physics',130,'PHY',1,1),(17,'2023-03-15 13:12:39.178156','2023-03-15 13:12:39.181649',1,'Elementary Particle Physics',131,'',1,16),(18,'2023-03-15 13:12:39.182892','2023-03-15 13:12:39.185344',1,'Nuclear Physics',132,'',1,16),(19,'2023-03-15 13:12:39.186559','2023-03-15 13:12:39.189420',1,'Atomic, Molecular, and Optical Physics',133,'',1,16),(20,'2023-03-15 13:12:39.191378','2023-03-15 13:12:39.193641',1,'Theoretical Physics',134,'',1,16),(21,'2023-03-15 13:12:39.195049','2023-03-15 13:12:39.198201',1,'Gravitational Physics',135,'',1,16),(22,'2023-03-15 13:12:39.200202','2023-03-15 13:12:39.202546',0,'Chemistry',140,'CHE',1,1),(23,'2023-03-15 13:12:39.204152','2023-03-15 13:12:39.207844',1,'Analytical and Surface Chemistry',141,'',1,22),(24,'2023-03-15 13:12:39.209090','2023-03-15 13:12:39.211543',1,'Inorganic, Bioinorganic, and Organometallic Chemistry',142,'',1,22),(25,'2023-03-15 13:12:39.212748','2023-03-15 13:12:39.215550',1,'Organic and Macromolecular Chemistry',143,'',1,22),(26,'2023-03-15 13:12:39.216853','2023-03-15 13:12:39.219958',1,'Physical Chemistry',144,'',1,22),(27,'2023-03-15 13:12:39.221064','2023-03-15 13:12:39.223447',0,'Materials Research',150,'DMR',1,1),(28,'2023-03-15 13:12:39.224875','2023-03-15 13:12:39.227425',1,'Solid State Chemistry and Polymers',152,'',1,27),(29,'2023-03-15 13:12:39.228658','2023-03-15 13:12:39.231061',1,'Condensed Matter Physics',154,'',1,27),(30,'2023-03-15 13:12:39.232105','2023-03-15 13:12:39.235479',1,'Metals, Ceramics, and Electronic Materials',156,'',1,27),(31,'2023-03-15 13:12:39.236805','2023-03-15 13:12:39.236884',0,'Computer and Information Science and Engineering',300,'CIE',31,NULL),(32,'2023-03-15 13:12:39.238434','2023-03-15 13:12:39.242441',0,'Computer and Computation Research',310,'CCR',31,31),(33,'2023-03-15 13:12:39.244207','2023-03-15 13:12:39.248027',1,'Computer and Computation Theory',311,'',31,32),(34,'2023-03-15 13:12:39.250078','2023-03-15 13:12:39.253007',1,'Numeric and Symbolic Computation',312,'',31,32),(35,'2023-03-15 13:12:39.254247','2023-03-15 13:12:39.257193',1,'Computer Systems Architecture',313,'',31,32),(36,'2023-03-15 13:12:39.258553','2023-03-15 13:12:39.262152',1,'Software Systems',314,'',31,32),(37,'2023-03-15 13:12:39.263528','2023-03-15 13:12:39.266237',1,'Software Engineering',315,'',31,32),(38,'2023-03-15 13:12:39.267528','2023-03-15 13:12:39.271584',0,'Information, Robotics, and Intelligent Systems',320,'IRI',31,31),(39,'2023-03-15 13:12:39.273584','2023-03-15 13:12:39.276587',1,'Knowledge Models and Cognitive Systems',321,'',31,38),(40,'2023-03-15 13:12:39.278546','2023-03-15 13:12:39.282138',1,'Robotics and Machine Intelligence',322,'',31,38),(41,'2023-03-15 13:12:39.283303','2023-03-15 13:12:39.286206',1,'Interactive Systems',323,'',31,38),(42,'2023-03-15 13:12:39.287529','2023-03-15 13:12:39.292741',1,'Information Technology and Organizations',324,'',31,38),(43,'2023-03-15 13:12:39.294089','2023-03-15 13:12:39.297101',0,'Microelectronic Information Processing Systems',330,'MIP',31,31),(44,'2023-03-15 13:12:39.298787','2023-03-15 13:12:39.301741',1,'Microelectronic Systems Architecture',331,'',31,43),(45,'2023-03-15 13:12:39.303080','2023-03-15 13:12:39.306556',1,'Circuits and Signal Processing',332,'',31,43),(46,'2023-03-15 13:12:39.310656','2023-03-15 13:12:39.313767',1,'Experimental Systems',333,'',31,43),(47,'2023-03-15 13:12:39.314977','2023-03-15 13:12:39.318241',1,'Systems Prototyping and Fabrication',334,'',31,43),(48,'2023-03-15 13:12:39.320292','2023-03-15 13:12:39.324202',1,'Design, Tools, and Test',335,'',31,43),(49,'2023-03-15 13:12:39.325446','2023-03-15 13:12:39.327583',0,'Advanced Scientific Computing',340,'ASC',31,31),(50,'2023-03-15 13:12:39.330262','2023-03-15 13:12:39.333097',1,'Performance Evaluation and Benchmarking',341,'',31,49),(51,'2023-03-15 13:12:39.334385','2023-03-15 13:12:39.337166',1,'Algorithm Development',342,'',31,49),(52,'2023-03-15 13:12:39.338688','2023-03-15 13:12:39.341384',1,'Visualization, Graphics, and Image Processing',343,'',31,49),(53,'2023-03-15 13:12:39.342902','2023-03-15 13:12:39.345670',1,'Software Development',344,'',31,49),(54,'2023-03-15 13:12:39.347286','2023-03-15 13:12:39.350991',1,'Distributed and Parallel Processing, Vectorization',345,'',31,49),(55,'2023-03-15 13:12:39.353329','2023-03-15 13:12:39.356468',1,'Networking and Communications Research',350,'NCR',31,31),(56,'2023-03-15 13:12:39.358139','2023-03-15 13:12:39.361458',0,'Cross-Disciplinary Activities',360,'CDA',31,31),(57,'2023-03-15 13:12:39.364715','2023-03-15 13:12:39.367358',1,'Research Instrumentation',361,'',31,56),(58,'2023-03-15 13:12:39.368765','2023-03-15 13:12:39.371513',1,'Institutional Infrastructure',362,'',31,56),(59,'2023-03-15 13:12:39.372702','2023-03-15 13:12:39.375377',1,'Educational Infrastructure',363,'',31,56),(60,'2023-03-15 13:12:39.376505','2023-03-15 13:12:39.378954',1,'Cross-Directorate Activities',364,'',31,56),(61,'2023-03-15 13:12:39.381013','2023-03-15 13:12:39.383775',1,'Special Projects',365,'',31,56),(62,'2023-03-15 13:12:39.384993','2023-03-15 13:12:39.385075',0,'Biological Sciences',401,'BIO',62,NULL),(63,'2023-03-15 13:12:39.386682','2023-03-15 13:12:39.386757',0,'Social, Behavioral, and Economic Sciences',402,'SBE',63,NULL),(64,'2023-03-15 13:12:39.388355','2023-03-15 13:12:39.391472',0,'Molecular Biosciences',410,'MCB',62,62),(65,'2023-03-15 13:12:39.393530','2023-03-15 13:12:39.397393',1,'Biochemistry and Molecular Structure and Function',411,'',62,64),(66,'2023-03-15 13:12:39.400101','2023-03-15 13:12:39.403434',1,'Biophysics',412,'',62,64),(67,'2023-03-15 13:12:39.404701','2023-03-15 13:12:39.407428',1,'Genetics and Nucleic Acids',413,'',62,64),(68,'2023-03-15 13:12:39.408653','2023-03-15 13:12:39.411264',1,'Cell Biology',414,'',62,64),(69,'2023-03-15 13:12:39.412628','2023-03-15 13:12:39.415532',0,'Environmental Biology',430,'DEB',62,62),(70,'2023-03-15 13:12:39.417521','2023-03-15 13:12:39.421929',1,'Ecological Studies',431,'',62,69),(71,'2023-03-15 13:12:39.424714','2023-03-15 13:12:39.427585',1,'Systematic and Population Biology',433,'',62,69),(72,'2023-03-15 13:12:39.430091','2023-03-15 13:12:39.433057',0,'Behavioral and Neural Sciences',440,'BNS',63,63),(73,'2023-03-15 13:12:39.435649','2023-03-15 13:12:39.438537',1,'Anthropology',441,'',63,72),(74,'2023-03-15 13:12:39.440522','2023-03-15 13:12:39.443820',1,'Language, Cognition, and Social Behavior',442,'',63,72),(75,'2023-03-15 13:12:39.445518','2023-03-15 13:12:39.448710',0,'Social and Economic Science',450,'SES',63,63),(76,'2023-03-15 13:12:39.452040','2023-03-15 13:12:39.455328',1,'Economics',451,'',63,75),(77,'2023-03-15 13:12:39.456739','2023-03-15 13:12:39.459324',1,'Geography and Regional Science',452,'',63,75),(78,'2023-03-15 13:12:39.460767','2023-03-15 13:12:39.463617',1,'Sociology',453,'',63,75),(79,'2023-03-15 13:12:39.465057','2023-03-15 13:12:39.468877',1,'Methodology, Measurement, and Statistics',454,'',63,75),(80,'2023-03-15 13:12:39.470718','2023-03-15 13:12:39.473715',1,'Political Science',455,'',63,75),(81,'2023-03-15 13:12:39.475618','2023-03-15 13:12:39.478867',1,'Law and Social Sciences',456,'',63,75),(82,'2023-03-15 13:12:39.481384','2023-03-15 13:12:39.484079',1,'Decision, Risk, and Management Science',457,'',63,75),(83,'2023-03-15 13:12:39.485322','2023-03-15 13:12:39.487622',1,'Biological Instrumentation and Resources',460,'BIR',62,62),(84,'2023-03-15 13:12:39.489928','2023-03-15 13:12:39.492735',0,'Integrative Biology and Neuroscience',470,'IBN',62,62),(85,'2023-03-15 13:12:39.494592','2023-03-15 13:12:39.497280',1,'Developmental Biology',471,'',62,84),(86,'2023-03-15 13:12:39.498611','2023-03-15 13:12:39.501143',1,'Neuroscience Biology',472,'',62,84),(87,'2023-03-15 13:12:39.502349','2023-03-15 13:12:39.504845',1,'Physiology and Behavior',473,'',62,84),(88,'2023-03-15 13:12:39.506775','2023-03-15 13:12:39.510144',1,'Science Resources Studies',480,'SRS',63,63),(89,'2023-03-15 13:12:39.511605','2023-03-15 13:12:39.514680',1,'International Programs',490,'INT',63,63),(90,'2023-03-15 13:12:39.516377','2023-03-15 13:12:39.516474',0,'Geosciences',500,'GEO',90,NULL),(91,'2023-03-15 13:12:39.518181','2023-03-15 13:12:39.522449',0,'Atmospheric Sciences',510,'ATM',90,90),(92,'2023-03-15 13:12:39.525441','2023-03-15 13:12:39.528218',1,'Meteorology',511,'',90,91),(93,'2023-03-15 13:12:39.530575','2023-03-15 13:12:39.533532',1,'Atmospheric Chemistry',512,'',90,91),(94,'2023-03-15 13:12:39.535091','2023-03-15 13:12:39.538052',1,'Climate Dynamics',514,'',90,91),(95,'2023-03-15 13:12:39.540696','2023-03-15 13:12:39.543666',1,'Global Atmospheric Research',515,'',90,91),(96,'2023-03-15 13:12:39.544739','2023-03-15 13:12:39.547986',1,'Aeronomy',516,'',90,91),(97,'2023-03-15 13:12:39.550552','2023-03-15 13:12:39.554517',1,'Magnetospheric Physics',517,'',90,91),(98,'2023-03-15 13:12:39.555736','2023-03-15 13:12:39.558684',1,'Solar Terrestrial Research',518,'',90,91),(99,'2023-03-15 13:12:39.561053','2023-03-15 13:12:39.564831',0,'Earth Sciences',520,'EAR',90,90),(100,'2023-03-15 13:12:39.566407','2023-03-15 13:12:39.569379',1,'Geology and Paleontology',521,'',90,99),(101,'2023-03-15 13:12:39.571290','2023-03-15 13:12:39.574245',1,'Surficial Processes',522,'',90,99),(102,'2023-03-15 13:12:39.576180','2023-03-15 13:12:39.578728',1,'Tectonics',523,'',90,99),(103,'2023-03-15 13:12:39.580706','2023-03-15 13:12:39.584802',1,'Seismology',524,'',90,99),(104,'2023-03-15 13:12:39.585965','2023-03-15 13:12:39.588516',1,'Geophysics',525,'',90,99),(105,'2023-03-15 13:12:39.590358','2023-03-15 13:12:39.592691',1,'Petrogenesis and Mineral Resources',526,'',90,99),(106,'2023-03-15 13:12:39.593875','2023-03-15 13:12:39.596431',1,'Volcanology and Mantle Geochemistry',527,'',90,99),(107,'2023-03-15 13:12:39.598394','2023-03-15 13:12:39.602005',1,'Experimental and Theoretical Geochemistry',528,'',90,99),(108,'2023-03-15 13:12:39.603455','2023-03-15 13:12:39.606845',0,'Ocean Sciences',530,'OCE',90,90),(109,'2023-03-15 13:12:39.608107','2023-03-15 13:12:39.611239',1,'Biological Oceanography',531,'',90,108),(110,'2023-03-15 13:12:39.613034','2023-03-15 13:12:39.616178',1,'Chemical Oceanography',532,'',90,108),(111,'2023-03-15 13:12:39.617246','2023-03-15 13:12:39.620978',1,'Physical Oceanography',533,'',90,108),(112,'2023-03-15 13:12:39.622071','2023-03-15 13:12:39.625320',1,'Marine Geology and Geophysics',534,'',90,108),(113,'2023-03-15 13:12:39.626836','2023-03-15 13:12:39.631352',0,'Polar Programs',540,'DPP',90,90),(114,'2023-03-15 13:12:39.633093','2023-03-15 13:12:39.635659',1,'Polar Glaciology',541,'',90,113),(115,'2023-03-15 13:12:39.636883','2023-03-15 13:12:39.639772',1,'Polar Aeronomy and Astrophysics',542,'',90,113),(116,'2023-03-15 13:12:39.641006','2023-03-15 13:12:39.644630',1,'Polar Biology and Medicine',543,'',90,113),(117,'2023-03-15 13:12:39.646436','2023-03-15 13:12:39.649063',1,'Polar Earth Sciences',544,'',90,113),(118,'2023-03-15 13:12:39.651089','2023-03-15 13:12:39.654355',1,'Polar Meteorology',545,'',90,113),(119,'2023-03-15 13:12:39.656030','2023-03-15 13:12:39.659575',1,'Polar Ocean and Climate Systems',546,'',90,113),(120,'2023-03-15 13:12:39.661112','2023-03-15 13:12:39.661191',0,'Engineering',600,'ENG',120,NULL),(121,'2023-03-15 13:12:39.663144','2023-03-15 13:12:39.665749',0,'Chemical, Thermal Systems',610,'CTS',120,120),(122,'2023-03-15 13:12:39.666965','2023-03-15 13:12:39.670735',1,'Chemical and Reaction Processes',611,'',120,121),(123,'2023-03-15 13:12:39.671895','2023-03-15 13:12:39.674343',1,'Interfacial, Transport, and Separations Processes',612,'',120,121),(124,'2023-03-15 13:12:39.675577','2023-03-15 13:12:39.678095',1,'Thermal Systems',613,'',120,121),(125,'2023-03-15 13:12:39.680882','2023-03-15 13:12:39.684132',1,'Fluid, Particulate, and Hydraulic Systems',614,'',120,121),(126,'2023-03-15 13:12:39.685261','2023-03-15 13:12:39.687915',0,'Mechanical and Structural Systems',620,'MSS',120,120),(127,'2023-03-15 13:12:39.689884','2023-03-15 13:12:39.692528',1,'Dynamic Systems and Control',621,'',120,126),(128,'2023-03-15 13:12:39.693790','2023-03-15 13:12:39.697696',1,'Structures and Building Systems',622,'',120,126),(129,'2023-03-15 13:12:39.698927','2023-03-15 13:12:39.701756',1,'Mechanics and Materials',623,'',120,126),(130,'2023-03-15 13:12:39.703374','2023-03-15 13:12:39.705796',1,'Surface Engineering and Tribology',625,'',120,126),(131,'2023-03-15 13:12:39.707348','2023-03-15 13:12:39.710832',0,'Electrical and Communication Systems',630,'ECS',120,120),(132,'2023-03-15 13:12:39.712070','2023-03-15 13:12:39.714766',1,'Quantum Electronics, Waves, and Beams',631,'',120,131),(133,'2023-03-15 13:12:39.715843','2023-03-15 13:12:39.718231',1,'Solid-State and Microstructures',632,'',120,131),(134,'2023-03-15 13:12:39.719996','2023-03-15 13:12:39.722470',1,'Communications and Computational Systems',633,'',120,131),(135,'2023-03-15 13:12:39.724102','2023-03-15 13:12:39.726784',1,'Engineering Systems',634,'',120,131),(136,'2023-03-15 13:12:39.727958','2023-03-15 13:12:39.730830',1,'Emerging Technologies Initiation',635,'',120,131),(137,'2023-03-15 13:12:39.731906','2023-03-15 13:12:39.735427',0,'Design and Manufacturing Systems',640,'DDM',120,120),(138,'2023-03-15 13:12:39.736595','2023-03-15 13:12:39.739153',1,'Operations Research and Production Systems',641,'',120,137),(139,'2023-03-15 13:12:39.741012','2023-03-15 13:12:39.743659',1,'Design and Computer-Integrated Engineering',642,'',120,137),(140,'2023-03-15 13:12:39.744817','2023-03-15 13:12:39.747145',1,'Manufacturing Processes and Equipment',643,'',120,137),(141,'2023-03-15 13:12:39.748494','2023-03-15 13:12:39.751093',0,'Biological and Critical Systems',650,'BCS',120,120),(142,'2023-03-15 13:12:39.752578','2023-03-15 13:12:39.754924',1,'Bioengineering Aiding the Disabled',651,'',120,141),(143,'2023-03-15 13:12:39.756237','2023-03-15 13:12:39.759123',1,'Environmental and Ocean Systems',652,'',120,141),(144,'2023-03-15 13:12:39.760741','2023-03-15 13:12:39.763327',1,'Earthquake Hazard Mitigation',653,'',120,141),(145,'2023-03-15 13:12:39.764547','2023-03-15 13:12:39.767151',1,'Natural and Man-Made Hazard Mitigation',654,'',120,141),(146,'2023-03-15 13:12:39.768512','2023-03-15 13:12:39.771107',1,'Engineering Centers',660,'ECD',120,120),(147,'2023-03-15 13:12:39.773060','2023-03-15 13:12:39.775451',1,'Engineering Infrastructure Development',670,'EID',120,120),(148,'2023-03-15 13:12:39.776611','2023-03-15 13:12:39.778971',1,'Industrial Science and Technological Innovation',680,'ISI',120,120),(149,'2023-03-15 13:12:39.781113','2023-03-15 13:12:39.781192',1,'Other',900,'',149,NULL),(150,'2023-03-15 13:12:39.783117','2023-03-15 13:12:39.785695',1,'Science and Engineering Education',910,'SEE',149,149),(151,'2023-03-15 13:12:39.787642','2023-03-15 13:12:39.790918',1,'Small Business Innovation Research',920,'SBR',149,149),(152,'2023-03-15 13:12:39.792520','2023-03-15 13:12:39.794868',1,'Industrial Partners Research',930,'IND',149,149),(153,'2023-03-15 13:12:39.796060','2023-03-15 13:12:39.798525',1,'Center Systems Staff',940,'STA',149,149),(154,'2023-03-15 13:12:39.800432','2023-03-15 13:12:39.803048',1,'Training',950,'TRA',149,149),(155,'2023-03-15 13:12:39.804421','2023-03-15 13:12:39.806866',1,'Block Grants',960,'',149,149),(156,'2023-03-15 13:12:39.808077','2023-03-15 13:12:39.808155',0,'Humanities/Arts',700,'HUA',156,NULL),(157,'2023-03-15 13:12:39.810612','2023-03-15 13:12:39.813725',1,'Humanities',710,'HUM',156,156),(158,'2023-03-15 13:12:39.815277','2023-03-15 13:12:39.817813',1,'Arts',720,'ART',156,156);
+/*!40000 ALTER TABLE `field_of_science_fieldofscience` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grant_grant`
+--
+
+DROP TABLE IF EXISTS `grant_grant`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grant_grant` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `grant_number` varchar(255) NOT NULL,
+  `role` varchar(10) NOT NULL,
+  `grant_pi_full_name` varchar(255) NOT NULL,
+  `other_funding_agency` varchar(255) NOT NULL,
+  `other_award_number` varchar(255) NOT NULL,
+  `grant_start` date NOT NULL,
+  `grant_end` date NOT NULL,
+  `percent_credit` double NOT NULL,
+  `direct_funding` double NOT NULL,
+  `total_amount_awarded` double NOT NULL,
+  `funding_agency_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `grant_grant_funding_agency_id_1a97c398_fk_grant_gra` (`funding_agency_id`),
+  KEY `grant_grant_project_id_0253a10c_fk_project_project_id` (`project_id`),
+  KEY `grant_grant_status_id_0f6d02ab_fk_grant_grantstatuschoice_id` (`status_id`),
+  CONSTRAINT `grant_grant_funding_agency_id_1a97c398_fk_grant_gra` FOREIGN KEY (`funding_agency_id`) REFERENCES `grant_grantfundingagency` (`id`),
+  CONSTRAINT `grant_grant_project_id_0253a10c_fk_project_project_id` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`),
+  CONSTRAINT `grant_grant_status_id_0f6d02ab_fk_grant_grantstatuschoice_id` FOREIGN KEY (`status_id`) REFERENCES `grant_grantstatuschoice` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grant_grant`
+--
+
+LOCK TABLES `grant_grant` WRITE;
+/*!40000 ALTER TABLE `grant_grant` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grant_grant` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grant_grantfundingagency`
+--
+
+DROP TABLE IF EXISTS `grant_grantfundingagency`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grant_grantfundingagency` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grant_grantfundingagency`
+--
+
+LOCK TABLES `grant_grantfundingagency` WRITE;
+/*!40000 ALTER TABLE `grant_grantfundingagency` DISABLE KEYS */;
+INSERT INTO `grant_grantfundingagency` VALUES (1,'2023-03-15 13:12:39.822101','2023-03-15 13:12:39.822101','Department of Defense (DoD)'),(2,'2023-03-15 13:12:39.824580','2023-03-15 13:12:39.824580','Department of Energy (DOE)'),(3,'2023-03-15 13:12:39.826927','2023-03-15 13:12:39.826927','Environmental Protection Agency (EPA)'),(4,'2023-03-15 13:12:39.829360','2023-03-15 13:12:39.829360','National Aeronautics and Space Administration (NASA)'),(5,'2023-03-15 13:12:39.831223','2023-03-15 13:12:39.831223','National Institutes of Health (NIH)'),(6,'2023-03-15 13:12:39.833152','2023-03-15 13:12:39.833152','National Science Foundation (NSF)'),(7,'2023-03-15 13:12:39.835280','2023-03-15 13:12:39.835280','New York State Department of Health (DOH)'),(8,'2023-03-15 13:12:39.837210','2023-03-15 13:12:39.837210','New York State (NYS)'),(9,'2023-03-15 13:12:39.839983','2023-03-15 13:12:39.839983','Empire State Development (ESD)'),(10,'2023-03-15 13:12:39.841818','2023-03-15 13:12:39.841818','Empire State Development\'s Division of Science, Technology and Innovation (NYSTAR)'),(11,'2023-03-15 13:12:39.843777','2023-03-15 13:12:39.843777','Other');
+/*!40000 ALTER TABLE `grant_grantfundingagency` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grant_grantstatuschoice`
+--
+
+DROP TABLE IF EXISTS `grant_grantstatuschoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grant_grantstatuschoice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grant_grantstatuschoice`
+--
+
+LOCK TABLES `grant_grantstatuschoice` WRITE;
+/*!40000 ALTER TABLE `grant_grantstatuschoice` DISABLE KEYS */;
+INSERT INTO `grant_grantstatuschoice` VALUES (1,'2023-03-15 13:12:39.846615','2023-03-15 13:12:39.846615','Active'),(2,'2023-03-15 13:12:39.848503','2023-03-15 13:12:39.848503','Archived'),(3,'2023-03-15 13:12:39.851971','2023-03-15 13:12:39.851971','Pending');
+/*!40000 ALTER TABLE `grant_grantstatuschoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grant_historicalgrant`
+--
+
+DROP TABLE IF EXISTS `grant_historicalgrant`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grant_historicalgrant` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `grant_number` varchar(255) NOT NULL,
+  `role` varchar(10) NOT NULL,
+  `grant_pi_full_name` varchar(255) NOT NULL,
+  `other_funding_agency` varchar(255) NOT NULL,
+  `other_award_number` varchar(255) NOT NULL,
+  `grant_start` date NOT NULL,
+  `grant_end` date NOT NULL,
+  `percent_credit` double NOT NULL,
+  `direct_funding` double NOT NULL,
+  `total_amount_awarded` double NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `funding_agency_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `grant_historicalgrant_history_user_id_718df969_fk_auth_user_id` (`history_user_id`),
+  KEY `grant_historicalgrant_id_c0d06f7f` (`id`),
+  KEY `grant_historicalgrant_funding_agency_id_1d122682` (`funding_agency_id`),
+  KEY `grant_historicalgrant_project_id_4390dc4a` (`project_id`),
+  KEY `grant_historicalgrant_status_id_78e12bed` (`status_id`),
+  CONSTRAINT `grant_historicalgrant_history_user_id_718df969_fk_auth_user_id` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grant_historicalgrant`
+--
+
+LOCK TABLES `grant_historicalgrant` WRITE;
+/*!40000 ALTER TABLE `grant_historicalgrant` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grant_historicalgrant` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_historicalproject`
+--
+
+DROP TABLE IF EXISTS `project_historicalproject`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_historicalproject` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` longtext NOT NULL,
+  `force_review` tinyint(1) NOT NULL,
+  `requires_review` tinyint(1) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `field_of_science_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `pi_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `project_historicalpr_history_user_id_e17300cc_fk_auth_user` (`history_user_id`),
+  KEY `project_historicalproject_id_60dca169` (`id`),
+  KEY `project_historicalproject_field_of_science_id_d081d0e2` (`field_of_science_id`),
+  KEY `project_historicalproject_pi_id_eeac0a31` (`pi_id`),
+  KEY `project_historicalproject_status_id_568bbfc1` (`status_id`),
+  CONSTRAINT `project_historicalpr_history_user_id_e17300cc_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_historicalproject`
+--
+
+LOCK TABLES `project_historicalproject` WRITE;
+/*!40000 ALTER TABLE `project_historicalproject` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_historicalproject` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_historicalprojectreview`
+--
+
+DROP TABLE IF EXISTS `project_historicalprojectreview`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_historicalprojectreview` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `reason_for_not_updating_project` longtext DEFAULT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `project_historicalpr_history_user_id_2b716e58_fk_auth_user` (`history_user_id`),
+  KEY `project_historicalprojectreview_id_1953d490` (`id`),
+  KEY `project_historicalprojectreview_project_id_1692a058` (`project_id`),
+  KEY `project_historicalprojectreview_status_id_d0b59bed` (`status_id`),
+  CONSTRAINT `project_historicalpr_history_user_id_2b716e58_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_historicalprojectreview`
+--
+
+LOCK TABLES `project_historicalprojectreview` WRITE;
+/*!40000 ALTER TABLE `project_historicalprojectreview` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_historicalprojectreview` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_historicalprojectuser`
+--
+
+DROP TABLE IF EXISTS `project_historicalprojectuser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_historicalprojectuser` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `enable_notifications` tinyint(1) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `project_historicalpr_history_user_id_fc0c52b2_fk_auth_user` (`history_user_id`),
+  KEY `project_historicalprojectuser_id_0c642cb6` (`id`),
+  KEY `project_historicalprojectuser_project_id_5a6bf8f6` (`project_id`),
+  KEY `project_historicalprojectuser_role_id_65b74013` (`role_id`),
+  KEY `project_historicalprojectuser_status_id_967d8a13` (`status_id`),
+  KEY `project_historicalprojectuser_user_id_798e9dbb` (`user_id`),
+  CONSTRAINT `project_historicalpr_history_user_id_fc0c52b2_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_historicalprojectuser`
+--
+
+LOCK TABLES `project_historicalprojectuser` WRITE;
+/*!40000 ALTER TABLE `project_historicalprojectuser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_historicalprojectuser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_project`
+--
+
+DROP TABLE IF EXISTS `project_project`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_project` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` longtext NOT NULL,
+  `force_review` tinyint(1) NOT NULL,
+  `requires_review` tinyint(1) NOT NULL,
+  `field_of_science_id` int(11) NOT NULL,
+  `pi_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `project_project_status_id_78c6e3dd_fk_project_p` (`status_id`),
+  KEY `project_project_field_of_science_id_08ebe013_fk_field_of_` (`field_of_science_id`),
+  KEY `project_project_pi_id_d89a9e2f_fk_auth_user_id` (`pi_id`),
+  CONSTRAINT `project_project_field_of_science_id_08ebe013_fk_field_of_` FOREIGN KEY (`field_of_science_id`) REFERENCES `field_of_science_fieldofscience` (`id`),
+  CONSTRAINT `project_project_pi_id_d89a9e2f_fk_auth_user_id` FOREIGN KEY (`pi_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `project_project_status_id_78c6e3dd_fk_project_p` FOREIGN KEY (`status_id`) REFERENCES `project_projectstatuschoice` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_project`
+--
+
+LOCK TABLES `project_project` WRITE;
+/*!40000 ALTER TABLE `project_project` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_project` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_projectadmincomment`
+--
+
+DROP TABLE IF EXISTS `project_projectadmincomment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_projectadmincomment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `comment` longtext NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `project_projectadmincomment_author_id_e2b30f43_fk_auth_user_id` (`author_id`),
+  KEY `project_projectadmin_project_id_3784c2f7_fk_project_p` (`project_id`),
+  CONSTRAINT `project_projectadmin_project_id_3784c2f7_fk_project_p` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`),
+  CONSTRAINT `project_projectadmincomment_author_id_e2b30f43_fk_auth_user_id` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_projectadmincomment`
+--
+
+LOCK TABLES `project_projectadmincomment` WRITE;
+/*!40000 ALTER TABLE `project_projectadmincomment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_projectadmincomment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_projectreview`
+--
+
+DROP TABLE IF EXISTS `project_projectreview`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_projectreview` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `reason_for_not_updating_project` longtext DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `project_projectreview_project_id_ce613a53_fk_project_project_id` (`project_id`),
+  KEY `project_projectrevie_status_id_02648ea3_fk_project_p` (`status_id`),
+  CONSTRAINT `project_projectrevie_status_id_02648ea3_fk_project_p` FOREIGN KEY (`status_id`) REFERENCES `project_projectreviewstatuschoice` (`id`),
+  CONSTRAINT `project_projectreview_project_id_ce613a53_fk_project_project_id` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_projectreview`
+--
+
+LOCK TABLES `project_projectreview` WRITE;
+/*!40000 ALTER TABLE `project_projectreview` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_projectreview` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_projectreviewstatuschoice`
+--
+
+DROP TABLE IF EXISTS `project_projectreviewstatuschoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_projectreviewstatuschoice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_projectreviewstatuschoice`
+--
+
+LOCK TABLES `project_projectreviewstatuschoice` WRITE;
+/*!40000 ALTER TABLE `project_projectreviewstatuschoice` DISABLE KEYS */;
+INSERT INTO `project_projectreviewstatuschoice` VALUES (1,'2023-03-15 13:12:39.864438','2023-03-15 13:12:39.864438','Completed'),(2,'2023-03-15 13:12:39.867075','2023-03-15 13:12:39.867075','Pending');
+/*!40000 ALTER TABLE `project_projectreviewstatuschoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_projectstatuschoice`
+--
+
+DROP TABLE IF EXISTS `project_projectstatuschoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_projectstatuschoice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_projectstatuschoice`
+--
+
+LOCK TABLES `project_projectstatuschoice` WRITE;
+/*!40000 ALTER TABLE `project_projectstatuschoice` DISABLE KEYS */;
+INSERT INTO `project_projectstatuschoice` VALUES (1,'2023-03-15 13:12:39.856099','2023-03-15 13:12:39.856099','New'),(2,'2023-03-15 13:12:39.858250','2023-03-15 13:12:39.858250','Active'),(3,'2023-03-15 13:12:39.861848','2023-03-15 13:12:39.861848','Archived');
+/*!40000 ALTER TABLE `project_projectstatuschoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_projectuser`
+--
+
+DROP TABLE IF EXISTS `project_projectuser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_projectuser` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `enable_notifications` tinyint(1) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `project_projectuser_user_id_project_id_fd102ced_uniq` (`user_id`,`project_id`),
+  KEY `project_projectuser_project_id_6e972543_fk_project_project_id` (`project_id`),
+  KEY `project_projectuser_role_id_70d4c1e5_fk_project_p` (`role_id`),
+  KEY `project_projectuser_status_id_2b85da74_fk_project_p` (`status_id`),
+  CONSTRAINT `project_projectuser_project_id_6e972543_fk_project_project_id` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`),
+  CONSTRAINT `project_projectuser_role_id_70d4c1e5_fk_project_p` FOREIGN KEY (`role_id`) REFERENCES `project_projectuserrolechoice` (`id`),
+  CONSTRAINT `project_projectuser_status_id_2b85da74_fk_project_p` FOREIGN KEY (`status_id`) REFERENCES `project_projectuserstatuschoice` (`id`),
+  CONSTRAINT `project_projectuser_user_id_b5f249d9_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_projectuser`
+--
+
+LOCK TABLES `project_projectuser` WRITE;
+/*!40000 ALTER TABLE `project_projectuser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_projectuser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_projectusermessage`
+--
+
+DROP TABLE IF EXISTS `project_projectusermessage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_projectusermessage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `message` longtext NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `is_private` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `project_projectusermessage_author_id_013403d2_fk_auth_user_id` (`author_id`),
+  KEY `project_projectuserm_project_id_f126dfcc_fk_project_p` (`project_id`),
+  CONSTRAINT `project_projectuserm_project_id_f126dfcc_fk_project_p` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`),
+  CONSTRAINT `project_projectusermessage_author_id_013403d2_fk_auth_user_id` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_projectusermessage`
+--
+
+LOCK TABLES `project_projectusermessage` WRITE;
+/*!40000 ALTER TABLE `project_projectusermessage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_projectusermessage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_projectuserrolechoice`
+--
+
+DROP TABLE IF EXISTS `project_projectuserrolechoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_projectuserrolechoice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_projectuserrolechoice`
+--
+
+LOCK TABLES `project_projectuserrolechoice` WRITE;
+/*!40000 ALTER TABLE `project_projectuserrolechoice` DISABLE KEYS */;
+INSERT INTO `project_projectuserrolechoice` VALUES (1,'2023-03-15 13:12:39.869736','2023-03-15 13:12:39.869736','User'),(2,'2023-03-15 13:12:39.871758','2023-03-15 13:12:39.871758','Manager');
+/*!40000 ALTER TABLE `project_projectuserrolechoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_projectuserstatuschoice`
+--
+
+DROP TABLE IF EXISTS `project_projectuserstatuschoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_projectuserstatuschoice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_projectuserstatuschoice`
+--
+
+LOCK TABLES `project_projectuserstatuschoice` WRITE;
+/*!40000 ALTER TABLE `project_projectuserstatuschoice` DISABLE KEYS */;
+INSERT INTO `project_projectuserstatuschoice` VALUES (1,'2023-03-15 13:12:39.875657','2023-03-15 13:12:39.875657','Active'),(2,'2023-03-15 13:12:39.877742','2023-03-15 13:12:39.877742','Pending - Add'),(3,'2023-03-15 13:12:39.879618','2023-03-15 13:12:39.879618','Pending - Remove'),(4,'2023-03-15 13:12:39.881488','2023-03-15 13:12:39.881488','Denied'),(5,'2023-03-15 13:12:39.883394','2023-03-15 13:12:39.883394','Removed');
+/*!40000 ALTER TABLE `project_projectuserstatuschoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `publication_historicalpublication`
+--
+
+DROP TABLE IF EXISTS `publication_historicalpublication`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `publication_historicalpublication` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `title` varchar(1024) NOT NULL,
+  `author` varchar(1024) NOT NULL,
+  `year` int(10) unsigned NOT NULL CHECK (`year` >= 0),
+  `unique_id` varchar(255) DEFAULT NULL,
+  `status` varchar(16) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `source_id` int(11) DEFAULT NULL,
+  `journal` varchar(1024) NOT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `publication_historic_history_user_id_5716ab54_fk_auth_user` (`history_user_id`),
+  KEY `publication_historicalpublication_id_7753bbd1` (`id`),
+  KEY `publication_historicalpublication_project_id_48647b90` (`project_id`),
+  KEY `publication_historicalpublication_source_id_01f799d3` (`source_id`),
+  CONSTRAINT `publication_historic_history_user_id_5716ab54_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `publication_historicalpublication`
+--
+
+LOCK TABLES `publication_historicalpublication` WRITE;
+/*!40000 ALTER TABLE `publication_historicalpublication` DISABLE KEYS */;
+/*!40000 ALTER TABLE `publication_historicalpublication` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `publication_publication`
+--
+
+DROP TABLE IF EXISTS `publication_publication`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `publication_publication` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `title` varchar(1024) NOT NULL,
+  `author` varchar(1024) NOT NULL,
+  `year` int(10) unsigned NOT NULL CHECK (`year` >= 0),
+  `unique_id` varchar(255) DEFAULT NULL,
+  `status` varchar(16) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `source_id` int(11) NOT NULL,
+  `journal` varchar(1024) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `publication_publication_project_id_unique_id_3cca3e2b_uniq` (`project_id`,`unique_id`),
+  KEY `publication_publicat_source_id_bad513c4_fk_publicati` (`source_id`),
+  CONSTRAINT `publication_publicat_project_id_71866df3_fk_project_p` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`),
+  CONSTRAINT `publication_publicat_source_id_bad513c4_fk_publicati` FOREIGN KEY (`source_id`) REFERENCES `publication_publicationsource` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `publication_publication`
+--
+
+LOCK TABLES `publication_publication` WRITE;
+/*!40000 ALTER TABLE `publication_publication` DISABLE KEYS */;
+/*!40000 ALTER TABLE `publication_publication` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `publication_publicationsource`
+--
+
+DROP TABLE IF EXISTS `publication_publicationsource`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `publication_publicationsource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `url` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `publication_publicationsource_name_da811deb_uniq` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `publication_publicationsource`
+--
+
+LOCK TABLES `publication_publicationsource` WRITE;
+/*!40000 ALTER TABLE `publication_publicationsource` DISABLE KEYS */;
+INSERT INTO `publication_publicationsource` VALUES (2,'2023-03-15 13:12:40.136153','2023-03-15 13:12:40.136153','doi','https://doi.org/'),(3,'2023-03-15 13:12:40.138363','2023-03-15 13:12:40.138363','manual',NULL);
+/*!40000 ALTER TABLE `publication_publicationsource` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `research_output_historicalresearchoutput`
+--
+
+DROP TABLE IF EXISTS `research_output_historicalresearchoutput`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `research_output_historicalresearchoutput` (
+  `id` int(11) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `title` varchar(128) NOT NULL,
+  `description` longtext NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `created_by_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `research_output_hist_history_user_id_adadad72_fk_auth_user` (`history_user_id`),
+  KEY `research_output_historicalresearchoutput_id_6d5f498c` (`id`),
+  KEY `research_output_historicalresearchoutput_created_by_id_d22f2e09` (`created_by_id`),
+  KEY `research_output_historicalresearchoutput_project_id_54c8fa3d` (`project_id`),
+  CONSTRAINT `research_output_hist_history_user_id_adadad72_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `research_output_historicalresearchoutput`
+--
+
+LOCK TABLES `research_output_historicalresearchoutput` WRITE;
+/*!40000 ALTER TABLE `research_output_historicalresearchoutput` DISABLE KEYS */;
+/*!40000 ALTER TABLE `research_output_historicalresearchoutput` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `research_output_researchoutput`
+--
+
+DROP TABLE IF EXISTS `research_output_researchoutput`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `research_output_researchoutput` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `modified` datetime(6) NOT NULL,
+  `title` varchar(128) NOT NULL,
+  `description` longtext NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `created_by_id` int(11) DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `research_output_rese_created_by_id_7104bdb3_fk_auth_user` (`created_by_id`),
+  KEY `research_output_rese_project_id_9515e307_fk_project_p` (`project_id`),
+  CONSTRAINT `research_output_rese_created_by_id_7104bdb3_fk_auth_user` FOREIGN KEY (`created_by_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `research_output_rese_project_id_9515e307_fk_project_p` FOREIGN KEY (`project_id`) REFERENCES `project_project` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `research_output_researchoutput`
+--
+
+LOCK TABLES `research_output_researchoutput` WRITE;
+/*!40000 ALTER TABLE `research_output_researchoutput` DISABLE KEYS */;
+/*!40000 ALTER TABLE `research_output_researchoutput` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_attributetype`
+--
+
+DROP TABLE IF EXISTS `resource_attributetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_attributetype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_attributetype`
+--
+
+LOCK TABLES `resource_attributetype` WRITE;
+/*!40000 ALTER TABLE `resource_attributetype` DISABLE KEYS */;
+INSERT INTO `resource_attributetype` VALUES (1,'2023-03-15 13:12:39.886677','2023-03-15 13:12:39.886677','Active/Inactive'),(2,'2023-03-15 13:12:39.889070','2023-03-15 13:12:39.889070','Date'),(3,'2023-03-15 13:12:39.891616','2023-03-15 13:12:39.891616','Int'),(4,'2023-03-15 13:12:39.893834','2023-03-15 13:12:39.893834','Public/Private'),(5,'2023-03-15 13:12:39.896189','2023-03-15 13:12:39.896189','Text'),(6,'2023-03-15 13:12:39.898313','2023-03-15 13:12:39.898313','Yes/No'),(7,'2023-03-15 13:12:39.901022','2023-03-15 13:12:39.901022','Attribute Expanded Text');
+/*!40000 ALTER TABLE `resource_attributetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_historicalresource`
+--
+
+DROP TABLE IF EXISTS `resource_historicalresource`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_historicalresource` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` longtext NOT NULL,
+  `is_available` tinyint(1) NOT NULL,
+  `is_public` tinyint(1) NOT NULL,
+  `is_allocatable` tinyint(1) NOT NULL,
+  `requires_payment` tinyint(1) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `parent_resource_id` int(11) DEFAULT NULL,
+  `resource_type_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `resource_historicalr_history_user_id_f6f03577_fk_auth_user` (`history_user_id`),
+  KEY `resource_historicalresource_id_594146c4` (`id`),
+  KEY `resource_historicalresource_name_f0a813a3` (`name`),
+  KEY `resource_historicalresource_parent_resource_id_9ad85a19` (`parent_resource_id`),
+  KEY `resource_historicalresource_resource_type_id_dbde5e8a` (`resource_type_id`),
+  CONSTRAINT `resource_historicalr_history_user_id_f6f03577_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_historicalresource`
+--
+
+LOCK TABLES `resource_historicalresource` WRITE;
+/*!40000 ALTER TABLE `resource_historicalresource` DISABLE KEYS */;
+INSERT INTO `resource_historicalresource` VALUES (1,'2023-03-15 15:53:19.498409','2023-03-15 15:53:19.498409','hpc','our hpc cluster',1,1,1,0,1,'2023-03-15 15:53:19.509152',NULL,'+',1,NULL,2),(2,'2023-03-15 15:56:03.797452','2023-03-15 15:56:03.797452','Project Storage','shared project storage',1,1,1,0,2,'2023-03-15 15:56:03.805950',NULL,'+',1,NULL,7),(2,'2023-03-15 15:56:03.797452','2023-03-15 15:57:39.765835','Project Storage','shared project storage',1,1,1,0,3,'2023-03-15 15:57:39.766606',NULL,'~',1,NULL,7),(2,'2023-03-15 15:56:03.797452','2023-03-15 15:58:03.553844','Project Storage','shared project storage',1,1,1,0,4,'2023-03-15 15:58:03.554606',NULL,'~',1,NULL,7),(3,'2023-03-15 16:00:02.154881','2023-03-15 16:00:02.154881','Global Scratch','Global scratch storage',1,1,1,0,5,'2023-03-15 16:00:02.169559',NULL,'+',1,NULL,7);
+/*!40000 ALTER TABLE `resource_historicalresource` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_historicalresourceattribute`
+--
+
+DROP TABLE IF EXISTS `resource_historicalresourceattribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_historicalresourceattribute` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `value` longtext NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  `resource_id` int(11) DEFAULT NULL,
+  `resource_attribute_type_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `resource_historicalr_history_user_id_784c62a3_fk_auth_user` (`history_user_id`),
+  KEY `resource_historicalresourceattribute_id_62d5ab14` (`id`),
+  KEY `resource_historicalresourceattribute_resource_id_ce29c043` (`resource_id`),
+  KEY `resource_historicalresource_resource_attribute_type_id_7489af5c` (`resource_attribute_type_id`),
+  CONSTRAINT `resource_historicalr_history_user_id_784c62a3_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_historicalresourceattribute`
+--
+
+LOCK TABLES `resource_historicalresourceattribute` WRITE;
+/*!40000 ALTER TABLE `resource_historicalresourceattribute` DISABLE KEYS */;
+INSERT INTO `resource_historicalresourceattribute` VALUES (1,'2023-03-15 15:53:19.502809','2023-03-15 15:53:19.502809','hpc',1,'2023-03-15 15:53:19.516235',NULL,'+',1,1,12),(2,'2023-03-15 15:53:19.503099','2023-03-15 15:53:19.503099','Yes',2,'2023-03-15 15:53:19.518187',NULL,'+',1,1,9),(3,'2023-03-15 15:56:03.801992','2023-03-15 15:56:03.801992','A shared project directory is available for all research groups with a quota of 1TB.  Anyone on this allocation will have access to the directory and permissions are managed by unix groups.',3,'2023-03-15 15:56:03.819083',NULL,'+',1,2,8),(4,'2023-03-15 15:57:39.751144','2023-03-15 15:57:39.751144','Enter storage in 1TB increments',4,'2023-03-15 15:57:39.771373',NULL,'+',1,2,7),(5,'2023-03-15 15:57:39.751520','2023-03-15 15:57:39.751520','1',5,'2023-03-15 15:57:39.779303',NULL,'+',1,2,6),(6,'2023-03-15 15:57:39.751717','2023-03-15 15:57:39.751717','Yes',6,'2023-03-15 15:57:39.780346',NULL,'+',1,2,9),(3,'2023-03-15 15:56:03.801992','2023-03-15 15:58:03.563726','A shared project directory is available for all research groups with a quota of 1TB.  Anyone on this allocation will have access to the directory and permissions are managed by unix groups.  Directories are backed up off-site daily.',7,'2023-03-15 15:58:03.564257',NULL,'~',1,2,8),(7,'2023-03-15 16:00:02.159643','2023-03-15 16:00:02.159643','Every group with an active allocation to a CCR cluster is permitted up to 10TB of global scratch storage.  Everyone on this allocation will have access to this directory.  \r\n\r\nThis storage is considered volatile, it is not backed up, and should only be used for temporary file storage while running compute jobs.  Data over 60 days in age is automatically removed nightly.  By clicking on the Submit button, you are agreeing, for your entire group, to the center\'s scratch storage policies:  http://example.com',8,'2023-03-15 16:00:02.180305',NULL,'+',1,3,8),(8,'2023-03-15 16:00:02.159993','2023-03-15 16:00:02.159993','TB',9,'2023-03-15 16:00:02.185564',NULL,'+',1,3,7),(9,'2023-03-15 16:00:02.160212','2023-03-15 16:00:02.160212','10',10,'2023-03-15 16:00:02.189198',NULL,'+',1,3,6),(10,'2023-03-15 16:00:02.160577','2023-03-15 16:00:02.160577','Yes',11,'2023-03-15 16:00:02.190053',NULL,'+',1,3,9);
+/*!40000 ALTER TABLE `resource_historicalresourceattribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_historicalresourceattributetype`
+--
+
+DROP TABLE IF EXISTS `resource_historicalresourceattributetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_historicalresourceattributetype` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `is_required` tinyint(1) NOT NULL,
+  `is_unique_per_resource` tinyint(1) NOT NULL,
+  `is_value_unique` tinyint(1) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `attribute_type_id` int(11) DEFAULT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `resource_historicalr_history_user_id_af1569e7_fk_auth_user` (`history_user_id`),
+  KEY `resource_historicalresourceattributetype_id_41558353` (`id`),
+  KEY `resource_historicalresource_attribute_type_id_5a5294dd` (`attribute_type_id`),
+  CONSTRAINT `resource_historicalr_history_user_id_af1569e7_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_historicalresourceattributetype`
+--
+
+LOCK TABLES `resource_historicalresourceattributetype` WRITE;
+/*!40000 ALTER TABLE `resource_historicalresourceattributetype` DISABLE KEYS */;
+INSERT INTO `resource_historicalresourceattributetype` VALUES (1,'2023-03-15 13:12:39.904476','2023-03-15 13:12:39.904476','Core Count',0,0,0,1,'2023-03-15 13:12:39.905001',NULL,'+',3,NULL),(2,'2023-03-15 13:12:39.908494','2023-03-15 13:12:39.908494','expiry_time',0,0,0,2,'2023-03-15 13:12:39.908915',NULL,'+',3,NULL),(3,'2023-03-15 13:12:39.913320','2023-03-15 13:12:39.913320','fee_applies',0,0,0,3,'2023-03-15 13:12:39.913807',NULL,'+',6,NULL),(4,'2023-03-15 13:12:39.916821','2023-03-15 13:12:39.916821','Node Count',0,0,0,4,'2023-03-15 13:12:39.917285',NULL,'+',3,NULL),(5,'2023-03-15 13:12:39.921447','2023-03-15 13:12:39.921447','Owner',0,0,0,5,'2023-03-15 13:12:39.921848',NULL,'+',5,NULL),(6,'2023-03-15 13:12:39.924983','2023-03-15 13:12:39.924983','quantity_default_value',0,0,0,6,'2023-03-15 13:12:39.925352',NULL,'+',3,NULL),(7,'2023-03-15 13:12:39.927937','2023-03-15 13:12:39.927937','quantity_label',0,0,0,7,'2023-03-15 13:12:39.928400',NULL,'+',5,NULL),(8,'2023-03-15 13:12:39.931927','2023-03-15 13:12:39.931927','eula',0,0,0,8,'2023-03-15 13:12:39.932548',NULL,'+',5,NULL),(9,'2023-03-15 13:12:39.936191','2023-03-15 13:12:39.936191','OnDemand',0,0,0,9,'2023-03-15 13:12:39.936759',NULL,'+',6,NULL),(10,'2023-03-15 13:12:39.939921','2023-03-15 13:12:39.939921','ServiceEnd',0,0,0,10,'2023-03-15 13:12:39.940316',NULL,'+',2,NULL),(11,'2023-03-15 13:12:39.943523','2023-03-15 13:12:39.943523','ServiceStart',0,0,0,11,'2023-03-15 13:12:39.943982',NULL,'+',2,NULL),(12,'2023-03-15 13:12:39.947852','2023-03-15 13:12:39.947852','slurm_cluster',0,0,0,12,'2023-03-15 13:12:39.948371',NULL,'+',5,NULL),(13,'2023-03-15 13:12:39.952164','2023-03-15 13:12:39.952164','slurm_specs',0,0,0,13,'2023-03-15 13:12:39.952573',NULL,'+',7,NULL),(14,'2023-03-15 13:12:39.955204','2023-03-15 13:12:39.955204','slurm_specs_attriblist',0,0,0,14,'2023-03-15 13:12:39.955586',NULL,'+',5,NULL),(15,'2023-03-15 13:12:39.958480','2023-03-15 13:12:39.958480','Status',0,0,0,15,'2023-03-15 13:12:39.958897',NULL,'+',4,NULL),(16,'2023-03-15 13:12:39.962487','2023-03-15 13:12:39.962487','Vendor',0,0,0,16,'2023-03-15 13:12:39.962882',NULL,'+',5,NULL),(17,'2023-03-15 13:12:39.965839','2023-03-15 13:12:39.965839','Model',0,0,0,17,'2023-03-15 13:12:39.966268',NULL,'+',5,NULL),(18,'2023-03-15 13:12:39.969107','2023-03-15 13:12:39.969107','SerialNumber',0,0,0,18,'2023-03-15 13:12:39.969475',NULL,'+',5,NULL),(19,'2023-03-15 13:12:39.972569','2023-03-15 13:12:39.972569','RackUnits',0,0,0,19,'2023-03-15 13:12:39.972995',NULL,'+',3,NULL),(20,'2023-03-15 13:12:39.976597','2023-03-15 13:12:39.976597','InstallDate',0,0,0,20,'2023-03-15 13:12:39.977036',NULL,'+',2,NULL),(21,'2023-03-15 13:12:39.980306','2023-03-15 13:12:39.980306','WarrantyExpirationDate',0,0,0,21,'2023-03-15 13:12:39.980718',NULL,'+',2,NULL);
+/*!40000 ALTER TABLE `resource_historicalresourceattributetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_historicalresourcetype`
+--
+
+DROP TABLE IF EXISTS `resource_historicalresourcetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_historicalresourcetype` (
+  `id` int(11) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_date` datetime(6) NOT NULL,
+  `history_change_reason` varchar(100) DEFAULT NULL,
+  `history_type` varchar(1) NOT NULL,
+  `history_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `resource_historicalr_history_user_id_ac78b9c2_fk_auth_user` (`history_user_id`),
+  KEY `resource_historicalresourcetype_id_131a4f33` (`id`),
+  KEY `resource_historicalresourcetype_name_602659fc` (`name`),
+  CONSTRAINT `resource_historicalr_history_user_id_ac78b9c2_fk_auth_user` FOREIGN KEY (`history_user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_historicalresourcetype`
+--
+
+LOCK TABLES `resource_historicalresourcetype` WRITE;
+/*!40000 ALTER TABLE `resource_historicalresourcetype` DISABLE KEYS */;
+INSERT INTO `resource_historicalresourcetype` VALUES (1,'2023-03-15 13:12:39.983230','2023-03-15 13:12:39.983230','Cloud','Cloud Computing',1,'2023-03-15 13:12:39.983641',NULL,'+',NULL),(2,'2023-03-15 13:12:39.986584','2023-03-15 13:12:39.986584','Cluster','Cluster servers',2,'2023-03-15 13:12:39.986947',NULL,'+',NULL),(3,'2023-03-15 13:12:39.990635','2023-03-15 13:12:39.990635','Cluster Partition','Cluster Partition ',3,'2023-03-15 13:12:39.990978',NULL,'+',NULL),(4,'2023-03-15 13:12:39.993276','2023-03-15 13:12:39.993276','Compute Node','Compute Node',4,'2023-03-15 13:12:39.993654',NULL,'+',NULL),(5,'2023-03-15 13:12:39.995782','2023-03-15 13:12:39.995782','Server','Extra servers providing various services',5,'2023-03-15 13:12:39.996192',NULL,'+',NULL),(6,'2023-03-15 13:12:39.998392','2023-03-15 13:12:39.998392','Software License','Software license purchased by users',6,'2023-03-15 13:12:39.998716',NULL,'+',NULL),(7,'2023-03-15 13:12:40.001546','2023-03-15 13:12:40.001546','Storage','NAS storage',7,'2023-03-15 13:12:40.001887',NULL,'+',NULL);
+/*!40000 ALTER TABLE `resource_historicalresourcetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_resource`
+--
+
+DROP TABLE IF EXISTS `resource_resource`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` longtext NOT NULL,
+  `is_available` tinyint(1) NOT NULL,
+  `is_public` tinyint(1) NOT NULL,
+  `is_allocatable` tinyint(1) NOT NULL,
+  `requires_payment` tinyint(1) NOT NULL,
+  `parent_resource_id` int(11) DEFAULT NULL,
+  `resource_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `resource_resource_parent_resource_id_4da996fe_fk_resource_` (`parent_resource_id`),
+  KEY `resource_resource_resource_type_id_f6e3f0b8_fk_resource_` (`resource_type_id`),
+  CONSTRAINT `resource_resource_parent_resource_id_4da996fe_fk_resource_` FOREIGN KEY (`parent_resource_id`) REFERENCES `resource_resource` (`id`),
+  CONSTRAINT `resource_resource_resource_type_id_f6e3f0b8_fk_resource_` FOREIGN KEY (`resource_type_id`) REFERENCES `resource_resourcetype` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_resource`
+--
+
+LOCK TABLES `resource_resource` WRITE;
+/*!40000 ALTER TABLE `resource_resource` DISABLE KEYS */;
+INSERT INTO `resource_resource` VALUES (1,'2023-03-15 15:53:19.498409','2023-03-15 15:53:19.498409','hpc','our hpc cluster',1,1,1,0,NULL,2),(2,'2023-03-15 15:56:03.797452','2023-03-15 15:58:03.553844','Project Storage','shared project storage',1,1,1,0,NULL,7),(3,'2023-03-15 16:00:02.154881','2023-03-15 16:00:02.154881','Global Scratch','Global scratch storage',1,1,1,0,NULL,7);
+/*!40000 ALTER TABLE `resource_resource` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_resource_allowed_groups`
+--
+
+DROP TABLE IF EXISTS `resource_resource_allowed_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_resource_allowed_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `resource_resource_allowe_resource_id_group_id_7e58382e_uniq` (`resource_id`,`group_id`),
+  KEY `resource_resource_al_group_id_8b9ff1e8_fk_auth_grou` (`group_id`),
+  CONSTRAINT `resource_resource_al_group_id_8b9ff1e8_fk_auth_grou` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `resource_resource_al_resource_id_d58f1ca5_fk_resource_` FOREIGN KEY (`resource_id`) REFERENCES `resource_resource` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_resource_allowed_groups`
+--
+
+LOCK TABLES `resource_resource_allowed_groups` WRITE;
+/*!40000 ALTER TABLE `resource_resource_allowed_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `resource_resource_allowed_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_resource_allowed_users`
+--
+
+DROP TABLE IF EXISTS `resource_resource_allowed_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_resource_allowed_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `resource_resource_allowe_resource_id_user_id_50070a52_uniq` (`resource_id`,`user_id`),
+  KEY `resource_resource_allowed_users_user_id_abdf284c_fk_auth_user_id` (`user_id`),
+  CONSTRAINT `resource_resource_al_resource_id_8b6b9078_fk_resource_` FOREIGN KEY (`resource_id`) REFERENCES `resource_resource` (`id`),
+  CONSTRAINT `resource_resource_allowed_users_user_id_abdf284c_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_resource_allowed_users`
+--
+
+LOCK TABLES `resource_resource_allowed_users` WRITE;
+/*!40000 ALTER TABLE `resource_resource_allowed_users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `resource_resource_allowed_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_resource_linked_resources`
+--
+
+DROP TABLE IF EXISTS `resource_resource_linked_resources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_resource_linked_resources` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from_resource_id` int(11) NOT NULL,
+  `to_resource_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `resource_resource_linked_from_resource_id_to_reso_bf0716f9_uniq` (`from_resource_id`,`to_resource_id`),
+  KEY `resource_resource_li_to_resource_id_7d66ce92_fk_resource_` (`to_resource_id`),
+  CONSTRAINT `resource_resource_li_from_resource_id_5293faea_fk_resource_` FOREIGN KEY (`from_resource_id`) REFERENCES `resource_resource` (`id`),
+  CONSTRAINT `resource_resource_li_to_resource_id_7d66ce92_fk_resource_` FOREIGN KEY (`to_resource_id`) REFERENCES `resource_resource` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_resource_linked_resources`
+--
+
+LOCK TABLES `resource_resource_linked_resources` WRITE;
+/*!40000 ALTER TABLE `resource_resource_linked_resources` DISABLE KEYS */;
+/*!40000 ALTER TABLE `resource_resource_linked_resources` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_resourceattribute`
+--
+
+DROP TABLE IF EXISTS `resource_resourceattribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_resourceattribute` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `value` longtext NOT NULL,
+  `resource_id` int(11) NOT NULL,
+  `resource_attribute_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `resource_resourceattribu_resource_attribute_type__96aa4a91_uniq` (`resource_attribute_type_id`,`resource_id`),
+  KEY `resource_resourceatt_resource_id_b14a0540_fk_resource_` (`resource_id`),
+  CONSTRAINT `resource_resourceatt_resource_attribute_t_fef6d610_fk_resource_` FOREIGN KEY (`resource_attribute_type_id`) REFERENCES `resource_resourceattributetype` (`id`),
+  CONSTRAINT `resource_resourceatt_resource_id_b14a0540_fk_resource_` FOREIGN KEY (`resource_id`) REFERENCES `resource_resource` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_resourceattribute`
+--
+
+LOCK TABLES `resource_resourceattribute` WRITE;
+/*!40000 ALTER TABLE `resource_resourceattribute` DISABLE KEYS */;
+INSERT INTO `resource_resourceattribute` VALUES (1,'2023-03-15 15:53:19.502809','2023-03-15 15:53:19.502809','hpc',1,12),(2,'2023-03-15 15:53:19.503099','2023-03-15 15:53:19.503099','Yes',1,9),(3,'2023-03-15 15:56:03.801992','2023-03-15 15:58:03.563726','A shared project directory is available for all research groups with a quota of 1TB.  Anyone on this allocation will have access to the directory and permissions are managed by unix groups.  Directories are backed up off-site daily.',2,8),(4,'2023-03-15 15:57:39.751144','2023-03-15 15:57:39.751144','Enter storage in 1TB increments',2,7),(5,'2023-03-15 15:57:39.751520','2023-03-15 15:57:39.751520','1',2,6),(6,'2023-03-15 15:57:39.751717','2023-03-15 15:57:39.751717','Yes',2,9),(7,'2023-03-15 16:00:02.159643','2023-03-15 16:00:02.159643','Every group with an active allocation to a CCR cluster is permitted up to 10TB of global scratch storage.  Everyone on this allocation will have access to this directory.  \r\n\r\nThis storage is considered volatile, it is not backed up, and should only be used for temporary file storage while running compute jobs.  Data over 60 days in age is automatically removed nightly.  By clicking on the Submit button, you are agreeing, for your entire group, to the center\'s scratch storage policies:  http://example.com',3,8),(8,'2023-03-15 16:00:02.159993','2023-03-15 16:00:02.159993','TB',3,7),(9,'2023-03-15 16:00:02.160212','2023-03-15 16:00:02.160212','10',3,6),(10,'2023-03-15 16:00:02.160577','2023-03-15 16:00:02.160577','Yes',3,9);
+/*!40000 ALTER TABLE `resource_resourceattribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_resourceattributetype`
+--
+
+DROP TABLE IF EXISTS `resource_resourceattributetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_resourceattributetype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `is_required` tinyint(1) NOT NULL,
+  `is_unique_per_resource` tinyint(1) NOT NULL,
+  `is_value_unique` tinyint(1) NOT NULL,
+  `attribute_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `resource_resourceatt_attribute_type_id_7116f06a_fk_resource_` (`attribute_type_id`),
+  CONSTRAINT `resource_resourceatt_attribute_type_id_7116f06a_fk_resource_` FOREIGN KEY (`attribute_type_id`) REFERENCES `resource_attributetype` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_resourceattributetype`
+--
+
+LOCK TABLES `resource_resourceattributetype` WRITE;
+/*!40000 ALTER TABLE `resource_resourceattributetype` DISABLE KEYS */;
+INSERT INTO `resource_resourceattributetype` VALUES (1,'2023-03-15 13:12:39.904476','2023-03-15 13:12:39.904476','Core Count',0,0,0,3),(2,'2023-03-15 13:12:39.908494','2023-03-15 13:12:39.908494','expiry_time',0,0,0,3),(3,'2023-03-15 13:12:39.913320','2023-03-15 13:12:39.913320','fee_applies',0,0,0,6),(4,'2023-03-15 13:12:39.916821','2023-03-15 13:12:39.916821','Node Count',0,0,0,3),(5,'2023-03-15 13:12:39.921447','2023-03-15 13:12:39.921447','Owner',0,0,0,5),(6,'2023-03-15 13:12:39.924983','2023-03-15 13:12:39.924983','quantity_default_value',0,0,0,3),(7,'2023-03-15 13:12:39.927937','2023-03-15 13:12:39.927937','quantity_label',0,0,0,5),(8,'2023-03-15 13:12:39.931927','2023-03-15 13:12:39.931927','eula',0,0,0,5),(9,'2023-03-15 13:12:39.936191','2023-03-15 13:12:39.936191','OnDemand',0,0,0,6),(10,'2023-03-15 13:12:39.939921','2023-03-15 13:12:39.939921','ServiceEnd',0,0,0,2),(11,'2023-03-15 13:12:39.943523','2023-03-15 13:12:39.943523','ServiceStart',0,0,0,2),(12,'2023-03-15 13:12:39.947852','2023-03-15 13:12:39.947852','slurm_cluster',0,0,0,5),(13,'2023-03-15 13:12:39.952164','2023-03-15 13:12:39.952164','slurm_specs',0,0,0,7),(14,'2023-03-15 13:12:39.955204','2023-03-15 13:12:39.955204','slurm_specs_attriblist',0,0,0,5),(15,'2023-03-15 13:12:39.958480','2023-03-15 13:12:39.958480','Status',0,0,0,4),(16,'2023-03-15 13:12:39.962487','2023-03-15 13:12:39.962487','Vendor',0,0,0,5),(17,'2023-03-15 13:12:39.965839','2023-03-15 13:12:39.965839','Model',0,0,0,5),(18,'2023-03-15 13:12:39.969107','2023-03-15 13:12:39.969107','SerialNumber',0,0,0,5),(19,'2023-03-15 13:12:39.972569','2023-03-15 13:12:39.972569','RackUnits',0,0,0,3),(20,'2023-03-15 13:12:39.976597','2023-03-15 13:12:39.976597','InstallDate',0,0,0,2),(21,'2023-03-15 13:12:39.980306','2023-03-15 13:12:39.980306','WarrantyExpirationDate',0,0,0,2);
+/*!40000 ALTER TABLE `resource_resourceattributetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `resource_resourcetype`
+--
+
+DROP TABLE IF EXISTS `resource_resourcetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resource_resourcetype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime(6) NOT NULL,
+  `modified` datetime(6) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `resource_resourcetype`
+--
+
+LOCK TABLES `resource_resourcetype` WRITE;
+/*!40000 ALTER TABLE `resource_resourcetype` DISABLE KEYS */;
+INSERT INTO `resource_resourcetype` VALUES (1,'2023-03-15 13:12:39.983230','2023-03-15 13:12:39.983230','Cloud','Cloud Computing'),(2,'2023-03-15 13:12:39.986584','2023-03-15 13:12:39.986584','Cluster','Cluster servers'),(3,'2023-03-15 13:12:39.990635','2023-03-15 13:12:39.990635','Cluster Partition','Cluster Partition '),(4,'2023-03-15 13:12:39.993276','2023-03-15 13:12:39.993276','Compute Node','Compute Node'),(5,'2023-03-15 13:12:39.995782','2023-03-15 13:12:39.995782','Server','Extra servers providing various services'),(6,'2023-03-15 13:12:39.998392','2023-03-15 13:12:39.998392','Software License','Software license purchased by users'),(7,'2023-03-15 13:12:40.001546','2023-03-15 13:12:40.001546','Storage','NAS storage');
+/*!40000 ALTER TABLE `resource_resourcetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_userprofile`
+--
+
+DROP TABLE IF EXISTS `user_userprofile`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_userprofile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `is_pi` tinyint(1) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  CONSTRAINT `user_userprofile_user_id_2474538d_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_userprofile`
+--
+
+LOCK TABLES `user_userprofile` WRITE;
+/*!40000 ALTER TABLE `user_userprofile` DISABLE KEYS */;
+INSERT INTO `user_userprofile` VALUES (1,0,1),(2,0,2),(3,1,3),(4,0,4),(5,0,5);
+/*!40000 ALTER TABLE `user_userprofile` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-03-15 16:20:17

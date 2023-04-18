@@ -34,6 +34,11 @@ then
                coldfront shell
     fi
 
+    if [ "$2" = "true" ]; then
+        echo "---> Restoring coldfront database..."
+        mysql --host mysql --user coldfrontapp --password=9obCuAphabeg coldfront < /usr/share/coldfront/coldfront.dump
+    fi
+
     echo "---> Starting nginx on coldfront..."
     /sbin/nginx
 
