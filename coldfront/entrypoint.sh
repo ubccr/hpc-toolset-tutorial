@@ -24,7 +24,7 @@ then
 
     if ! coldfront show_users_in_project_but_not_in_allocation &> /dev/null; then
         echo "-- Initializing coldfront database..."
-        coldfront initial_setup
+        coldfront initial_setup -f
 
         echo "-- Generating static css files..."
         coldfront collectstatic
