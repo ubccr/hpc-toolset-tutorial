@@ -26,18 +26,13 @@ then
         echo "-- Initializing coldfront database..."
         coldfront initial_setup -f
 
-        echo "-- Generating static css files..."
-        coldfront collectstatic
-
         echo "-- Creating superuser..."
         echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@localhost', 'admin')" | \
                coldfront shell
     fi
 
-    if [ "$2" = "true" ]; then
-        echo "---> Restoring coldfront database..."
-        mysql --host mysql --user coldfrontapp --password=9obCuAphabeg coldfront < /usr/share/coldfront/coldfront.dump
-    fi
+    echo "-- Generating static css files..."
+    coldfront collectstatic
 
     echo "---> Starting nginx on coldfront..."
     /sbin/nginx
