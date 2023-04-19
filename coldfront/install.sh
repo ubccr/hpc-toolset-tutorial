@@ -11,8 +11,7 @@ ARCHTYPE=`uname -m`
 
 log_info "Installing required packages for coldfront.."
 dnf install -y \
-    python3 \
-    python3-devel \
+    python39-devel \
     memcached \
     nginx \
     openssl \

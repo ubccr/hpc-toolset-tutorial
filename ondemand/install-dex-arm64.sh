@@ -7,8 +7,8 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
-DEX_VERSION=${DEX_VERSION:-2.31.1}
-DEX_PATCH_VERSION=${DEX_PATCH_VERSION:-703e26bc109e86d00be22ef1803bdb96b2dc09e2}
+DEX_VERSION=${DEX_VERSION:-2.32.0}
+DEX_PATCH_VERSION=${DEX_PATCH_VERSION:-9366a1969bd656daa1df44e0bdd02f14437ed466}
 
 dnf install -y golang-bin
 log_info "Install dex ${DEX_VERSION}..."

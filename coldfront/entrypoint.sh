@@ -24,7 +24,7 @@ then
 
     if ! coldfront show_users_in_project_but_not_in_allocation &> /dev/null; then
         echo "-- Initializing coldfront database..."
-        coldfront initial_setup
+        coldfront initial_setup -f
 
         echo "-- Generating static css files..."
         coldfront collectstatic
@@ -32,6 +32,11 @@ then
         echo "-- Creating superuser..."
         echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@localhost', 'admin')" | \
                coldfront shell
+    fi
+
+    if [ "$2" = "true" ]; then
+        echo "---> Restoring coldfront database..."
+        mysql --host mysql --user coldfrontapp --password=9obCuAphabeg coldfront < /usr/share/coldfront/coldfront.dump
     fi
 
     echo "---> Starting nginx on coldfront..."

@@ -19,8 +19,13 @@ ARCHTYPE=`uname -m`
 # needed for automated setup, not for supremm
 #------------------------
 
+dnf module -y reset nodejs
+dnf module -y install nodejs:16
+
 dnf install -y \
     expect \
+    python3-devel \
+    pcp-devel \
     python3-pexpect \
     php-pear \
     php-devel
@@ -37,10 +42,13 @@ dnf install -y \
 # be installed in the same container.  In a production deployment they may be installed
 # on separate hosts.
 #------------------------
-dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta5-el8/xdmod-10.0.0-1.5.beta5.el8.noarch.rpm \
+dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.2-beta1-el8/xdmod-10.0.2-1.0.el8.noarch.rpm \
                https://github.com/ubccr/xdmod-ondemand/releases/download/v10.0.0/xdmod-ondemand-10.0.0-1.0.beta1.el8.noarch.rpm \
                https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta4-el8/xdmod-supremm-10.0.0-1.4.beta4.el8.noarch.rpm \
-               https://github.com/ubccr/supremm/releases/download/2.0.0-beta3/supremm-2.0.0-1.0_beta3.el8."$ARCHTYPE".rpm
+               https://github.com/ubccr/xdmod-appkernels/releases/download/v10.0.0/xdmod-appkernels-10.0.0-1.0.beta1.el8.noarch.rpm
+
+# supremm rpm has broken deps so we force install the rpm and install the deps via pip
+rpm --nodeps -ivh https://github.com/ubccr/supremm/releases/download/2.0.0-beta3/supremm-2.0.0-1.0_beta3.el8."$ARCHTYPE".rpm
 
 #------------------------
 # The Job Performance software uses MongoDB to store the job-level performance
@@ -53,14 +61,19 @@ dnf install -y \
     https://repo.mongodb.org/yum/redhat/8/mongodb-org/5.0/${ARCHTYPE}/RPMS/mongodb-org-shell-5.0.9-1.el8.${ARCHTYPE}.rpm
 
 
-
 #------------------------
 #
 #------------------------
 pecl install mongodb
 echo "extension=mongodb.so" >> /etc/php.d/40-mongodb.ini
 
-pip3 install pymongo==3.7.0 --upgrade
+# This is required because /usr/bin/supremm-setup uses the platform-python
+/usr/libexec/platform-python -m pip install pymongo==3.7.0 --upgrade
+/usr/libexec/platform-python -m pip install pytz
+/usr/libexec/platform-python -m pip install scipy
+/usr/libexec/platform-python -m pip install Cython
+/usr/libexec/platform-python -m pip install pcp
+/usr/libexec/platform-python -m pip install PyMySQL
 
 #------------------------
 # O/S package configuration.
