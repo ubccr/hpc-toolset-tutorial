@@ -30,7 +30,10 @@ COPY python_job_template /etc/ood/config/apps/myjobs/templates/python
 COPY motd /etc/motd
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY notebook_data /data/notebook_data
-COPY initializers/dashboard.rb /etc/ood/config/apps/dashboard/initializers/dashboard.rb
+COPY initializers /etc/ood/config/apps/dashboard/initializers
 COPY themes/hpc-coop /usr/share/ondemand-dex/web/themes/hpc-coop
+COPY config/dashboard/env /etc/ood/config/apps/dashboard/env
+COPY config/ondemand.yml /etc/ood/config/ondemand.d/ondemand.yml
+COPY config/dashboard/widgets /etc/ood/config/apps/dashboard/views/widgets
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

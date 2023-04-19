@@ -40,8 +40,25 @@ attributes:
 # @note If an attribute listed below is hard-coded above in the `attributes`
 #   option, then it will not appear in the form page that the user sees in the
 #   Dashboard
+
+  bc_num_hours:
+    display: true
+  bc_num_slots:
+    display: true
+    max: 2
+  memory:
+    widget: "number_field"
+    max: 1000
+    min: 200
+    step: 200
+    value: 600
+    label: "Memory (MB)"
+    help: "RSS Memory"
+    display: true
+
 form:
   - modules
   - extra_jupyter_args
+  - memory
   - bc_num_hours
   - bc_num_slots
