@@ -1,13 +1,10 @@
 
 
-## Seed ColdFront with data for tutorial  
+## Pre-seeding ColdFront with data for tutorial  
 
-This step will populate the ColdFront database with user permissions, resources, an example project and allocations.  If you'd like to see how this is done, you can skip this and go through the steps [detailed below](#seeding-the-database).  Due to time constraints for the half day tutorial we'll need to skip the manual setup steps and populate the database:  
+Due to time constraints for the half day tutorial we will skip the manual setup steps and have provided a database populated with this information.  These manual steps involve setting up ColdFront with user permissions, resources, an example project and allocations.  If you'd like to walk through these steps yourself, you can delete the ColdFront database and start from scratch.  [Follow the detailed instructions below](#seeding-the-database).    
 
-```
-cat coldfront.dump | docker exec -i mysql mysql --user coldfrontapp --password= coldfront
-```
-  
+
 ## Tutorial:  Using ColdFront  
 
 ### PI View:  Annual Project Review, Allocation Renewal & Allocation Change Requests
@@ -118,7 +115,13 @@ The information following can be used for reference or to go back through the tu
 
 ## Seeding the Database  
 
-These steps were done in advance to allow for the presentation of a condensed version of the tutorial. 
+These steps were done in advance to allow for the presentation of a condensed version of the tutorial.  If you would like to go through them yourself, destroy the containers, delete the ColdFront database, start the containers and then follow the steps here:
+
+```
+./hpcts destroy
+rm database/coldfront.dump
+./hpcts start
+```
 
 ### Login to ColdFront, setup account permissions & create resource  
 URL https://localhost:2443/  
@@ -133,54 +136,65 @@ You'll need to login as some of the users for this tutorial to get things starte
 - Logout  
 - Login locally as username `admin` password: `admin`
 - Go to Admin menu and click on `ColdFront Administration`  Once there, scroll halfway down to the `Authentication and Authorization` section.  Then click on the `Users` link.  
-- Click on the hpcadmin user and scroll down to the `Permissions` section  
-- Make this user a `superuser` by checking the boxes next to `Staff Status` and `Superuser Status` - scroll to the bottom and click SAVE  
+- Click on the `hpcadmin` user and scroll down to the `Permissions` section  
+- Make this user a `superuser` by checking the boxes next to `Staff Status` and `Superuser Status` - scroll to the bottom and click `SAVE`  
 - Click on the `sfoster` account and check the box next to `Staff Status`  Also under the `User Permissions` section add permissions to make this user the Center Director  
  `allocation | allocation | Can manage invoice`   
  `allocation | allocation | Can view all allocations`  
  `grant | grant | Can view all grants`  
  `project | project | Can view all projects`  
  `project | project | Can review pending project reviews`  
- `publication | publication | Can view publication`  
-  Make sure to SAVE the changes.  
+ `publication | publication | Can view publication`   
+- Scroll to the bottom and click `SAVE` 
 - Click on the Home link to go to back to the Admin interface, scroll to the bottom of the page under the `User` section and click `User Profiles`  
-- Click on `cgray` check ``"Is pi"`` - click SAVE  
+- Click on `cgray` check ``"Is pi"`` - click `SAVE`  
 
 Create a new cluster resource:  
 - Click on the Home link to go to back to the Admin interface, scroll down near the bottom to the `Resource` section and Click on `Resources` then click the `Add Resource` button  
 - Add a resource with the following settings:  
 Resource type: select `cluster`  
 Name: type `hpc`  
-Description: enter anything you want
+Description: enter anything you want  
 Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
-Under the resource attributes section, click `Add another Resource attribute` and select `slurm_cluster` from the drop down menu.  In the `value` field, enter `hpc`
+Under the resource attributes section, click `Add another Resource attribute` and select `slurm_cluster` from the drop down menu.  In the `value` field, enter `hpc`  
 Click `Add another Resource attribute` and select `OnDemand` from the drop down menu.  In the `value` field, enter `Yes`  
-- Then click SAVE  
- **See more info on the OnDemand plugin at the end**
+- Then click `SAVE`  
+ **See more info on the OnDemand plugin below**
 
 Create a new storage resource:  
-- Click on the Home link to go to back to the Admin interface, scroll down near the bottom to the `Resource` section and Click on `Resources` then click the `Add Resource` button  
+- Click the `Add Resource` button  
 - Add a resource with the following settings:  
 Resource type: select `storage`  
 Name: type `project storage`  
-Description: enter anything you want
+Description: enter anything you want  
 Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
 Under the resource attributes section, click `Add another Resource attribute` and select `quantity_label` from the drop down menu.  In the `value` field, enter `Enter storage in 1TB increments`  
 Click `Add another Resource attribute` and select `quantity_default_value` from the drop down menu.  In the `1`  
 Click `Add another Resource attribute` and select `OnDemand` from the drop down menu.  In the `value` field, enter `Yes`  
-- Then click SAVE  
+- Then click `SAVE`  
+
+Create a new cloud resource:  
+- Click the `Add Resource` button  
+- Add a resource with the following settings:  
+Resource type: select `cloud`  
+Name: type `on-prem cloud`  
+Description: enter anything you want  
+Ensure that the following are checked:  `Is available`, `Is public`, `Is allocatable`  
+- We will not set any resource attributes on this resource.  Scroll to the bottom and click `SAVE`.   
 
 Add an allocation attribute type:  
-- Click on `Allocation attribute types` under the `Allocation` section Click `Add Allocation Attribute Type` button, select `Text` from the `Attribute Type` drop down menu and name it `Storage Directory`  Make sure all checkboxes are unchecked and click the `SAVE` button.    
+- Click on the Home link to go to back to the Admin interface.  Under the `Allocation` section click on `Allocation attribute types`
+- Click `Add Allocation Attribute Type` button, select `Text` from the `Attribute Type` drop down menu and name it `Storage Directory`  Make sure all checkboxes are unchecked and click the `SAVE` button.    
 
 Make an allocation attribute changeable:  
-- Under the `Allocation` section, click on `Allocation Attribute Types`  Click on `Storage Quota` check the box next to `Is changeable` and then click the SAVE button.   
+- Under the `Allocation` section, click on `Allocation Attribute Types`  
+- Click on `Storage Quota` check the box next to `Is changeable` and then click the `SAVE` button.   
 - Logout  
 
 ### Create a project & request an allocation  
-As the PI user: Request an allocation for the new resource:  
+As the PI user: Create a project and request an allocation for the new resource:  
 - Login as the PI using local account username: `cgray` password: `test123`
-- Click the `Add a project` button to reate a new project, filling in the name, description, and selecting any field of science  
+- Click the `Add a project` button to create a new project, filling in the name, description, and selecting any field of science  
 - Once redirected to the project detail page, request an allocation by clicking on the `Request Resource Allocation` button.  Select the `hpc` resource from the drop down menu, provide any justification, and click the `Submit` button    
 - Request another allocation by clicking on the `Request Resource Allocation` button.  Select the `Project Storage` resource from the drop down menu, enter a quantity in TB or leave the default 1, provide any justification, and click the `Submit` button    
 - Logout  
@@ -195,9 +209,10 @@ click the `Add Allocation Attribute` button and select these allocation attribut
 `slurm_specs` Enter: `Fairshare=100:DefaultQOS=normal`  
 `slurm_user_specs` Enter: `Fairshare=parent:DefaultQOS=normal`  
 - Set the status to `Active`, set the start date to today, and set the expiration date to the end of this month.  If you click the `Approve` button, this will set the status to `Active` and set the expiration date out to one year from today.  For the purposes of this demo, we wanted to shorten the allocation length.  [See here](https://coldfront.readthedocs.io/en/latest/config/#coldfront-core-settings) for more on changing the allocation length default.
-- Click the `Update` button 
+- Click the `Update` button  
+- Return back to the `Admin` menu and click on the `Allocation Requests`  
 - Click on the `Details` button next to the `Project Storage` allocation request to configure and activate the allocation:  
-click the `Add Allocation Attribute` button and select these allocation attributes from the drop down menu:   
+click the `Add Allocation Attribute` button and select these allocation attributes from the drop down menu and set their values:   
 `freeipa_group` Enter: `grp-cgray`  
 `Storage Quota (GB)` Enter: `1000`  
 `Storage Directory`  Enter: `/projects/cgray`  
@@ -207,8 +222,9 @@ click the `Add Allocation Attribute` button and select these allocation attribut
 ### Annual Project Review  
 When the project review functionality is enabled (it is by default) a PI will be forced to review their project once every 365 days.  We can force a project to be under review in less than a year which is what we'll do for the cgray project. [See here](https://coldfront.readthedocs.io/en/latest/config/#coldfront-core-settings) for more on disabling the annual project review process.  
 
-- Login as `hpcadmin` password `ilovelinux`  
-- Navigate to the `Admin` menu and click on the `ColdFront Administration` link.  Scroll to the `Project` section and click on `Projects` then click on the project that we created earlier.  Check the box next to `Force Review`  Scroll to the bottom and click the `Save` button.  
+- If necessary, login as `hpcadmin` password `ilovelinux`  
+- Navigate to the `Admin` menu and click on the `ColdFront Administration` link.  Scroll to the `Project` section and click on `Projects` then click on the project that we created earlier.  Check the box next to `Force Review`  
+- Scroll to the bottom and click the `Save` button.  
 NOTE: If there is a project you never want project reviews on, uncheck 'Requires review' 
 
 This wraps up the setup done to the ColdFront database to prepare for the condensed half-day tutorial format.  
