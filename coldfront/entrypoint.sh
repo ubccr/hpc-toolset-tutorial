@@ -32,7 +32,7 @@ then
     fi
 
     echo "-- Generating static css files..."
-    coldfront collectstatic
+    coldfront collectstatic --no-input
 
     echo "---> Starting nginx on coldfront..."
     /sbin/nginx
