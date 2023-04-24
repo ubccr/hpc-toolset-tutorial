@@ -34,6 +34,7 @@ dnf install -y \
     turbovnc \
     mariadb-devel \
     python39 \
+    python39-devel \
     python2-numpy \
     kitty-terminfo \
     stress
