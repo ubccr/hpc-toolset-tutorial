@@ -1,0 +1,90 @@
+
+
+dashboard_layout:
+  rows:
+    - columns:
+      - width: 12
+        widgets:
+          - welcome_isc
+      - width: 12
+        widgets:
+          - recently_used_apps
+
+    - columns:
+      - width: 8
+        widgets:
+          - motd
+      - width: 4
+        widgets:
+          - xdmod_widget_job_efficiency
+          - xdmod_widget_jobs
+
+profiles:
+  chemistry:
+    brand_bg_color: '#3b8aa1'
+
+    nav_bar:
+      - files
+      - clusters
+      - title: 'Custom Link Menu'
+        links:
+          - title: "Report a bug"
+            icon: "fa://bug"
+            url: "https://www.osc.edu/"
+          - title: "See a Report"
+            icon: "fa://chart-bar"
+            url: "https://www.osc.edu/"
+      - my interactive sessions
+      - title: 'Jupyter'
+        icon: 'fa://star'
+        links:
+          - 'sys/jupyter'
+
+      - title: "Chemistry Notes"
+        icon: "fa://book-open"
+        page: "chemistry_notes"
+
+    help_bar:  
+      - help
+
+    dashboard_layout:
+      rows:
+        - columns:
+          - width: 12
+            widgets:
+              - recently_used_apps
+
+        - columns:
+          - width: 8
+            widgets:
+              - chemistry_notes
+          - width: 4
+            widgets:
+              - xdmod_widget_job_efficiency
+              - xdmod_widget_jobs
+
+        - columns:
+          - width: 12
+            widgets:
+              - motd
+
+
+profile_links:
+  - group: "Profiles"
+  - profile: ""
+    title: "Default"
+    icon:  "fas://user"
+  - profile: chemistry
+    icon: "fas://radiation-alt"
+    title: "Chemistry"
+
+custom_pages:
+  chemistry_notes:
+    rows:
+      - columns:
+        - width: 6
+          widgets:
+            - welcome_isc
+            - custom_page_description
+        - width: 6
+          widgets: chemistry_notes

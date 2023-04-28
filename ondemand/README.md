@@ -4,8 +4,9 @@
 
 Live tutorial steps we took during PEARC. See the PEARC video recording to follow along (with images and explanations!):
 
-- [Dashboard-developer-mode-tutorial](#dashboard-developer-mode-tutorial)
-- [Jupyter App Tutorial](#jupyter-app-tutorial)
+- [Walkthrough tutorial](#walkthrough-tutorial)
+- [Dashboard developer mode tutorial](#dashboard-developer-mode-tutorial)
+- [Jupyter App Development Tutorial](#jupyter-app-development-tutorial)
 - [Dynamic Batch Connect Fields](#dynamic-batch-connect-fields)
 - [Passenger App Tutorial](#passenger-app-tutorial)
 - [XDMoD Integration Tutorial](#xdmod-integration-tutorial)
@@ -31,7 +32,271 @@ At some points during this tutorial you'll need to execute commands in a shell s
 You can [use the shell app](https://localhost:3443/pun/sys/shell/ssh/ondemand)
 to get an ssh session in the web browser for this purpose.
 
+## Walkthrough Tutorial
+
+<details>
+  <summary>Click to open or close tutorial details.</summary>
+
+<br>
+
+This tutorial walks through common features in Open OnDemand. There's no development
+involved. It simply walks through features as a user would interact with them to demonstrate
+what OnDemand can do.
+
+- [The dashboard landing page](#the-dashboard-landing-page)
+- [File management](#file-management)
+- [File viewing and editing](#file-viewing-and-editing)
+- [The Job Composer](#the-job-composer)
+- [Active Jobs](#active-jobs)
+- [Interactive Apps](#interactive-apps)
+- [Profiles](#profiles)
+
+### The dashboard landing page
+
+The dashboard landing page is the first page users see.  Administrators can
+customize what panels are displayed here as well as their position.  Administrators
+can choose from predefined panels like the 'Message of the Day' and even create their
+own.
+
+The panel welcoming you to this tutorial is a custom panel.
+
+There is a panel with your recently used applications that may show up depending on if
+you've run any apps. Once you have started either the desktop or jupyter applications,
+you'll see buttons here to relaunch those applications.
+
+The 'Message of the Day' can display your message of the day similar to how shell
+logins work. OnDemand supports many formats, and the one shown is in markdown.
+
+Lastly you'll see panels for [XDMoD](../xdmod/README.md). OnDemand integrates
+with XDMoD to show pertinant information about the jobs you've recently ran.
+
+### File management
+
+In the navigation bar you'll see a dropdown menu entitled `Files`. The first
+menu item is your `$HOME` and this comes by default with every installation.
+The second menu item has been added as a 'favorite path'.  Administrators
+can add many favorite paths to scrach or project spaces for example.
+
+Click the link to `HOME` and you'll be redirected to the file manager.
+
+Here you'll see all the files & directories in your `$HOME` directory.
+You'll see several buttons for file management like making new files and directories, 
+deleting, downloading, and more.
+
+Go ahead and:
+* Make a new directory (you can call it `demo_dir` if you don't have a name handy).
+* Add a file to that directory (you can call it `demo_file.txt` if you don't have a name
+  handy).
+* Download that file.
+* Delete that file.
+* Open a terminal to this new directory (use the 'open in terminal button').
+  You'll see that instead of starting in your `$HOME` directory, you're in this
+  new directory that you've created.
+
+Now that you know how to create files, go ahead and create a file and in the next
+section we'll edit it.
+
+### File viewing and editing
+
+If you haven't already created a new file to edit, please do so now. It doesn't
+really matter _where_ this file is. 
+
+Once you have a file you want to edit, click the drop down menu in the same
+row as the file and you should see an option to `Edit`.
+
+Press `Edit` in this menu and the file editor will open in a new tab.
+In this view, you can edit the file in the web browser!  Go ahead and
+do that now, add something to this file. A simple `hello world!` will
+suffice. Once you've added something to the file, click the `Save` button
+in the top left.
+
+Now that you've edited the file navigate back to the file browser where
+this file exists.  Click the same drop down menu you clicked to edit the file
+but instead press `View`.  This will open a new tab with a read only copy
+of the file you just edited.
+
+![editing file demo](imgs/file_editing_demo.gif)
+
+### The Job Composer
+
+The job composer let's users create and schedule batch jobs from templates.
+
+To navigate there press the `Jobs` menu button from the top level navigation
+bar. Press the `Job Composer` link in that dropdown menu and you'll be redirected
+to the job composer.
+
+There's a so called `joy ride` that describes what all the buttons do.  You can
+click `Next` to go through them all or dismiss it.
+
+To create a job from a template click the `New Job` button at the top left.
+Next, select `From Template`. This will fill the table with all the available
+templates on the system. Only one has been provided in this tutorial, but
+administrators at actual sites can supply as many as they wish.
+
+Press the `Create new job` button in panel on the right side of the screen titled
+`Create New "Basic Python Serial Job"`.  Once selected, you've created your own
+job from this template. You'll see it's placed in the 
+`/home/hpcadmin/ondemand/data/sys/myjobs/projects/default/1`
+directory and you can open this directory with buttons on the bottom of the page.
+
+Click the job's row in table in the center of the screen. When this job's row
+is highlighted the button to `Submit` the job becomes available. Press the submit
+button and you'll submit this job.
+
+The job should succesfully submit and you should see the state badge in the `Status`
+column of the central table go from queued to running to completed.
+
+Let's go ahead and edit the script we submit by pressing the `Open Editor` button
+at the bottom of the script's panel (you likely have to scroll down).
+
+Add this `sleep 1000` anywhere in the file (so long as it's not commented).
+
+```bash
+sleep 1000
+```
+
+Submit this job again and next we'll see another view where you can see
+your active jobs.
+
+![job composer demo](imgs/job_composer_demo.gif)
+
+### Active jobs
+
+Now that you've got a job running that'll last a little bit from the
+previous section, let's navigate to the active jobs page to view it.
+
+Navigate back to the main OnDemand page by pressing `OnDemand` at the
+top left of the navigation bar.
+
+Now that we're back to the main OnDemand page, open the `Jobs` drop down
+menu at the top of the navigation bar and press `Active Jobs`.
+
+This will redirect you to our Active Jobs page.  On this page you can
+see the details of all the active jobs running on your clusters.  There
+aren't many jobs running here because we're looking at the cluster that's
+in these containers, but on a real system it would show all the jobs on that
+system.
+
+![active jobs demo](imgs/active_jobs_demo.gif)
+
+### Interactive Apps
+
+Interactive apps are one of the main features of Open OnDemand. They allow
+users a click through interface to some of the most popular applications in
+HPC.
+
+This tutorial will go over luanching the Jupyter application as well as generic
+Linux desktops
+
+The `Interactive Apps` dropdown menu on the top navigation bar lists all the
+interactive applications on this system. Other sites can have many more for example
+RStudio and MATLAB.
+
+#### Launching a desktop
+
+Open the `Interactive Apps` menu and press the `Desktop` link. This will redirect
+you to a form for this application.  This form can allow users to fill out different
+settings to submit the job with. For example the `Number of Hours` field will specify
+how long the job can run for. Administrators can specify these fields. So for example
+a real site may allow desktops with GPUs and a checkbox in the form for the user to
+select a GPU.
+
+There's no need to specify the account, so you can leave it blank. Fill out the rest
+of the form (noting that there are only 2 nodes in this cluster) and press the `Launch`
+button.
+
+You'll be redirected to `My Interactive Sessions` page where you will see a card for this
+job. It should start in the queued state and eventually into the running state. When
+it's in the running state a button will appear at the bottom of the card with the text
+`Launch HPC Desktop`. Press that button when it becomes available to connect to the desktop.
+
+When you press `Launch HPC Desktop` a new tab will open connecting you to the desktop.
+Note that this desktop is running in a container on one of the compute nodes in the Slurm
+cluster.  You now have a desktop running on your compute cluster!
+
+Open the applications menu and launch a terminal. Once inside the terminal issue the
+`glxgears` command and see the GUI for glxgears open up.  Feel free to keep the session
+open for a while and play around with the XFCE desktop.
+
+![desktop demo](imgs/desktop_demo.gif)
+
+#### Launching Jupyter
+
+Navigate back to the tab with Open OnDemand and open the `Interactive Apps` menu
+again. Now choose Jupyter instead of a desktop.
+
+This will redirect you to a similar form as we saw before, only it's a form for
+launching a Jupyter session instead of a desktop.  Choose your settings and launch
+by pressing the `Launch` button.
+
+Similar to the desktop launching, this will redirect you to `My Interactive Sessions`
+where a new card for this Jupyter application should be.
+
+You'll note on this card though, it has extra information on it. It displays the
+choices that you've made in the form, for example how much memory you've requested.
+Administrators, when creating applications, can choose to display certian choices
+users make in the form in these cards.
+
+Again when the button to `Connect to Jupyter` becomes available don't press it
+just yet. Instead you can press the button near the top of the card labeled `Host`.
+This is the host that the job is running on. It's likely cpn01 but could also be
+cpn02.  Press this button and OnDemand will open a shell session on that compute
+node in a new tab.
+
+This allows users to not only run an interactive application they can connect to,
+but also shell access to the job as well.
+
+Navigate back to Open OnDemand's `My interactive sessions` page and press the
+`Connect to Jupyter` button. This will open a new tab to the Jupyter application
+that's running on a compute node in your Slurm cluster!
+
+Connect to the Jupyter session and navigate to the `jupyter_notebook_data` directory.
+Open the `GUI-demo.ipynb` and this should open a new tab to this notebook. Run all
+the cells in this notebook for a demonstration that this Jupyter does in fact work.
+
+![jupyter demo](imgs/jupyter_demo.gif)
+
+### Profiles
+
+Open OnDemand 3.0 released with support profiles. Profiles are a way to change
+the look and feel of an Open OnDemand installation.
+
+Open the `Help` menu on the right hand side of the navigation bar and click
+the `Chemistry` profile. This will redirect you back to the starting page
+and set the application into this new profile.  You can select `Default`
+from the same menu to get back to the original profile.
+
+The first thing you may notice is that the navigation bar has changed.
+The main idea with profiles is to construct a view into the OnDemand system
+that limits the choices of users, so that they may more easily find the application
+they're interested in or so the system can gear itself towards a specific use
+case instead of being more general purpose.
+
+We've changed the navigation bar to limit the choices a user can make
+within this profile. The desktop application has been removed and only
+Jupyter is available.  Also the `Jobs` menu has been removed along with
+several other menu items on the right hand side.
+
+The landing page has also changed. Mostly just re-arranged, but it demonstrates
+that different profiles can have different landing pages.
+
+Lastly there's a new link entitled `Chemistry Notes`. Press this link
+and you'll be redirected to a custom page.  This page is completely defined
+by administrators. Administrators supplied every single panel on this page.
+The idea here being that administrators can supply content to their own OnDemand
+installation, thereby extending it's functionality by also supplying some
+documentation.
+
+![profile demo](imgs/profile_demo.gif)
+
+</details>
+
 ## Dashboard developer mode Tutorial
+
+<details>
+  <summary>Click to open or close tutorial details.</summary>
+
+<br>
 
 This tutorial covers:
 
@@ -245,7 +510,14 @@ dashboard.
 
 ![dashboard landing page with a new custom widget](imgs/dashboard_w_new_widget.png)
 
-## Jupyter App Tutorial
+</details>
+
+## Jupyter App development tutorial
+
+<details>
+  <summary>Click to open or close tutorial details.</summary>
+
+<br>
 
 This tutorial covers:
 
@@ -1033,7 +1305,14 @@ field when the debug option is chosen.
         ]
 ```
 
+</details>
+
 ## Passenger app tutorial
+
+<details>
+  <summary>Click to open or close tutorial details.</summary>
+
+<br>
 
 Access OnDemand dashboard https://localhost:3443
 
@@ -1330,7 +1609,14 @@ Notes
 
 * app is still accessible even if navbar does not display it
 
+</details>
+
 ## XDMoD Integration Tutorial
+
+<details>
+  <summary>Click to open or close tutorial details.</summary>
+
+<br>
 
 (Optional) submit a job from job composer to demonstrate XDMoD integration with Job Composer:
 
@@ -1358,7 +1644,7 @@ Review dashboard widgets - restart Web Server to see
 
 Review Job Composer links - access Job Composer
 
-
+</details>
 
 ## Tutorial Navigation
 [Next - Acknowledgments](../docs/acknowledgments.md)  
