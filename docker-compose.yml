@@ -160,7 +160,7 @@ services:
       context: ./coldfront
       args:
         HPCTS_VERSION: $HPCTS_VERSION
-    command: ["serve", $COLDFRONT_RESTORE]
+    command: ["serve"]
     hostname: coldfront
     container_name: coldfront
     networks:
