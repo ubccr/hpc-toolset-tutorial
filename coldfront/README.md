@@ -36,11 +36,16 @@ For more options on allowing permissions for various types of staff access, see 
 
 
 ### Activate the allocation request  
-At part of the database seeding we did at the start of the tutorial, we activated and set attributes on the allocations requested on the `cgray` project.  Let's look at that allocation and how it was setup.  
-- Login using local account username: `hpcadmin` password: `ilovelinux` 
-- Navigate to the `Admin` menu and click on the `All Allocations` option  
-- Click on the allocation number next to the allocation for the `HPC cluster` resource.  
-- Scroll down to look at the allocation attributes set.  Notice that allocation status is `Renewal Requested` and there is a start and end date associated with it.  
+
+- Navigate to the `Admin` menu and click on `Allocation Requests`  
+Note: the project review status is a green check mark, indicating our Center Director has already approved the submitted project review.  
+
+At part of the database seeding we did at the start of the tutorial, we activated and set attributes on the allocations requested on the `cgray` project.  Let's look at that allocation and how it was setup. 
+
+- Click the `Details` button to review the Allocation Detail page.  
+- Notice that allocation status is `Renewal Requested` and there is a start and end date associated with it.  
+- Scroll down to look at the allocation attributes set. There is a slurm_account attribute as well as slurm_specs and slurm_user_specs attributes.  This is what is used by the Slurm plugin to sync with the Slurm database.  
+- Click the `Approve` button to re-activate the allocation.  This updates the status to `Active` and changes the expiration date to one year from today.  
 
 Now let's go look at and activate the allocation change request submitted by `cgray` for the storage resource.  As the HPC admin user, activate and setup the new allocation:  
 - Navigate to the `Admin` menu and click on `Allocation Change Requests`  
@@ -48,9 +53,6 @@ Now let's go look at and activate the allocation change request submitted by `cg
 
 For more information about configuring Allocation Change Requests [see here](#more-info-on-allocation-change-requests) 
 
-Next review the pending allocation requests:  
-- Navigate to the `Admin` menu and click on `Allocation Requests`  Note that the project review status is green check mark, indicating our Center Director has already approved the submitted project review.  
-- Click the `Details` button if you'd like to review the Allocation Detail page.  Otherwise, click the `Approve` button to renew the allocation for another year.  
 - Logout as the `hpcadmin` user   
 
 
@@ -72,7 +74,7 @@ _**This is because we have not synced the allocation information in ColdFront wi
 ### Run Slurm plugin to sync active allocations from ColdFront to Slurm
 - Login to the coldfront container & setup ColdFront environment  
 `ssh coldfront`  
-`cd /srv/www`
+`cd /srv/www`  
 `source venv/bin/activate`
 - Let's see what slurm access cgray currently has:  
 `sacctmgr show user cgray -s list`  

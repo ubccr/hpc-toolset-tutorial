@@ -12,13 +12,8 @@ If you haven't already installed and tested the required packages, please refer 
 
 ## Getting started
 
-You will need to clone the tutorial repo and then run the helper script.  The initial clone of the repo may take 5-10 minutes.  The first time running the helper script, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 13GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network with client connected over wifi this download and container startup process took 12 minutes.  
+You will need to clone the tutorial repo and then run the helper script.  The initial clone of the repo may take 5-10 minutes.  The first time running the helper script, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 20GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network with client connected over wifi this download and container startup process took 12 minutes.  
 
-NOTE: For Windows, if you haven't already done so, you will need to configure git not to convert line endings into Windows format.  Run this command using the git-bash shell application before cloning the tutorial repo:
-
-```
-git config --global core.autocrlf input
-```
 
 ### Clone Repo and Start Containers
 
@@ -84,28 +79,7 @@ Starting HPC Toolset Cluster..
 
 **NOTE:  Despite seeing this output with URLs, the processes on these containers may not be fully running yet.  Depending on the speed of your computer, starting up the processes may take a few minutes (or even up to 10 minutes).  Use the command below to check the docker logs if the websites are not yet displaying.**
 
-### Windows Errors  
 
-NOTE: Windows users should get several pop-up messages from Docker Desktop during this process asking to allow local system access to the Docker containers.  Please click the "Share it" button:
-![](windows_sharing.PNG)
-
-If you have notifications blocked, you may not see these pop-ups and the authorization will eventually time out.  If this happens, you will get this type of error message:    
-
-```
-Error response from daemon: user declined directory sharing C:\Users\path_to_my_folder
-```
-Open Docker Desktop, navigate to Settings - Resources, and click on File Sharing.  Then add the directory where you've cloned the HPC Toolset Tutorial and click "Apply & Restart"
-
-Re-run:  
-```
-./hpcts start  
-```
-
-If this doesn't work, please run:  
-```
-./hpcts destroy  
-./hpcts start  
-```
 
 ### Docker Logs
 
