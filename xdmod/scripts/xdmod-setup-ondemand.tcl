@@ -36,7 +36,7 @@ confirmFileWrite yes
 enterToContinue
 
 # Setup the OnDemand database
-selectMenuOption 10
+selectMenuOption 11
 
 selectMenuOption d
 

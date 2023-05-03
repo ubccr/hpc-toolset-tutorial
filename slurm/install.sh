@@ -8,14 +8,14 @@ log_info() {
 }
 
 SLURM_VERSION=${SLURM_VERSION:-21.08.8-2}
-WEBSOCKIFY_VERSION=${WEBSOCKIFY_VERSION:-0.8.0}
+WEBSOCKIFY_VERSION=${WEBSOCKIFY_VERSION:-0.11.0}
 ARCHTYPE=`uname -m`
 
 log_info "Installing required packages for building slurm.."
 curl -o /etc/yum.repos.d/turbovnc.repo https://turbovnc.org/pmwiki/uploads/Downloads/TurboVNC.repo
 dnf -y install dnf-plugins-core
 dnf -y config-manager --set-enabled powertools
-dnf -y module enable ruby:2.7 nodejs:12
+dnf -y module enable ruby:3.0 nodejs:14
 dnf install -y \
     @Development \
     munge \
@@ -33,12 +33,15 @@ dnf install -y \
     mariadb \
     turbovnc \
     mariadb-devel \
-    python3 \
+    python39 \
+    python39-devel \
     python2-numpy \
     kitty-terminfo \
     stress
 
 log_info "Installing compute packages .."
+
+alternatives --set python3 /usr/bin/python3.9
 
 dnf groupinstall -y "Xfce"
 
@@ -47,7 +50,7 @@ wget -O /tmp/websockify-${WEBSOCKIFY_VERSION}.tar.gz https://github.com/novnc/we
 pushd /tmp
 tar xzf websockify-${WEBSOCKIFY_VERSION}.tar.gz
 pushd websockify-${WEBSOCKIFY_VERSION}
-python2 setup.py install
+python3 setup.py install
 popd
 rm -rf /tmp/websockify*
 
@@ -109,7 +112,7 @@ sed -i 's#^LOCALHOSTNAME.*$#LOCALHOSTNAME   y   n   "/home/pcp/$(date +%Y)/$(dat
 log_info "Installing Jupyter.."
 python3 -m venv --without-pip --prompt jupyter/2.1.4 /usr/local/jupyter/2.1.4
 source /usr/local/jupyter/2.1.4/bin/activate
-curl https://bootstrap.pypa.io/pip/3.6/get-pip.py | python
+curl https://bootstrap.pypa.io/get-pip.py | python
 
 pip install jupyterlab==2.1.4 jupyter-console qtconsole ipywidgets plotly==4.8.2 pandas scikit-learn numpy
 deactivate

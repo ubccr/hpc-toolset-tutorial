@@ -28,7 +28,7 @@ sh autogen.sh
 make && make install
 
 cd $BUILD_DIR
-OOD_VERSION='2.0.27'
+OOD_VERSION='3.0.0'
 wget "https://github.com/OSC/ondemand/archive/refs/tags/v$OOD_VERSION.tar.gz"
 tar -xf "v$OOD_VERSION.tar.gz"
 cd ondemand-$OOD_VERSION

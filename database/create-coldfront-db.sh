@@ -16,3 +16,9 @@ EOF
 echo "Granting coldfront user access to coldfront database.."
 echo "grant all on coldfront.* to 'coldfrontapp'@'%';" | mysql -uroot
 echo "flush privileges;" | mysql -uroot
+
+
+if [ -f "/docker-entrypoint-initdb.d/coldfront.dump" ]; then
+    echo "Restoring coldfront database..."
+    mysql -uroot coldfront < /docker-entrypoint-initdb.d/coldfront.dump
+fi
