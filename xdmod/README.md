@@ -1486,6 +1486,6 @@ Admin Dashboard:
 ![Admin Dashboard](./tutorial-screenshots/admin-dashboard.png)
 
 ## Tutorial Navigation
-[Next - OnDemand](../ondemand/README.md)
-[Previous Step - ColdFront](../coldfront/README.md)
-[Back to Start](../README.md)
+[Next - Acknowledgements](../docs/acknowledgments.md)  
+[Previous Step - Open OnDemand](../ondemand/README.md)  
+[Back to Start](../README.md)  
