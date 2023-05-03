@@ -254,7 +254,7 @@ When creating the resource at the start of the tutorial, we added the `OnDemand`
 - View `hpc-toolset-tutorial/coldfront/coldfront-nginx.conf` for an example of ColdFront web configuration  
 
 ## Tutorial Navigation
-[Next - Open XDMoD](../xdmod/README.md)  
+[Next - Open OnDemand](../ondemand/README.md)  
 [Previous Step - Accessing the Applications](../docs/applications.md)  
 [Docker Tips](../docs/docker_tips.md)  
 [Back to Start](../README.md)
