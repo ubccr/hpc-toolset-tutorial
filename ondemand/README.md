@@ -70,6 +70,8 @@ logins work. OnDemand supports many formats, and the one shown is in markdown.
 Lastly you'll see panels for [XDMoD](../xdmod/README.md). OnDemand integrates
 with XDMoD to show pertinant information about the jobs you've recently ran.
 
+![landing page demo](imgs/landing_page_demo.gif)
+
 ### File management
 
 In the navigation bar you'll see a dropdown menu entitled `Files`. The first
@@ -95,6 +97,8 @@ Go ahead and:
 
 Now that you know how to create files, go ahead and create a file and in the next
 section we'll edit it.
+
+![file manager demo](imgs/file_manager_demo.gif)
 
 ### File viewing and editing
 

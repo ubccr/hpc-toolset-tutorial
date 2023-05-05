@@ -5,7 +5,7 @@ dashboard_layout:
     - columns:
       - width: 12
         widgets:
-          - welcome_isc
+          - welcome
       - width: 12
         widgets:
           - recently_used_apps
@@ -84,7 +84,7 @@ custom_pages:
       - columns:
         - width: 6
           widgets:
-            - welcome_isc
+            - welcome
             - custom_page_description
         - width: 6
           widgets: chemistry_notes
