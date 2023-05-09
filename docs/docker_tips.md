@@ -11,14 +11,14 @@ $ git clone https://github.com/ubccr/hpc-toolset-tutorial.git
 $ cd hpc-toolset-tutorial
 ```
 
-Ensure you have pulled all the latest changes. This is very important as lots
+If you have previously cloned the repo, pull all the latest changes. This is very important as lots
 has changed from previous years:
 
 ```
 $ git pull
 ```
 
-This step is optional, only run this if you've previosly run our tutorial and
+This step is optional: only run this if you've previously run our tutorial and
 need to remove any old containers, volumes, and images. You can also run this
 if you need to start completely fresh. NOTE: this will delete all the hpcts
 container images and you will need to re-download them:
@@ -35,7 +35,7 @@ $ ./hpcts start
 
 ### If something goes wrong...
 
-First, thing to try is stopping the containers, removing the volumes and re-starting:
+First thing to try is stopping the containers, removing the volumes and re-starting:
 
 ```
 $ ./hpcts destroy
@@ -46,7 +46,7 @@ $ ./hpcts start
 
 - [Docker](https://docs.docker.com)
 - [Install & Start Docker](https://docs.docker.com/engine/install/)
-- [Linux & WSL](https://docs.docker.com/engine/install/linux-postinstall/) 
+- [Linux & Windows Subsystem for Linux](https://docs.docker.com/engine/install/linux-postinstall/) 
 - [MacOS Docker Desktop](https://docs.docker.com/docker-for-mac/troubleshoot/)  
 
 ### Helpful Docker commands
@@ -59,6 +59,7 @@ $ docker compose up -d
 $ docker compose logs -f
 $ docker compose logs -f coldfront
 $ docker compose logs -f xdmod
+$ docker compose logs -f ondemand
 
 # Stop containers 
 $ docker compose stop
