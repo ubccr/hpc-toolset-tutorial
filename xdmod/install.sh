@@ -25,6 +25,7 @@ dnf module -y install nodejs:16
 dnf install -y \
     expect \
     python3-devel \
+    python3-scipy \
     pcp-devel \
     python3-pexpect \
     php-pear \
@@ -70,7 +71,6 @@ echo "extension=mongodb.so" >> /etc/php.d/40-mongodb.ini
 # This is required because /usr/bin/supremm-setup uses the platform-python
 /usr/libexec/platform-python -m pip install pymongo==3.7.0 --upgrade
 /usr/libexec/platform-python -m pip install pytz
-/usr/libexec/platform-python -m pip install scipy
 /usr/libexec/platform-python -m pip install Cython
 /usr/libexec/platform-python -m pip install pcp
 /usr/libexec/platform-python -m pip install PyMySQL
