@@ -8,14 +8,29 @@ mysql -uroot <<EOF
 create user 'xdmodapp'@'%' identified by 'ofbatgorWep0';
 EOF
 
+if [ -f "/docker-entrypoint-initdb.d/xdmod.dump" ]; then
+  echo "Restoring xdmod database..."
+  mysql -uroot < /docker-entrypoint-initdb.d/xdmod.dump
+  for db in mod_hpcdb mod_logger mod_shredder moddb modw modw_aggregates modw_filters modw_supremm modw_etl modw_jobefficiency modw_cloud modw_ondemand
+    do
+        echo "grant all on $db.* to 'xdmodapp'@'%';" | mysql -uroot
+    done
 
-echo "Creating xdmod databases.."
+    echo "flush privileges;" | mysql -uroot
+else
+  echo "Creating xdmod databases.."
+  for db in mod_hpcdb mod_logger mod_shredder moddb modw modw_aggregates modw_filters modw_supremm modw_etl modw_jobefficiency modw_cloud modw_ondemand
+  do
+      echo "Creating $db database.."
+      echo "create database if not exists $db" | mysql -uroot
+      echo "grant all on $db.* to 'xdmodapp'@'%';" | mysql -uroot
+  done
 
-for db in mod_hpcdb mod_logger mod_shredder moddb modw modw_aggregates modw_filters modw_supremm modw_etl modw_jobefficiency modw_cloud modw_ondemand
-do
-    echo "Creating $db database.."
-    echo "create database if not exists $db" | mysql -uroot
-    echo "grant all on $db.* to 'xdmodapp'@'%';" | mysql -uroot
-done
+  echo "flush privileges;" | mysql -uroot
+fi
 
-echo "flush privileges;" | mysql -uroot
+
+
+
+
+

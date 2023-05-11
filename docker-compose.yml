@@ -34,7 +34,7 @@ services:
     networks:
       - compute
     volumes:
-      - ./mongodb:/docker-entrypoint-initdb.d 
+      - ./mongodb:/docker-entrypoint-initdb.d
       - data_db:/data/db
     expose:
       - "27017"
@@ -219,6 +219,7 @@ services:
       - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
       - home:/home
+      - ./xdmod:/xdmod
     expose:
       - "22"
     ports:
