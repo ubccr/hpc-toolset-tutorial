@@ -29,7 +29,10 @@ then
 
     tables=$(mysql -u${user} -p${pass} --host ${host} -NB modw -e "SHOW TABLES")
     if [[ -n "$tables" ]]; then
-        echo "Open XDMoD already initialized"
+        if [ -f "/xdmod/setup.sh" ]; then
+            /xdmod/setup.sh
+        fi
+        /srv/xdmod/scripts/xdmod-setup-sso.sh
     else
         #------------------------
         # Run xdmod-setup

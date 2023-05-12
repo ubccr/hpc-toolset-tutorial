@@ -19,7 +19,7 @@ source [file join [file dirname [info script]] helper-functions.tcl]
 set timeout 240
 spawn "xdmod-setup"
 
-selectMenuOption 10
+selectMenuOption 9
 
 selectMenuOption d
 answerQuestionAlt {DB Admin Username:} root
