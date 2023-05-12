@@ -1,8 +1,82 @@
-## Overview
+## Pre-seeding XDMoD with data for tutorial
+Due to time constraints for the half day tutorial we will skip the manual setup steps and have provided a database populated with this information. 
+These manual steps involve completing `xdmod-setup` and shredding, ingesting and aggregating HPC job accounting and performance data.  
+If you'd like to walk through these steps yourself, you can delete the XDMoD databases and start from scratch.  [Follow the detailed instructions below](#getting-started).
 
-**NOTE:**
-Due to this tutorial being virtual and much shorter than anticipated; this part of the tutorial is going to be a bit more of an interactive demo. Some parts are going to be skipped over quicker than usual, however, our team is available in SLACK and Zoom chat to answer any questions that you may have.
+## Tutorial: Using XDMoD
 
+### Center Staff / Center Director View
+- Login as `sfoster` password `ilovelinux` 
+
+Directly after logging in users assigned the Center Staff or Center Director role will be greeted with a dashboard that 
+helps manage and get a sense of the health of a center as a whole. In addition to the default charts, the dashboard can be
+further customized on a user by user basis to meet the needs of each individual user / center.
+
+- Click the "CPU Hours and Number of Jobs - Top 20 Users" chart
+
+Clicking on any of the charts located in the upper two rows of the dashboard will zoom in to give the user a more detailed look at the 
+data contained within. You can close the zoomed in view by pressing the `esc` button or clicking the `x` located in the upper right hand corner
+of the frame. An important and useful feature to note is that while the chart is zoomed in a "Open in Metric Explorer" 
+button is visible at the bottom of the frame. Clicking this button will open this chart in our "Metric Explorer".
+
+- Click the "Open in Metric Explorer" button.
+
+The Metric Explorer is meant to be the main method of interacting with existing and new charts. It provides the 
+user with the most control over what and how data is displayed. While working with a chart in the Metric Explorer you
+can also choose to make it available in the Report Generator. The Report Generator provides the ability to have any 
+number of charts automatically generated and sent to you on a regular basis.   
+
+- Click the "Available for Report" checkbox
+- Click the "Report Generator" tab
+
+You should see the chart from the Metric Explorer in the panel on the right hand side of the screen. 
+
+- Click the "New" button in the "My Reports" toolbar
+- Drag and Drop the chart from the "Available Charts" to the "Included Charts" section of the newly created report.
+- Click "Save"
+- Click "Download"
+  - Click "As PDF"
+  - Click "View Report" when the report is done generating.
+
+- Click the "Efficiency" Tab
+
+The Efficiency tab provides Center Staff with a powerful tool to quickly identify users who may be in need of help with 
+their jobs. By default four analytics are provided for categorizing a users jobs, CPU Usage, GPU Usage, Memory Use, and Homogeniety.
+In this tutorial we will focus on CPU Usage. 
+
+- Click the "CPU Usage" chart. 
+
+This chart is organized such that the x axis is Average CPU %: Idle while the y axis is the total number of CPU Hours. 
+This orientation ensures that the points of greatest interest are always located in the upper right hand side. To further
+ease identification, the points in the upper right hand quandrant are colored red. 
+
+- Click a red point in the upper hand quadrant of the chart.
+
+You should now be presented with a histogram of percentage time that the CPU cores were idle compared to the overall usage.
+
+- Click one of the bars in the histogram
+
+You should now presented with a list of the jobs that make up this bar. 
+
+- Click a job. 
+
+Clicking a job has brought us to the "Job Viewer", this tab provides the ability to view the job level accounting and 
+performance statistics, including timeseries data for this particular job.
+
+- Expand the 'Timeseries' tree item
+- Click the "CPU User" item
+
+While viewing timeseries data you are able to drill down by further clicking on a nodes data point, in this case the first click will drill down to that points node
+clicking a point in this chart will then take you to that points CPU.  
+
+### Principal Investigator and User View
+Due to time constraints the Principal Investigator and User Views willl not be explored in any appreciable depth, but 
+each role does have a Dashboard that has been customized to their needs and has access to the same basic features of XDMoD
+as a Center Staff / Director user. The major difference being that Principal Investigators can see the jobs for all of
+their associated users while a normal user can only see their own jobs.
+
+
+## Getting Started
 In this part of the tutorial we are going to go over the installation and configuration of Open XDMoD.
 The base component of Open XDMoD uses the job accounting logs from your HPC
 resource manager as the data source. We have also installed the optional Job Performance Module. This allows Open XDMoD to also display performance data for HPC jobs.
@@ -12,8 +86,6 @@ Command Line Demos in a Light color, are meant to be watched. Dark theme are int
 `vim` is used to edit files in this tutorial. If you prefer a different editor, please install it on the xdmod container.
 
 ## Submit some jobs to the cluster
-
-**NOTE:** For the PEARC2021 tutorial the Presenter has already done this on their machine. If you are interested in running this on your own please do so.
 
 Before we install and configure XDMoD we are going to submit
 some HPC jobs to the cluster. This will ensure that we'll have something to view when we're done setting up XDMoD.
