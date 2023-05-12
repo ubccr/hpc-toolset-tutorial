@@ -2,7 +2,7 @@
 
 echo "Import configuration files"
 if [ -f "/xdmod/conf/xdmod_etc.tar.gz" ]; then
-  tar -xvzf /xdmod/conf/xdmod_etc.tar.gz --strip-components 2 -C /etc/xdmod
+  tar -xvzf /xdmod/conf/xdmod_etc.tar.gz --strip-components 1 -C /etc
   chown -R root:apache /etc/xdmod
 fi
 
