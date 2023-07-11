@@ -32,6 +32,8 @@ Once the containers are started, navigate to the [ColdFront site - https://local
 
 ## ColdFront Overview  
 
+This section should give you an idea of how ColdFront can be used in your center by PIs (principal investigators - also faculty, professors, project managers) to manage access to resources for their research groups or classes, by your system administrators to manage the resources & grant the access, and your center director or other staff to review who has access and what type of research they're doing.  It's just one short example but it provides the full product lifecycle so you can see how the different roles might utilize the software.  The next section provides more details specifically for system administrators managing resources at an HPC center.  
+
 ### PI View:  Annual Project Review, Allocation Renewal & Allocation Change Requests
 
 - Login as `cgray` password `test123`
@@ -58,8 +60,6 @@ Click the `Email` button to see this functionality.  Go back to the `Project Rev
 - Click through the different options in the `Director` menu if desired  
 - Logout  
 
-For more options on allowing permissions for various types of staff access, see the ColdFront manual:  https://coldfront.readthedocs.io/en/latest/manual/users/  
-
 
 ### Activate the allocation request  
 
@@ -78,52 +78,77 @@ At part of the database seeding we did at the start of the tutorial, we activate
 ### Try to run a job as the PI user  
 Now let's go outside of ColdFront to the command line and try to submit a batch job as the `cgray` user.  
 - Login to the frontend container:  
-`ssh -p 6222 hpcadmin@localhost`  
-password: `ilovelinux`  
+```
+ssh -p 6222 hpcadmin@localhost  
+password: ilovelinux
+```
 Switch to the PI user account:  
-`su - cgray`  
-password: `test123`  
-`sbatch --wrap "sleep 600"`  
+```
+su - cgray  
+password: test123
+sbatch --wrap "sleep 600"
+```
 You will get an error message that you do not have permission to run on the cluster  
 `sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified`  
-- Let's see what slurm access cgray currently has:  
-`sacctmgr show user cgray -s list`  
+- Let's see what slurm access cgray currently has: 
+```
+sacctmgr show user cgray -s list
+```
 You should not see any Slurm account information for the `cgray` user  
 _**This is because we have not synced the allocation information in ColdFront with Slurm yet.**_  
 - Type `exit` to log out of the cgray account and you should be on the frontend logged in as the hpcadmin account.  
 
 ### Run Slurm plugin to sync active allocations from ColdFront to Slurm
 - Login to the coldfront container & setup ColdFront environment  
-`ssh coldfront`  
-`source /srv/www/venv/bin/activate`  
+```
+ssh coldfront    
+source /srv/www/venv/bin/activate  
+```
 
-- Now dump the slurm account/association info from ColdFront's active allocations:  
-`coldfront slurm_dump -c hpc -o ~/slurm_dump`
+- Now dump the slurm account/association info from ColdFront's active allocations: 
+``` 
+coldfront slurm_dump -c hpc -o ~/slurm_dump
+```
 - Let's see what was created:  
-`ls -al ~/slurm_dump`  
-`cat ~/slurm_dump/hpc.cfg`  
+```
+ls -al ~/slurm_dump  
+cat ~/slurm_dump/hpc.cfg
+```  
+
 - Load the slurm dump into slurm database:  
-`sacctmgr load file=~/slurm_dump/hpc.cfg`  
-`Type 'Y'` to add the new account & associations for cgray
+```
+sacctmgr load file=~/slurm_dump/hpc.cfg`  
+Type 'Y'  to add the new account & associations for cgray
+```
+
 - Let's look at cgray's slurm account again:  
-`sacctmgr show user cgray -s list`  
+```
+sacctmgr show user cgray -s list
+```
 - Let's look at csimmons's slurm account again:  
-`sacctmgr show user csimmons -s list`  
+```
+sacctmgr show user csimmons -s list
+```  
 NOTE: The csimmons user is under the cgray slurm account  
 - Logout of ColdFront container
-`exit`  
+```
+exit
+```  
 
 ### Login (or go back) to frontend container
 NOTE: you should already be on the frontend but just in case you're not:  
-`ssh -p 6222 hpcadmin@localhost`  
-password: `ilovelinux`  
-
+```
+ssh -p 6222 hpcadmin@localhost  
+password: ilovelinux  
+```
 Switch over to the PI user account and try to run a job again:    
-`su - cgray`  
-password: `test123`  
-`sbatch --wrap "sleep 600"`  
-`squeue`  (the job should be running on a node)  
-`exit` (logout from cgray account)  
+```
+su - cgray  
+password: test123
+sbatch --wrap "sleep 600"`  
+squeue  (the job should be running on a node)  
+exit (logout from cgray account)  
+```
 <br>
 
 **Tip:** 
@@ -132,11 +157,14 @@ password: `test123`
 
 <hr>
 
-ColdFront Admin Tasks  
+## ColdFront Admin Tasks  
+
+Building on what you learned in the previous section, this part of the tutorial provides information on an array of administrative tasks and setup steps you'll need to know in order to setup ColdFront at your center.  We'll step through a few of these tasks from the ColdFront administration page and then go back into the ColdFront front end to test these.  
+
 
 ### Elevating User to PI Status:  
 
-Let's give a user PI access:  
+In order for a user to create a new project, they need to have `PI` status.  Let's give the `sfoster` account PI access:  
 - If necessary, login as `hpcadmin` password `ilovelinux`  
 - Go to Admin menu and click on `ColdFront Administration` 
 - Scroll to the bottom under the `User` section and click on `User Profiles`  
@@ -145,7 +173,9 @@ Let's give a user PI access:
 
 ### Adding a Resource  
 
-Let's add a cloud resource:  
+The tutorial database comes with two resources already created.  However, when running this at your center, you'll need to manually create a resource for each system or service you want your users to access.  Let's add a cloud resource  
+
+Still on the `ColdFront Administration` page:
 - Scroll to the `Resource` section and click on `Resources`  
 - Click on the `Add Resource` button  
 - Select `Cloud` for `Resource Type` and enter a description.  
@@ -160,8 +190,7 @@ Let's add a cloud resource:
 
 Allocation change requests allow a project manager to request a change on an active allocation without having to request a whole new allocation for that resource.  They can request a date extension and/or a change on an allocation attribute.  We don't necessarily want to let users request changes on all allocation attributes so we need to set the ability to make change requests on individual allocation attributes.  
 
-- Login as `hpcadmin` password `ilovelinux`
-- Go to Admin menu and click on `ColdFront Administration` 
+Still on the `ColdFront Administration` page:
 - Under the `Allocation` section click on `Allocation Attribute Types`  
 - Let's allow project managers to request an increase in their storage quotas.  Click on the number next to `Storage Quota (GB)`  
 - Check the box `Is Changeable` and then click the `Save` button.  
@@ -179,7 +208,8 @@ For more information about configuring Allocation Change Requests [see here](#mo
 
 Now that you've set up the new cloud resource, let's create a new project and request an allocation it:  
 
-- Login as `sfoster` password `ilovelinux` OR using the ColdFront Administration page, use the "Login As" option    
+- Using the `ColdFront Administration` page, use the "Login As" option: Under the `Authentication and Authorization` section, click on `Users` then click on `sfoster`  
+- At the top right, click on `Login As` which redirects us to the ColdFront home page for the user     
 - Click the `Add a project` button and fill out the `Title` and `Description` fields and select a field of science. Click the `Save` button.  
 - Once redirected to the project detail page, click `Request Resource Allocation` under the Allocations section.  
 - Select the cloud resource from the drop down, provide a justification, enter the number of CPU hours, and click the `Submit` button.  
@@ -187,7 +217,7 @@ Click on the `release sfoster` button at the top in the yellow banner.
 
 As the admin, let's configure and activate that allocation:  
 
-- Login using local account username: `hpcadmin` password: `ilovelinux`  
+- From the `ColdFront Administration` page, click on the `View Site` link at the top right.  
 - Navigate to the `Admin` menu and click on `Allocation Requests`  
 - Click on the `Details` button next to the `Research Cloud` allocation request to configure and activate the allocation:  
 click the `Add Allocation Attribute` button and select these allocation attributes from the drop down menu:  
@@ -196,44 +226,55 @@ click the `Add Allocation Attribute` button and select these allocation attribut
 `Cloud Account Name` Enter: `cgray`  
 Notice as you add the core usage and cloud storage quota attributes you see usage graphs displayed.  These can tie into a plugin such as XDMoD or the OpenStack community developed plugins for usage information.  
 
-Now let's go look at and activate the allocation change request submitted by `cgray` for the storage resource.  As the HPC admin user, activate and setup the new allocation:  
-- From the ColdFront Administration page, click on the `View Site` link at the top right.  
+Now let's go look at and activate the allocation change request submitted by `cgray` for the storage resource.  
 - Navigate to the `Admin` menu and click on `Allocation Change Requests`  
 - Click on the `Details` button to review and approve the allocation changes requested.  As the admin you have the ability to approve the date extension, change it to another setting or select `no extension`  You can remove the `storage_quota` request or change it.  You can add notes for the PI and users on the allocation to see.  Then you can take action such as `Approve` or `Deny` the request.  For this demo, let's click the `Approve` button.  
 - At the bottom of the page, click the `View Allocation` button and notice the `Storage Quota` attribute value has changed from 10000 to 20000.  
 
+### Staff Member View  
 
+We have setup the `astewart` account as an example of what a center staff member might see in ColdFront.  
+- Login as `astewart` password `ilovelinux` to see what additional menus and functionality this account has access to.  
+- Navigate to the `Staff` menu and click through the menu options to get a sense of the access we recommend for staff members.  
+- Click on the `User Search` menu option and enter one of the other account names and click the `Search` button.  Click on the username and then click on the `View User Projects and Managers` button.  You'll see a list of projects the user is a member of and if they are a PI or manager on any of them.  
+- Logout  
+
+For more options on allowing permissions for various types of staff access, see the ColdFront manual:  https://coldfront.readthedocs.io/en/latest/manual/users/  
 
 
 ### Removing Access  
 
 When an allocation expires or is revoked, the users on that allocation should lose access to the resource.  If the allocation has the `freeipa_group` attribute set, all allocation users are removed from the group when the FreeIPA plugin is run.  If the allocation is for a Slurm resource, all Slurm user associations and the Slurm account are removed when the Slurm plugin is run.  Let's expire a Slurm allocation and then run the `slurm_check` tool.  
 
-- If necessary, login as `hpcadmin` password `ilovelinux`    
-- From the `admin` menu, click on `All allocations` and click on the allocation for the hpc cluster resource.  
+- Login as `hpcadmin` password `ilovelinux`    
+- Navigate to the `Admin` menu, click on `All allocations` and click on the allocation for the hpc cluster resource.  
 - Change the status to `Expired` and the End Date to today.  Click the `Update` button.  
 
-- If you're not still logged into the coldfront container, log back in via the terminal:  
-
-- Login to the coldfront container & setup ColdFront environment:  
+- If you're not still logged into the coldfront container, log back in via the terminal & activate the ColdFront virtual environment:  
 
 ```
 ssh -p 6222 hpcadmin@localhost  
 ssh coldfront  
 source /srv/www/venv/bin/activate  
 ```
-- Use the Coldfront slurm_check tool to remove access for the expired allocation.  The first command looks at everything in slurm and compares it to what's in ColdFront:  
-`coldfront slurm_check -c hpc`  
+- Use the Coldfront slurm_check tool to remove access for the expired allocation.  This first command looks at everything in slurm and compares it to what's in ColdFront:  
+```
+coldfront slurm_check -c hpc
+```
 
-- For the tutorial we created slurm accounts for all the test accounts in the database.  This allows the other parts of the tutorial to work independently of the ColdFront piece.  However, when we run this command it's not finding allocations for all of these accounts so it wants to remove them.  We'll specify the cgray account so it only removes those:  
-`coldfront slurm_check -c hpc -s -x -a cgray`
-
+- For the tutorial we created slurm accounts for all the test accounts in the database.  This allows the other parts of the tutorial to work independently of the ColdFront piece.  However, when we run this command it's not finding allocations for all of these accounts so it wants to remove them.  We definitely don't want that!  We'll specify the cgray account so it only removes those:  
+```
+coldfront slurm_check -c hpc -s -x -a cgray
+```
 The `-s` flag tells it to actually sync to slurm so you'll see it removed the user associations for cgray and csimmons and removed the cgray slurm account.  You can use the `-n` flag to run in `noop` mode which will give a listing of what it will change without doing the sync.   
 
 - Let's look at cgray's slurm account again:  
-`sacctmgr show user cgray -s list`  
+```
+sacctmgr show user cgray -s list
+```
 There should be no account or association listed any longer  
 
+That wraps up the full day tutorial but there is a lot more you can do with ColdFront.  See the steps we did to [pre-seed the database](#seeding-the-database-for-the-full-day-tutorial) for this tutorial and the [documentation for more info](https://coldfront.io).
 
 </details>  
 <br>
@@ -366,7 +407,7 @@ The information in this section can be used for reference or to go through the t
 
 ## Seeding the Database for the Full Day Tutorial 
 <details>
-These steps were done in advance to allow for the presentation of a more hands-on tutorial which spends time on learning the features rather than the minutia of the setup.  If you would like to go through these steps yourself, destroy the containers, delete the ColdFront database, start the containers, login to ColdFront and follow these steps:
+These steps were done in advance to allow for the presentation of a more hands-on tutorial which spends time on learning the features rather than the minutia of the setup.  If you would like to go through these steps yourself, destroy the containers, delete the ColdFront database, and start the containers.  This will create a new, empty ColdFront database.  Then you'll be able to login to ColdFront and follow these steps to populate the database.  
 
 ```
 ./hpcts destroy
@@ -473,7 +514,7 @@ NOTE: If there is a project you never want project reviews on, uncheck 'Requires
 
 ## Starting from Scratch (Half Day Tutorial)
 <details>
-These steps were done in advance to allow for the presentation of a condensed half day version of the tutorial.  If you would like to go through these steps yourself, destroy the containers, delete the ColdFront database, start the containers, login to ColdFront and follow these steps:
+These steps were done in advance to allow for the presentation of a condensed half day version of the tutorial.  If you would like to go through these steps yourself, destroy the containers, and delete the ColdFront database. Start the containers which will create a new, empty coldfront database.  Then login to ColdFront and follow the steps below:
 
 ```
 ./hpcts destroy
@@ -597,7 +638,7 @@ This wraps up the setup done to the ColdFront database to prepare for the conden
 Allocation change requests are turned on by default.  This will allow PIs to request date extensions for their allocations.  The date ranges default to 30, 60, & 90 days but can be set changed or disabled completely in `hpc-toolset-tutorial/coldfront/coldfront.env`  
 See https://coldfront.readthedocs.io/en/latest/config/#coldfront-core-settings for more information.
 
-If you want PIs to be able to request changes to allocation attributes (i.e. storage quotas, unix group) this needs to be set on the allocation attribute.  For this demo, we allowed the PI to request changes Qon the `Storage Quota` attribute.  
+If you want PIs to be able to request changes to allocation attributes (i.e. storage quotas, unix group) this needs to be set on the allocation attribute.  For this demo, we allowed the PI to request changes on the `Storage Quota` attribute.  
 
 
 ## More info on the OnDemand Plugin  
@@ -608,7 +649,7 @@ We have already added the OnDemand instance URL to the ColdFront config.  You ca
 When creating the resource at the start of the tutorial, we added the `OnDemand` attribute to the `hpc` resource which tells it to display the OnDemand logo and link to the OnDemand URL for any allocations for this resource.  Notice on the ColdFront home page next to the allocation for the HPC cluster resource you see the OnDemand logo.  Click on the Project name and see this logo also shows up next to the allocation.  When we click on that logo, it directs us to the OnDemand instance.
 
 
-## ColdFront installation & Configuration
+## ColdFront Installation & Configuration
 - View `hpc-toolset-tutorial/coldfront/install.sh` to see how ColdFront is installed
 - View `hpc-toolset-tutorial/coldfront/coldfront.env` to see how ColdFront is configured  
 - This is where you'd enable or disable any plugins and set variables for your local installation.  Check out the [full configuration options available in the ColdFront documentation](https://coldfront.readthedocs.io/en/latest/config/)  
