@@ -178,7 +178,7 @@ The tutorial database comes with two resources already created.  However, when r
 Still on the `ColdFront Administration` page:
 - Scroll to the `Resource` section and click on `Resources`  
 - Click on the `Add Resource` button  
-- Select `Cloud` for `Resource Type` and enter a description.  
+- Select `Cloud` for `Resource Type`, enter a name and a description.  
 - Make sure the checkboxes for `Is available`, `Is public`, and `Is allocatable` are checked.  
 - Under the `Resource Attributes` section, click `Add another resource attribute` 
 - Select the option `quantity_default_value` and enter a number here.  
@@ -221,32 +221,22 @@ As the admin, let's configure and activate that allocation:
 - Navigate to the `Admin` menu and click on `Allocation Requests`  
 - Click on the `Details` button next to the `Research Cloud` allocation request to configure and activate the allocation:  
 click the `Add Allocation Attribute` button and select these allocation attributes from the drop down menu:  
-`Core Usage (Hours)` Enter: `10000` 
+`Core Usage (Hours)` Enter: `10000`  
 `Cloud Storage Quota (TB)` Enter: `10`  
 `Cloud Account Name` Enter: `cgray`  
 Notice as you add the core usage and cloud storage quota attributes you see usage graphs displayed.  These can tie into a plugin such as XDMoD or the OpenStack community developed plugins for usage information.  
+- Click the `Approve` button to change the allocation status to `Active` and set the expiration date out one year from now.  
 
 Now let's go look at and activate the allocation change request submitted by `cgray` for the storage resource.  
 - Navigate to the `Admin` menu and click on `Allocation Change Requests`  
 - Click on the `Details` button to review and approve the allocation changes requested.  As the admin you have the ability to approve the date extension, change it to another setting or select `no extension`  You can remove the `storage_quota` request or change it.  You can add notes for the PI and users on the allocation to see.  Then you can take action such as `Approve` or `Deny` the request.  For this demo, let's click the `Approve` button.  
-- At the bottom of the page, click the `View Allocation` button and notice the `Storage Quota` attribute value has changed from 10000 to 20000.  
-
-### Staff Member View  
-
-We have setup the `astewart` account as an example of what a center staff member might see in ColdFront.  
-- Login as `astewart` password `ilovelinux` to see what additional menus and functionality this account has access to.  
-- Navigate to the `Staff` menu and click through the menu options to get a sense of the access we recommend for staff members.  
-- Click on the `User Search` menu option and enter one of the other account names and click the `Search` button.  Click on the username and then click on the `View User Projects and Managers` button.  You'll see a list of projects the user is a member of and if they are a PI or manager on any of them.  
-- Logout  
-
-For more options on allowing permissions for various types of staff access, see the ColdFront manual:  https://coldfront.readthedocs.io/en/latest/manual/users/  
+- At the bottom of the page, click the `View Allocation` button and notice the `Storage Quota` attribute value has changed from the origianl 10000 to whatever you set it as.  
 
 
 ### Removing Access  
 
 When an allocation expires or is revoked, the users on that allocation should lose access to the resource.  If the allocation has the `freeipa_group` attribute set, all allocation users are removed from the group when the FreeIPA plugin is run.  If the allocation is for a Slurm resource, all Slurm user associations and the Slurm account are removed when the Slurm plugin is run.  Let's expire a Slurm allocation and then run the `slurm_check` tool.  
 
-- Login as `hpcadmin` password `ilovelinux`    
 - Navigate to the `Admin` menu, click on `All allocations` and click on the allocation for the hpc cluster resource.  
 - Change the status to `Expired` and the End Date to today.  Click the `Update` button.  
 
@@ -274,16 +264,25 @@ sacctmgr show user cgray -s list
 ```
 There should be no account or association listed any longer  
 
+### Staff Member View  
+
+We have setup the `astewart` account as an example of what a center staff member might see in ColdFront.  
+- Login as `astewart` password `ilovelinux` to see what additional menus and functionality this account has access to.  
+- Navigate to the `Staff` menu and click through the menu options to get a sense of the access we recommend for staff members.  
+- Click on the `User Search` menu option and enter one of the other account names and click the `Search` button.  Click on the username and then click on the `View User Projects and Managers` button.  You'll see a list of projects the user is a member of and if they are a PI or manager on any of them.  
+- Logout  
+
+You can see how these different permissions were setup for the tutorial in the [pre-seeding section](#seeding-the-database-for-the-full-day-tutorial) below.  
+
+For more options on allowing permissions for various types of staff access, see the ColdFront manual:  https://coldfront.readthedocs.io/en/latest/manual/users/  
+
+
 That wraps up the full day tutorial but there is a lot more you can do with ColdFront.  See the steps we did to [pre-seed the database](#seeding-the-database-for-the-full-day-tutorial) for this tutorial and the [documentation for more info](https://coldfront.io).
 
 </details>  
 <br>
 
 
-
-
-</details>  
-<br>  
 
 ## Half Day Tutorial:  Using ColdFront  
 <details>
