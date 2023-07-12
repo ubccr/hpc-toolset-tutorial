@@ -21,7 +21,7 @@ If interested, you can [view the steps taken](#seeding-the-database-for-the-full
 
 ```
 ./hpcts destroy
-cp cf_options/coldfront-full.dump database/coldfront.dump
+cp coldfront/db_options/coldfront-full.dump database/coldfront.dump
 ./hpcts start
 ```
 
@@ -292,7 +292,7 @@ Before beginning the tutorial, you must stop the containers, copy in the correct
 
 ```
 ./hpcts destroy
-cp cf_options/coldfront-half.dump database/coldfront.dump
+cp coldfront/db_options/coldfront-half.dump database/coldfront.dump
 ./hpcts start
 ```
 
