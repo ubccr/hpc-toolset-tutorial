@@ -117,7 +117,7 @@ cat ~/slurm_dump/hpc.cfg
 
 - Load the slurm dump into slurm database:  
 ```
-sacctmgr load file=~/slurm_dump/hpc.cfg`  
+sacctmgr load file=~/slurm_dump/hpc.cfg  
 Type 'Y'  to add the new account & associations for cgray
 ```
 
