@@ -952,7 +952,7 @@ check if a new version of Open XDMoD is available.  After a new version
 has been released you will recieve an email.
 
 You may also subscribe to our mailing list at:
-http://listserv.buffalo.edu/cgi-bin/wa?SUBED1=ccr-xdmod-list&A=1
+https://listserv.buffalo.edu/scripts/wa.exe?SUBED1=ccr-xdmod-list&A=1
 
 Enable automatic update check (yes, no)? [yes]
 ```
