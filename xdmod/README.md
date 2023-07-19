@@ -3,6 +3,7 @@
 ## Full Day Tutorial
 <details>
 <summary>Click to open or close tutorial details</summary>
+
 ## Getting Started
 In this part of the tutorial we are going to go over the installation and configuration of Open XDMoD.
 The base component of Open XDMoD uses the job accounting logs from your HPC
@@ -60,7 +61,7 @@ Submitted batch job 19
 
 ## Open XDMoD Installation [Documentation](https://open.xdmod.org/install.html)
 
-**Note** This part will be brief in the PEARC2023 tutorial. These processes have been done already as part of the docker.
+**Note: In the PEARC2023 tutorial we will demonstrate all the steps for the installation / configuration, you do not need to run these steps yourself.** 
 
 For this tutorial, the Open XDMoD software will be installed in the `xdmod` container.
 Open XDMoD will use the MySQL database from the `mysql` container. Since we
@@ -1020,6 +1021,8 @@ XDMoD provides a special command line tool for working with directly with slurm 
 To see what command line arguments it accepts you can run `xdmod-slurm-helper -h`. For our purposes we will be using it
 as follows:
 
+**INTERACTIVE**
+
 ```shell
 [root@xdmod ~] sudo -u xdmod xdmod-slurm-helper -r hpc --start-time $yesterday --end-time $tomorrow
 ```
@@ -1043,6 +1046,8 @@ Upon running `xdmod-slurm-helper` you should see output similar to:
 ### Ingesting & Aggregating [Documentation](https://open.xdmod.org/ingestor.html)
 Now that the accounting logs have been shredded we can now ingest and aggregate the information from them, thus making the
 information available in XDMoD.
+
+**INTERACTIVE**
 
 ```shell
 [root@xdmod ~] sudo -u xdmod xdmod-ingestor
@@ -1499,6 +1504,7 @@ realm should now show in the metric catalog.
 ## Half Day Tutorial
 <details>
 <summary>Click to open or close tutorial details</summary>
+
 ## Pre-seeding XDMoD with data for tutorial
 Due to time constraints for the half day tutorial we will skip the manual setup steps and have provided a database populated with this information. 
 These manual steps involve completing `xdmod-setup` and shredding, ingesting and aggregating HPC job accounting and performance data.  
