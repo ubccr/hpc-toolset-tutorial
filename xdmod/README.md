@@ -1465,7 +1465,7 @@ that the `xdmod` user has read permission and the `hpcadmin` user has write acce
 
 In preparation for obtaining the `ondemand` logs we'll need to make a slight adjustment to the destination folder privs. 
 ```shell
-[hpcadmin@xdmod /] sudo chmod -R 760 /scratch/ondemand/logs
+[hpcadmin@xdmod /] sudo chmod -R 770 /scratch/ondemand/logs
 [hpcadmin@xdmod /] sudo chown -R xdmod:hpcadmin /scratch/ondemand/logs
 ```
 
