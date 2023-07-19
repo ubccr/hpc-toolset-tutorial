@@ -145,7 +145,7 @@ Switch over to the PI user account and try to run a job again:
 ```
 su - cgray  
 password: test123
-sbatch --wrap "sleep 600"`  
+sbatch --wrap "sleep 600"  
 squeue  (the job should be running on a node)  
 exit (logout from cgray account)  
 ```
