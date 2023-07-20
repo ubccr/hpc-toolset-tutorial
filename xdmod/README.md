@@ -1,80 +1,8 @@
-## Pre-seeding XDMoD with data for tutorial
-Due to time constraints for the half day tutorial we will skip the manual setup steps and have provided a database populated with this information. 
-These manual steps involve completing `xdmod-setup` and shredding, ingesting and aggregating HPC job accounting and performance data.  
-If you'd like to walk through these steps yourself, you can delete the XDMoD databases and start from scratch.  [Follow the detailed instructions below](#getting-started).
-
 ## Tutorial: Using XDMoD
 
-### Center Staff / Center Director View
-- Login as `sfoster` password `ilovelinux` 
-
-Directly after logging in users assigned the Center Staff or Center Director role will be greeted with a dashboard that 
-helps manage and get a sense of the health of a center as a whole. In addition to the default charts, the dashboard can be
-further customized on a user by user basis to meet the needs of each individual user / center.
-
-- Click the "CPU Hours and Number of Jobs - Top 20 Users" chart
-
-Clicking on any of the charts located in the upper two rows of the dashboard will zoom in to give the user a more detailed look at the 
-data contained within. You can close the zoomed in view by pressing the `esc` button or clicking the `x` located in the upper right hand corner
-of the frame. An important and useful feature to note is that while the chart is zoomed in a "Open in Metric Explorer" 
-button is visible at the bottom of the frame. Clicking this button will open this chart in our "Metric Explorer".
-
-- Click the "Open in Metric Explorer" button.
-
-The Metric Explorer is meant to be the main method of interacting with existing and new charts. It provides the 
-user with the most control over what and how data is displayed. While working with a chart in the Metric Explorer you
-can also choose to make it available in the Report Generator. The Report Generator provides the ability to have any 
-number of charts automatically generated and sent to you on a regular basis.   
-
-- Click the "Available for Report" checkbox
-- Click the "Report Generator" tab
-
-You should see the chart from the Metric Explorer in the panel on the right hand side of the screen. 
-
-- Click the "New" button in the "My Reports" toolbar
-- Drag and Drop the chart from the "Available Charts" to the "Included Charts" section of the newly created report.
-- Click "Save"
-- Click "Download"
-  - Click "As PDF"
-  - Click "View Report" when the report is done generating.
-
-- Click the "Efficiency" Tab
-
-The Efficiency tab provides Center Staff with a powerful tool to quickly identify users who may be in need of help with 
-their jobs. By default four analytics are provided for categorizing a users jobs, CPU Usage, GPU Usage, Memory Use, and Homogeniety.
-In this tutorial we will focus on CPU Usage. 
-
-- Click the "CPU Usage" chart. 
-
-This chart is organized such that the x axis is Average CPU %: Idle while the y axis is the total number of CPU Hours. 
-This orientation ensures that the points of greatest interest are always located in the upper right hand side. To further
-ease identification, the points in the upper right hand quandrant are colored red. 
-
-- Click a red point in the upper hand quadrant of the chart.
-
-You should now be presented with a histogram of percentage time that the CPU cores were idle compared to the overall usage.
-
-- Click one of the bars in the histogram
-
-You should now presented with a list of the jobs that make up this bar. 
-
-- Click a job. 
-
-Clicking a job has brought us to the "Job Viewer", this tab provides the ability to view the job level accounting and 
-performance statistics, including timeseries data for this particular job.
-
-- Expand the 'Timeseries' tree item
-- Click the "CPU User" item
-
-While viewing timeseries data you are able to drill down by further clicking on a nodes data point, in this case the first click will drill down to that points node
-clicking a point in this chart will then take you to that points CPU.  
-
-### Principal Investigator and User View
-Due to time constraints the Principal Investigator and User Views willl not be explored in any appreciable depth, but 
-each role does have a Dashboard that has been customized to their needs and has access to the same basic features of XDMoD
-as a Center Staff / Director user. The major difference being that Principal Investigators can see the jobs for all of
-their associated users while a normal user can only see their own jobs.
-
+## Full Day Tutorial
+<details>
+<summary>Click to open or close tutorial details</summary>
 
 ## Getting Started
 In this part of the tutorial we are going to go over the installation and configuration of Open XDMoD.
@@ -108,7 +36,7 @@ submit_jobs.sh
 
 Output should look similar to:
 ```bash
-[hpcadmin@xdmod ~]$ submit_jobs.sh 
+[hpcadmin@frontend ~]$ submit_jobs.sh 
 Submitted batch job 2
 Submitted batch job 3
 Submitted batch job 4
@@ -131,9 +59,9 @@ Submitted batch job 19
 
 ---
 
-## Open XDMoD Installation [Documentation](https://open.xdmod.org/9.5/install.html)
+## Open XDMoD Installation [Documentation](https://open.xdmod.org/install.html)
 
-**Note** This part will be brief in the PEARC2021 tutorial. These processes have been done already as part of the docker.
+**Note: In the PEARC2023 tutorial we will demonstrate all the steps for the installation / configuration, you do not need to run these steps yourself.** 
 
 For this tutorial, the Open XDMoD software will be installed in the `xdmod` container.
 Open XDMoD will use the MySQL database from the `mysql` container. Since we
@@ -146,29 +74,35 @@ instructions to install the packages.
 
 Reference: [RPM Installation Guide](https://open.xdmod.org/install-rpm.html)
 
-### Pre-Requisites Installation [Documentation](https://open.xdmod.org/9.5/software-requirements.html)
+### Pre-Requisites Installation [Documentation](https://open.xdmod.org/software-requirements.html)
 
-We need to install the "Extra Packages for Enterprise Linux" package so that we can install some further dependencies
+### Open XDMoD RPM Installation [Documentation](https://open.xdmod.org/install-rpm.html)
+
+First ssh to the XDMoD container
 ```shell
-[root@xdmod /] yum install -y epel-release   
+[hpcadmin@frontend /] ssh xdmod 
 ```
 
-### Open XDMoD RPM Installation [Documentation](https://open.xdmod.org/9.5/install-rpm.html)
-
+Change to the root user
 ```shell
-[root@xdmod /] yum install -y https://github.com/ubccr/xdmod/releases/download/v9.5.0/xdmod-9.5.0-1.0.el7.noarch.rpm
+[hpcadmin@xdmod /] sudo su -
+```
+
+And install the the XDMoD RPM
+```shell
+[root@xdmod /] dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.2-2-el8/xdmod-10.0.2-2.0.el8.noarch.rpm
 ```
 
 --- 
 
-## Open XDMoD Configuration [Documentation](https://open.xdmod.org/9.5/configuration.html)
+## Open XDMoD Configuration [Documentation](https://open.xdmod.org/configuration.html)
 
-**Note** This part will be brief in the PEARC2021 tutorial. These processes have been done already as part of the docker.
+**Note** This part will be brief in the PEARC2023 tutorial. These processes have been done already as part of the docker.
 
 ### System Configuration
 
-PHP does not set a timezone by default, so we'll need to set one ourselves. We've selected `UTC` for this demo, but 
-regardless of what timezone you end up using, the most important thing is to ensure that the XDMoD web server, the 
+PHP does not set a timezone by default, so we'll need to set one ourselves. We've selected `UTC` for this demo, but
+regardless of what timezone you end up using, the most important thing is to ensure that the XDMoD web server, the
 database server, and ideally the timezone of your HPC resources, are all set to the same time zone.
 
 ```shell
@@ -181,61 +115,61 @@ The following information is needed by Open XDMoD:
 
 - Name of the organization
 - information for each HPC resource
-    - Name
-    - Number of compute nodes
-    - Total Number of cores
-    - Timezone
-    - Whether it runs shared jobs
+  - Name
+  - Number of compute nodes
+  - Total Number of cores
+  - Timezone
+  - Whether it runs shared jobs
 
 Optionally:
 
 - An image file containing the HPC center logo
-    - The width of the HPC center logo in pixels
+  - The width of the HPC center logo in pixels
 
 You will also need the following technical information:
 
 - The public url of Open XDMoD
 - MySQL connection information
-    - Host
-    - Port
-    - Admin Username
-    - Admin Password
-    - DB Username
-    - DB Password
+  - Host
+  - Port
+  - Admin Username
+  - Admin Password
+  - DB Username
+  - DB Password
 
-If you are installing the Job Performance module (as we are in this tutorial) 
+If you are installing the Job Performance module (as we are in this tutorial)
 - mongoDB connection information
 
 ### Prerequisites used in this Tutorial
 
 - Name of the organization: `Tutorial` abbreviation: `hpcts`
 - information for each HPC resource
-    - Name: `hpc`
-    - Number of compute nodes: `2`
-    - Number of cores: `2`
-    - Timezone: `UTC`
-    - Whether it runs shared jobs: `no`
+  - Name: `hpc`
+  - Number of compute nodes: `2`
+  - Number of cores: `2`
+  - Timezone: `UTC`
+  - Whether it runs shared jobs: `no`
 - An image file containing the HPC center logo: `/srv/xdmod/small-logo.png`
-    - The width HPC center logo: `354`
+  - The width HPC center logo: `354`
 - The public url of Open XDMoD: `https://localhost:4443`
 - MySQL connection information
-    - Host: `mysql`
-    - Port: `3306`
-    - Admin Username: `root`
-    - Admin Password: ` leave blank `
-    - DB Username: `xdmodapp`
-    - DB Password: `ofbatgorWep0`
+  - Host: `mysql`
+  - Port: `3306`
+  - Admin Username: `root`
+  - Admin Password: ` leave blank `
+  - DB Username: `xdmodapp`
+  - DB Password: `ofbatgorWep0`
 - mongoDB connection information `mongodb://xdmod:xsZ0LpZstneBpijLy7@mongodb:27017/supremm?authSource=admin`
 
 ---
 
 ## Basic Configuration
-To begin the setup process for XDMoD you will want to type the following: 
+To begin the setup process for XDMoD you will want to type the following:
 ```shell
 [root@xdmod /] xdmod-setup
 ```
 
-After which you should be greeted by the following screen: 
+After which you should be greeted by the following screen:
 ```
 ========================================================================
 Open XDMoD Setup
@@ -256,10 +190,10 @@ Select an option (1, 2, 3, 4, 5, 6, 7, 8, 9, q):
 ```
 
 The next series of steps will involve completing each numbered setup item in turn from 1-8. We will complete the SUPReMM
-setup after we have successfully shredded, ingested, and aggregated the accounting data generated by the jobs we 
+setup after we have successfully shredded, ingested, and aggregated the accounting data generated by the jobs we
 submitted at the beginning of this tutorial.
 
-### General Settings [Documentation](https://open.xdmod.org/9.5/configuration.html#general-settings)
+### General Settings [Documentation](https://open.xdmod.org/configuration.html#general-settings)
 
 ```shell
 1) General Settings
@@ -273,7 +207,7 @@ Select an option (1, 2, 3, 4, 5, 6, 7, 8, 9, q): 1
 
 #### Site Address
 
-The value you enter here should be the public facing URL that your XDMoD installation will be served from. For the 
+The value you enter here should be the public facing URL that your XDMoD installation will be served from. For the
 purpose of this tutorial we'll be using the default value.
 
 ```
@@ -314,7 +248,7 @@ Chromium Path: [/usr/lib64/chromium-browser/headless_shell]
 - Press the `Enter` key.
 
 #### Center Logo Path
-XDMoD supports a customizable logo image that is displayed in the web portal. If you have an image you would like to use in branding your XDMoD 
+XDMoD supports a customizable logo image that is displayed in the web portal. If you have an image you would like to use in branding your XDMoD
 installation you can provide the path to said image here.
 
 ```shell
@@ -327,7 +261,7 @@ be readable by the user/group your web server is running as.
 
 Center Logo Path: [/srv/xdmod/small-logo.png]
 ```
- - Press the `Enter` key.
+- Press the `Enter` key.
 
 #### Center Logo Width ( in pixels )
 If you do provide a custom center image, you will also need to provide its width in pixels.
@@ -337,8 +271,8 @@ Center Logo Width: [354]
 ```
 - Press the `Enter` key to accept the default value.
 
-#### XDMoD Dashboard [Documentation](https://open.xdmod.org/9.5/dashboard.html)
-The XDMoD Dashboard provides users with targeted statistics and reports based on the level of 
+#### XDMoD Dashboard [Documentation](https://open.xdmod.org/dashboard.html)
+The XDMoD Dashboard provides users with targeted statistics and reports based on the level of
 access they've been granted in XDMoD. We highly recommend you turn this feature on in your installation.
 
 ```
@@ -350,13 +284,13 @@ Enable Dashboard Tab (on, off)? [on]
 ```
 - Press the `Enter` key.
 
-You will now be prompted to overwrite the config file `/etc/xdmod/portal_settings.ini`. If you are satisfied that the 
-information you have provided thus far is correct, then press the `Enter` key to save. 
+You will now be prompted to overwrite the config file `/etc/xdmod/portal_settings.ini`. If you are satisfied that the
+information you have provided thus far is correct, then press the `Enter` key to save.
 
-If you need to change any of your answers then you can type `no`, press `Enter` and you will be taken back to the main 
-setup menu. At which point you can press `1` and to go through the General Settings setup again.   
+If you need to change any of your answers then you can type `no`, press `Enter` and you will be taken back to the main
+setup menu. At which point you can press `1` and to go through the General Settings setup again.
 
-### Database Settings [Documentation](https://open.xdmod.org/9.5/configuration.html#database-settings)
+### Database Settings [Documentation](https://open.xdmod.org/configuration.html#database-settings)
 
 Now that we've successfully completed the `General Settings` setup, we can move on to `Database Settings`.
 
@@ -371,7 +305,7 @@ Select an option (1, 2, 3, 4, 5, 6, 7, 8, 9, q): 2
 ```
 #### DB Hostname or IP
 
-The first piece of information you will be prompted for is the Hostname or IP of the server that XDMoD's MySQL / 
+The first piece of information you will be prompted for is the Hostname or IP of the server that XDMoD's MySQL /
 MariaDB database is located on. In our case we have a separate container hosting our mysql instance andthat hostname has
 been set as the default value. We can accept that value by pressing the `Enter` key.
 
@@ -393,7 +327,7 @@ DB Hostname or IP: [mysql]
 - Press the `Enter` key.
 
 #### DB Port
-Here you will enter the port that your database instance is exposed on. 
+Here you will enter the port that your database instance is exposed on.
 
 ```shell
 DB Port: [3306]
@@ -411,9 +345,9 @@ DB Username: [xdmodapp]
 
 #### DB Password
 
-This will be the password for the DB account you entered in the last step. Please enter the following: `ofbatgorWep0`. 
+This will be the password for the DB account you entered in the last step. Please enter the following: `ofbatgorWep0`.
 Note that when you type the password the keystrokes will not be displayed on the screen. This is expected, when you are
-done typing the password you can finish this step by pressing `Enter`.  
+done typing the password you can finish this step by pressing `Enter`.
 
 ```shell
 DB Password:
@@ -428,8 +362,8 @@ You will then be prompted to type the password again to confirm your password ch
 - Type `ofbatgorWep0` and press the `Enter` key.
 
 #### Administrative DB Username
-After confirming the password for XDMoD's database account, you will be prompted for the username and password of the 
-admin account. 
+After confirming the password for XDMoD's database account, you will be prompted for the username and password of the
+admin account.
 
 ```
 Please provide the password for the administrative account that will be
@@ -441,7 +375,7 @@ DB Admin Username: [root]
 
 #### Administrative DB User Password
 
-We will next enter the administrative DB User's password. In our case that is an empty password. 
+We will next enter the administrative DB User's password. In our case that is an empty password.
 
 *Note, a blank password should never be used in a production system. We only do it here for ease of use during the tutorial.*
 
@@ -457,7 +391,7 @@ You will again be prompted to confirm the password you just entered, or lack the
 ```
 - Press the `Enter` key.
 
-If you have supplied the correct database credentials then you should be presented with the following message. 
+If you have supplied the correct database credentials then you should be presented with the following message.
 
 ```shell
 Creating User xdmodapp
@@ -465,7 +399,7 @@ Creating User xdmodapp
 
 #### Database Maintenance
 
-Now that we have our database user created, the setup will proceed to detect if the databases XDMoD utilizes are 
+Now that we have our database user created, the setup will proceed to detect if the databases XDMoD utilizes are
 present. If they are then it will ask if you want to drop and recreate them.
 
 ```shell
@@ -476,7 +410,7 @@ Drop and recreate database (yes, no)? [no]
 
 For the purposes of this tutorial we will want to enter `yes` followed by pressing `Enter` each time we are prompted.
 
-If successful you should see the following information: 
+If successful you should see the following information:
 ```shell
 Dropping database `mod_shredder`.
 Creating database `mod_shredder`.
@@ -494,7 +428,7 @@ You should receive the same prompt for the following databases:
 - `mod_logger`
 
 After you have dropped and re-created all of these databases you will be prompted to save the information you have entered
-to the config file `/etc/xdmod/portal_settings.ini`. 
+to the config file `/etc/xdmod/portal_settings.ini`.
 
 ```shell
 Overwrite config file '/etc/xdmod/portal_settings.ini' (yes, no)? [yes]
@@ -502,7 +436,7 @@ Overwrite config file '/etc/xdmod/portal_settings.ini' (yes, no)? [yes]
 
 - Press the `Enter` key.
 
-If all goes well than you will see: 
+If all goes well than you will see:
 ```shell
 Settings saved.
 
@@ -510,7 +444,7 @@ Press ENTER to continue.
 ```
 - Press the `Enter` key again, this will return you to the main setup menu.
 
-### Organization Settings [Documentation](https://open.xdmod.org/9.5/configuration.html#organization-settings)
+### Organization Settings [Documentation](https://open.xdmod.org/configuration.html#organization-settings)
 
 ```shell
 3) Organization
@@ -554,7 +488,7 @@ Organization Name: [Tutorial]
 - Either type your desired Organization Name and press the `Enter` key or just press the `Enter` key to accept the default value.
 
 #### Organization Abbreviation
-This value should be a string of all lowercase letters with no spaces to be used as an abbreviation for your 
+This value should be a string of all lowercase letters with no spaces to be used as an abbreviation for your
 organization. You can again enter any value that conforms to these requirements or accept the default value.
 
 ```shell
@@ -562,8 +496,8 @@ Organization Abbreviation: [hpcts]
 ```
 - Either type your desired Organization Abbreviation and press the `Enter` key or just press the `Enter` key to accept the default value.
 
-You will then be prompted to save these values to the organization configuration file. If you are satisfied with the 
-values you have entered than press `Enter` to continue. If not then type `no`, press `Enter` and re-enter the 
+You will then be prompted to save these values to the organization configuration file. If you are satisfied with the
+values you have entered than press `Enter` to continue. If not then type `no`, press `Enter` and re-enter the
 Organization configuration menu by typing `3` and pressing `Enter`.
 
 ```shell
@@ -573,7 +507,7 @@ Overwrite config file '/etc/xdmod/organization.json' (yes, no)? [yes]
 
 ### Resource Setup [Documentation](https://open.xdmod.org/configuration.html#resources)
 
-Next we will go through the process of adding a Resource to XDMoD. 
+Next we will go through the process of adding a Resource to XDMoD.
 
 ```
 ========================================================================
@@ -596,7 +530,7 @@ Select an option (1, 2, 3, 4, 5, 6, 7, 8, 9, q): 4
 
 - Type `4` followed by `Enter` to continue.
 
-You should be presented with the following sub-menu: 
+You should be presented with the following sub-menu:
 ```shell
 ========================================================================
 Resources Setup
@@ -628,9 +562,9 @@ Processor count: 2
 Press ENTER to continue.
 ```
 
-So we can see that we already have an hpc resource setup to represent our small SLURM cluster. With that in mind let's 
-save our future selves some time by setting up an OnDemand resource that we will use in conjunction with the new 
-Open Ondemand module that we'll be installing later on in the tutorial. Go ahead and press `Enter` to navigate back to 
+So we can see that we already have an hpc resource setup to represent our small SLURM cluster. With that in mind let's
+save our future selves some time by setting up an OnDemand resource that we will use in conjunction with the new
+Open Ondemand module that we'll be installing later on in the tutorial. Go ahead and press `Enter` to navigate back to
 the Resource sub-menu we were at previously. This time we'll select the `Add a new resource` option.
 
 ```shell
@@ -647,8 +581,8 @@ Select an option (1, 2, s): 1
 - Type `1` and press the `Enter` key.
 
 #### Resource Name
-The first piece of information you will be asked to provide is the Resource Name. This value has the same requirements 
-as the Resource Abbreviation, all lowercase and no spaces.  
+The first piece of information you will be asked to provide is the Resource Name. This value has the same requirements
+as the Resource Abbreviation, all lowercase and no spaces.
 
 ```shell
 ========================================================================
@@ -682,7 +616,7 @@ Resource Name: ondemand
 
 #### Formal Name
 
-The Resource's Formal Name is the value that will be displayed by XDMoD to your end users.  
+The Resource's Formal Name is the value that will be displayed by XDMoD to your end users.
 
 ```shell
 Formal Name: OnDemand
@@ -692,8 +626,8 @@ Formal Name: OnDemand
 
 #### Resource Type
 
-The Resource Type is used to determine if various modules should be displayed to the user. i.e. if you don't have a 
-`cloud` resource setup than you aren't ingesting cloud data so there's no reason to show the Cloud Realm. 
+The Resource Type is used to determine if various modules should be displayed to the user. i.e. if you don't have a
+`cloud` resource setup than you aren't ingesting cloud data so there's no reason to show the Cloud Realm.
 
 For the OnDemand resource we'll want to select the `gateway` resource type.
 
@@ -705,8 +639,8 @@ Resource Type (hpc, htc, dic, grid, cloud, vis, vm, tape, disk, stgrid, us, gate
 
 #### Resource Nodes
 For a general HPC-type resource you will want to enter the number of nodes the resource has here. In our case, as we're
-adding a gateway resource it doesn't really have nodes or cores per se, so we'll enter 0 for both as if it were a 
-storage resource. 
+adding a gateway resource it doesn't really have nodes or cores per se, so we'll enter 0 for both as if it were a
+storage resource.
 
 ```
 The number of nodes and processors are used to determine resource
@@ -754,7 +688,7 @@ Overwrite config file '/etc/xdmod/resources.json' (yes, no)? [yes]
 
 - Press the `Enter` key to accept the default value of `yes`.
 
-If all goes well you will see the following: 
+If all goes well you will see the following:
 ```shell
 Writing configuration to '/etc/xdmod/resources.json'
 
@@ -770,7 +704,7 @@ You will then be prompted to save the resource_specs configuration file
 Overwrite config file '/etc/xdmod/resource_specs.json' (yes, no)? [yes]
 ```
 
-- Press the `Enter` key to accept the default value of `yes`. 
+- Press the `Enter` key to accept the default value of `yes`.
 
 You should see the same messages as were provided when you chose to save `resources.json`, this time for `resource_specs.json`
 
@@ -790,7 +724,7 @@ Press ENTER to continue.
 5) Create Admin User
 ```
 The XDMoD Admin user has access to the XDMoD admin dashboard. The admin dashboard is used to manage XDMoD portal user
-accounts and view log information. 
+accounts and view log information.
 
 ```
 ========================================================================
@@ -823,7 +757,7 @@ Username:
 ```
 - Type `admin` and press the `Enter` key.
 
-Next, it will prompt for the user's password. 
+Next, it will prompt for the user's password.
 ```shell
 Password:
 ```
@@ -834,7 +768,7 @@ It will next ask us to confirm the password we just entered.
 (confirm) Password:
 ```
 - Type `admin123` and press the `Enter` key.
-*Make a note of this user's username and password as we'll be using it later*
+  *Make a note of this user's username and password as we'll be using it later*
 
 If the two passwords match, then it will proceed to gathering the user's first name.
 ```shell
@@ -849,7 +783,7 @@ Last name: Admin
 ```
 - Type `Admin` and press the `Enter` key.
 
-Finally, it will ask for the email address to associate with the admin user. 
+Finally, it will ask for the email address to associate with the admin user.
 ```shell
 Email address: xdmod.admin@xdmod.com
 ```
@@ -868,7 +802,7 @@ Press ENTER to continue.
 6) Hierarchy
 ```
 
-XDMoD supports a three level organizational hierarchy. By default, this is based on the hierarchy in use at the 
+XDMoD supports a three level organizational hierarchy. By default, this is based on the hierarchy in use at the
 University at Buffalo.
 - Top Level:    Decanal Unit
 - Middle Level: Department
@@ -919,7 +853,7 @@ Overwrite config file '/etc/xdmod/hierarchy.json' (yes, no)? [yes]
 
 - Press the `Enter` key to accept the default value of `yes`
 
-If the save is successful than you should see the following: 
+If the save is successful than you should see the following:
 ```shell
 Writing configuration to '/etc/xdmod/hierarchy.json'
 
@@ -937,7 +871,7 @@ Press ENTER to continue.
 ```
 
 The Data Warehouse Batch Export feature gives users access to the raw underlying data contained within Open XDMoD's data
-warehouse. This configuration option allows for an administrator to set which directory will be used to contain the 
+warehouse. This configuration option allows for an administrator to set which directory will be used to contain the
 exports, as well as how long those exports will be kept on disk.
 
 We'll quickly go through the configuration now
@@ -945,8 +879,8 @@ We'll quickly go through the configuration now
 - Type `7` and press the `Enter` key
 
 #### Export Directory
-The first value we're prompted to provide is the export directory. This is the directory that will be used when saving 
-the data from a user request. 
+The first value we're prompted to provide is the export directory. This is the directory that will be used when saving
+the data from a user request.
 
 
 ```
@@ -1003,12 +937,12 @@ Press ENTER to continue.
 8) Automatically Check for Updates
 ```
 
-This is the final piece of setup that, while not strictly necessary for a fully operational Open XDMoD installation, 
+This is the final piece of setup that, while not strictly necessary for a fully operational Open XDMoD installation,
 means you will be kept up to date when the newest version is released.
 
 - Type `8` and press the `Enter` key.
 
----
+```
 ========================================================================
 Automatic Update Check Setup
 ========================================================================
@@ -1018,7 +952,7 @@ check if a new version of Open XDMoD is available.  After a new version
 has been released you will recieve an email.
 
 You may also subscribe to our mailing list at:
-http://listserv.buffalo.edu/cgi-bin/wa?SUBED1=ccr-xdmod-list&A=1
+https://listserv.buffalo.edu/scripts/wa.exe?SUBED1=ccr-xdmod-list&A=1
 
 Enable automatic update check (yes, no)? [yes]
 ```
@@ -1043,7 +977,7 @@ Email address: [ccr-xdmod-help@buffalo.edu]
 Name:
 ```
 
-- Type any value you'd like and press the `Enter` key 
+- Type any value you'd like and press the `Enter` key
 
 #### Organization
 
@@ -1053,14 +987,14 @@ Organization: [Tutorial]
 
 - Press the `Enter` key to accept the default value.
 
-You should now be prompted to overwrite the `update_check.json` file 
+You should now be prompted to overwrite the `update_check.json` file
 ```shell
 Overwrite config file '/etc/xdmod/update_check.json' (yes, no)? [yes]
 ```
 
 - Press `Enter` to accept the default value of `yes`
 
-If the save is successful then you will see the following: 
+If the save is successful then you will see the following:
 ```shell
 Writing configuration to '/etc/xdmod/update_check.json'
 
@@ -1077,25 +1011,27 @@ XDMoD database, set up the admin user account and configure resources. Open XDMo
 [Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files can be modified
 directly when needing more advanced customization.
 
-## Congratulations! Your XDMoD instance should now be fully configured! 
+## Congratulations! Your XDMoD instance should now be fully configured!
 
-Now that we have XDMoD setup, it's time to ingest some data. The jobs that we started at the beginning of the tutorial 
+Now that we have XDMoD setup, it's time to ingest some data. The jobs that we started at the beginning of the tutorial
 should be complete so let's walk through the shred, ingest, and aggregate steps for job accounting data.
 
 ### Shredding [Documentation](https://open.xdmod.org/shredder.html)
 XDMoD provides a special command line tool for working with directly with slurm via `sacct` called `xdmod-slurm-helper`.
 To see what command line arguments it accepts you can run `xdmod-slurm-helper -h`. For our purposes we will be using it
-as follows: 
+as follows:
+
+**INTERACTIVE**
 
 ```shell
 [root@xdmod ~] sudo -u xdmod xdmod-slurm-helper -r hpc --start-time $yesterday --end-time $tomorrow
 ```
 *Note, you will need to replace `$yesterday` and `$tomrrow` with their respective values in YYYY-MM-DD format.*
 
-If your organization doesn't use Slurm or will be using the log files instead of querying `sacct` directly, then 
+If your organization doesn't use Slurm or will be using the log files instead of querying `sacct` directly, then
 `xdmod-shredder` will be the command for you. You can find our Shredder guide at [Shredder Guide](https://open.xdmod.org/shredder.html)
 
-Upon running `xdmod-slurm-helper` you should see output similar to: 
+Upon running `xdmod-slurm-helper` you should see output similar to:
 ```shell
 2021-07-15 20:20:03 [notice] xdmod-slurm-helper start (process_start_time: 2021-07-15 20:20:03)
 2021-07-15 20:20:03 [notice] Shredding file '/tmp/sacct-log-hpc-0jZjXr'
@@ -1108,8 +1044,10 @@ Upon running `xdmod-slurm-helper` you should see output similar to:
 ```
 
 ### Ingesting & Aggregating [Documentation](https://open.xdmod.org/ingestor.html)
-Now that the accounting logs have been shredded we can now ingest and aggregate the information from them, thus making the 
+Now that the accounting logs have been shredded we can now ingest and aggregate the information from them, thus making the
 information available in XDMoD.
+
+**INTERACTIVE**
 
 ```shell
 [root@xdmod ~] sudo -u xdmod xdmod-ingestor
@@ -1274,6 +1212,16 @@ Center Staff:
 Report Generator:
 ![Report Generator](./tutorial-screenshots/report-generator.png)
 
+### Administration
+
+You know that the user is an admin by the addition of the "Admin Dashboard"
+
+![Admin User](./tutorial-screenshots/admin-user.png)
+
+Admin Dashboard:
+
+![Admin Dashboard](./tutorial-screenshots/admin-dashboard.png)
+
 ### Import User Names & Re-Ingest / Aggregate
 **NOTE**: This part of the tutorial does not impact the functioning of XDMoD, but it does make the information XDMoD provides more human-readable.
 
@@ -1369,19 +1317,19 @@ To ingest the Job Performance Data we will need to run a couple of commands:
 ```shell
 [root@xdmod /] sudo -u xdmod indexarchives.py -m $yesterday -m $tomorrow
 ```
-*Note, you will need to replace `$yesterday` and `$tomorrow` with YYYY-MM-DD formatted dates as we did previously* 
+*Note, you will need to replace `$yesterday` and `$tomorrow` with YYYY-MM-DD formatted dates as we did previously*
 
 To summarize the newly ingested Job Performance data we will run:
 ```shell
 [root@xdmod /] sudo -u xdmod summarize_jobs.py
 ```
 
-Finally, to aggregate the Job Performance data: 
+Finally, to aggregate the Job Performance data:
 ```shell
 [root@xdmod /] sudo -u xdmod aggregate_supremm.sh
 ```
 
-*Note, there is a helper script that will take care of running the full Job Accounting and Job Performance scripts that you can run. `/srv/xdmod/scripts/shred-ingest-aggregate-all.sh`* 
+*Note, there is a helper script that will take care of running the full Job Accounting and Job Performance scripts that you can run. `/srv/xdmod/scripts/shred-ingest-aggregate-all.sh`*
 
 ---
 
@@ -1411,13 +1359,13 @@ step through how this was performed, but do not need to be manually run.
 [root@xdmod /] xdmod-setup
 ```
 
-To continue, we'll select the Open OnDemand menu item: 
+To continue, we'll select the Open OnDemand menu item:
 ```shell
 10) Open OnDemand
 ```
 - Type `10` and press `Enter`
 
-You should now see the Open OnDemand setup sub-menu: 
+You should now see the Open OnDemand setup sub-menu:
 ```shell
 ========================================================================
 Open OnDemand module setup
@@ -1435,7 +1383,7 @@ Select an option (d, q): d
 ```
 - Type `d` and press `Enter`
 
-The first piece of information we're asked for is the DB Admin's username 
+The first piece of information we're asked for is the DB Admin's username
 ```shell
 ========================================================================
 Open OnDemand module Setup
@@ -1472,7 +1420,7 @@ Drop and recreate database (yes, no)? [no]
 ```
 - Type `yes` and press the `Enter` key.
 
-A configuration syncing script will now be run to make sure that all changes to XDMoD's configuration files are synced 
+A configuration syncing script will now be run to make sure that all changes to XDMoD's configuration files are synced
 up to its database. If no errors are generated you can skip the display of its output.
 ```shell
 ========================================================================
@@ -1515,18 +1463,24 @@ In this tutorial we will use the `/scratch/ondemand/logs` directory on the `xdmo
 staging area of the Open OnDemand logs to be ingested into XDMoD. The file permissions are set so
 that the `xdmod` user has read permission and the `hpcadmin` user has write access.
 
-We now need to copy the files from the `ondemand` instance to the `xdmod` instance. To accomplish this we will first 
+In preparation for obtaining the `ondemand` logs we'll need to make a slight adjustment to the destination folder privs. 
+```shell
+[hpcadmin@xdmod /] sudo chmod -R 770 /scratch/ondemand/logs
+[hpcadmin@xdmod /] sudo chown -R xdmod:hpcadmin /scratch/ondemand/logs
+```
+
+We now need to copy the files from the `ondemand` instance to the `xdmod` instance. To accomplish this we will first
 need to ssh to the `ondemand` instance.
 ```shell
 [hpcadmin@xdmod /] ssh ondemand
 ```
 
-Then we will be using scp to copy Open OnDemands Apache access log to our newly created directory on the `xdmod` instance. 
+Then we will be using scp to copy Open OnDemands Apache access log to our newly created directory on the `xdmod` instance.
 ```shell
 [hpcadmin@ondemand ~] sudo scp /var/log/httpd/localhost_access_ssl.log hpcadmin@xdmod:/scratch/ondemand/logs/
 ```
 
-When you are prompted for `hpcadmin`s password, go ahead and provide it. If successful you should see the file being transferred. 
+When you are prompted for `hpcadmin`s password, go ahead and provide it. If successful you should see the file being transferred.
 ```
 hpcadmin@xdmod's password:
 localhost_access_ssl.log                                                            100%   24KB  34.2MB/s   00:00
@@ -1545,17 +1499,90 @@ Finally, we can ingest the data that we have just copied over
 
 Then login to the XDMoD web portal as a user account that has center staff or center director access, and the "OnDemand"
 realm should now show in the metric catalog.
+</details>
+
+## Half Day Tutorial
+<details>
+<summary>Click to open or close tutorial details</summary>
+
+## Pre-seeding XDMoD with data for tutorial
+Due to time constraints for the half day tutorial we will skip the manual setup steps and have provided a database populated with this information. 
+These manual steps involve completing `xdmod-setup` and shredding, ingesting and aggregating HPC job accounting and performance data.  
+If you'd like to walk through these steps yourself, you can delete the XDMoD databases and start from scratch.  [Follow the detailed instructions below](#getting-started).
 
 
-### Administration
 
-You know that the user is an admin by the addition of the "Admin Dashboard"
+### Center Staff / Center Director View
+- Login as `sfoster` password `ilovelinux`
 
-![Admin User](./tutorial-screenshots/admin-user.png)
+Directly after logging in users assigned the Center Staff or Center Director role will be greeted with a dashboard that
+helps manage and get a sense of the health of a center as a whole. In addition to the default charts, the dashboard can be
+further customized on a user by user basis to meet the needs of each individual user / center.
 
-Admin Dashboard:
+- Click the "CPU Hours and Number of Jobs - Top 20 Users" chart
 
-![Admin Dashboard](./tutorial-screenshots/admin-dashboard.png)
+Clicking on any of the charts located in the upper two rows of the dashboard will zoom in to give the user a more detailed look at the
+data contained within. You can close the zoomed in view by pressing the `esc` button or clicking the `x` located in the upper right hand corner
+of the frame. An important and useful feature to note is that while the chart is zoomed in a "Open in Metric Explorer"
+button is visible at the bottom of the frame. Clicking this button will open this chart in our "Metric Explorer".
+
+- Click the "Open in Metric Explorer" button.
+
+The Metric Explorer is meant to be the main method of interacting with existing and new charts. It provides the
+user with the most control over what and how data is displayed. While working with a chart in the Metric Explorer you
+can also choose to make it available in the Report Generator. The Report Generator provides the ability to have any
+number of charts automatically generated and sent to you on a regular basis.
+
+- Click the "Available for Report" checkbox
+- Click the "Report Generator" tab
+
+You should see the chart from the Metric Explorer in the panel on the right hand side of the screen.
+
+- Click the "New" button in the "My Reports" toolbar
+- Drag and Drop the chart from the "Available Charts" to the "Included Charts" section of the newly created report.
+- Click "Save"
+- Click "Download"
+  - Click "As PDF"
+  - Click "View Report" when the report is done generating.
+
+- Click the "Efficiency" Tab
+
+The Efficiency tab provides Center Staff with a powerful tool to quickly identify users who may be in need of help with
+their jobs. By default four analytics are provided for categorizing a users jobs, CPU Usage, GPU Usage, Memory Use, and Homogeniety.
+In this tutorial we will focus on CPU Usage.
+
+- Click the "CPU Usage" chart.
+
+This chart is organized such that the x axis is Average CPU %: Idle while the y axis is the total number of CPU Hours.
+This orientation ensures that the points of greatest interest are always located in the upper right hand side. To further
+ease identification, the points in the upper right hand quandrant are colored red.
+
+- Click a red point in the upper hand quadrant of the chart.
+
+You should now be presented with a histogram of percentage time that the CPU cores were idle compared to the overall usage.
+
+- Click one of the bars in the histogram
+
+You should now presented with a list of the jobs that make up this bar.
+
+- Click a job.
+
+Clicking a job has brought us to the "Job Viewer", this tab provides the ability to view the job level accounting and
+performance statistics, including timeseries data for this particular job.
+
+- Expand the 'Timeseries' tree item
+- Click the "CPU User" item
+
+While viewing timeseries data you are able to drill down by further clicking on a nodes data point, in this case the first click will drill down to that points node
+clicking a point in this chart will then take you to that points CPU.
+
+### Principal Investigator and User View
+Due to time constraints the Principal Investigator and User Views willl not be explored in any appreciable depth, but
+each role does have a Dashboard that has been customized to their needs and has access to the same basic features of XDMoD
+as a Center Staff / Director user. The major difference being that Principal Investigators can see the jobs for all of
+their associated users while a normal user can only see their own jobs.
+
+</details>
 
 ## Tutorial Navigation
 [Next - Acknowledgements](../docs/acknowledgments.md)  
