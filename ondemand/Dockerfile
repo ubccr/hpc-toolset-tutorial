@@ -9,7 +9,7 @@ RUN dnf install -y file lsof sudo gcc gcc-c++ git \
         patch lua-posix rsync ruby ruby-devel python2 python3 \
         nodejs sqlite sqlite-devel nmap-ncat httpd httpd-devel mod_ssl \
         libcurl-devel autoconf openssl-devel jansson-devel libxml2-devel \
-        libxslt-devel gd-devel libaio-devel
+        libxslt-devel gd-devel libaio-devel libyaml-devel
 RUN gem install rake dotenv bcrypt
 COPY . /build
 RUN /build/install-dex-arm64.sh
