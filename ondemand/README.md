@@ -77,7 +77,7 @@ with XDMoD to show pertinant information about the jobs you've recently ran.
 In the navigation bar you'll see a dropdown menu entitled `Files`. The first
 menu item is your `$HOME` and this comes by default with every installation.
 The second menu item has been added as a 'favorite path'.  Administrators
-can add many favorite paths to scrach or project spaces for example.
+can add many favorite paths to scratch or project spaces for example.
 
 Click the link to `HOME` and you'll be redirected to the file manager.
 
