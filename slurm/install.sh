@@ -12,7 +12,7 @@ WEBSOCKIFY_VERSION=${WEBSOCKIFY_VERSION:-0.11.0}
 ARCHTYPE=`uname -m`
 
 log_info "Installing required packages for building slurm.."
-curl -o /etc/yum.repos.d/turbovnc.repo https://turbovnc.org/pmwiki/uploads/Downloads/TurboVNC.repo
+curl -o /etc/yum.repos.d/turbovnc.repo https://raw.githubusercontent.com/TurboVNC/repo/main/TurboVNC.repo
 dnf -y install dnf-plugins-core
 dnf -y config-manager --set-enabled powertools
 dnf -y module enable ruby:3.0 nodejs:14
