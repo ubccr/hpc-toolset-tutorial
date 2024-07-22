@@ -22,6 +22,9 @@ ARCHTYPE=`uname -m`
 dnf module -y reset nodejs
 dnf module -y install nodejs:16
 
+dnf -y module reset php
+dnf -y module install php:7.4
+
 dnf install -y \
     expect \
     python3-devel \
@@ -64,6 +67,7 @@ dnf install -y \
 #------------------------
 #
 #------------------------
+pecl channel-update pecl.php.net
 pecl install mongodb
 echo "extension=mongodb.so" >> /etc/php.d/40-mongodb.ini
 
