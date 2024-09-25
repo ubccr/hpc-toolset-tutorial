@@ -9,7 +9,7 @@ log_info() {
 
 SLURM_VERSION=${SLURM_VERSION:-21.08.8-2}
 WEBSOCKIFY_VERSION=${WEBSOCKIFY_VERSION:-0.11.0}
-ARCHTYPE=`uname -m`
+ARCHTYPE=$(uname -m)
 
 log_info "Installing required packages for building slurm.."
 curl -o /etc/yum.repos.d/turbovnc.repo https://raw.githubusercontent.com/TurboVNC/repo/main/TurboVNC.repo
@@ -35,7 +35,7 @@ dnf install -y \
     mariadb-devel \
     python39 \
     python39-devel \
-    python2-numpy \
+    python3-numpy \
     kitty-terminfo \
     stress
 
@@ -50,7 +50,7 @@ wget -O /tmp/websockify-${WEBSOCKIFY_VERSION}.tar.gz https://github.com/novnc/we
 pushd /tmp
 tar xzf websockify-${WEBSOCKIFY_VERSION}.tar.gz
 pushd websockify-${WEBSOCKIFY_VERSION}
-python3 setup.py install
+python3 -m pip install .
 popd
 rm -rf /tmp/websockify*
 
@@ -59,7 +59,7 @@ curl -o /tmp/slurm-${SLURM_VERSION}.tar.bz2 https://download.schedmd.com/slurm/s
 pushd /tmp
 tar xf slurm-${SLURM_VERSION}.tar.bz2
 pushd slurm-${SLURM_VERSION}
-./configure --prefix=/usr --sysconfdir=/etc/slurm 
+./configure --prefix=/usr --sysconfdir=/etc/slurm
 make -j4
 make install
 install -D -m644 etc/cgroup.conf.example /etc/slurm/cgroup.conf.example
@@ -74,7 +74,7 @@ groupadd -r --gid=1000 slurm
 useradd -r -g slurm --uid=1000 slurm
 
 log_info "Setting up slurm directories.."
-mkdir /etc/sysconfig/slurm \
+mkdir -p /etc/sysconfig/slurm \
     /var/spool/slurmd \
     /var/run/slurmd \
     /var/run/slurmdbd \
@@ -110,10 +110,8 @@ log_info "Configuring PCP logger with suitable container defaults.."
 sed -i 's#^LOCALHOSTNAME.*$#LOCALHOSTNAME   y   n   "/home/pcp/$(date +%Y)/$(date +%m)/LOCALHOSTNAME/$(date +%Y)-$(date +%m)-$(date +%d)"   -r -c /etc/pcp/pmlogger/pmlogger-supremm.config#' /etc/pcp/pmlogger/control.d/local
 
 log_info "Installing Jupyter.."
-python3 -m venv --without-pip --prompt jupyter/2.1.4 /usr/local/jupyter/2.1.4
+python3 -m venv /usr/local/jupyter/2.1.4 --prompt jupyter/2.1.4
 source /usr/local/jupyter/2.1.4/bin/activate
-curl https://bootstrap.pypa.io/get-pip.py | python
-
 pip install jupyterlab==2.1.4 jupyter-console qtconsole ipywidgets plotly==4.8.2 pandas scikit-learn numpy
 deactivate
 
