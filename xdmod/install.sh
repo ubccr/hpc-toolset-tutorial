@@ -46,9 +46,9 @@ dnf install -y \
 # be installed in the same container.  In a production deployment they may be installed
 # on separate hosts.
 #------------------------
-dnf install -y https://github.com/ubccr/xdmod/releases/download/v10.0.2-2-el8/xdmod-10.0.2-2.0.el8.noarch.rpm \
-               https://github.com/ubccr/xdmod-ondemand/releases/download/v10.0.0/xdmod-ondemand-10.0.0-1.0.beta1.el8.noarch.rpm \
-               https://github.com/ubccr/xdmod-supremm/releases/download/v10.0.1-rc.1/xdmod-supremm-10.0.1-1.0.rc01.el8.noarch.rpm
+dnf install -y https://github.com/ubccr/xdmod/releases/download/v11.0.0-1.0/xdmod-11.0.0-1.0.el8.noarch.rpm \
+               https://github.com/ubccr/xdmod-ondemand/releases/download/v11.0.0-1.0/xdmod-ondemand-11.0.0-1.0.el8.noarch.rpm \
+               https://github.com/ubccr/xdmod-supremm/releases/download/v11.0.0-1.0/xdmod-supremm-11.0.0-1.0.el8.noarch.rpm
 
 # supremm rpm has broken deps so we force install the rpm and install the deps via pip
 rpm --nodeps -ivh https://github.com/ubccr/supremm/releases/download/2.0.0-beta3/supremm-2.0.0-1.0_beta3.el8."$ARCHTYPE".rpm
