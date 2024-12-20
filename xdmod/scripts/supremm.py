@@ -4,8 +4,6 @@ import sys
 
 def main():
 
-    scriptsettings = ['start', 'start', 'start', 'end', 'submit']
-
     with open("supremm_expect_log", "wb") as f:
         p = pexpect.spawn('supremm-setup')
         p.logfile = f
@@ -24,13 +22,14 @@ def main():
 
         while True:
             i = p.expect(["Overwrite config file", "hpc", pexpect.EOF, pexpect.TIMEOUT])
-            if i > 1:
+            if i == 0:
+                p.sendline("y")
+                break
+            elif i == 1:
                 p.expect('Enable SUPReMM summarization for this resource?')
-            if i > 5:
-                p.sendline("n")
-                continue
-            p.sendline("y")
-            if i != 0:
+                p.sendline("y")
+                p.expect("Data collector backend \(pcp or prometheus\)")
+                p.sendline("pcp")
                 p.expect("Directory containing node-level PCP archives")
                 p.sendline("/home/pcp")
                 p.expect("Source of accounting data")
@@ -40,9 +39,9 @@ def main():
                 p.expect("Directory containing job launch scripts")
                 p.sendline()
                 p.expect("Job launch script timestamp lookup mode \('submit', 'start' or 'none'\)")
-                p.sendline(scriptsettings[i-1])
-            else:
-                break
+                p.sendline('start')
+            elif i > 1:
+                p.sendline("n")
 
         p.expect("Press ENTER to continue")
         p.sendline()
