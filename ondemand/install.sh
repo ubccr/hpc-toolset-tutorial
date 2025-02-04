@@ -72,9 +72,6 @@ EOF
 log_info "Generating new httpd24 and dex configs.."
 /opt/ood/ood-portal-generator/sbin/update_ood_portal
 
-#log_info "Adding new theme to dex"
-#sed -i "s/theme: ondemand/theme: hpc-coop/g" /etc/ood/dex/config.yaml
-
 dnf clean all
 rm -rf /var/cache/dnf
 
