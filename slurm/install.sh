@@ -7,8 +7,8 @@ log_info() {
   printf "\n\e[0;35m $1\e[0m\n\n"
 }
 
-SLURM_VERSION=${SLURM_VERSION:-21.08.8-2}
-WEBSOCKIFY_VERSION=${WEBSOCKIFY_VERSION:-0.11.0}
+SLURM_VERSION=${SLURM_VERSION:-24.11.1}
+WEBSOCKIFY_VERSION=${WEBSOCKIFY_VERSION:-0.12.0}
 ARCHTYPE=`uname -m`
 
 log_info "Installing required packages for building slurm.."
@@ -50,6 +50,7 @@ wget -O /tmp/websockify-${WEBSOCKIFY_VERSION}.tar.gz https://github.com/novnc/we
 pushd /tmp
 tar xzf websockify-${WEBSOCKIFY_VERSION}.tar.gz
 pushd websockify-${WEBSOCKIFY_VERSION}
+pip3 install numpy
 python3 setup.py install
 popd
 rm -rf /tmp/websockify*

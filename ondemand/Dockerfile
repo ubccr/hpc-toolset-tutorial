@@ -1,25 +1,15 @@
 ARG HPCTS_VERSION=latest
 
-FROM --platform=linux/amd64 ubccr/hpcts:slurm-${HPCTS_VERSION} as stage-amd64
-RUN dnf install -y https://yum.osc.edu/ondemand/3.0/ondemand-release-web-3.0-1.noarch.rpm
-RUN dnf install -y netcat ondemand ondemand-dex
-
-FROM --platform=linux/arm64 ubccr/hpcts:slurm-${HPCTS_VERSION} as stage-arm64
-RUN dnf install -y file lsof sudo gcc gcc-c++ git \
-        patch lua-posix rsync ruby ruby-devel python2 python3 \
-        nodejs sqlite sqlite-devel nmap-ncat httpd httpd-devel mod_ssl \
-        libcurl-devel autoconf openssl-devel jansson-devel libxml2-devel \
-        libxslt-devel gd-devel libaio-devel libyaml-devel
-RUN gem install rake dotenv bcrypt
-COPY . /build
-RUN /build/install-dex-arm64.sh
-RUN /build/install-passenger-arm64.sh
-RUN /build/install-ood-arm64.sh
-RUN rm -rf /build
+FROM --platform=linux/amd64 ubccr/hpcts:slurm-${HPCTS_VERSION} AS stage-amd64
+RUN dnf config-manager --set-enabled powertools
+RUN dnf -y module reset ruby nodejs
+RUN dnf -y module enable ruby:3.3 nodejs:20
+RUN dnf install -y https://yum.osc.edu/ondemand/4.0/ondemand-release-web-4.0-1.el8.noarch.rpm
+RUN dnf install -y netcat ondemand mod_auth_openidc
 
 ARG TARGETARCH
 
-FROM stage-${TARGETARCH} as final
+FROM stage-${TARGETARCH} AS final
 
 COPY . /build
 RUN /build/install.sh && rm -rf /build
@@ -31,7 +21,6 @@ COPY motd /etc/motd
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY notebook_data /data/notebook_data
 COPY initializers /etc/ood/config/apps/dashboard/initializers
-COPY themes/hpc-coop /usr/share/ondemand-dex/web/themes/hpc-coop
 COPY config/dashboard/env /etc/ood/config/apps/dashboard/env
 COPY config/ondemand.yml /etc/ood/config/ondemand.d/ondemand.yml
 COPY config/dashboard/widgets /etc/ood/config/apps/dashboard/views/widgets

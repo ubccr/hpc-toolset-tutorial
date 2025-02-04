@@ -15,9 +15,7 @@ start() {
     log_info "Starting HPC Toolset Cluster.."
     docker compose up -d --no-build
 
-    log_info "Coldfront URL: https://localhost:2443"
     log_info "OnDemand URL: https://localhost:3443"
-    log_info "XDMoD URL: https://localhost:4443"
     log_info "Login to frontend: ssh -p 6222 hpcadmin@localhost"
 }
 

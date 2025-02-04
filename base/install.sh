@@ -34,6 +34,7 @@ dnf install -y \
     epel-release \
     wget \
     vim \
+	nano \
     openldap-clients \
     sssd \
     sssd-tools \

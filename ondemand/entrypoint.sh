@@ -29,9 +29,6 @@ then
     echo "---> Running update ood portal..."
     /opt/ood/ood-portal-generator/sbin/update_ood_portal
 
-    echo "---> Starting ondemand-dex..."
-    gosu ondemand-dex /usr/sbin/ondemand-dex serve /etc/ood/dex/config.yaml &
-
     echo "---> Starting ondemand httpd24..."
     # Sometimes on shutdown pid still exists, so delete it
     rm -f /run/httpd/httpd.pid

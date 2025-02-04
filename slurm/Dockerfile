@@ -1,12 +1,10 @@
 ARG HPCTS_VERSION=latest
 
-FROM --platform=linux/amd64 ubccr/hpcts:base-${HPCTS_VERSION} as stage-amd64
-
-FROM --platform=linux/arm64 ubccr/hpcts:base-${HPCTS_VERSION} as stage-arm64
+FROM --platform=linux/amd64 ubccr/hpcts:base-${HPCTS_VERSION} AS stage-amd64
 
 ARG TARGETARCH
 
-FROM stage-${TARGETARCH} as final
+FROM stage-${TARGETARCH} AS final
 
 ARG SLURM_VERSION
 COPY . /build

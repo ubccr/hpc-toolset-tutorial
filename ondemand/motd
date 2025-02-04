@@ -1,8 +1,6 @@
 #### Tutorial links
 
-- Coldfront: https://localhost:2443
 - OnDemand: https://localhost:3443
-- XDMoD: https://localhost:4443
 - Login to frontend: `ssh -p 6222 hpcadmin@localhost`
 - GitHub Repo: https://github.com/ubccr/hpc-toolset-tutorial
 - Accounts: https://github.com/ubccr/hpc-toolset-tutorial/blob/master/docs/applications.md
@@ -10,9 +8,7 @@
 
 #### Project links
 
-- Coldfront: https://github.com/ubccr/coldfront
 - OnDemand: https://openondemand.org
-- XDMoD: https://open.xdmod.org
 
 #### Notes
 
@@ -20,28 +16,6 @@ Setup python environment for using Jupyter:
 
     source /usr/local/jupyter/2.1.4/bin/activate
 
-To enable XDMoD Integration execute on frontend via Shell app:
-
-    # /etc/ood/config/nginx_stage.yml
-    #
-    # pun_custom_env:
-    #   OOD_XDMOD_HOST: "https://localhost:4443"
-    ssh ondemand $'sudo sed -i \'s|# pun_custom_env:|pun_custom_env:\\n  OOD_XDMOD_HOST: \"https://localhost:4443\"|g\' /etc/ood/config/nginx_stage.yml'
-
-    # modifying /etc/xdmod/portal_settings.ini for CORS already completed in these images
-    #
-    # domains = "https://localhost:3443"
-
-    # modifying /etc/ood/config/clusters.d/hpc.yml for XDMoD resource id already completed in these images:
-    #
-    # custom:
-    #   xdmod:
-    #     resource_id: 1
-    #
-
-Then run ingest command to process all jobs and build reports (if this has not already been done)
-
-    ssh xdmod 'sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh'
 
 In a production deployment you may also need to configure your identity provider to set frame-ancestors directive in the HTTP Content-Security-Policy. For example `frame-ancestors https://*.osc.edu 'self'` was required at OSC for https://ondemand.osc.edu because of its use of iFrames to facilitate single signon with XDMoD.
 

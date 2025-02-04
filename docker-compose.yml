@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   ldap:
     image: ubccr/hpcts:ldap-${HPCTS_VERSION}
@@ -24,20 +22,6 @@ services:
     depends_on:
       - ldap
 
-  mongodb:
-    image: mongo:${MONGODB_VERSION}
-    hostname: mongodb
-    container_name: mongodb
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=hBbeOfpFLfFT5ZO
-    networks:
-      - compute
-    volumes:
-      - ./mongodb:/docker-entrypoint-initdb.d
-      - data_db:/data/db
-    expose:
-      - "27017"
   mysql:
     image: mariadb:${MARIADB_VERSION}
     hostname: mysql
@@ -154,31 +138,6 @@ services:
       - ldap
       - slurmctld
 
-  coldfront:
-    image: ubccr/hpcts:coldfront-${HPCTS_VERSION}
-    build:
-      context: ./coldfront
-      args:
-        HPCTS_VERSION: $HPCTS_VERSION
-    command: ["serve"]
-    hostname: coldfront
-    container_name: coldfront
-    networks:
-      - compute
-    volumes:
-      - etc_munge:/etc/munge
-      - etc_slurm:/etc/slurm
-      - home:/home
-      - srv_www:/srv/www
-    expose:
-      - "22"
-    ports:
-      - "127.0.0.1:2443:443"
-    depends_on:
-      - ldap
-      - mysql
-      - frontend
-
   ondemand:
     image: ubccr/hpcts:ondemand-${HPCTS_VERSION}
     build:
@@ -201,37 +160,25 @@ services:
       - "127.0.0.1:5554:5554"
     depends_on:
       - ldap
-      - frontend
+      - frontend  
 
-  xdmod:
-    image: ubccr/hpcts:xdmod-${HPCTS_VERSION}
+  keycloak:
+    image: ubccr/keycloak:26.1.0
     build:
-      context: ./xdmod
-      args:
-        HPCTS_VERSION: $HPCTS_VERSION
-    command: ["serve"]
-    hostname: xdmod
-    container_name: xdmod
+      context: ./keycloak
+    environment:
+      KC_HOSTNAME: keycloak
+      KC_HTTP_PORT: 7080
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_LOG_LEVEL: info
+    ports:
+      - "127.0.0.1:7080:7080"
+      - "127.0.0.1:7443:7443"
     networks:
       - compute
-    volumes:
-      - etc_xdmod:/etc/xdmod
-      - etc_munge:/etc/munge
-      - etc_slurm:/etc/slurm
-      - home:/home
-      - ./xdmod:/xdmod
-    expose:
-      - "22"
-    ports:
-      - "127.0.0.1:4443:443"
-    depends_on:
-      - mongodb
-      - ldap
-      - mysql
-      - frontend
 
 volumes:
-  etc_xdmod:
   etc_munge:
   etc_slurm:
   home:
@@ -240,8 +187,6 @@ volumes:
   cpn02_slurmd_state:
   slurmctld_state:
   slurmdbd_state:
-  data_db:
-  srv_www:
 
 networks:
   compute:

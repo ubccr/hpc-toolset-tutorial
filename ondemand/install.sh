@@ -36,48 +36,44 @@ ssl:
   - 'SSLCertificateKeyFile "/etc/pki/tls/private/localhost.key"'
 node_uri: "/node"
 rnode_uri: "/rnode"
+oidc_uri: '/oidc'
 oidc_scope: "openid profile email groups"
-dex_uri: false
-dex:
-  client_redirect_uris:
-    - "https://localhost:4443/simplesaml/module.php/authoidcoauth2/linkback.php"
-    - "https://localhost:2443/oidc/callback/"
-  client_secret: 334389048b872a533002b34d73f8c29fd09efc50
-  client_id: localhost
-  connectors:
-    - type: ldap
-      id: ldap
-      name: LDAP
-      config:
-        host: ldap:636
-        insecureSkipVerify: true
-        bindDN: cn=admin,dc=example,dc=org
-        bindPW: admin
-        userSearch:
-          baseDN: ou=People,dc=example,dc=org
-          filter: "(objectClass=posixAccount)"
-          username: uid
-          idAttr: uid
-          emailAttr: mail
-          nameAttr: gecos
-          preferredUsernameAttr: uid
-        groupSearch:
-          baseDN: ou=Groups,dc=example,dc=org
-          filter: "(objectClass=posixGroup)"
-          userMatchers:
-            - userAttr: DN
-              groupAttr: member
-          nameAttr: cn
-  # This is the default, but illustrating how to change
-  frontend:
-    theme: ondemand
+auth:
+ - 'AuthType openid-connect'
+ - 'Require valid-user'
+logout_redirect: '/oidc?logout=https%3A%2F%2Flocalhost%3A3443'
 EOF
+
+log_info "Configuring OIDC .."
+
+tee /etc/httpd/conf.d/auth_openidc.conf <<EOF
+OIDCProviderMetadataURL https://keycloak:7443/realms/HPC-Cluster/.well-known/openid-configuration
+OIDCClientID        "OpenOnDemand"
+OIDCClientSecret    "M6F7fVyJvVOK84Zve18mrsRxwhbWP7uf"
+OIDCRedirectURI      https://localhost:3443/oidc
+OIDCCryptoPassphrase "es60gW2i8RPpJm2edsjnJFPGF4kVbOu1"
+OIDCSSLValidateServer Off
+
+# Keep sessions alive for 8 hours
+OIDCSessionInactivityTimeout 28800
+OIDCSessionMaxDuration 28800
+
+# Set REMOTE_USER
+OIDCRemoteUserClaim preferred_username
+
+# Don't pass claims to backend servers
+OIDCPassClaimsAs environment
+
+# Strip out session cookies before passing to backend
+OIDCStripCookies mod_auth_openidc_session mod_auth_openidc_session_chunks mod_auth_openidc_session_0 mod_auth_openidc_session_1
+EOF
+
 
 log_info "Generating new httpd24 and dex configs.."
 /opt/ood/ood-portal-generator/sbin/update_ood_portal
 
-log_info "Adding new theme to dex"
-sed -i "s/theme: ondemand/theme: hpc-coop/g" /etc/ood/dex/config.yaml
+#log_info "Adding new theme to dex"
+#sed -i "s/theme: ondemand/theme: hpc-coop/g" /etc/ood/dex/config.yaml
 
 dnf clean all
 rm -rf /var/cache/dnf

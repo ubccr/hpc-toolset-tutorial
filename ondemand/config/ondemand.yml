@@ -11,13 +11,9 @@ dashboard_layout:
           - recently_used_apps
 
     - columns:
-      - width: 8
+      - width: 12
         widgets:
           - motd
-      - width: 4
-        widgets:
-          - xdmod_widget_job_efficiency
-          - xdmod_widget_jobs
 
 profiles:
   chemistry:
@@ -55,14 +51,10 @@ profiles:
               - recently_used_apps
 
         - columns:
-          - width: 8
+          - width: 12
             widgets:
               - chemistry_notes
-          - width: 4
-            widgets:
-              - xdmod_widget_job_efficiency
-              - xdmod_widget_jobs
-
+            
         - columns:
           - width: 12
             widgets:
