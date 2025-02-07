@@ -98,18 +98,6 @@ chown -R slurm:slurm /var/*/slurm*
 log_info "Creating munge key.."
 /sbin/create-munge-key
 
-log_info "Installing performance data collection software.."
-dnf install -y pcp
-
-mkdir -p /run/pcp
-ln -s /usr/lib/systemd/system/pmlogger.service /etc/systemd/system/multi-user.target.wants/pmlogger.service
-
-log_info "Setting PCP defaults suitable for running in a container.."
-echo -e "# Disable Avahi (since it does not run inside the containers)\n-A" >> /etc/pcp/pmcd/pmcd.options
-
-log_info "Configuring PCP logger with suitable container defaults.."
-sed -i 's#^LOCALHOSTNAME.*$#LOCALHOSTNAME   y   n   "/home/pcp/$(date +%Y)/$(date +%m)/LOCALHOSTNAME/$(date +%Y)-$(date +%m)-$(date +%d)"   -r -c /etc/pcp/pmlogger/pmlogger-supremm.config#' /etc/pcp/pmlogger/control.d/local
-
 log_info "Installing Jupyter.."
 python3 -m venv --without-pip --prompt jupyter/2.1.4 /usr/local/jupyter/2.1.4
 source /usr/local/jupyter/2.1.4/bin/activate

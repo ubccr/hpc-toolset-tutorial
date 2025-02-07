@@ -166,6 +166,7 @@ services:
     image: ubccr/keycloak:26.1.0
     build:
       context: ./keycloak
+    hostname: keycloak
     environment:
       KC_HOSTNAME: keycloak
       KC_HTTP_PORT: 7080
@@ -175,6 +176,8 @@ services:
     ports:
       - "127.0.0.1:7080:7080"
       - "127.0.0.1:7443:7443"
+    depends_on:
+      - mysql
     networks:
       - compute
 

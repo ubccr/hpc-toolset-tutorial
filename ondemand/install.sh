@@ -74,13 +74,3 @@ log_info "Generating new httpd24 and dex configs.."
 
 dnf clean all
 rm -rf /var/cache/dnf
-
-log_info "Cloning repos to assist with app development.."
-mkdir -p /var/git
-git clone https://github.com/OSC/bc_example_jupyter.git --bare /var/git/bc_example_jupyter
-git clone https://github.com/OSC/ood-example-ps.git --bare /var/git/ood-example-ps
-
-log_info "Enabling app development for hpcadmin..."
-mkdir -p /var/www/ood/apps/dev/hpcadmin
-ln -s /home/hpcadmin/ondemand/dev /var/www/ood/apps/dev/hpcadmin/gateway
-echo 'if [[ ${HOSTNAME} == ondemand ]]; then source scl_source enable ondemand; fi' >> /home/hpcadmin/.bash_profile
