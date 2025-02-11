@@ -16,7 +16,8 @@ dnf install -y \
     nginx \
     openssl \
     openldap-devel \
-    redis
+    redis \
+    mariadb-server
 
 log_info "Creating coldfront system user account.."
 groupadd -r coldfront
