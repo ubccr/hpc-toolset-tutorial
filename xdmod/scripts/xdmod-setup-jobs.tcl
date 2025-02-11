@@ -9,7 +9,7 @@
 set resources [list]
 
 # Job Resources
-lappend resources [list hpc HPC hpc 2 2]
+lappend resources [list hpc HPC hpc cpu 2016-01-01 2 2]
 # -------------
 
 #-------------------------------------------------------------------------------
@@ -32,8 +32,10 @@ foreach resource $resources {
 	provideInput {Resource Name:} [lindex $resource 0]
 	provideInput {Formal Name:} [lindex $resource 1]
 	provideInput {Resource Type*} [lindex $resource 2]
-	provideInput {How many nodes does this resource have?} [lindex $resource 3]
-	provideInput {How many total processors (cpu cores) does this resource have?} [lindex $resource 4]
+	provideInput {Resource Allocation Type*} [lindex $resource 3]
+	provideInput {Resource Start Date*} [lindex $resource 4]
+	provideInput {How many CPU nodes does this resource have?} [lindex $resource 5]
+	provideInput {How many total CPU processors (cpu cores) does this resource have?} [lindex $resource 6]
 }
 
 selectMenuOption s

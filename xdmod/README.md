@@ -555,8 +555,12 @@ Resources Added
 Resource: hpc
 Name: HPC
 Type: hpc
-Node count: 2
-Processor count: 2
+Resource Allocation Type: cpu
+CPU Node count: 2
+CPU Processor count: 2
+GPU Node count: 0
+GPU Processor count: 0
+Resource Start Date: 2023-05-09
 ------------------------------------------------------------------------
 
 Press ENTER to continue.
@@ -609,6 +613,12 @@ US         - User Support
 Gateway    - Web-based access to CI resources
 
 
+Available resource allocation types are:
+CPU        - CPU Allocated
+GPU        - GPU Allocated
+CPUNode    - CPU Node Allocated
+GPUNode    - GPU Node Allocated
+
 Resource Name: ondemand
 ```
 
@@ -636,6 +646,28 @@ Resource Type (hpc, htc, dic, grid, cloud, vis, vm, tape, disk, stgrid, us, gate
 ```
 
 - Type `gateway` and press the `Enter` key.
+
+#### Resource Allocation Type
+
+The resource allocation type is used in the Resource Specifications realm for compute resources (such as HPC, cloud
+resources). This can be left at its default value for gateway resources such as OnDemand.
+
+```shell
+Resource Allocation Type (cpu, gpu, cpunode, gpunode): [cpu]
+```
+
+- Press the `Enter` key
+
+#### Resource Start Date
+
+The resource start date is used by the Resource Specifications realm. Set this to the date
+that the resource was installed.
+
+```shell
+Resource Start Date, in YYYY-mm-dd format [2024-11-25]
+```
+
+- Type `2023-10-01` and press the `Enter` key.
 
 #### Resource Nodes
 For a general HPC-type resource you will want to enter the number of nodes the resource has here. In our case, as we're
