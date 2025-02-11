@@ -10,15 +10,15 @@ StorageUser=${StorageUser:-slurm}
 StoragePass=${StoragePass:-ilovelinux}
 
 echo "Creating slurm accounting database.."
-mysql -uroot <<EOF
+mariadb -uroot <<EOF
 create database if not exists $StorageLoc
 EOF
 
 echo "Creating $StorageUser mysql user.."
-mysql -uroot <<EOF
+mariadb -uroot <<EOF
 create user '$StorageUser'@'%' identified by '$StoragePass';
 EOF
 
 echo "Granting $StorageUser access to $StorageLoc.."
-echo "grant all on \`${StorageLoc//_/\\_}\`.* to '$StorageUser'@'%';" | mysql -uroot
-echo "flush privileges;" | mysql -uroot
+echo "grant all on \`${StorageLoc//_/\\_}\`.* to '$StorageUser'@'%';" | mariadb -uroot
+echo "flush privileges;" | mariadb -uroot
