@@ -49,9 +49,9 @@ attributes:
   memory:
     widget: "number_field"
     max: 1000
-    min: 200
+    min: 100
     step: 200
-    value: 600
+    value: 100
     label: "Memory (MB)"
     help: "RSS Memory"
     display: true

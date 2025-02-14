@@ -69,7 +69,7 @@ OIDCStripCookies mod_auth_openidc_session mod_auth_openidc_session_chunks mod_au
 EOF
 
 
-log_info "Generating new httpd24 and dex configs.."
+log_info "Generating new httpd24 config.."
 /opt/ood/ood-portal-generator/sbin/update_ood_portal
 
 dnf clean all

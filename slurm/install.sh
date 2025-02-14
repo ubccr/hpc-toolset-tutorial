@@ -35,7 +35,7 @@ dnf install -y \
     mariadb-devel \
     python39 \
     python39-devel \
-    python2-numpy \
+    python3-numpy \
     kitty-terminfo \
     stress
 
@@ -50,8 +50,9 @@ wget -O /tmp/websockify-${WEBSOCKIFY_VERSION}.tar.gz https://github.com/novnc/we
 pushd /tmp
 tar xzf websockify-${WEBSOCKIFY_VERSION}.tar.gz
 pushd websockify-${WEBSOCKIFY_VERSION}
-pip3 install numpy
-python3 setup.py install
+#pip3 install numpy
+#python3 setup.py install
+python3 -m pip install .
 popd
 rm -rf /tmp/websockify*
 
@@ -60,13 +61,12 @@ curl -o /tmp/slurm-${SLURM_VERSION}.tar.bz2 https://download.schedmd.com/slurm/s
 pushd /tmp
 tar xf slurm-${SLURM_VERSION}.tar.bz2
 pushd slurm-${SLURM_VERSION}
-./configure --prefix=/usr --sysconfdir=/etc/slurm 
+./configure --prefix=/usr --sysconfdir=/etc/slurm
 make -j4
 make install
 install -D -m644 etc/cgroup.conf.example /etc/slurm/cgroup.conf.example
 install -D -m644 etc/slurm.conf.example /etc/slurm/slurm.conf.example
 install -D -m644 etc/slurmdbd.conf.example /etc/slurm/slurmdbd.conf.example
-install -D -m644 contribs/slurm_completion_help/slurm_completion.sh /etc/profile.d/slurm_completion.sh
 popd
 rm -rf /tmp/slurm*
 
@@ -75,7 +75,7 @@ groupadd -r --gid=1000 slurm
 useradd -r -g slurm --uid=1000 slurm
 
 log_info "Setting up slurm directories.."
-mkdir /etc/sysconfig/slurm \
+mkdir -p /etc/sysconfig/slurm \
     /var/spool/slurmd \
     /var/run/slurmd \
     /var/run/slurmdbd \
@@ -99,9 +99,9 @@ log_info "Creating munge key.."
 /sbin/create-munge-key
 
 log_info "Installing Jupyter.."
-python3 -m venv --without-pip --prompt jupyter/2.1.4 /usr/local/jupyter/2.1.4
+#python3 -m venv --without-pip --prompt jupyter/2.1.4 /usr/local/jupyter/2.1.4
+python3 -m venv /usr/local/jupyter/2.1.4 --prompt jupyter/2.1.4
 source /usr/local/jupyter/2.1.4/bin/activate
-curl https://bootstrap.pypa.io/get-pip.py | python
 
 pip install jupyterlab==2.1.4 jupyter-console qtconsole ipywidgets plotly==4.8.2 pandas scikit-learn numpy
 deactivate
