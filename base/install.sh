@@ -8,7 +8,7 @@ log_info() {
 }
 
 ARCHTYPE=`uname -m`
-GOSU_VERSION=${GOSU_VERSION:-1.12}
+GOSU_VERSION=${GOSU_VERSION:-1.17}
 
 log_info "HPCTS Base image for $ARCHTYPE"
 
