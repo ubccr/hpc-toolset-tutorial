@@ -103,6 +103,8 @@ services:
     container_name: cpn01
     networks:
       - compute
+    cap_add:
+      - SYS_ADMIN
     volumes:
       - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
@@ -123,6 +125,8 @@ services:
     container_name: cpn02
     networks:
       - compute
+    cap_add:
+      - SYS_ADMIN
     volumes:
       - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
