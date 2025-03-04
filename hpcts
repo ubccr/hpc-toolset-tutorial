@@ -9,11 +9,11 @@ log_warn() {
 }
 
 start() {
-    log_info "Fetching latest HPC Toolset Images.."
-    docker compose pull
+    log_info "Building Images.."
+    docker compose build --no-cache
 
     log_info "Starting HPC Toolset Cluster.."
-    docker compose up -d --no-build
+    docker compose up -d
 
     log_info "OnDemand URL: https://localhost:3443"
     log_info "Login to frontend: ssh -p 6222 hpcadmin@localhost"

@@ -1,0 +1,33 @@
+nav.navbar, footer {
+	color: #fff;
+	background-color: #002452;
+	background-image: url('./images/brand-background.svg');
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+nav.navbar {
+	height: 10vh;
+}
+
+nav .navbar-brand-logo {
+	height: 50px !important;
+}
+
+.navbar-dark ul.navbar-nav > li.nav-item > a:focus, 
+.navbar-dark ul.navbar-nav > li.nav-item.show > a {
+    background-color: #FFFFFF;
+    border-radius: 0.25em;
+    color: #002452;
+}
+
+body {
+	background-image: url('./images/body-bg-arrow.svg');
+	background-position: top right;
+	background-repeat: repeat-y;
+}
+
+footer {
+	background-position: bottom center;
+}

@@ -17,8 +17,10 @@ then
     rm -f /var/run/sssd.pid
     /sbin/sssd --logger=stderr -d 2 -i 2>&1 &
 
-    echo "---> Cleaning NGINX ..."
-    /opt/ood/nginx_stage/sbin/nginx_stage nginx_clean
+    if [ -f "/opt/ood/nginx_stage/sbin/nginx_stage" ]; then
+      echo "---> Cleaning NGINX ..."
+      /opt/ood/nginx_stage/sbin/nginx_stage nginx_clean
+    fi
 
     echo "---> Starting the MUNGE Authentication service (munged) on ondemand ..."
     gosu munge /usr/sbin/munged
@@ -26,13 +28,19 @@ then
     echo "---> Starting sshd on ondemand..."
     /usr/sbin/sshd -e
 
-    echo "---> Running update ood portal..."
-    /opt/ood/ood-portal-generator/sbin/update_ood_portal
+    if [ -f "/opt/ood/ood-portal-generator/sbin/update_ood_portal" ]; then
+       echo "---> Running update ood portal..."
+       /opt/ood/ood-portal-generator/sbin/update_ood_portal
+    fi
 
-    echo "---> Starting ondemand httpd24..."
-    # Sometimes on shutdown pid still exists, so delete it
-    rm -f /run/httpd/httpd.pid
-    /usr/sbin/httpd -DFOREGROUND
+    if [ -f "/usr/sbin/httpd" ]; then
+       echo "---> Starting ondemand httpd24..."
+       # Sometimes on shutdown pid still exists, so delete it
+       rm -f /run/httpd/httpd.pid
+       /usr/sbin/httpd -DFOREGROUND
+    else
+      tail -f /dev/null
+    fi
 fi
 
 exec "$@"

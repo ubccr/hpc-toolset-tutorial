@@ -18,62 +18,9 @@ You will need to clone the tutorial repo and then run the helper script.  The in
 ### Clone Repo and Start Containers
 
 ```
-$ git clone https://github.com/ubccr/hpc-toolset-tutorial.git
+$ git clone https://github.com/
 $ cd hpc-toolset-tutorial
 $ ./hpcts start
-Fetching latest HPC Toolset Images..
-
-[+] Running 12/12
- - base Pulled                                                                              5.2s
- - ondemand Pulled                                                                          5.3s
- - cpn01 Pulled                                                                             5.3s
- - cpn02 Pulled                                                                             5.1s
- - mongodb Pulled                                                                           5.2s
- - xdmod Pulled                                                                             5.1s
- - ldap Pulled                                                                              5.2s
- - mysql Pulled                                                                             5.2s
- - coldfront Pulled                                                                         5.2s
- - frontend Pulled                                                                          5.2s
- - slurmdbd Pulled                                                                          5.1s
- - slurmctld Pulled                                                                         5.2s
-
-Starting HPC Toolset Cluster..
-
-[+] Running 23/23
- - Network hpc-toolset-tutorial_compute              Created                                0.1s
- - Volume "hpc-toolset-tutorial_etc_slurm"           Created                                0.0s
- - Volume "hpc-toolset-tutorial_cpn02_slurmd_state"  Created                                0.0s
- - Volume "hpc-toolset-tutorial_slurmdbd_state"      Created                                0.0s
- - Volume "hpc-toolset-tutorial_slurmctld_state"     Created                                0.0s
- - Volume "hpc-toolset-tutorial_data_db"             Created                                0.0s
- - Volume "hpc-toolset-tutorial_home"                Created                                0.0s
- - Volume "hpc-toolset-tutorial_var_lib_mysql"       Created                                0.0s
- - Volume "hpc-toolset-tutorial_srv_www"             Created                                0.0s
- - Volume "hpc-toolset-tutorial_cpn01_slurmd_state"  Created                                0.0s
- - Volume "hpc-toolset-tutorial_etc_munge"           Created                                0.0s
- - Container mongodb                                 Started                               12.0s
- - Container mysql                                   Started                               11.9s
- - Container ldap                                    Started                               11.8s
- - Container hpc-toolset-tutorial-base-1             Started                               12.3s
- - Container slurmdbd                                Started                               13.2s
- - Container slurmctld                               Started                               13.0s
- - Container frontend                                Started                               15.2s
- - Container cpn02                                   Started                               14.2s
- - Container cpn01                                   Started                               15.2s
- - Container ondemand                                Started                               15.2s
- - Container coldfront                               Started                               15.7s
- - Container xdmod                                   Started                               15.5s
-
- Coldfront URL: https://localhost:2443
-
-
- OnDemand URL: https://localhost:3443
-
-
- XDMoD URL: https://localhost:4443
-
-
- Login to frontend: ssh -p 6222 hpcadmin@localhost
 
 ```
 

@@ -12,5 +12,6 @@ RUN /opt/keycloak/bin/kc.sh build
 FROM quay.io/keycloak/keycloak:latest
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY keycloak.conf /opt/keycloak/conf/keycloak.conf
+COPY custom_theme /opt/keycloak/themes/custom_theme
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start"]

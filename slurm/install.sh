@@ -94,16 +94,17 @@ touch /var/lib/slurmd/node_state \
     /var/lib/slurmd/fed_mgr_state
 
 chown -R slurm:slurm /var/*/slurm*
+ln -s /etc/pam.d/sshd /etc/pam.d/slurm
 
 log_info "Creating munge key.."
 /sbin/create-munge-key
 
 log_info "Installing Jupyter.."
-#python3 -m venv --without-pip --prompt jupyter/2.1.4 /usr/local/jupyter/2.1.4
-python3 -m venv /usr/local/jupyter/2.1.4 --prompt jupyter/2.1.4
-source /usr/local/jupyter/2.1.4/bin/activate
+#python3 -m venv --without-pip --prompt jupyter/4.3.5 /usr/local/jupyter/4.3.5
+python3 -m venv /usr/local/jupyter/4.3.5 --prompt jupyter/4.3.5
+source /usr/local/jupyter/4.3.5/bin/activate
 
-pip install jupyterlab==2.1.4 jupyter-console qtconsole ipywidgets plotly==4.8.2 pandas scikit-learn numpy
+pip install jupyterlab==4.3.5 notebook jupyter-console qtconsole ipywidgets plotly==5.24.1 pandas scikit-learn numpy
 deactivate
 
 dnf clean all

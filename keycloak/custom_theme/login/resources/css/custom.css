@@ -1,0 +1,208 @@
+.bg-primary {
+    background-color: #002452;
+    color: #ffffff;
+}
+
+.login-pf body {
+    min-height: 100vh;
+    background-image: url("../img/body-bg-arrow.svg");
+    background-position: top right;
+    background-repeat: repeat-y;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+body header {
+    height: 10%;
+    color: #ffffff;
+    background-image: url("../img/brand-background.svg");
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+header .row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    height: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 5px 120px;
+}
+
+.banner-logo {
+    vertical-align: middle;
+    max-height: 75px;
+    height: 100%;
+}
+
+.banner-name {
+    display: none;
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.row .col-2 {
+    flex: 0 0 16%;
+    width: 16.666667%;
+    height: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.row .col-10 {
+    flex: 0 0 84%;
+    width: 84%;
+    height: 100%;
+    align-content: center;
+}
+
+body main {
+    margin-bottom: 20px;
+    min-height: calc(85% - 20px);
+    max-width: 100vw;
+}
+
+main .content-container {
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 60%;
+}
+
+.content-container .card {
+    margin-left: 5%;
+    margin-right: 5%;
+    position: relative;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 1px solid #007bff;
+    border-radius: 0.25rem;
+}
+
+.card .card-header:first-child {
+    border-radius: calc(0.25rem - 1px) calc(.25rem - 1px) 0 0;
+}
+
+.card .card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.card-header .card-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.card .card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 10px;
+    padding: 1.25rem;
+}
+
+body footer {
+    height: 5%;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    color: #ffffff;
+    background-image: url("../img/brand-background.svg");
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.pf-c-form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.login-pf .pf-c-form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.login-pf .pf-c-form__label-text {
+    font-size: 1rem;
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+
+.login-pf .pf-c-button.pf-m-primary {
+    color: rgb(33, 33, 33);
+    background-color: rgb(250, 189, 15);
+    border-color: rgb(250, 189, 15);
+}
+
+.login-pf .pf-c-button.pf-m-primary:hover{
+    color: #ffffff;
+    background-color: #002452;
+}
+
+.login-pf #kc-content-wrapper {
+    margin-top: 0;
+}
+
+#registration-card {
+    margin-top: 3rem;
+    background-color: #f8f9fa;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+#registration-card h3 {
+    margin-top: 0px;
+}
+
+#registration-card .card-text {
+    text-align: justify;
+    text-justify: inter-word;
+    font-size: 1rem;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+@media (min-width: 992px) {
+    .banner-name {
+        display: block;
+    }
+}
+
+@media (min-width: 1024px) {
+    
+    main .content-container {
+        max-width: 40%;
+    }
+
+}

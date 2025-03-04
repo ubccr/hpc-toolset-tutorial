@@ -9,7 +9,6 @@ v2:
     cluster: "hpc"
     bin: "/usr/bin"
     conf: "/etc/slurm/slurm.conf"
-    copy_environment: false
   batch_connect:
     vnc:
       script_wrapper: |
