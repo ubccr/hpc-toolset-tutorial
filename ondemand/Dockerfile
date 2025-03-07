@@ -3,6 +3,7 @@ ARG HPCTS_VERSION=latest
 FROM --platform=linux/amd64 ubccr/hpcts:slurm-${HPCTS_VERSION} as stage-amd64
 RUN dnf install -y https://yum.osc.edu/ondemand/3.0/ondemand-release-web-3.0-1.noarch.rpm
 RUN dnf install -y netcat ondemand ondemand-dex
+RUN gem install rdoc -v 6.3.3
 
 FROM --platform=linux/arm64 ubccr/hpcts:slurm-${HPCTS_VERSION} as stage-arm64
 RUN dnf install -y file lsof sudo gcc gcc-c++ git \
@@ -10,7 +11,7 @@ RUN dnf install -y file lsof sudo gcc gcc-c++ git \
         nodejs sqlite sqlite-devel nmap-ncat httpd httpd-devel mod_ssl \
         libcurl-devel autoconf openssl-devel jansson-devel libxml2-devel \
         libxslt-devel gd-devel libaio-devel libyaml-devel
-RUN gem install rake dotenv bcrypt
+RUN gem install rake dotenv bcrypt && gem install rdoc -v 6.3.3
 COPY . /build
 RUN /build/install-dex-arm64.sh
 RUN /build/install-passenger-arm64.sh
