@@ -2,7 +2,7 @@ ARG HPCTS_VERSION=latest
 
 FROM --platform=linux/amd64 ubccr/hpcts:slurm-${HPCTS_VERSION} as stage-amd64
 RUN dnf install -y https://yum.osc.edu/ondemand/3.0/ondemand-release-web-3.0-1.noarch.rpm
-RUN dnf install -y netcat ondemand ondemand-dex
+RUN dnf install -y netcat ondemand ondemand-dex libyaml-devel
 RUN gem install rdoc -v 6.3.3
 
 FROM --platform=linux/arm64 ubccr/hpcts:slurm-${HPCTS_VERSION} as stage-arm64
