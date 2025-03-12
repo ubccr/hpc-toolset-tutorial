@@ -631,7 +631,7 @@ why it's not directly in the shell scripts `PATH`.
 We need to add this line to our job's shell script to enable it.
 
 ```shell
-source /usr/local/jupyter/2.1.4/bin/activate
+source /usr/local/jupyter/4.3.5/bin/activate
 ```
 
 So let's [open the template/script.sh.erb in the file editor](https://localhost:3443/pun/sys/file-editor/edit/home/hpcadmin/ondemand/dev/jupyter/template/script.sh.erb)
@@ -643,7 +643,7 @@ Lines 24 - 31 of `template/script.sh.erb` should now look like this.
 # Benchmark info
 echo "TIMING - Starting jupyter at: $(date)"
 
-source /usr/local/jupyter/2.1.4/bin/activate
+source /usr/local/jupyter/4.3.5/bin/activate
 
 # Launch the Jupyter Notebook Server
 set -x
@@ -1109,7 +1109,7 @@ cd "${HOME}"
 # Benchmark info
 echo "TIMING - Starting jupyter at: $(date)"
 
-source /usr/local/jupyter/2.1.4/bin/activate
+source /usr/local/jupyter/4.3.5/bin/activate
 
 # Launch the Jupyter Notebook Server
 set -x

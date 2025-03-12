@@ -109,10 +109,12 @@ echo -e "# Disable Avahi (since it does not run inside the containers)\n-A" >> /
 log_info "Configuring PCP logger with suitable container defaults.."
 sed -i 's#^LOCALHOSTNAME.*$#LOCALHOSTNAME   y   n   "/home/pcp/$(date +%Y)/$(date +%m)/LOCALHOSTNAME/$(date +%Y)-$(date +%m)-$(date +%d)"   -r -c /etc/pcp/pmlogger/pmlogger-supremm.config#' /etc/pcp/pmlogger/control.d/local
 
+export JUPYTER_VERSION=4.3.5
+
 log_info "Installing Jupyter.."
-python3 -m venv /usr/local/jupyter/2.1.4 --prompt jupyter/2.1.4
-source /usr/local/jupyter/2.1.4/bin/activate
-pip install jupyterlab==2.1.4 jupyter-console qtconsole ipywidgets plotly==4.8.2 pandas scikit-learn numpy
+python3 -m venv /usr/local/jupyter/$JUPYTER_VERSION --prompt jupyter/$JUPYTER_VERSION
+source /usr/local/jupyter/$JUPYTER_VERSION/bin/activate
+pip install jupyterlab==$JUPYTER_VERSION jupyter-console qtconsole ipywidgets plotly pandas scikit-learn numpy
 deactivate
 
 dnf clean all
