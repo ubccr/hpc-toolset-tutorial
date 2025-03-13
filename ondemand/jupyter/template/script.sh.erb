@@ -10,11 +10,11 @@ cd "${HOME}"
 # Start Jupyter Notebook Server
 #
 
-source /usr/local/jupyter/2.1.4/bin/activate
+source /usr/local/jupyter/4.3.5/bin/activate
 
 # Benchmark info
 echo "TIMING - Starting jupyter at: $(date)"
 
 # Launch the Jupyter Notebook Server
 set -x
-jupyter notebook --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+jupyter lab --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
