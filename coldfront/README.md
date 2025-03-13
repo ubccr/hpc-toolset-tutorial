@@ -317,10 +317,10 @@ NOTE:  When a project review is required, a PI can't request new allocations or 
 - Log out
 
 ### Center Director View: Project Review Approval
-At part of the database seeding we did at the start of the tutorial, we configured the user `sfoster` with the `Staff Status` role and gave the account permissions to act as the Center Director.  This allows `sfoster` to view all projects, allocations, publications, and grants.  We've also given permission to view the pending project review list.  
+At part of the database seeding we did at the start of the tutorial, we configured the user `sfoster` with the `Director Status` role and gave the account permissions to act as the Center Director.  This allows `sfoster` to view all projects, allocations, publications, and grants.  We've also given permission to view the pending project review list.  
 
 - Log in as `sfoster` password `ilovelinux` to see what additional menus and functionality this account has access to
-- Navigate to the `Staff` menu and click on `Project Reviews`  
+- Navigate to the `Director` menu and click on `Project Reviews`  
 Click the `Email` button to see this functionality.  Go back to the `Project Reviews` and click `Mark Complete`
 - Log out  
 

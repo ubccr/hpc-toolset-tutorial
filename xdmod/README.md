@@ -5,9 +5,7 @@
 <summary>Click to open or close tutorial details</summary>
 
 ## Getting Started
-In this part of the tutorial we are going to go over the installation and configuration of Open XDMoD.
-The base component of Open XDMoD uses the job accounting logs from your HPC
-resource manager as the data source. We have also installed the optional Job Performance Module. This allows Open XDMoD to also display performance data for HPC jobs.
+In this part of the tutorial we are going to go over the installation and configuration of Open XDMoD.  The base component of Open XDMoD uses the job accounting logs from your HPC resource manager as the data source. We have also installed the optional Job Performance Module. This allows Open XDMoD to also display performance data for HPC jobs.
 
 Command Line Demos in a Light color, are meant to be watched. Dark theme are interactive.
 
@@ -15,16 +13,14 @@ Command Line Demos in a Light color, are meant to be watched. Dark theme are int
 
 ## Submit some jobs to the cluster
 
-Before we install and configure XDMoD we are going to submit
-some HPC jobs to the cluster. This will ensure that we'll have something to view when we're done setting up XDMoD.
+Before we install and configure XDMoD we are going to submit some HPC jobs to the cluster. This will ensure that we'll have something to view when we're done setting up XDMoD.
 
 Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
 ```bash
 ssh -p6222 hpcadmin@localhost
 ```
 
-Run the provided script that submits several jobs to the cluster. These jobs
-run as multiple different users with different job sizes and durations. The
+Run the provided script that submits several jobs to the cluster. These jobs run as multiple different users with different job sizes and durations. The
 purpose of this is to generate data to display in Open XDMoD.
 
 **NOTE**: This, of course, would not be required on a production deployment.
@@ -61,13 +57,9 @@ Submitted batch job 19
 
 ## Open XDMoD Installation [Documentation](https://open.xdmod.org/install.html)
 
-**Note: In the PEARC2023 tutorial we will demonstrate all the steps for the installation / configuration, you do not need to run these steps yourself.** 
+**Note: In the PEARC tutorials we demonstrated all the steps for this installation / configuration section to participants.  You do not need to run these steps yourself as the containers are already populated with a working XDMoD installation.** 
 
-For this tutorial, the Open XDMoD software will be installed in the `xdmod` container.
-Open XDMoD will use the MySQL database from the `mysql` container. Since we
-will also be installing the optional Job Performance module we also run
-a MongoDB database in the `mongodb` container. The various runtime scripts to process
-the Job accounting and Job performance data will all be run in the `xdmod` container.
+For this tutorial, the Open XDMoD software will be installed in the `xdmod` container. Open XDMoD will use the MySQL database from the `mysql` container. Since we will also be installing the optional Job Performance module we also run a MongoDB database in the `mongodb` container. The various runtime scripts to process the Job accounting and Job performance data will all be run in the `xdmod` container.
 
 The [`hpc-toolset-tutorial/xdmod/install.sh`](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/xdmod/install.sh) script contains the step-by-step
 instructions to install the packages.
@@ -101,9 +93,7 @@ And install the the XDMoD RPM
 
 ### System Configuration
 
-PHP does not set a timezone by default, so we'll need to set one ourselves. We've selected `UTC` for this demo, but
-regardless of what timezone you end up using, the most important thing is to ensure that the XDMoD web server, the
-database server, and ideally the timezone of your HPC resources, are all set to the same time zone.
+PHP does not set a timezone by default, so we'll need to set one ourselves. We've selected `UTC` for this demo, but regardless of what timezone you end up using, the most important thing is to ensure that the XDMoD web server, the database server, and ideally the timezone of your HPC resources, are all set to the same time zone.
 
 ```shell
 [root@xdmod /] sed -i 's/.*date.timezone[[:space:]]*=.*/date.timezone = UTC/' /etc/php.ini
@@ -207,17 +197,14 @@ Select an option (1, 2, 3, 4, 5, 6, 7, 8, 9, q): 1
 
 #### Site Address
 
-The value you enter here should be the public facing URL that your XDMoD installation will be served from. For the
-purpose of this tutorial we'll be using the default value.
+The value you enter here should be the public facing URL that your XDMoD installation will be served from. For the purpose of this tutorial we'll be using the default value.
 
 ```
 ========================================================================
 General Setup
 ========================================================================
 
-The template Apache configuration file uses a virtual host
-listening on HTTPS port 443. The Site Address specified
-here should match the settings in the Apache configuration.
+The template Apache configuration file uses a virtual host listening on HTTPS port 443. The Site Address specified here should match the settings in the Apache configuration.
 
 Site Address: [https://localhost:4443/]
 ```
@@ -229,18 +216,14 @@ Site Address: [https://localhost:4443/]
 This is the email address your XDMoD installation will use as the recipient of contact and user account requests.
 
 ```
-The email address you specify will be used as the destination for any
-messages sent via the portal contact page as well as account requests.  In
-addition, any log messages configured for delivery via e-mail will be sent to
-this address.
+The email address you specify will be used as the destination for any messages sent via the portal contact page as well as account requests.  In addition, any log messages configured for delivery via e-mail will be sent to this address.
 
 Email Address: [ccr-xdmod-help@buffalo.edu]
 ```
 - Press the `Enter` key.
 
 #### Chromium Path
-XDMoD utilizes Chromium Headless to generate its images and reports, so the next step will be telling XDMoD where it can
-be found.
+XDMoD utilizes Chromium Headless to generate its images and reports, so the next step will be telling XDMoD where it can be found.
 
 ```shell
 Chromium Path: [/usr/lib64/chromium-browser/headless_shell]
@@ -248,8 +231,7 @@ Chromium Path: [/usr/lib64/chromium-browser/headless_shell]
 - Press the `Enter` key.
 
 #### Center Logo Path
-XDMoD supports a customizable logo image that is displayed in the web portal. If you have an image you would like to use in branding your XDMoD
-installation you can provide the path to said image here.
+XDMoD supports a customizable logo image that is displayed in the web portal. If you have an image you would like to use in branding your XDMoD installation you can provide the path to said image here.
 
 ```shell
 You have the ability to specify a logo which will appear on the upper-right
@@ -272,23 +254,18 @@ Center Logo Width: [354]
 - Press the `Enter` key to accept the default value.
 
 #### XDMoD Dashboard [Documentation](https://open.xdmod.org/dashboard.html)
-The XDMoD Dashboard provides users with targeted statistics and reports based on the level of
-access they've been granted in XDMoD. We highly recommend you turn this feature on in your installation.
+The XDMoD Dashboard provides users with targeted statistics and reports based on the level of access they've been granted in XDMoD. We highly recommend you turn this feature on in your installation.
 
 ```
-This release of XDMoD features an optional replacement for the summary
-tab that is intended to provide easier access to XDMoD's many features.
-Detailed information is available at https://open.xdmod.org/dashboard.html
+This release of XDMoD features an optional replacement for the summary tab that is intended to provide easier access to XDMoD's many features. Detailed information is available at https://open.xdmod.org/dashboard.html
 
 Enable Dashboard Tab (on, off)? [on]
 ```
 - Press the `Enter` key.
 
-You will now be prompted to overwrite the config file `/etc/xdmod/portal_settings.ini`. If you are satisfied that the
-information you have provided thus far is correct, then press the `Enter` key to save.
+You will now be prompted to overwrite the config file `/etc/xdmod/portal_settings.ini`. If you are satisfied that the information you have provided thus far is correct, then press the `Enter` key to save.
 
-If you need to change any of your answers then you can type `no`, press `Enter` and you will be taken back to the main
-setup menu. At which point you can press `1` and to go through the General Settings setup again.
+If you need to change any of your answers then you can type `no`, press `Enter` and you will be taken back to the main setup menu. At which point you can press `1` and to go through the General Settings setup again.
 
 ### Database Settings [Documentation](https://open.xdmod.org/configuration.html#database-settings)
 
@@ -305,9 +282,7 @@ Select an option (1, 2, 3, 4, 5, 6, 7, 8, 9, q): 2
 ```
 #### DB Hostname or IP
 
-The first piece of information you will be prompted for is the Hostname or IP of the server that XDMoD's MySQL /
-MariaDB database is located on. In our case we have a separate container hosting our mysql instance andthat hostname has
-been set as the default value. We can accept that value by pressing the `Enter` key.
+The first piece of information you will be prompted for is the Hostname or IP of the server that XDMoD's MySQL/MariaDB database is located on. In our case we have a separate container hosting our mysql instance andthat hostname has been set as the default value. We can accept that value by pressing the `Enter` key.
 
 *It's important to note that if you are setting up XDMoD for the first time and choose to have your database hosted on another server, you will need to have an SA database account created and allowed to log in from the XDMoD server. This SA account will only be used to create the more restricted db account and databases / schemas that are used during XDMoD's normal operation.*
 
@@ -316,11 +291,9 @@ been set as the default value. We can accept that value by pressing the `Enter` 
 Database Setup
 ========================================================================
 
-Please provide the information required to connect to your MySQL database
-server.  A user will be created using the username and password you provide.
+Please provide the information required to connect to your MySQL database server.  A user will be created using the username and password you provide.
 
-NOTE: The database password cannot include single quote characters (') or
-double quote characters (").
+NOTE: The database password cannot include single quote characters (') or double quote characters (").
 
 DB Hostname or IP: [mysql]
 ```
@@ -345,9 +318,7 @@ DB Username: [xdmodapp]
 
 #### DB Password
 
-This will be the password for the DB account you entered in the last step. Please enter the following: `ofbatgorWep0`.
-Note that when you type the password the keystrokes will not be displayed on the screen. This is expected, when you are
-done typing the password you can finish this step by pressing `Enter`.
+This will be the password for the DB account you entered in the last step. Please enter the following: `ofbatgorWep0`. Note that when you type the password the keystrokes will not be displayed on the screen. This is expected, when you are done typing the password you can finish this step by pressing `Enter`.
 
 ```shell
 DB Password:
@@ -362,12 +333,10 @@ You will then be prompted to type the password again to confirm your password ch
 - Type `ofbatgorWep0` and press the `Enter` key.
 
 #### Administrative DB Username
-After confirming the password for XDMoD's database account, you will be prompted for the username and password of the
-admin account.
+After confirming the password for XDMoD's database account, you will be prompted for the username and password of the admin account.
 
 ```
-Please provide the password for the administrative account that will be
-used to create the MySQL user and databases.
+Please provide the password for the administrative account that will be used to create the MySQL user and databases.
 
 DB Admin Username: [root]
 ```
@@ -399,8 +368,7 @@ Creating User xdmodapp
 
 #### Database Maintenance
 
-Now that we have our database user created, the setup will proceed to detect if the databases XDMoD utilizes are
-present. If they are then it will ask if you want to drop and recreate them.
+Now that we have our database user created, the setup will proceed to detect if the databases XDMoD utilizes are present. If they are then it will ask if you want to drop and recreate them.
 
 ```shell
 Database `mod_shredder` already exists.
@@ -427,8 +395,7 @@ You should receive the same prompt for the following databases:
 - `modw_filters`
 - `mod_logger`
 
-After you have dropped and re-created all of these databases you will be prompted to save the information you have entered
-to the config file `/etc/xdmod/portal_settings.ini`.
+After you have dropped and re-created all of these databases you will be prompted to save the information you have entered to the config file `/etc/xdmod/portal_settings.ini`.
 
 ```shell
 Overwrite config file '/etc/xdmod/portal_settings.ini' (yes, no)? [yes]
@@ -474,9 +441,7 @@ Select an option (1, 2, 3, 4, 5, 6, 7, 8, 9, q): 3
 - Type `3` followed by `Enter`
 
 #### Organization Name
-The first piece of information you will be prompted for is your organization's name. This will be what's displayed to
-your end users when XDMoD displays organization information. You can enter any value you'd like or accept the default
-value.
+The first piece of information you will be prompted for is your organization's name. This will be what's displayed to your end users when XDMoD displays organization information. You can enter any value you'd like or accept the default value.
 
 ```shell
 ========================================================================
@@ -488,17 +453,14 @@ Organization Name: [Tutorial]
 - Either type your desired Organization Name and press the `Enter` key or just press the `Enter` key to accept the default value.
 
 #### Organization Abbreviation
-This value should be a string of all lowercase letters with no spaces to be used as an abbreviation for your
-organization. You can again enter any value that conforms to these requirements or accept the default value.
+This value should be a string of all lowercase letters with no spaces to be used as an abbreviation for your organization. You can again enter any value that conforms to these requirements or accept the default value.
 
 ```shell
 Organization Abbreviation: [hpcts]
 ```
 - Either type your desired Organization Abbreviation and press the `Enter` key or just press the `Enter` key to accept the default value.
 
-You will then be prompted to save these values to the organization configuration file. If you are satisfied with the
-values you have entered than press `Enter` to continue. If not then type `no`, press `Enter` and re-enter the
-Organization configuration menu by typing `3` and pressing `Enter`.
+You will then be prompted to save these values to the organization configuration file. If you are satisfied with the values you have entered than press `Enter` to continue. If not then type `no`, press `Enter` and re-enter the Organization configuration menu by typing `3` and pressing `Enter`.
 
 ```shell
 Overwrite config file '/etc/xdmod/organization.json' (yes, no)? [yes]
@@ -566,10 +528,7 @@ Resource Start Date: 2023-05-09
 Press ENTER to continue.
 ```
 
-So we can see that we already have an hpc resource setup to represent our small SLURM cluster. With that in mind let's
-save our future selves some time by setting up an OnDemand resource that we will use in conjunction with the new
-Open Ondemand module that we'll be installing later on in the tutorial. Go ahead and press `Enter` to navigate back to
-the Resource sub-menu we were at previously. This time we'll select the `Add a new resource` option.
+So we can see that we already have an hpc resource setup to represent our small SLURM cluster. With that in mind let's save our future selves some time by setting up an OnDemand resource that we will use in conjunction with the new Open Ondemand module that we'll be installing later on in the tutorial. Go ahead and press `Enter` to navigate back to the Resource sub-menu we were at previously. This time we'll select the `Add a new resource` option.
 
 ```shell
 ========================================================================
@@ -585,8 +544,7 @@ Select an option (1, 2, s): 1
 - Type `1` and press the `Enter` key.
 
 #### Resource Name
-The first piece of information you will be asked to provide is the Resource Name. This value has the same requirements
-as the Resource Abbreviation, all lowercase and no spaces.
+The first piece of information you will be asked to provide is the Resource Name. This value has the same requirements as the Resource Abbreviation, all lowercase and no spaces.
 
 ```shell
 ========================================================================
@@ -636,8 +594,7 @@ Formal Name: OnDemand
 
 #### Resource Type
 
-The Resource Type is used to determine if various modules should be displayed to the user. i.e. if you don't have a
-`cloud` resource setup than you aren't ingesting cloud data so there's no reason to show the Cloud Realm.
+The Resource Type is used to determine if various modules should be displayed to the user. i.e. if you don't have a `cloud` resource setup than you aren't ingesting cloud data so there's no reason to show the Cloud Realm.
 
 For the OnDemand resource we'll want to select the `gateway` resource type.
 
@@ -649,8 +606,7 @@ Resource Type (hpc, htc, dic, grid, cloud, vis, vm, tape, disk, stgrid, us, gate
 
 #### Resource Allocation Type
 
-The resource allocation type is used in the Resource Specifications realm for compute resources (such as HPC, cloud
-resources). This can be left at its default value for gateway resources such as OnDemand.
+The resource allocation type is used in the Resource Specifications realm for compute resources (such as HPC, cloud resources). This can be left at its  default value for gateway resources such as OnDemand.
 
 ```shell
 Resource Allocation Type (cpu, gpu, cpunode, gpunode): [cpu]
@@ -660,8 +616,7 @@ Resource Allocation Type (cpu, gpu, cpunode, gpunode): [cpu]
 
 #### Resource Start Date
 
-The resource start date is used by the Resource Specifications realm. Set this to the date
-that the resource was installed.
+The resource start date is used by the Resource Specifications realm. Set this to the date that the resource was installed.
 
 ```shell
 Resource Start Date, in YYYY-mm-dd format [2024-11-25]
@@ -670,16 +625,12 @@ Resource Start Date, in YYYY-mm-dd format [2024-11-25]
 - Type `2023-10-01` and press the `Enter` key.
 
 #### Resource Nodes
-For a general HPC-type resource you will want to enter the number of nodes the resource has here. In our case, as we're
-adding a gateway resource it doesn't really have nodes or cores per se, so we'll enter 0 for both as if it were a
-storage resource.
+For a general HPC-type resource you will want to enter the number of nodes the resource has here. In our case, as we're adding a gateway resource it doesn't really have nodes or cores per se, so we'll enter 0 for both as if it were a storage resource.
 
 ```
-The number of nodes and processors are used to determine resource
-utilization.
+The number of nodes and processors are used to determine resource utilization.
 
-If this is a storage resource you may enter 0 for the number of nodes
-and processors.
+If this is a storage resource you may enter 0 for the number of nodes and processors.
 
 How many nodes does this resource have?
 ```
@@ -696,8 +647,7 @@ How many total processors (cpu cores) does this resource have?
 
 #### Saving the newly added OnDemand Resource
 
-Now that the OnDemand Resource has been added all that's left to do is to save it and continue on with the rest of
-XDMoD's configuration.
+Now that the OnDemand Resource has been added all that's left to do is to save it and continue on with the rest of XDMoD's configuration.
 
 ```shell
 ========================================================================
@@ -755,8 +705,7 @@ Press ENTER to continue.
 ```shell
 5) Create Admin User
 ```
-The XDMoD Admin user has access to the XDMoD admin dashboard. The admin dashboard is used to manage XDMoD portal user
-accounts and view log information.
+The XDMoD Admin user has access to the XDMoD admin dashboard. The admin dashboard is used to manage XDMoD portal user accounts and view log information.
 
 ```
 ========================================================================
@@ -834,8 +783,7 @@ Press ENTER to continue.
 6) Hierarchy
 ```
 
-XDMoD supports a three level organizational hierarchy. By default, this is based on the hierarchy in use at the
-University at Buffalo.
+XDMoD supports a three level organizational hierarchy. By default, this is based on the hierarchy in use at the University at Buffalo.
 - Top Level:    Decanal Unit
 - Middle Level: Department
 - Bottom Level: PI Group
@@ -847,8 +795,7 @@ University at Buffalo.
 Hierarchy Setup
 ========================================================================
 
-Specify the levels (top, middle, and bottom) in your organization which would
-be analogous to the following structure:
+Specify the levels (top, middle, and bottom) in your organization which would be analogous to the following structure:
 
 Top Level: Decanal Unit
 Middle Level: Department
@@ -857,9 +804,7 @@ Bottom Level: PI Group
 Top Level Name: [Decanal Unit]
 ```
 
-For this tutorial we're going to leave the Hierarchy with its default values, but if you are setting this up for production
-then please see our [Hierarchy Guide](https://open.xdmod.org//hierarchy.html) as it will more completely describe how
-the hierarchy works as well as how to populate it.
+For this tutorial we're going to leave the Hierarchy with its default values, but if you are setting this up for production then please see our [Hierarchy Guide](https://open.xdmod.org//hierarchy.html) as it will more completely describe how the hierarchy works as well as how to populate it.
 
 ```shell
 ========================================================================
@@ -902,17 +847,14 @@ Press ENTER to continue.
 7) Data Warehouse Batch Export
 ```
 
-The Data Warehouse Batch Export feature gives users access to the raw underlying data contained within Open XDMoD's data
-warehouse. This configuration option allows for an administrator to set which directory will be used to contain the
-exports, as well as how long those exports will be kept on disk.
+The Data Warehouse Batch Export feature gives users access to the raw underlying data contained within Open XDMoD's data warehouse. This configuration option allows for an administrator to set which directory will be used to contain the exports, as well as how long those exports will be kept on disk.
 
 We'll quickly go through the configuration now
 
 - Type `7` and press the `Enter` key
 
 #### Export Directory
-The first value we're prompted to provide is the export directory. This is the directory that will be used when saving
-the data from a user request.
+The first value we're prompted to provide is the export directory. This is the directory that will be used when saving the data from a user request.
 
 
 ```
@@ -920,10 +862,8 @@ the data from a user request.
 Data Warehouse Batch Export
 ========================================================================
 
-The data warehouse batch export feature allows users to create requests to
-export data which is then generated by a cron job and stored on the server.
-The directory where this data is stored and the duration that the data will be
-retained are configurable.
+The data warehouse batch export feature allows users to create requests to export data which is then generated by a cron job and stored on the server.
+The directory where this data is stored and the duration that the data will be retained are configurable.
 
 Export Directory: [/var/spool/xdmod/export]
 ```
@@ -969,8 +909,7 @@ Press ENTER to continue.
 8) Automatically Check for Updates
 ```
 
-This is the final piece of setup that, while not strictly necessary for a fully operational Open XDMoD installation,
-means you will be kept up to date when the newest version is released.
+This is the final piece of setup that, while not strictly necessary for a fully operational Open XDMoD installation, means you will be kept up to date when the newest version is released.
 
 - Type `8` and press the `Enter` key.
 
@@ -979,8 +918,7 @@ means you will be kept up to date when the newest version is released.
 Automatic Update Check Setup
 ========================================================================
 
-When enabled, Open XDMoD will periodically connect to a remote server to
-check if a new version of Open XDMoD is available.  After a new version
+When enabled, Open XDMoD will periodically connect to a remote server to check if a new version of Open XDMoD is available.  After a new version
 has been released you will recieve an email.
 
 You may also subscribe to our mailing list at:
@@ -990,12 +928,10 @@ Enable automatic update check (yes, no)? [yes]
 ```
 - Press `Enter` to accept the default value of `yes`
 
-This feature will both notify you when we release new versions of XDMoD and also let's us know who is using XDMoD which 
-helps us justify our funding to NSF.
+This feature will both notify you when we release new versions of XDMoD and also let's us know who is using XDMoD which helps us justify our funding to NSF.
 
 #### Email Address
-If you enable the automatic update check, then you will be prompted for the email address that should receive the update
-notice. 
+If you enable the automatic update check, then you will be prompted for the email address that should receive the update notice. 
 
 ```shell
 Email address: [ccr-xdmod-help@buffalo.edu]
@@ -1038,20 +974,14 @@ Press ENTER to continue.
 
 #### Advanced Configuration
 
-The `xdmod-setup` script is used for the basic setup of Open XDMoD. The script includes options to configure the Open
-XDMoD database, set up the admin user account and configure resources. Open XDMoD's
-[Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files can be modified
-directly when needing more advanced customization.
+The `xdmod-setup` script is used for the basic setup of Open XDMoD. The script includes options to configure the Open XDMoD database, set up the admin user account and configure resources. Open XDMoD's [Configuration](https://open.xdmod.org/configuration.html#location-of-configuration-files) files can be modified directly when needing more advanced customization.
 
 ## Congratulations! Your XDMoD instance should now be fully configured!
 
-Now that we have XDMoD setup, it's time to ingest some data. The jobs that we started at the beginning of the tutorial
-should be complete so let's walk through the shred, ingest, and aggregate steps for job accounting data.
+Now that we have XDMoD setup, it's time to ingest some data. The jobs that we started at the beginning of the tutorial should be complete so let's walk through the shred, ingest, and aggregate steps for job accounting data.
 
 ### Shredding [Documentation](https://open.xdmod.org/shredder.html)
-XDMoD provides a special command line tool for working with directly with slurm via `sacct` called `xdmod-slurm-helper`.
-To see what command line arguments it accepts you can run `xdmod-slurm-helper -h`. For our purposes we will be using it
-as follows:
+XDMoD provides a special command line tool for working with directly with slurm via `sacct` called `xdmod-slurm-helper`.  To see what command line arguments it accepts you can run `xdmod-slurm-helper -h`. For our purposes we will be using it as follows:
 
 **INTERACTIVE**
 
@@ -1060,8 +990,7 @@ as follows:
 ```
 *Note, you will need to replace `$yesterday` and `$tomrrow` with their respective values in YYYY-MM-DD format.*
 
-If your organization doesn't use Slurm or will be using the log files instead of querying `sacct` directly, then
-`xdmod-shredder` will be the command for you. You can find our Shredder guide at [Shredder Guide](https://open.xdmod.org/shredder.html)
+If your organization doesn't use Slurm or will be using the log files instead of querying `sacct` directly, then `xdmod-shredder` will be the command for you. You can find our Shredder guide at [Shredder Guide](https://open.xdmod.org/shredder.html)
 
 Upon running `xdmod-slurm-helper` you should see output similar to:
 ```shell
@@ -1076,8 +1005,7 @@ Upon running `xdmod-slurm-helper` you should see output similar to:
 ```
 
 ### Ingesting & Aggregating [Documentation](https://open.xdmod.org/ingestor.html)
-Now that the accounting logs have been shredded we can now ingest and aggregate the information from them, thus making the
-information available in XDMoD.
+Now that the accounting logs have been shredded we can now ingest and aggregate the information from them, thus making the information available in XDMoD.
 
 **INTERACTIVE**
 
@@ -1092,40 +1020,7 @@ This will produce **A LOT** of output:
 2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-common.organization (ETL\Ingestor\StructuredFileIngestor), start_time: 1626380918.5262, end_time: 1626380918.594, elapsed_time: 0.06779, records_examined: 1, records_loaded: 1)
 2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-common.resource-types (ETL\Ingestor\StructuredFileIngestor), start_time: 1626380918.5976, end_time: 1626380918.6714, elapsed_time: 0.07374, records_examined: 12, records_loaded: 12)
 2021-07-15 20:28:38 [notice] Processing SQL file '/etc/xdmod/etl/etl_sql.d/cloud_openstack/unknown_resource_type.sql' using delimiter '//' containing 2 statements
-2021-07-15 20:28:38 [notice] Finished Processing 2 SQL statements
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-common.ResourceTypesStagingUnknown (ETL\Maintenance\ExecuteSql), start_time: 1626380918.6748, end_time: 1626380918.6818, elapsed_time: 0.007)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-common.resource-config (ETL\Ingestor\StructuredFileIngestor), start_time: 1626380918.6845, end_time: 1626380918.7183, elapsed_time: 0.03379, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-common.resources (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.7218, end_time: 1626380918.7392, elapsed_time: 0.01741, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-common.resource-specs (ETL\Ingestor\StructuredFileIngestor), start_time: 1626380918.7427, end_time: 1626380918.7715, elapsed_time: 0.02878, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:38 [notice] Finished processing section 'xdmod.staging-ingest-common'
-2021-07-15 20:28:38 [notice] Start processing section 'xdmod.staging-ingest-jobs'
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-jobs.pi-resource (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.7769, end_time: 1626380918.7953, elapsed_time: 0.01833, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-jobs.pi (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.7987, end_time: 1626380918.8165, elapsed_time: 0.01786, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-jobs.resource (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.8202, end_time: 1626380918.8355, elapsed_time: 0.01527, records_examined: 0, records_loaded: 0)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-jobs.union-user-pi--pi (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.8393, end_time: 1626380918.8568, elapsed_time: 0.01747, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-jobs.union-user-pi--user (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.8604, end_time: 1626380918.8758, elapsed_time: 0.0154, records_examined: 0, records_loaded: 0)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-jobs.union-user-pi-resource--pi (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.8793, end_time: 1626380918.897, elapsed_time: 0.01768, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-jobs.union-user-pi-resource--user (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.9009, end_time: 1626380918.9165, elapsed_time: 0.01564, records_examined: 0, records_loaded: 0)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-jobs.user-pi-resource (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.9205, end_time: 1626380918.9394, elapsed_time: 0.01891, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-jobs.job (ETL\Ingestor\DatabaseIngestor), start_time: 1626380918.9435, end_time: 1626380918.9639, elapsed_time: 0.02039, records_examined: 18, records_loaded: 18)
-2021-07-15 20:28:38 [notice] Finished processing section 'xdmod.staging-ingest-jobs'
-2021-07-15 20:28:39 [notice] Start processing section 'xdmod.hpcdb-ingest-common'
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.resource-types (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.1505, end_time: 1626380919.1685, elapsed_time: 0.01802, records_examined: 13, records_loaded: 13)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.organizations (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.1724, end_time: 1626380919.1908, elapsed_time: 0.01847, records_examined: 1, records_loaded: 1)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.resources (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.1946, end_time: 1626380919.2138, elapsed_time: 0.01921, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.resource-specs (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.2175, end_time: 1626380919.2366, elapsed_time: 0.019, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.resource-allocated (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.2406, end_time: 1626380919.2594, elapsed_time: 0.01885, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.accounts (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.2633, end_time: 1626380919.2817, elapsed_time: 0.01841, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.allocations (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.2854, end_time: 1626380919.3043, elapsed_time: 0.0189, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.people (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.3082, end_time: 1626380919.3274, elapsed_time: 0.01924, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.requests (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.3313, end_time: 1626380919.3507, elapsed_time: 0.01946, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.allocation-breakdown (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.3549, end_time: 1626380919.3739, elapsed_time: 0.01907, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.allocations-on-resources (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.3777, end_time: 1626380919.3966, elapsed_time: 0.01885, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.email-addresses (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.4003, end_time: 1626380919.4188, elapsed_time: 0.01849, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.principal-investigators (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.4226, end_time: 1626380919.4414, elapsed_time: 0.01882, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-common.system-accounts (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.4453, end_time: 1626380919.4645, elapsed_time: 0.01921, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] Finished processing section 'xdmod.hpcdb-ingest-common'
-2021-07-15 20:28:39 [notice] Start processing section 'xdmod.hpcdb-ingest-jobs'
+...
 2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-ingest-jobs.jobs (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.4706, end_time: 1626380919.4939, elapsed_time: 0.02328, records_examined: 18, records_loaded: 18)
 2021-07-15 20:28:39 [notice] Finished processing section 'xdmod.hpcdb-ingest-jobs'
 2021-07-15 20:28:39 [notice] Start processing section 'xdmod.hpcdb-prep-xdw-job-ingest-by-new-jobs'
@@ -1134,56 +1029,6 @@ This will produce **A LOT** of output:
 2021-07-15 20:28:39 [notice] Finished processing section 'xdmod.hpcdb-prep-xdw-job-ingest-by-new-jobs'
 2021-07-15 20:28:39 [notice] Start processing section 'xdmod.hpcdb-xdw-ingest-common'
 2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-xdw-ingest-common.account (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.8678, end_time: 1626380919.8866, elapsed_time: 0.01876, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-xdw-ingest-common.allocation-breakdown (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.8902, end_time: 1626380919.9084, elapsed_time: 0.01819, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-xdw-ingest-common.allocation (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.9123, end_time: 1626380919.932, elapsed_time: 0.0197, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-xdw-ingest-common.resource (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.9358, end_time: 1626380919.9556, elapsed_time: 0.0198, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:39 [notice] (action: xdmod.hpcdb-xdw-ingest-common.allocation-on-resource (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.9595, end_time: 1626380919.9779, elapsed_time: 0.0184, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.field-of-science (ETL\Ingestor\DatabaseIngestor), start_time: 1626380919.9817, end_time: 1626380920.0004, elapsed_time: 0.0187, records_examined: 1, records_loaded: 1)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.field-of-science-hierarchy (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.0042, end_time: 1626380920.0379, elapsed_time: 0.03364, records_examined: 1, records_loaded: 1)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.organization (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.0417, end_time: 1626380920.0759, elapsed_time: 0.03423, records_examined: 1, records_loaded: 1)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.pi-person (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.0796, end_time: 1626380920.1129, elapsed_time: 0.03332, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.person (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.1168, end_time: 1626380920.1526, elapsed_time: 0.03573, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.people-under-pi (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.158, end_time: 1626380920.178, elapsed_time: 0.01995, records_examined: 0, records_loaded: 0)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.principal-investigator (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.1817, end_time: 1626380920.2017, elapsed_time: 0.01998, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.request (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.207, end_time: 1626380920.2317, elapsed_time: 0.0247, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.resource-type (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.2373, end_time: 1626380920.2602, elapsed_time: 0.02289, records_examined: 13, records_loaded: 13)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.resource-spec (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.2641, end_time: 1626380920.2835, elapsed_time: 0.01938, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.resource-allocated (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.2877, end_time: 1626380920.307, elapsed_time: 0.0193, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.service-provider (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.3111, end_time: 1626380920.329, elapsed_time: 0.01792, records_examined: 1, records_loaded: 1)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-common.system-account (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.3331, end_time: 1626380920.3515, elapsed_time: 0.01838, records_examined: 3, records_loaded: 3)
-2021-07-15 20:28:40 [notice] Finished processing section 'xdmod.hpcdb-xdw-ingest-common'
-2021-07-15 20:28:40 [notice] Start processing section 'xdmod.hpcdb-xdw-ingest-jobs'
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-jobs.node-count (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.3577, end_time: 1626380920.3768, elapsed_time: 0.01904, records_examined: 2, records_loaded: 2)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-jobs.queue (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.3807, end_time: 1626380920.3985, elapsed_time: 0.01787, records_examined: 1, records_loaded: 1)
-2021-07-15 20:28:40 [notice] SQL warnings on table 'hosts' generated by action xdmod.hpcdb-xdw-ingest-jobs.hosts (filtering codes: 1062)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-jobs.hosts (ETL\Ingestor\HpcdbHostsIngestor), start_time: 1626380920.4022, end_time: 1626380920.4638, elapsed_time: 0.06155, records_examined: 27, records_loaded: 27)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-jobs.job-hosts (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.4676, end_time: 1626380920.4863, elapsed_time: 0.01869, records_examined: 27, records_loaded: 27)
-2021-07-15 20:28:40 [notice] Processing SQL file '/etc/xdmod/etl/etl_sql.d/jobs/jobhosts-post-ingest-truncate.sql' using delimiter '//' containing 1 statements
-2021-07-15 20:28:40 [notice] Finished Processing 1 SQL statements
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-jobs.jobhosts-post-truncate (ETL\Maintenance\ExecuteSql), start_time: 1626380920.4901, end_time: 1626380920.4943, elapsed_time: 0.00423)
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-jobs.job-records-job-tasks (ETL\Ingestor\DatabaseIngestor), start_time: 1626380920.4972, end_time: 1626380920.6029, elapsed_time: 0.10574, records_examined: 18, records_loaded: 18)
-2021-07-15 20:28:40 [notice] Processing SQL file '/etc/xdmod/etl/etl_sql.d/jobs/job-record-hpc-post-ingest.sql' using delimiter '//' containing 2 statements
-2021-07-15 20:28:40 [notice] Finished Processing 2 SQL statements
-2021-07-15 20:28:40 [notice] (action: xdmod.hpcdb-xdw-ingest-jobs.HpcdbPostIngestJobUpdates (ETL\Maintenance\ExecuteSql), start_time: 1626380920.6067, end_time: 1626380920.6135, elapsed_time: 0.00678)
-2021-07-15 20:28:40 [notice] Finished processing section 'xdmod.hpcdb-xdw-ingest-jobs'
-2021-07-15 20:28:46 [notice] Start processing section 'xdmod.jobs-xdw-aggregate'
-2021-07-15 20:28:46 [notice] Table `modw_aggregates`.`jobfact_by_day_joblist` does not exist, creating.
-2021-07-15 20:28:46 [notice] (action: xdmod.jobs-xdw-aggregate.table-create (ETL\Maintenance\ManageTables), start_time: 1626380926.381, end_time: 1626380926.397, elapsed_time: 0.016)
-2021-07-15 20:28:46 [notice] Table `modw_aggregates`.`jobfact_by_day` does not exist, creating.
-2021-07-15 20:28:46 [notice] aggregate start (action: xdmod.jobs-xdw-aggregate.aggregate-days (ETL\Aggregator\JobListAggregator), unit: day, start_date: none, end_date: none)
-2021-07-15 20:28:46 [notice] aggregate end (action: xdmod.jobs-xdw-aggregate.aggregate-days (ETL\Aggregator\JobListAggregator), unit: day, periods: 1, start_date: none, end_date: none, start_time: 1626380926.412, end_time: 1626380926.4408, elapsed_time: 0.02877)
-2021-07-15 20:28:46 [notice] end (action: xdmod.jobs-xdw-aggregate.aggregate-days (ETL\Aggregator\JobListAggregator), start_time: 1626380926.4001, end_time: 1626380926.4442, elapsed_time: 0.001m)
-2021-07-15 20:28:46 [notice] Table `modw_aggregates`.`jobfact_by_month` does not exist, creating.
-2021-07-15 20:28:46 [notice] aggregate start (action: xdmod.jobs-xdw-aggregate.aggregate (ETL\Aggregator\SimpleAggregator), unit: month, start_date: none, end_date: none)
-2021-07-15 20:28:46 [notice] aggregate end (action: xdmod.jobs-xdw-aggregate.aggregate (ETL\Aggregator\SimpleAggregator), unit: month, periods: 1, start_date: none, end_date: none, start_time: 1626380926.4589, end_time: 1626380926.4874, elapsed_time: 0.02848)
-2021-07-15 20:28:46 [notice] Table `modw_aggregates`.`jobfact_by_quarter` does not exist, creating.
-2021-07-15 20:28:46 [notice] aggregate start (action: xdmod.jobs-xdw-aggregate.aggregate (ETL\Aggregator\SimpleAggregator), unit: quarter, start_date: none, end_date: none)
-2021-07-15 20:28:46 [notice] aggregate end (action: xdmod.jobs-xdw-aggregate.aggregate (ETL\Aggregator\SimpleAggregator), unit: quarter, periods: 1, start_date: none, end_date: none, start_time: 1626380926.5013, end_time: 1626380926.5299, elapsed_time: 0.02859)
-2021-07-15 20:28:46 [notice] Table `modw_aggregates`.`jobfact_by_year` does not exist, creating.
-2021-07-15 20:28:46 [notice] aggregate start (action: xdmod.jobs-xdw-aggregate.aggregate (ETL\Aggregator\SimpleAggregator), unit: year, start_date: none, end_date: none)
-2021-07-15 20:28:46 [notice] Duplicate column after substitution: ("${aggregation_unit}: ${:PERIOD_VALUE}") '${aggregation_unit}' -> 'year'
-2021-07-15 20:28:46 [notice] aggregate end (action: xdmod.jobs-xdw-aggregate.aggregate (ETL\Aggregator\SimpleAggregator), unit: year, periods: 1, start_date: none, end_date: none, start_time: 1626380926.5435, end_time: 1626380926.574, elapsed_time: 0.0306)
-2021-07-15 20:28:46 [notice] end (action: xdmod.jobs-xdw-aggregate.aggregate (ETL\Aggregator\SimpleAggregator), start_time: 1626380926.447, end_time: 1626380926.5776, elapsed_time: 0.002m)
 2021-07-15 20:28:46 [notice] (action: xdmod.jobs-xdw-aggregate.aggregation-joblist (ETL\Ingestor\ExplodeTransformIngestor), start_time: 1626380926.5806, end_time: 1626380926.6315, elapsed_time: 0.0509, records_examined: 18, records_loaded: 18)
 2021-07-15 20:28:46 [notice] Finished processing section 'xdmod.jobs-xdw-aggregate'
 2021-07-15 20:28:46 [notice] start (action: Jobs.build-filter-list)
@@ -1254,12 +1099,9 @@ Admin Dashboard:
 
 ![Admin Dashboard](./tutorial-screenshots/admin-dashboard.png)
 
-### Import User Names & Re-Ingest / Aggregate
-**NOTE**: This part of the tutorial does not impact the functioning of XDMoD, but it does make the information XDMoD provides more human-readable.
+### Import User Names & Re-Ingest / Aggregate  
 
-The resource manager logs contain the system usernames of the users that submitted jobs.
-To display the full names in Open XDMoD you must provide a data file that contains the
-full name of each user for each system username. This file is in a `csv` format.
+**NOTE**: This is not necessary to run as part of this tutorial.  The XDMoD database container has been setup to contain full user names.  However, when running this in production, you will need a way to associate the system usernames from the Slurm logs to full names for readability within XDMoD. To display the full names in Open XDMoD you must provide a data file that contains the full name of each user for each system username. This file is in a `csv` format.
 
 ![Group By User(names not imported)](./tutorial-screenshots/usernames.png)
 
@@ -1320,15 +1162,10 @@ xdmod-import-csv -t names:
 [![asciicast](https://asciinema.org/a/349325.svg)](https://asciinema.org/a/349325)
 
 ### Configure Job Performance Module
-[Job Performance](https://supremm.xdmod.org) data - for the open source release we try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io).
-We chose PCP because it is included by default in Centos / RedHat.
-In XSEDE we use tacc_stats and PCP (depending on the resource provider). We are also aware of groups using LDMS, Cray RUR and Ganglia too. We have a team now looking into Prometheus.
+[Job Performance](https://supremm.xdmod.org) data - for the open source release we try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io). We chose PCP because it is included by default in Centos/RedHat.  In [ACCESS MMS](https://metrics.access-ci.org/) we use tacc_stats and PCP (depending on the resource provider). We are also aware of groups using LDMS, Cray RUR and Ganglia too. We have a team now looking into Prometheus.
 
 PCP has been [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
-This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system.
-This shorter list is suitable for running inside the docker demo. On a
-real HPC system the data collection should be setup following the
-[PCP Data collection](https://supremm.xdmod.org/supremm-compute-pcp.html#configuration-templates) guide
+This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system. This shorter list is suitable for running inside the docker demo. On a real HPC system the data collection should be setup following the [PCP Data collection](https://supremm.xdmod.org/supremm-compute-pcp.html#configuration-templates) guide.
 
 The file used in this demo can be viewed here: https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/pmlogger-supremm.config#L56-L59
 
@@ -1366,27 +1203,21 @@ Finally, to aggregate the Job Performance data:
 ---
 
 ## xdmod-ondemand module
-The xdmod-ondemand module is an optional addon for XDMoD that allows the display
-and analysis of Open OnDemand usage. This is intended to be used by HPC center
-staff to analyse who, how and what OnDemand is used.
+The xdmod-ondemand module is an optional addon for XDMoD that allows the display and analysis of Open OnDemand usage. This is intended to be used by HPC center staff to analyse how OnDemand is used at your center.  
 
 ### Prerequisites
-Since the xdmod-ondemand module displays usage of Open OnDemand you need to
-have used Open OnDemand! The xdmod container includes an example log
+Since the xdmod-ondemand module displays usage of Open OnDemand you need to have used Open OnDemand! The xdmod container includes an example log
 file generated from Open OnDemand so there is data to show in XDMoD.
 
 ### Installation
-The xdmod-ondemand RPM is already installed on the `xdmod` instance. To install
-it manually you would run the following:
+The xdmod-ondemand RPM is already installed on the `xdmod` instance. To install it manually you would run the following:
 ```shell
 [hpcadmin@xdmod /] sudo yum install -y https://github.com/ubccr/xdmod-ondemand/releases/download/v10.0.0/xdmod-ondemand-10.0.0-1.0.el7.noarch.rpm
 ```
 
 ### Configuration
-The setup of the OnDemand module involves using the interactive `xdmod-setup` tool
-to initialize the database tables and to add a resource.
-The module has been configured in the container already.  The following instuctions
-step through how this was performed, but do not need to be manually run.
+The setup of the OnDemand module involves using the interactive `xdmod-setup` tool to initialize the database tables and to add a resource.
+The module has been configured in the container already.  The following instuctions step through how this was performed, but do not need to be manually run.
 ```bash
 [root@xdmod /] xdmod-setup
 ```
@@ -1444,16 +1275,14 @@ Next, you'll be asked to confirm the DB Admin's password
 ```
 - Press `Enter`
 
-The setup program will now use the credentials you have supplied to detect if the `modw_ondemand` database exists. If it
-does exist than it will ask if you want to drop and recreate the database.
+The setup program will now use the credentials you have supplied to detect if the `modw_ondemand` database exists. If it does exist than it will ask if you want to drop and recreate the database.
 ```shell
 Database `modw_ondemand` already exists.
 Drop and recreate database (yes, no)? [no]
 ```
 - Type `yes` and press the `Enter` key.
 
-A configuration syncing script will now be run to make sure that all changes to XDMoD's configuration files are synced
-up to its database. If no errors are generated you can skip the display of its output.
+A configuration syncing script will now be run to make sure that all changes to XDMoD's configuration files are synced up to its database. If no errors are generated you can skip the display of its output.
 ```shell
 ========================================================================
 Acl Database Configuration
@@ -1482,18 +1311,297 @@ Do you want to see the output (yes, no)? [no]
 
 
 ### Obtaining Open OnDemand logs
-The xdmod-ondemand module parses the webserver log files from Open OnDemand.
-The `xdmod` container in this tutorial includes a example log file that
+The xdmod-ondemand module parses the webserver log files from Open OnDemand. The `xdmod` container in this tutorial includes a example log file that
 was generated from Open OnDemand and is stored in the `/scratch/ondemand/logs` directory.
 
-In this tutorial we will also show how to manually copy the webserver logs from the `ondemand` instance
-to the `xdmod` instance.
-In a production environment you would either ensure the files were available via
-a shared mounted filesystem or configure a periodic cronjob to copy them.
+In this tutorial we will also show how to manually copy the webserver logs from the `ondemand` instance to the `xdmod` instance. In a production environment you would either ensure the files were available via a shared mounted filesystem or configure a periodic cronjob to copy them.
 
-In this tutorial we will use the `/scratch/ondemand/logs` directory on the `xdmod` instance for the
-staging area of the Open OnDemand logs to be ingested into XDMoD. The file permissions are set so
-that the `xdmod` user has read permission and the `hpcadmin` user has write access.
+In this tutorial we will use the `/scratch/ondemand/logs` directory on the `xdmod` instance for the staging area of the Open OnDemand logs to be ingested into XDMoD. The file permissions are set so that the `xdmod` user has read permission and the `hpcadmin` user has write access.
+
+In preparation for obtaining the `ondemand` logs we'll need to make a slight adjustment to the destination folder privs. 
+```shell
+[hpcadmin@xdmod /] sudo chmod -R 770 /scratch/ondemand/logs
+[hpcadmin@xdmod /] sudo chown -R xdmod:hpcadmin /scratch/ondemand/logs
+```
+
+We now need to copy the files from the `ondemand` instance to the `xdmod` instance. To accomplish this we will first need to ssh to the `ondemand` instance.
+```shell
+[hpcadmin@xdmod /] ssh ondemand
+```
+
+Then we will be using scp to copy Open OnDemands Apache access log to our newly created directory on the `xdmod` instance.
+```shell
+[hpcadmin@ondemand ~] sudo scp /var/log/httpd/localhost_access_ssl.log hpcadmin@xdmod:/scratch/ondemand/logs/
+```
+
+When you are prompted for `hpcadmin` password, enter `ilovelinux`. If successful you should see the file being transferred.
+```
+hpcadmin@xdmod's password:
+localhost_access_ssl.log                                                            100%   24KB  34.2MB/s   00:00
+[hpcadmin@ondemand ~]$
+```
+
+We can now log off of the `ondemand` instance
+```shell
+[hpcadmin@ondemand /] exit 
+```
+
+Finally, we can ingest the data that we have just copied over
+```shell
+[hpcadmin@xdmod /] sudo -u xdmod xdmod-ondemand-ingestor -r ondemand -d /scratch/ondemand/logs
+```
+
+Then login to the XDMoD web portal as a user account that has center staff or center director access, and the "OnDemand" realm should now show in the metric catalog.
+</details>
+
+## XDMoD-OnDemand Integration Tutorial
+<details>
+<summary>Click to open or close tutorial details</summary>
+
+There are two integrations between XDMoD and OnDemand.  The first allows centers to place XDMoD charts specific to users' job performance data on the OnDemand dashboard.  The second allows for the display and analysis of Open OnDemand usage within XDMoD.  The configuration and usage of each of these integrations is covered in the full HPC Toolset Tutorial.  In this section, we're combining both into a shortened lesson to allow system administrators to quickly test out these two integrations.  
+
+## XDMoD job setup
+
+First, let's run through a few XDMoD housekeeping steps to get the portal ready for our use.
+
+### Submit some jobs to the cluster
+
+Before we configure XDMoD, we are going to submit some HPC jobs to the cluster. This will ensure that we'll have something to view when we're done setting up XDMoD.
+
+Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
+```bash
+ssh -p 6222 hpcadmin@localhost
+```
+
+Run the provided script that submits several jobs to the cluster. These jobs run as multiple different users with different job sizes and durations. The
+purpose of this is to generate data to display in Open XDMoD.
+
+**NOTE**: This, of course, would not be required on a production deployment.
+
+This script should be run as the hpcadmin user as it uses `sudo` to submit jobs as different cluster users.  
+```bash
+submit_jobs.sh
+```
+
+Output should look similar to:
+```bash
+[hpcadmin@frontend ~]$ submit_jobs.sh 
+Submitted batch job 2
+Submitted batch job 3
+Submitted batch job 4
+Submitted batch job 5
+Submitted batch job 6
+Submitted batch job 7
+Submitted batch job 8
+Submitted batch job 9
+Submitted batch job 10
+Submitted batch job 11
+Submitted batch job 12
+Submitted batch job 13
+Submitted batch job 14
+Submitted batch job 15
+Submitted batch job 16
+Submitted batch job 17
+Submitted batch job 18
+Submitted batch job 19
+```
+NOTE: You can ignore these bash errors.  You'll notice running the command `squeue` that your jobs have been queued and are running.  
+```
+FATAL: Missing required source file.
+  (1) Install package 'bash-completion'
+  (2) $ source /usr/share/bash-completion/bash_completion
+  (3) $ source slurm_completion.sh
+```
+
+### Shredding Job Data
+
+Once the jobs that we started in the last step complete, it's time to run through the steps to shred, ingest, and aggregate our job accounting data.  XDMoD provides a special command line tool for working directly with slurm via `sacct` called `xdmod-slurm-helper`.  To see what command line arguments it accepts, you can run `xdmod-slurm-helper -h`. For our purposes, we will be using it as follows:
+
+```shell
+[hpcadmin@frontend ~] ssh xdmod
+[hpcadmin@xdmod ~] sudo su - 
+[root@xdmod ~] sudo -u xdmod xdmod-slurm-helper -r hpc --start-time $yesterday --end-time $tomorrow
+```
+**_Note: you will need to replace `$yesterday` and `$tomrrow` with their respective values in YYYY-MM-DD format._**
+
+If your organization doesn't use Slurm or will be using the log files instead of querying `sacct` directly, then
+`xdmod-shredder` will be the command for you. You can find our Shredder guide at [Shredder Guide](https://open.xdmod.org/shredder.html)
+
+Upon running `xdmod-slurm-helper` you should see output similar to:
+```shell
+2021-07-15 20:20:03 [notice] xdmod-slurm-helper start (process_start_time: 2021-07-15 20:20:03)
+2021-07-15 20:20:03 [notice] Shredding file '/tmp/sacct-log-hpc-0jZjXr'
+2021-07-15 20:20:03 [notice] Shredded 18 records
+2021-07-15 20:20:03 [notice] Normalizing data
+2021-07-15 20:20:03 [notice] Finished ingestion (class: PDODBMultiIngestor, start_time: 1626380403.9138, end_time: 1626380403.9264, records_examined: 18, records_loaded: 18)
+2021-07-15 20:20:03 [notice] Done normalizing data
+2021-07-15 20:20:03 [notice] xdmod-slurm-helper end (process_end_time: 2021-07-15 20:20:03)
+[root@xdmod ~]#
+```
+
+### Ingesting & Aggregating Job Data
+Now that the accounting logs have been shredded we can ingest and aggregate the information from them, thus making the information available in Open XDMoD.
+
+```shell
+[root@xdmod ~] sudo -u xdmod xdmod-ingestor
+```
+
+This will produce **A LOT** of output:
+```shell
+2021-07-15 20:28:38 [notice] xdmod-ingestor start (process_start_time: 2021-07-15 20:28:38)
+2021-07-15 20:28:38 [notice] Start processing section 'xdmod.staging-ingest-common'
+2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-common.organization (ETL\Ingestor\StructuredFileIngestor), start_time: 1626380918.5262, end_time: 1626380918.594, elapsed_time: 0.06779, records_examined: 1, records_loaded: 1)
+2021-07-15 20:28:38 [notice] (action: xdmod.staging-ingest-common.resource-types (ETL\Ingestor\StructuredFileIngestor), start_time: 1626380918.5976, end_time: 1626380918.6714, elapsed_time: 0.07374, records_examined: 12, records_loaded: 12)
+2021-07-15 20:28:38 [notice] Processing SQL file '/etc/xdmod/etl/etl_sql.d/cloud_openstack/unknown_resource_type.sql' using delimiter '//' containing 2 statements
+...
+...
+```
+[Ingestor Documentation](https://open.xdmod.org/ingestor.html)
+
+
+### Login to the XDMoD interface  
+
+[XDMoD](https://localhost:4443)
+
+Login as `sfoster` - password `ilovelinux` - which has the center director role in XDMoD.  This will allow you to see all the realms and all the data from all users.  
+
+
+### Configure Job Performance Module
+[Job Performance](https://supremm.xdmod.org) data - for the open source release we try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io).
+We chose PCP because it is included by default in Centos/RedHat.  In [ACCESS MMS](https://metrics.access-ci.org/) we use tacc_stats and PCP (depending on the resource provider). We are also aware of groups using LDMS, Cray RUR and Ganglia too. We have a team now looking into Prometheus.
+
+PCP has been [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.  This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system. This shorter list is suitable for running inside the docker demo. On a production HPC system, the data collection should be setup following the [PCP Data collection](https://supremm.xdmod.org/supremm-compute-pcp.html#configuration-templates) guide.
+
+The file used in this demo can be viewed here: https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/pmlogger-supremm.config#L56-L59
+
+**VERY IMPORTANT** - Don't start the configuration of the Job Performance module until there is job data ingested into Open XDMoD.  The Job performance setup relies on the accounting data from the Jobs realm in Open XDMoD.  This was done in advance of this tutorial as part of the setup steps shown here:
+
+Job Performance XDMoD Module Setup:
+[![asciicast](https://asciinema.org/a/352845.svg)](https://asciinema.org/a/352845)
+
+Job summarization (SUPReMM) configuration:
+[![asciicast](https://asciinema.org/a/349243.svg)](https://asciinema.org/a/349243)
+
+### Ingest Job Performance Data
+
+To ingest the Job Performance Data we will need to run a couple of commands:
+
+```shell
+[root@xdmod /] sudo -u xdmod indexarchives.py -a
+```
+
+To summarize the newly ingested Job Performance data we will run:
+```shell
+[root@xdmod /] sudo -u xdmod summarize_jobs.py
+```
+
+Finally, to aggregate the Job Performance data:
+```shell
+[root@xdmod /] sudo -u xdmod aggregate_supremm.sh
+```
+
+*Note: there is a helper script that will take care of running the full Job Accounting and Job Performance scripts that you can run. `/srv/xdmod/scripts/shred-ingest-aggregate-all.sh`*
+
+---
+
+
+## XDMoD on OnDemand Dashboard
+
+### Enable the integration
+
+There are three places you'll need to update OnDemand and XDMoD config files to enable XDMoD integration on the OnDemand dashboard:
+
+**XDMoD**  
+1. Specify the URL for the OnDemand server in the XDMoD config:
+
+`/etc/xdmod/portal_settings.ini`
+```
+# modifying /etc/xdmod/portal_settings.ini for CORS already completed in these images
+#
+ domains = "https://localhost:3443"
+```
+
+**OnDemand**  
+2. Specify the URL for the XDMoD server in the OnDemand config:
+
+`/etc/ood/config/nginx_stage.yml`
+```
+# /etc/ood/config/nginx_stage.yml
+#
+pun_custom_env:
+  OOD_XDMOD_HOST: "https://localhost:4443"
+
+```
+
+3. Specify the resource ID for XDMoD in the OnDemand cluster config file:
+
+`/etc/ood/config/clusters.d/hpc.yml`
+```
+# modifying /etc/ood/config/clusters.d/hpc.yml for XDMoD resource id already completed in these images:
+#
+ custom:
+   xdmod:
+     resource_id: 1
+#
+```
+
+4. Optional: Add messaging to Job Composer about XDMoD timing  
+
+`/etc/ood/config/locales/en.yml`  
+```
+# modify or create /etc/ood/config/locales/en.yml and add these lines. Feel free to change the wording and set to your specific ingestion rate.  86400 seconds is 24 hours
+# 
+ en:
+  jobcomposer:
+    xdmod_url_warning_message: "This job may not appear in Open XDMoD until 24 hours after the completion of the job."
+    xdmod_url_warning_message_seconds_after_job_completion: 86400
+```
+
+### Reviewing informational messages in the job composer
+
+If you completed the optional step 4 in the previous section, submit a job from job composer to demonstrate XDMoD integration with Job Composer:
+
+1. Jobs => Job Composer
+2. Templates
+3. Click "New Job" and select "From template"
+4. Click the "Create New Job" button
+5. Click "Edit Files"
+6. Click `Home Directory` and then `jupyter_notebook_data` on the left menu.
+7. Select `plot_rbm_logistic_classification.py` and click "Copy/Move" button
+8. Go "back" in the browser to the job directory (Look at the URL to know where you are.  You may have to refresh the browser window to see the update) and click the "Copy" button to paste they python file in this directory.
+9. Select `script.sh` and click edit to open the file
+10. Change `hello.py` to `plot_rbm_logistic_classification.py` and save.  Close this window.
+11. Go back to Job Composer and submit the job
+
+If you'd like to see this recent job show up in the OnDemand dashboard widgets, go back to the XDMoD container and re-run the job ingestion steps.  We'll use the helper script discussed above to complete all three tasks:  
+
+```shell
+[root@xdmod /] sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh
+```
+
+Review dashboard widgets - You may need to restart the Web Server to see the updates
+
+**NOTE:**  The job efficiency report is based on both core and memory usage but these containers don't gather all the necessary information, which is why they display 100%
+
+---
+
+## Gathering OnDemand usage in XDMoD  
+The `xdmod-ondemand` module is an optional add-on for XDMoD that is intended to be used by HPC center staff to analyze OnDemand usage at your center.  
+
+### Prerequisites
+Since the `xdmod-ondemand` module displays usage of Open OnDemand you need to have used Open OnDemand! The xdmod container includes an example log
+file generated from Open OnDemand so there is data to show in XDMoD.
+
+### Installation & Configuration  
+In preparation for this tutorial, these steps were done in advance.  For details on what these steps entail, [see here for installation](#installation) and [here for configuration](#configuration).  
+
+### Obtaining Open OnDemand logs
+The `xdmod-ondemand` module parses the webserver log files from Open OnDemand. The `xdmod` container in this tutorial includes an example log file that
+was generated from Open OnDemand and is stored in the `/scratch/ondemand/logs` directory.
+
+In this tutorial we will also show how to manually copy the webserver logs from the `ondemand` instance to the `xdmod` instance.  In a production environment you would either ensure the files were available via a shared mounted filesystem or configure a periodic cronjob to copy them.
+
+In this tutorial we will use the `/scratch/ondemand/logs` directory on the `xdmod` instance for the staging area of the Open OnDemand logs to be ingested into XDMoD. The file permissions are set so that the `xdmod` user has read permission and the `hpcadmin` user has write access.
 
 In preparation for obtaining the `ondemand` logs we'll need to make a slight adjustment to the destination folder privs. 
 ```shell
@@ -1512,7 +1620,7 @@ Then we will be using scp to copy Open OnDemands Apache access log to our newly 
 [hpcadmin@ondemand ~] sudo scp /var/log/httpd/localhost_access_ssl.log hpcadmin@xdmod:/scratch/ondemand/logs/
 ```
 
-When you are prompted for `hpcadmin`s password, go ahead and provide it. If successful you should see the file being transferred.
+When you are prompted for `hpcadmin` password, enter `ilovelinux`. If successful you should see the file being transferred.
 ```
 hpcadmin@xdmod's password:
 localhost_access_ssl.log                                                            100%   24KB  34.2MB/s   00:00
@@ -1526,95 +1634,14 @@ We can now log off of the `ondemand` instance
 
 Finally, we can ingest the data that we have just copied over
 ```shell
-[hpcadmin@xdmod /] sudo -u xdmod xdmod-ondemand-ingestor -r ondemand -u https://localhost:3443 -d /scratch/ondemand/logs
+[hpcadmin@xdmod /] sudo -u xdmod xdmod-ondemand-ingestor -r ondemand -d /scratch/ondemand/logs
 ```
 
 Then login to the XDMoD web portal as a user account that has center staff or center director access, and the "OnDemand"
 realm should now show in the metric catalog.
-</details>
-
-## Half Day Tutorial
-<details>
-<summary>Click to open or close tutorial details</summary>
-
-## Pre-seeding XDMoD with data for tutorial
-Due to time constraints for the half day tutorial we will skip the manual setup steps and have provided a database populated with this information. 
-These manual steps involve completing `xdmod-setup` and shredding, ingesting and aggregating HPC job accounting and performance data.  
-If you'd like to walk through these steps yourself, you can delete the XDMoD databases and start from scratch.  [Follow the detailed instructions below](#getting-started).
-
-
-
-### Center Staff / Center Director View
-- Login as `sfoster` password `ilovelinux`
-
-Directly after logging in users assigned the Center Staff or Center Director role will be greeted with a dashboard that
-helps manage and get a sense of the health of a center as a whole. In addition to the default charts, the dashboard can be
-further customized on a user by user basis to meet the needs of each individual user / center.
-
-- Click the "CPU Hours and Number of Jobs - Top 20 Users" chart
-
-Clicking on any of the charts located in the upper two rows of the dashboard will zoom in to give the user a more detailed look at the
-data contained within. You can close the zoomed in view by pressing the `esc` button or clicking the `x` located in the upper right hand corner
-of the frame. An important and useful feature to note is that while the chart is zoomed in a "Open in Metric Explorer"
-button is visible at the bottom of the frame. Clicking this button will open this chart in our "Metric Explorer".
-
-- Click the "Open in Metric Explorer" button.
-
-The Metric Explorer is meant to be the main method of interacting with existing and new charts. It provides the
-user with the most control over what and how data is displayed. While working with a chart in the Metric Explorer you
-can also choose to make it available in the Report Generator. The Report Generator provides the ability to have any
-number of charts automatically generated and sent to you on a regular basis.
-
-- Click the "Available for Report" checkbox
-- Click the "Report Generator" tab
-
-You should see the chart from the Metric Explorer in the panel on the right hand side of the screen.
-
-- Click the "New" button in the "My Reports" toolbar
-- Drag and Drop the chart from the "Available Charts" to the "Included Charts" section of the newly created report.
-- Click "Save"
-- Click "Download"
-  - Click "As PDF"
-  - Click "View Report" when the report is done generating.
-
-- Click the "Efficiency" Tab
-
-The Efficiency tab provides Center Staff with a powerful tool to quickly identify users who may be in need of help with
-their jobs. By default four analytics are provided for categorizing a users jobs, CPU Usage, GPU Usage, Memory Use, and Homogeniety.
-In this tutorial we will focus on CPU Usage.
-
-- Click the "CPU Usage" chart.
-
-This chart is organized such that the x axis is Average CPU %: Idle while the y axis is the total number of CPU Hours.
-This orientation ensures that the points of greatest interest are always located in the upper right hand side. To further
-ease identification, the points in the upper right hand quandrant are colored red.
-
-- Click a red point in the upper hand quadrant of the chart.
-
-You should now be presented with a histogram of percentage time that the CPU cores were idle compared to the overall usage.
-
-- Click one of the bars in the histogram
-
-You should now presented with a list of the jobs that make up this bar.
-
-- Click a job.
-
-Clicking a job has brought us to the "Job Viewer", this tab provides the ability to view the job level accounting and
-performance statistics, including timeseries data for this particular job.
-
-- Expand the 'Timeseries' tree item
-- Click the "CPU User" item
-
-While viewing timeseries data you are able to drill down by further clicking on a nodes data point, in this case the first click will drill down to that points node
-clicking a point in this chart will then take you to that points CPU.
-
-### Principal Investigator and User View
-Due to time constraints the Principal Investigator and User Views willl not be explored in any appreciable depth, but
-each role does have a Dashboard that has been customized to their needs and has access to the same basic features of XDMoD
-as a Center Staff / Director user. The major difference being that Principal Investigators can see the jobs for all of
-their associated users while a normal user can only see their own jobs.
 
 </details>
+
 
 ## Tutorial Navigation
 [Next - Acknowledgements](../docs/acknowledgments.md)  
