@@ -18,15 +18,18 @@ Thank you to the [National Science Foundation](https://nsf.gov) for the supporti
 #### Workshops
 This tutorial was first presented at the PRACTICE AND EXPERIENCE IN ADVANCED RESEARCH COMPUTING 2020 Virtual Conference (PEARC20) - https://pearc.acm.org/pearc20/  
 
-A condensed version of this tutorial was presented at [Gateways 2020](https://sciencegateways.org/web/gateways2020)  
+Since then this tutorial has been updated and presented, in full or in part, at the following conferences:
 
-An updated version of this tutorial was presented at the PRACTICE AND EXPERIENCE IN ADVANCED RESEARCH COMPUTING 2021 Virtual Conference (PEARC21) - https://pearc.acm.org/pearc21/  
-
-An updated version of this tutorial was presented at the PRACTICE AND EXPERIENCE IN ADVANCED RESEARCH COMPUTING 2022 Conference (PEARC22), Boston, MA - https://pearc.acm.org/pearc22/ 
-
-A condensed, half day version of this tutorial will be presented at ISC High Performance Conference 2023, Hamburg, Germany - https://www.isc-hpc.com/  
-
-An updated version of this tutorial will be presented at the PRACTICE AND EXPERIENCE IN ADVANCED RESEARCH COMPUTING 2023 Conference (PEARC23), Portland, OR - https://pearc.acm.org/pearc23/ 
+[Global OnDemand 2025](https://www.conference2025.openondemand.org/)  
+[Gateways 2024](https://sciencegateways.org/gateways2024-program)  
+[Gateways 2023](https://sciencegateways.org/gateways2023-program)  
+[PEARC23](https://pearc.acm.org/pearc23/)  
+[ISC23](https://www.isc-hpc.com/)  
+[Gateways 2022](https://sciencegateways.org/gateways2022-program)  
+[PEARC22](https://pearc.acm.org/pearc22)  
+[Gateways 2021](https://sciencegateways.org/gateways2021-program)  
+[PEARC21](https://pearc.acm.org/pearc21)  
+[Gateways 2020](https://sciencegateways.org/web/gateways2020)  
 
 #### Container Development
 

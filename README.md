@@ -24,11 +24,16 @@ This tutorial aims to demonstrate how three open source applications work in con
 
 
 ## Workshops
-This tutorial will be presented at the following conferences:
+This tutorial, in full or in part, has been presented at the following conferences:
 
+[Global OnDemand 2025](https://www.conference2025.openondemand.org/)  
+[Gateways 2024](https://sciencegateways.org/gateways2024-program)  
+[Gateways 2023](https://sciencegateways.org/gateways2023-program)  
 [PEARC23](https://pearc.acm.org/pearc23/)  
 [ISC23](https://www.isc-hpc.com/)  
+[Gateways 2022](https://sciencegateways.org/gateways2022-program)  
 [PEARC22](https://pearc.acm.org/pearc22)  
+[Gateways 2021](https://sciencegateways.org/gateways2021-program)  
 [PEARC21](https://pearc.acm.org/pearc21)  
 [PEARC20](https://pearc.acm.org/pearc20/)  
 [Gateways 2020](https://sciencegateways.org/web/gateways2020)

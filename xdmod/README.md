@@ -1101,7 +1101,7 @@ Admin Dashboard:
 
 ### Import User Names & Re-Ingest / Aggregate  
 
-**NOTE**: This is not necessary to run as part of this tutorial.  The XDMoD database container has been setup to contain full user names.  However, when running this in production, you will need a way to associate the system usernames from the Slurm logs to full names for readability within XDMoD. To display the full names in Open XDMoD you must provide a data file that contains the full name of each user for each system username. This file is in a `csv` format.
+You will need a way to associate the system usernames from the Slurm logs to full names for readability within XDMoD. To display the full names in Open XDMoD you must provide a data file that contains the full name of each user for each system username. This file is in a `csv` format.
 
 ![Group By User(names not imported)](./tutorial-screenshots/usernames.png)
 
@@ -1167,7 +1167,7 @@ xdmod-import-csv -t names:
 PCP has been [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.
 This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system. This shorter list is suitable for running inside the docker demo. On a real HPC system the data collection should be setup following the [PCP Data collection](https://supremm.xdmod.org/supremm-compute-pcp.html#configuration-templates) guide.
 
-The file used in this demo can be viewed here: https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/pmlogger-supremm.config#L56-L59
+The file used in this demo can be [viewed here](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/pmlogger-supremm.config#L56-L59)  
 
 VERY IMPORTANT - Don't start the configuration of the Job Performance module until there is job data ingested into Open XDMoD
 The Job performance setup relies on the accounting data from the Jobs realm in Open XDMoD.
@@ -1360,11 +1360,11 @@ Then login to the XDMoD web portal as a user account that has center staff or ce
 
 There are two integrations between XDMoD and OnDemand.  The first allows centers to place XDMoD charts specific to users' job performance data on the OnDemand dashboard.  The second allows for the display and analysis of Open OnDemand usage within XDMoD.  The configuration and usage of each of these integrations is covered in the full HPC Toolset Tutorial.  In this section, we're combining both into a shortened lesson to allow system administrators to quickly test out these two integrations.  
 
-## XDMoD job setup
+## XDMoD Setup & Job Ingestion
 
 First, let's run through a few XDMoD housekeeping steps to get the portal ready for our use.
 
-### Submit some jobs to the cluster
+### Submit jobs to the cluster
 
 Before we configure XDMoD, we are going to submit some HPC jobs to the cluster. This will ensure that we'll have something to view when we're done setting up XDMoD.
 
@@ -1412,6 +1412,19 @@ FATAL: Missing required source file.
   (2) $ source /usr/share/bash-completion/bash_completion
   (3) $ source slurm_completion.sh
 ```
+
+### Set roles for XDMoD accounts  
+
+In order to demonstrate the various roles within XDMoD, let's login as the admin and set those up.  
+
+[Login to XDMoD](https://localhost:4443) - Using two different browsers or incognito windows, login as `sfoster` and `hpcadmin` - password is `ilovelinux`  This will input these accounts into the XDMoD database as users which we'll upgrade now:
+
+Log out of one of those or open a new browser window and login using the local account `admin` **(not Dex login)** and password `admin`
+
+Click on the Admin Dashboard button at the top right and then on the `User Management` tab and finally on the `Existing Users` tab.  Let's edit a few of the users to provide them with specific roles:  
+`sfoster` - assign as a Principal Investigator  
+`hpcadmin` - assign as a Center Director  
+
 
 ### Shredding Job Data
 
@@ -1463,8 +1476,48 @@ This will produce **A LOT** of output:
 
 [XDMoD](https://localhost:4443)
 
-Login as `sfoster` - password `ilovelinux` - which has the center director role in XDMoD.  This will allow you to see all the realms and all the data from all users.  
+Login as `sfoster` - password `ilovelinux` - you're viewing data from your jobs and those of astewart, a member of your group  
+Login as `hpcadmin` - password `ilovelinux` - you're a center director so able to view all usage data  
 
+![Group By User(names not imported)](./tutorial-screenshots/usernames.png)
+
+
+### Import User Names & Re-Ingest / Aggregate  
+
+You will need a way to associate the system usernames from the Slurm logs to full names for readability within XDMoD. To display the full names in Open XDMoD you must provide a data file that contains the full name of each user for each system username. This file is in a `csv` format.
+
+Create a file as shown below: (The file needs to be able to be read by the `xdmod` user, for this demo it will be created in `/var/tmp`)
+
+```shell
+[root@xdmod /] sudo -u xdmod vim /var/tmp/names.csv 
+```
+
+The first column should include the username or group name used by your resource manager, the second column is the user’s first name, and the third column is the user’s last name.
+(Feel free to change the First and Last names)
+
+```csv
+cgray,Carl,Gray
+sfoster,Stephanie,Foster
+csimmons,Charles,Simmons
+astewart,Andrea,Stewart
+hpcadmin,,HPC Administrators
+```
+
+Now this needs to be imported into xdmod with the command [`xdmod-import-csv`](https://open.xdmod.org/commands.html#xdmod-import-csv)
+
+```shell
+[root@xdmod /] sudo -u xdmod xdmod-import-csv -t names -i /var/tmp/names.csv 
+```
+
+Next we will need to re-ingest and aggregate the data:
+
+```shell
+[root@xdmod /] sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh 
+```
+
+![Group By User](./tutorial-screenshots/fullnames.png)
+
+Reference: [User/PI Names Guide](https://open.xdmod.org/user-names.html)  
 
 ### Configure Job Performance Module
 [Job Performance](https://supremm.xdmod.org) data - for the open source release we try to provide support for [Performance Co-Pilot (PCP)](https://pcp.io).
@@ -1472,7 +1525,7 @@ We chose PCP because it is included by default in Centos/RedHat.  In [ACCESS MMS
 
 PCP has been [installed](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/install.sh#L80-L87) and configured on the compute nodes.  This tutorial uses a cut-down list of PCP metrics from the recommended metrics for a production HPC system. This shorter list is suitable for running inside the docker demo. On a production HPC system, the data collection should be setup following the [PCP Data collection](https://supremm.xdmod.org/supremm-compute-pcp.html#configuration-templates) guide.
 
-The file used in this demo can be viewed here: https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/pmlogger-supremm.config#L56-L59
+The file used in this demo can be [viewed here](https://github.com/ubccr/hpc-toolset-tutorial/blob/master/slurm/pmlogger-supremm.config#L56-L59)  
 
 **VERY IMPORTANT** - Don't start the configuration of the Job Performance module until there is job data ingested into Open XDMoD.  The Job performance setup relies on the accounting data from the Jobs realm in Open XDMoD.  This was done in advance of this tutorial as part of the setup steps shown here:
 
@@ -1514,17 +1567,18 @@ There are three places you'll need to update OnDemand and XDMoD config files to 
 **XDMoD**  
 1. Specify the URL for the OnDemand server in the XDMoD config:
 
-`/etc/xdmod/portal_settings.ini`
+`sudo vi /etc/xdmod/portal_settings.ini`
 ```
-# modifying /etc/xdmod/portal_settings.ini for CORS already completed in these images
+# modifying /etc/xdmod/portal_settings.ini for [cors] section already completed in this container environment
 #
- domains = "https://localhost:3443"
+[cors]  
+domains = "https://localhost:3443"  
 ```
 
 **OnDemand**  
 2. Specify the URL for the XDMoD server in the OnDemand config:
 
-`/etc/ood/config/nginx_stage.yml`
+`sudo vi /etc/ood/config/nginx_stage.yml`
 ```
 # /etc/ood/config/nginx_stage.yml
 #
@@ -1535,7 +1589,7 @@ pun_custom_env:
 
 3. Specify the resource ID for XDMoD in the OnDemand cluster config file:
 
-`/etc/ood/config/clusters.d/hpc.yml`
+`sudo vi /etc/ood/config/clusters.d/hpc.yml`
 ```
 # modifying /etc/ood/config/clusters.d/hpc.yml for XDMoD resource id already completed in these images:
 #
@@ -1547,7 +1601,12 @@ pun_custom_env:
 
 4. Optional: Add messaging to Job Composer about XDMoD timing  
 
-`/etc/ood/config/locales/en.yml`  
+```
+cd /etc/ood/config
+sudo mkdir locales
+sudo vi locales/en.yml
+```
+ 
 ```
 # modify or create /etc/ood/config/locales/en.yml and add these lines. Feel free to change the wording and set to your specific ingestion rate.  86400 seconds is 24 hours
 # 
@@ -1557,9 +1616,14 @@ pun_custom_env:
     xdmod_url_warning_message_seconds_after_job_completion: 86400
 ```
 
+### Restart Web Server Process  
+
+To see these changes, make sure to re-start your OnDemand web process.  From the Help menu on the top right, select `Restart Web Server`  
+
+
 ### Reviewing informational messages in the job composer
 
-If you completed the optional step 4 in the previous section, submit a job from job composer to demonstrate XDMoD integration with Job Composer:
+If you completed the optional step 4 in the previous section, login as the `sfoster` user and submit a job from job composer to demonstrate XDMoD integration with Job Composer:
 
 1. Jobs => Job Composer
 2. Templates
@@ -1578,8 +1642,6 @@ If you'd like to see this recent job show up in the OnDemand dashboard widgets, 
 ```shell
 [root@xdmod /] sudo -u xdmod /srv/xdmod/scripts/shred-ingest-aggregate-all.sh
 ```
-
-Review dashboard widgets - You may need to restart the Web Server to see the updates
 
 **NOTE:**  The job efficiency report is based on both core and memory usage but these containers don't gather all the necessary information, which is why they display 100%
 
@@ -1638,7 +1700,7 @@ Finally, we can ingest the data that we have just copied over
 ```
 
 Then login to the XDMoD web portal as a user account that has center staff or center director access, and the "OnDemand"
-realm should now show in the metric catalog.
+realm should now show in the metric catalog.  Based on the configuration we did earlier, using the `hpcadmin` login has the center director role in XDMoD.  This will allow you to see all the realms and all the data from all users.  
 
 </details>
 
