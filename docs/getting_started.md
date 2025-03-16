@@ -12,7 +12,7 @@ If you haven't already installed and tested the required packages, please refer 
 
 ## Getting started
 
-You will need to clone the tutorial repo and then run the helper script.  The initial clone of the repo may take 5-10 minutes.  The first time running the helper script, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 20GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network with client connected over wifi this download and container startup process took 12 minutes.  
+You will need to clone the tutorial repo and then run the helper script.  The initial clone of the repo may take 5-10 minutes.  The first time running the helper script, you'll be downloading all the containers from Docker Hub.  This can take quite a long time depending on your network speed.  The images total approximately 25GB in size.  Once the containers are downloaded, they are started and the services launched.  For point of reference: on a recent test from a home fiber optic network with client connected over wifi this download and container startup process took 12 minutes.  
 
 
 ### Clone Repo and Start Containers
