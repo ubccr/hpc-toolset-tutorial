@@ -66,7 +66,7 @@ dnf install -y \
 #
 #------------------------
 pecl channel-update pecl.php.net
-pecl install mongodb
+pecl install mongodb-1.18.1
 echo "extension=mongodb.so" >> /etc/php.d/40-mongodb.ini
 
 # This is required because /usr/bin/supremm-setup uses the platform-python
