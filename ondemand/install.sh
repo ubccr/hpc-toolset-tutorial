@@ -84,8 +84,8 @@ rm -rf /var/cache/dnf
 
 log_info "Cloning repos to assist with app development.."
 mkdir -p /var/git
-git clone https://github.com/OSC/bc_example_jupyter.git --bare /var/git/bc_example_jupyter
-git clone https://github.com/OSC/ood-example-ps.git --bare /var/git/ood-example-ps
+git clone --depth 1 https://github.com/OSC/bc_example_jupyter.git /var/git/bc_example_jupyter && rm -rf /var/git/bc_example_jupyter/.git
+git clone --depth 1 https://github.com/OSC/ood-example-ps.git /var/git/ood-example-ps && rm -rf /var/git/ood-example-ps/.git
 
 log_info "Enabling app development for hpcadmin..."
 mkdir -p /var/www/ood/apps/dev/hpcadmin
