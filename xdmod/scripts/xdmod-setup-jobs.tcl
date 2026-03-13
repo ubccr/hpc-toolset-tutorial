@@ -26,6 +26,7 @@ set timeout 240
 spawn "xdmod-setup"
 
 # Enter config settings for each resource
+ignoreNewVersion
 selectMenuOption 4
 foreach resource $resources {
 	selectMenuOption 1
