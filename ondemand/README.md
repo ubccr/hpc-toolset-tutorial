@@ -545,11 +545,11 @@ Now create a new app from the button labeled "New App".
 This will bring you to a page where you'll click "Clone Existing App" which will bring you to
 this form to fill out.  
 
-Fill in `jupyter` as the directory name. `/var/git/bc_example_jupyter` as the Git Remote and
+Fill in `jupyter` as the directory name. `https://github.com/OSC/bc_example_jupyter.git` as the Git Remote and
 check "Create a new Git Project from this?".  Then click "Submit" to create a new development
 application.
 
-This copied what was in `/var/git/bc_example_jupyter` to `/home/hpcadmin/ondemand/dev/jupyter`.
+This copied what was from `https://github.com/OSC/bc_example_jupyter.git` to `/home/hpcadmin/ondemand/dev/jupyter`.
 You can navigate to these files [through the Files app with this link](https://localhost:3443/pun/sys/files/fs/home/hpcadmin/ondemand/dev/jupyter/)
 or simply Press the "Files" button in Jupyter's row of the sandbox applications table.
 
@@ -1531,7 +1531,7 @@ Notes
 ### Status app template
 
 1. My Sandbox Apps. Click New App.
-2. Git Remote: `/var/git/ood-example-ps`.
+2. Git Remote: `https://github.com/OSC/ood-example-ps.git`.
 3. Launch
 
 #### Benefits for user
