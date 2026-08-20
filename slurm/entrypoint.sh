@@ -114,6 +114,23 @@ then
         scontrol reconfigure
     fi
 
+    # Add partition associations if they don't exist
+    part_accts=$(sacctmgr list -P associations cluster=hpc partition=compute format=User | wc -l)
+    if [[ $part_accts -eq 1 ]]; then
+        echo "Adding partition associations.."
+        sacctmgr -i add user sfoster account=sfoster cluster=hpc partition=compute
+        sacctmgr -i add user sfoster account=sfoster cluster=hpc partition=debug
+        sacctmgr -i add user astewart account=sfoster cluster=hpc partition=compute
+        sacctmgr -i add user astewart account=sfoster cluster=hpc partition=debug
+        sacctmgr -i add user hpcadmin account=staff cluster=hpc partition=compute
+        sacctmgr -i add user hpcadmin account=staff cluster=hpc partition=debug
+        # Ensure default accounts are set correctly after adding partition associations
+        sacctmgr -i modify user where name=sfoster set defaultaccount=sfoster
+        sacctmgr -i modify user where name=astewart set defaultaccount=sfoster
+        sacctmgr -i modify user where name=hpcadmin set defaultaccount=staff
+        scontrol reconfigure
+    fi
+
     echo "---> Starting sshd on the frontend..."
     /usr/sbin/sshd -D -e
 

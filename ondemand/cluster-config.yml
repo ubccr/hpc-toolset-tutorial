@@ -14,6 +14,7 @@ v2:
       script_wrapper: |
         export PATH="/opt/TurboVNC/bin:$PATH"
         export WEBSOCKIFY_CMD="/usr/local/bin/websockify"
+        export HOME="${HOME:-$(eval echo ~$(whoami))}"
         %s
   custom:
     xdmod:
