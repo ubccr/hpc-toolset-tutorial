@@ -66,10 +66,10 @@ proc confirmDropDb { response } {
 proc ignoreNewVersion {} {
     expect {
         "Do you want to continue" {
-        send "yes"
-        exp_continue
+            send "yes\n"
+            exp_continue
         }
-    "Open XDMoD Setup" {
+        "Open XDMoD Setup" {
         }
     }
 }
