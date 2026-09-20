@@ -153,10 +153,10 @@ column of the central table go from queued to running to completed.
 Let's go ahead and edit the script we submit by pressing the `Open Editor` button
 at the bottom of the script's panel (you likely have to scroll down).
 
-Add this `sleep 1000` anywhere in the file (so long as it's not commented).
+Add this `sleep 300` anywhere in the file (so long as it's not commented).
 
 ```bash
-sleep 1000
+sleep 300
 ```
 
 Submit this job again and next we'll see another view where you can see
@@ -254,9 +254,12 @@ Navigate back to Open OnDemand's `My interactive sessions` page and press the
 `Connect to Jupyter` button. This will open a new tab to the Jupyter application
 that's running on a compute node in your Slurm cluster!
 
-Connect to the Jupyter session and navigate to the `jupyter_notebook_data` directory.
-Open the `GUI-demo.ipynb` and this should open a new tab to this notebook. Run all
-the cells in this notebook for a demonstration that this Jupyter does in fact work.
+Connect to the Jupyter session and click on the `jupyter_notebook_data` directory in the leftmost panel.
+Open the `GUI-demo.ipynb` and this should open a new tab to this notebook. The notebook has three cells,
+each with a number on the left, and a block of code next to it.  Run all
+the cells in this notebook in order by clicking `Shift-enter` on each one for a demonstration that this
+Jupyter demo does in fact work.
+
 
 ![jupyter demo](imgs/jupyter_demo.gif)
 
@@ -288,7 +291,7 @@ Lastly there's a new link entitled `Chemistry Notes`. Press this link
 and you'll be redirected to a custom page.  This page is completely defined
 by administrators. Administrators supplied every single panel on this page.
 The idea here being that administrators can supply content to their own OnDemand
-installation, thereby extending it's functionality by also supplying some
+installation, thereby extending its functionality by also supplying some
 documentation.
 
 ![profile demo](imgs/profile_demo.gif)
@@ -387,8 +390,7 @@ touch ~/ondemand/config/ondemand.d/ondemand.yml
 
 OOD_CONFIG_D_DIRECTORY="/home/hpcadmin/ondemand/config/ondemand.d"
 ```
-
-Now let's [edit the ondemand.yml](https://localhost:3443/pun/sys/dashboard/files/edit/home/hpcadmin/ondemand/config/ondemand.d/ondemand.yml)
+Now let's [edit the ondemand.yml](https://localhost:3443/pun/sys/dashboard/files/edit/fs/home/hpcadmin/ondemand/config/ondemand.d/ondemand.yml)
 file that we initialized above to add the configuration.
 
 ```yaml
@@ -480,7 +482,7 @@ touch ~/ondemand/config/views/widgets/_hello_world.html
 Be sure to add the underscore prefix to this filename! This is a Rails convention for partials and not a mistype
 it is indeed `_hello_world.html`.
 
-Now, we can use the [file editor to edit our new widget](https://localhost:3443/pun/sys/dashboard/files/edit/home/hpcadmin/ondemand/config/views/widgets/_hello_world.html).  Let's add this very simple div to just thank you for being here. Of course, you can put
+Now, we can use the [file editor to edit our new widget](https://localhost:3443/pun/sys/dashboard/files/edit/fs/home/hpcadmin/ondemand/config/views/widgets/_hello_world.html).  Let's add this very simple div to just thank you for being here. Of course, you can put
 any text you like here. Feel free to have fun with it!
 
 ```html
@@ -509,7 +511,7 @@ dashboard_layout:
           widgets: [ pinned_apps ]
 ```
 
-Now your dashboard should look something like this with a brand new widget we just creating showing up on the
+Restart your webserver and your dashboard should look something like this with the brand new widget we just creating showing up on the
 dashboard.
 
 ![dashboard landing page with a new custom widget](imgs/dashboard_w_new_widget.png)
@@ -555,9 +557,9 @@ or simply Press the "Files" button in Jupyter's row of the sandbox applications 
 
 ![create sandbox app](imgs/create_sandbox_app.gif)
 
-You'll also need to setup `git` for the hpcadmin user at this point, so let's go ahead and do that
-and make first commit to the jupyter app as the starting point.
-
+You'll also need to setup `git` for the hpcadmin user at this point, so let's go ahead and
+[open a shell window](https://localhost:3443/pun/sys/shell/ssh/ondemand).
+We'll make the first commit to the jupyter app as the starting point.
 ```shell
 git config --global user.email hpcadmin@localhost
 git config --global user.name "HPC Admin"
@@ -577,7 +579,7 @@ If you try to submit it as is, you'll get this error:
 
 ![error message that reads The cluster was never set. Either set it in form.yml.erb with `cluster` or `form.cluster` or set `cluster` in submit.yml.erb.](imgs/no_cluster.png)
 
-We need to edit the `form.yml` in the appication's folder. We can navigate to the folder through the
+We need to edit the `form.yml` in the application's folder. We can navigate to the folder through the
 files app.  The URL is `https://localhost:3443/pun/sys/files/fs/home/hpcadmin/ondemand/dev/jupyter/`.
 
 Here you'll see the `form.yml` file. We can edit it by clicking on the file and pressing the "Edit"

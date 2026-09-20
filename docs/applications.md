@@ -23,7 +23,7 @@ Login to frontend via SSH and user: `hpcadmin` password: `ilovelinux`:
 ```
 ssh -p 6222 hpcadmin@localhost
 ```  
-**NOTE: You must login to the front end before trying to login to any of the other containers!**
+**NOTE: You must login to the front end as the `hpcadmin` user before trying to login to any of the other containers!**
 
 ### Single-sign on: Portal login/logout
 Because these applications are configured for single-sign on (SSO), if you login using Dex/OpenID Connect and want to switch between users you will either need to clear the browser cookies or restart the browser.  You may wish to launch multiple 'incognito' windows for each user account used in the tutorial and switch between them as you go.
