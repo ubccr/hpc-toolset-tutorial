@@ -9,7 +9,7 @@
 #
 # The following lines set up the Python environment
 #
-source /usr/local/jupyter/2.1.4/bin/activate
+source /usr/local/jupyter/4.3.5/bin/activate
 
 #
 # Move to the directory where the job was submitted from
